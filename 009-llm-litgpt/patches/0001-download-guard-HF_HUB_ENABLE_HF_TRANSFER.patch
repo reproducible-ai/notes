@@ -1,0 +1,66 @@
+From: Reproducible AI Campaign <notes@reproducibleailist.org>
+Subject: [PATCH] scripts/download: tolerate huggingface_hub >= 1.0
+
+PREPARED, NOT SUBMITTED. The Reproducible AI Campaign does not open upstream
+issues or PRs; this diff is published as evidence alongside the rebuild notes so
+the maintainers (or anyone) can pick it up.
+
+Problem
+-------
+`litgpt/scripts/download.py` reads and writes
+`huggingface_hub.constants.HF_HUB_ENABLE_HF_TRANSFER`. That constant was removed
+in huggingface_hub 1.0, but litgpt's own dependency pin is
+
+    huggingface-hub>=0.30,<1.4
+
+which admits 1.x. A fresh `pip install litgpt` therefore resolves a
+huggingface_hub that makes the very first command in every litgpt tutorial fail:
+
+    $ litgpt download EleutherAI/pythia-14m --tokenizer_only true
+    AttributeError: module 'huggingface_hub.constants' has no attribute
+                    'HF_HUB_ENABLE_HF_TRANSFER'
+
+Reproduced with huggingface_hub 1.3.7 on litgpt 0.5.13 (2685705). Downgrading to
+huggingface_hub 0.36.2 fixes it, which is the workaround this row used.
+
+Fix
+---
+Read the flag with `getattr(..., False)` and only write it back to modules that
+actually declare it, so the hf_transfer opt-in degrades to a no-op on hub >= 1.0
+instead of raising. Tightening the pin to `<1.0` would also work but gives up
+hub 1.x for everyone.
+
+---
+--- a/litgpt/scripts/download.py
++++ b/litgpt/scripts/download.py
+@@ -74,11 +74,14 @@
+     import huggingface_hub._snapshot_download as download
+     import huggingface_hub.constants as constants
+
+-    previous = constants.HF_HUB_ENABLE_HF_TRANSFER
++    # `HF_HUB_ENABLE_HF_TRANSFER` was removed in huggingface_hub 1.0; treat its
++    # absence as "off" so the opt-in below is simply skipped on newer hubs.
++    _HF_TRANSFER_FLAG = "HF_HUB_ENABLE_HF_TRANSFER"
++    previous = getattr(constants, _HF_TRANSFER_FLAG, False)
+     if _HF_TRANSFER_AVAILABLE and not previous:
+         print("Setting HF_HUB_ENABLE_HF_TRANSFER=1")
+-        constants.HF_HUB_ENABLE_HF_TRANSFER = True
+-        download.HF_HUB_ENABLE_HF_TRANSFER = True
++        for _mod in (constants, download):
++            if hasattr(_mod, _HF_TRANSFER_FLAG):
++                setattr(_mod, _HF_TRANSFER_FLAG, True)
+
+     directory = checkpoint_dir / repo_id
+     with gated_repo_catcher(repo_id, access_token):
+@@ -89,8 +92,9 @@
+             token=access_token,
+         )
+
+-    constants.HF_HUB_ENABLE_HF_TRANSFER = previous
+-    download.HF_HUB_ENABLE_HF_TRANSFER = previous
++    for _mod in (constants, download):
++        if hasattr(_mod, _HF_TRANSFER_FLAG):
++            setattr(_mod, _HF_TRANSFER_FLAG, previous)
+
+     if convert_checkpoint and not tokenizer_only:
+         print("Converting checkpoint files to LitGPT format.")

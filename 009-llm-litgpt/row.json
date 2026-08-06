@@ -1,0 +1,36 @@
+{
+  "name": "litgpt (pretrain)",
+  "org": "Lightning AI",
+  "type": "llm",
+  "date": "2026-08-06",
+  "status": "partial",
+  "blocker": null,
+  "notes": "https://github.com/reproducible-ai/notes/tree/main/009-llm-litgpt",
+  "playbookVersion": "1.0",
+  "roarVersion": "0.4.3",
+  "tracer": "preload",
+  "amiId": "ami-0f07f1a0b382b48f7",
+  "upstream": "https://github.com/Lightning-AI/litgpt",
+  "upstreamCommit": "2685705",
+  "fork": "https://github.com/reproducible-ai/litgpt",
+  "license": "Apache-2.0",
+  "dagUrl": "https://glaas.ai/dag/b865916577f77891d21977fe392250026398ab7f72f274c7a594ed7f3cfa1b56",
+  "bomUrl": "https://glaas.ai/dag/b865916577f77891d21977fe392250026398ab7f72f274c7a594ed7f3cfa1b56/audit",
+  "bomScore": 100,
+  "artifactUrl": "https://huggingface.co/reproducible-ai/litgpt",
+  "experimentUrl": null,
+  "rebuild": {
+    "time": "2m01s",
+    "hw": "g4dn.xlarge (1x Tesla T4, us-east-2)",
+    "costUsd": 0.02
+  },
+  "reproduce": {
+    "hash": "b865916577f77891d21977fe392250026398ab7f72f274c7a594ed7f3cfa1b56",
+    "cmd": "roar reproduce b865916577f77891d21977fe392250026398ab7f72f274c7a594ed7f3cfa1b56 --lineage --run --no-puts"
+  },
+  "patch": {
+    "lines": 203,
+    "url": "https://github.com/Lightning-AI/litgpt/compare/2685705...reproducible-ai:litgpt:c657973"
+  },
+  "summary": "Truncated reproduction of the litgpt pretrain path: pythia-14m, 8 optimizer steps on WikiText-2 via the TextFiles data module. The training code reproduced exactly - the loss trajectory was bit-identical across three independent environments at seed 42 - and the published lineage re-runs cold on a GPU-less machine (4/4 steps, same checkpoint, same val loss). Every obstacle was in packaging rather than in the model: litgpt download raises AttributeError on huggingface_hub >= 1.0 while litgpt's own pin permits it; torchmetrics and litdata are imported unconditionally on the pretrain path but declared only as optional extras; the pinned litdata==0.2.59 drags an unbounded torchvision that hard-pins an exact torch, silently replacing a curated PyTorch; and wandb/mlflow are advertised logger choices that appear in no dependency group. No litgpt source file was modified. Held short of a full published record pending one internal record check on the tokenization step."
+}
