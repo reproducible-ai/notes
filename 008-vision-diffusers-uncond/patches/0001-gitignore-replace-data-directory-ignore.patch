@@ -1,0 +1,43 @@
+diff --git a/.gitignore b/.gitignore
+index 7b156e46..4e5638ca 100644
+--- a/.gitignore
++++ b/.gitignore
+@@ -146,7 +146,11 @@ runs
+ /examples/rag/sweep
+ 
+ # data
+-/data
++# NOTE (reproducible-ai fork): upstream ignores the DIRECTORY `/data` here.
++# A directory ignore cannot be negated per file, so a tracked `data/.gitkeep`
++# is impossible, the directory does not survive a clean checkout, and lineage
++# capture silently drops anything written under it. Replaced with a
++# file-pattern ignore + tracked .gitkeep (reproduction block at end of file).
+ serialization_dir
+ 
+ # emacs
+@@ -185,4 +189,23 @@ wandb
+ 
+ # AI agent generated symlinks
+ /.agents/skills
+-/.claude/skills
+\ No newline at end of file
++/.claude/skills
++# roar state — the generated setup stage runs `roar init`, which creates
++# .roar/. Without this rule the worktree goes dirty and the FIRST PAID
++# `roar run` refuses to execute ("Run blocked: untracked files").
++.roar/
++# --- reproduction outputs (scaffold_row.py: mnist rule) ---
++# file-pattern ignore + tracked .gitkeep so each dir survives a clean
++# checkout and roar keeps the outputs in lineage. NEVER dir-ignore.
++data/*
++!data/.gitkeep
++ddpm-out/*
++!ddpm-out/.gitkeep
++# git does not descend into an excluded directory, so the nested output dir must
++# be re-included before its own file-pattern rule can be applied.
++!ddpm-out/unet/
++ddpm-out/unet/*
++!ddpm-out/unet/.gitkeep
++!ddpm-out/scheduler/
++ddpm-out/scheduler/*
++!ddpm-out/scheduler/.gitkeep

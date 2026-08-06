@@ -1,0 +1,37 @@
+{
+  "name": "diffusers unconditional (DDPM)",
+  "org": "Hugging Face",
+  "type": "vision",
+  "date": "2026-08-06",
+  "status": "reproduced",
+  "blocker": null,
+  "notes": "https://github.com/reproducible-ai/notes/tree/main/008-vision-diffusers-uncond",
+  "playbookVersion": "1.0",
+  "roarVersion": "0.4.3",
+  "tracer": "preload",
+  "amiId": "ami-0f07f1a0b382b48f7",
+  "dagUrl": "https://glaas.ai/dag/8551922f56ceee26dd1da7d1d724420ee1600d0329e2bbb27bdf15d517f454ba",
+  "bomUrl": "https://glaas.ai/dag/8551922f56ceee26dd1da7d1d724420ee1600d0329e2bbb27bdf15d517f454ba/audit",
+  "bomScore": 100,
+  "rebuild": {
+    "time": "10m",
+    "hw": "1x Tesla T4 (g4dn.xlarge)",
+    "costUsd": 0.06
+  },
+  "reproduce": {
+    "hash": "8551922f56ceee26dd1da7d1d724420ee1600d0329e2bbb27bdf15d517f454ba",
+    "cmd": "roar reproduce 8551922f56ceee26dd1da7d1d724420ee1600d0329e2bbb27bdf15d517f454ba --lineage --run --no-puts"
+  },
+  "patch": {
+    "lines": 92,
+    "url": "https://github.com/huggingface/diffusers/compare/9c6a68c32b3b2a64db91800b624d33cec6e25ab8...reproducible-ai:diffusers:b33dfefab620dd70a999610213bcd047f2c47716"
+  },
+  "artifact": "https://huggingface.co/reproducible-ai/diffusers-uncond",
+  "metrics": "https://huggingface.co/spaces/reproducible-ai/experiments?project=train_unconditional",
+  "upstream": "https://github.com/huggingface/diffusers",
+  "upstreamCommit": "9c6a68c32b3b2a64db91800b624d33cec6e25ab8",
+  "license": "Apache-2.0",
+  "truncated": true,
+  "truncationNote": "1 of 100 epochs; sampling truncated to 10 denoising steps. Reproduce, not replicate - no convergence or sample-quality claim.",
+  "difficulty": 3
+}
