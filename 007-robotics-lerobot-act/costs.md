@@ -12,8 +12,12 @@ Budget for this row: **NTE $10**. Actual GPU spend: **≈ $1.20**.
 | 3 | Full workflow | **completed** | 6 min 47 s | Captured, labelled, published, gated. |
 
 The runner (`g6e.xlarge`, one NVIDIA L40S) was launched once at 16:40:38 UTC and
-served all three attempts, so the bill is instance-hours, not attempts:
-~38 min × $1.861/hr ≈ **$1.18**. Storage and the 207 MB Hub upload are negligible.
+served all three attempts, so the bill is instance-hours, not attempts. It was still
+up 40 min later when the row was finished and handed off; it idle-terminates on its
+own, and terminating a managed instance out of band is known to strand the job agent,
+so it was left alone. At $1.861/hr that is **≈ $1.24 and settling** — call it $1.20–1.60
+depending on when the idle reaper fires. Storage and the 207 MB Hub upload are
+negligible against that.
 
 ## Where the time actually went
 
