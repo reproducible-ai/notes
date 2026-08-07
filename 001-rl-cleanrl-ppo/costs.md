@@ -1,12 +1,14 @@
 # Costs — 001 CleanRL PPO
 
-**Total burn: $0.10.** Budget was NTE $10; this row used 1% of it.
+**Total burn: $0.10** (capture) **+ $0.13** (independent tier-2 certification) **=
+$0.23.** Budget was NTE $10; this row used ~2% of it.
 
 | # | Attempt | Target | Wall clock | Cost | Outcome |
 |---|---|---|---|---|---|
 | 0 | Local probe + bare-clone check | control host (CPU) | ~5 min | $0.00 | Passed. Confirmed the recipe, the dependency set, and that the run completes with no credentials. |
 | 1 | `c50907a4` — first capture | `g4dn.xlarge` (Tesla T4) | 5 min 38 s | $0.05 | **Trained correctly** (500k steps, converged, model published) but the job was marked FAILED afterwards by a harness-configuration mistake of mine — not anything in the upstream repo. Lineage left unpublished. |
 | 2 | `d2761ff6` — second capture | `g4dn.xlarge` (Tesla T4) | 5 min 15 s | $0.05 | **Clean.** Lineage published, tier-1 gates 4/4. |
+| 3 | Independent tier-2 certification, `58df327f…` | `g4dn.xlarge` (Tesla T4), fresh host | ~15 min instance lifetime | $0.13 | **Certified.** Cold `roar reproduce --lineage --run --no-puts -y` exited 0, 1/1 steps, same output sizes and final metric, 69/69 recorded pins present, P0-14 workaround confirmed by direct `/proc` evidence. |
 
 Final rebuild cost — what it costs to reproduce this row once, from scratch:
 **$0.05** and about five minutes on a single T4. The training step itself is
