@@ -11,8 +11,8 @@ claim is that the pipeline rebuilds, not that the sample quality matches the
 reference model.
 
 - Upstream: <https://github.com/huggingface/diffusers> @ `9c6a68c3`, Apache-2.0
-- Fork: <https://github.com/reproducible-ai/diffusers> @ `b33dfefa`
-- DAG: <https://glaas.ai/dag/8551922f56ceee26dd1da7d1d724420ee1600d0329e2bbb27bdf15d517f454ba>
+- Fork: <https://github.com/reproducible-ai/diffusers> @ `8b7b6d99`
+- DAG: <https://glaas.ai/dag/e985e6320cb2b7b4b28cd8ded97b80fc9859824f3a49dc24e00f4deb66afd4d3>
 - Model: <https://huggingface.co/reproducible-ai/diffusers-uncond>
 - Metrics: <https://huggingface.co/spaces/reproducible-ai/experiments?project=train_unconditional>
 

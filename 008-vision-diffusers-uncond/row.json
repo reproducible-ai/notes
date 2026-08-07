@@ -2,7 +2,7 @@
   "name": "diffusers unconditional (DDPM)",
   "org": "Hugging Face",
   "type": "vision",
-  "date": "2026-08-06",
+  "date": "2026-08-07",
   "status": "reproduced",
   "blocker": null,
   "notes": "https://github.com/reproducible-ai/notes/tree/main/008-vision-diffusers-uncond",
@@ -10,21 +10,21 @@
   "roarVersion": "0.4.3",
   "tracer": "preload",
   "amiId": "ami-0f07f1a0b382b48f7",
-  "dagUrl": "https://glaas.ai/dag/8551922f56ceee26dd1da7d1d724420ee1600d0329e2bbb27bdf15d517f454ba",
-  "bomUrl": "https://glaas.ai/dag/8551922f56ceee26dd1da7d1d724420ee1600d0329e2bbb27bdf15d517f454ba/audit",
+  "dagUrl": "https://glaas.ai/dag/e985e6320cb2b7b4b28cd8ded97b80fc9859824f3a49dc24e00f4deb66afd4d3",
+  "bomUrl": "https://glaas.ai/dag/e985e6320cb2b7b4b28cd8ded97b80fc9859824f3a49dc24e00f4deb66afd4d3/audit",
   "bomScore": 100,
   "rebuild": {
     "time": "10m",
     "hw": "1x Tesla T4 (g4dn.xlarge)",
-    "costUsd": 0.06
+    "costUsd": 0.04
   },
   "reproduce": {
-    "hash": "8551922f56ceee26dd1da7d1d724420ee1600d0329e2bbb27bdf15d517f454ba",
-    "cmd": "roar reproduce 8551922f56ceee26dd1da7d1d724420ee1600d0329e2bbb27bdf15d517f454ba --lineage --run --no-puts"
+    "hash": "e985e6320cb2b7b4b28cd8ded97b80fc9859824f3a49dc24e00f4deb66afd4d3",
+    "cmd": "roar reproduce e985e6320cb2b7b4b28cd8ded97b80fc9859824f3a49dc24e00f4deb66afd4d3 --lineage --run --no-puts"
   },
   "patch": {
     "lines": 92,
-    "url": "https://github.com/huggingface/diffusers/compare/9c6a68c32b3b2a64db91800b624d33cec6e25ab8...reproducible-ai:diffusers:b33dfefab620dd70a999610213bcd047f2c47716"
+    "url": "https://github.com/huggingface/diffusers/compare/9c6a68c32b3b2a64db91800b624d33cec6e25ab8...reproducible-ai:diffusers:8b7b6d99e3855aefa5e124e8fd4d008d76b79741"
   },
   "artifact": "https://huggingface.co/reproducible-ai/diffusers-uncond",
   "metrics": "https://huggingface.co/spaces/reproducible-ai/experiments?project=train_unconditional",

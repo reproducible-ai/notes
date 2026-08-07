@@ -1,7 +1,7 @@
 # 008 — the recipe
 
 Upstream: `huggingface/diffusers` @ `9c6a68c32b3b2a64db91800b624d33cec6e25ab8`
-Fork:     `reproducible-ai/diffusers` @ `b33dfefab620dd70a999610213bcd047f2c47716`
+Fork:     `reproducible-ai/diffusers` @ `8b7b6d99e3855aefa5e124e8fd4d008d76b79741`
 
 ## 0. Fork and clone
 
@@ -101,7 +101,7 @@ Published to <https://huggingface.co/reproducible-ai/diffusers-uncond>.
 ## 5. Rebuild it yourself
 
 ```bash
-roar reproduce 8551922f56ceee26dd1da7d1d724420ee1600d0329e2bbb27bdf15d517f454ba \
+roar reproduce e985e6320cb2b7b4b28cd8ded97b80fc9859824f3a49dc24e00f4deb66afd4d3 \
     --lineage --run --no-puts
 ```
 
