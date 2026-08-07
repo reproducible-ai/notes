@@ -1,0 +1,27 @@
+diff --git a/cleanrl/ppo.py b/cleanrl/ppo.py
+index edde76b..2153d7a 100644
+--- a/cleanrl/ppo.py
++++ b/cleanrl/ppo.py
+@@ -32,6 +32,10 @@ class Args:
+     """the entity (team) of wandb's project"""
+     capture_video: bool = False
+     """whether to capture videos of the agent performances (check out `videos` folder)"""
++    save_model: bool = False
++    """whether to save model into the `runs/{run_name}` folder"""
++    model_path: str = ""
++    """explicit path to save the model to (default: `runs/{run_name}/{exp_name}.cleanrl_model`)"""
+ 
+     # Algorithm specific arguments
+     env_id: str = "CartPole-v1"
+@@ -308,5 +312,11 @@ if __name__ == "__main__":
+         print("SPS:", int(global_step / (time.time() - start_time)))
+         writer.add_scalar("charts/SPS", int(global_step / (time.time() - start_time)), global_step)
+ 
++    if args.save_model:
++        model_path = args.model_path or f"runs/{run_name}/{args.exp_name}.cleanrl_model"
++        os.makedirs(os.path.dirname(model_path) or ".", exist_ok=True)
++        torch.save(agent.state_dict(), model_path)
++        print(f"model saved to {model_path}")
++
+     envs.close()
+     writer.close()
