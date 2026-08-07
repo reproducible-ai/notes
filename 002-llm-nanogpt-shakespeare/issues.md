@@ -161,65 +161,76 @@ an error whenever the shim is removed.
 
 ---
 
-## 6. Experiment logging ships present but switched off, and opting in costs more than it looks
+## 6. Turning on the built-in experiment logging makes the recipe harder to rebuild
 
 **Symptom.** `train.py` has first-class Weights & Biases support —
 `wandb_log` / `wandb_project` / `wandb_run_name` config keys, a `wandb.init`,
 and a `wandb.log` of iteration, train loss, val loss, learning rate and MFU. The
 `shakespeare_char` config ships it as `wandb_log = False`. So the published
 recipe, run exactly as published, produces **no machine-readable record of the
-metrics it computes** — only stdout.
+metrics it computes** — only stdout, which is thrown away.
 
-**Root cause.** A sensible default: logging on by default would demand a W&B
-account and an interactive login for the repo's own quick-start, which would be
-a terrible first experience. The cost is that the recipe's *only* durable output
-is the checkpoint; the learning curve that justifies it is thrown away.
+**Root cause.** A sensible default: logging on by default would demand an account
+and an interactive login for the repo's own quick-start. The cost is that the
+recipe's only durable output is the checkpoint; the learning curve that justifies
+it is discarded.
 
-**Impact, and the decision this forced.** A reproduction wants the metrics
-recorded, so enabling `--wandb_log=True` is tempting. Two things make it a worse
-trade than it appears:
+**Impact.** Flipping the flag looks free and is not, because of where the import
+sits (`train.py:246`):
 
-1. **It is not a free flag.** Turning it on introduces `wandb` as a hard
-   requirement of the recipe (it is imported only under that branch), which
-   grows a three-package closure into a large one, and it requires an account
-   and credentials that a third-party reproducer will not have. A recipe that
-   needs a login is less reproducible, not more.
-2. **Silence is the failure mode.** Any wandb-compatible shim that cannot reach
-   a backend will satisfy `import wandb`, accept every `log()` call, and let the
-   run finish green with nothing recorded anywhere. We verified this on CPU
-   before spending anything: the training run completes, exit code 0, and no
-   metrics exist. There is no error to notice. Had we flipped the flag on faith
-   and only checked the exit code, we would have shipped a run that looked
-   logged and was not.
+```python
+if wandb_log and master_process:
+    import wandb
+```
 
-**Fix applied here.** We enabled the repo's own instrumentation with
-`--wandb_log=True` — using logging nanoGPT already ships, not bolting on logging
-it lacks — after first verifying on CPU that the metrics genuinely reached a
-dashboard. The learning curve is published at
-[`…/spaces/reproducible-ai/experiments?project=shakespeare-char`](https://huggingface.co/spaces/reproducible-ai/experiments?project=shakespeare-char)
-and the full table is reproduced in `README.md`.
+`wandb` is imported **only under the flag**. So `--wandb_log=True` silently
+promotes `wandb` from "not used by this recipe" to a hard runtime dependency —
+turning a three-package closure into a large one, and requiring credentials a
+third-party reproducer does not have.
 
-**The near-miss is the lesson, and it is worth stating plainly.** An earlier
-preflight of this same path reported that logging was inert, and on that
-evidence the first captured run was made with logging off. That preflight was
-wrong — it ran in a stripped-down virtualenv that did not contain the tracking
-library, which is not the environment the real run uses. The check was sound;
-the environment it ran in was not representative, so it produced a confident
-false negative. Two things follow, and both generalise beyond this row: verify a
-logging path **in the environment that will actually run it**, and treat "the
-run exited 0" as saying nothing whatsoever about whether anything was recorded.
+**What we did, and the two ways I got it wrong first.** This is the most
+transferable thing in these notes, so the full sequence:
 
-**Still true after enabling it:** running the recipe *exactly* as published — the
-literal README command — records nothing. Everything above about the default
-stands; we opted in, a casual reproducer will not.
+1. A first check, run in a stripped virtualenv, reported that the logging path
+   was inert — anything wandb-compatible that cannot reach a backend still
+   satisfies `import wandb`, still accepts every `log()` call, and still exits 0.
+   On that basis we captured with logging off. **That conclusion was right for
+   the wrong reason**: the virtualenv was not the environment the real job uses.
+2. Re-checked against the environment the job actually runs in, logging *did*
+   work and produced a live dashboard. So we re-captured with `--wandb_log=True`.
+   That capture passed every completeness check we have.
+3. Then the from-scratch rebuild check — fresh clone, an environment containing
+   only what the run recorded, nothing else — ran the recorded command and got:
 
-**Upstream-worthy?** A genuine improvement exists and is small: write the eval
+   ```
+   File ".../train.py", line 246, in <module>
+       import wandb
+   ModuleNotFoundError: No module named 'wandb'
+   ```
+
+   The logging-enabled capture recorded `trackio` in its environment but never
+   `wandb`, because on that host `wandb` was satisfied by a compatibility alias
+   rather than by an installed package. The run was real; the recipe for
+   repeating it was not self-contained.
+
+**Fix applied here.** The published row is the run **with logging at its shipped
+default (off)**, whose recorded command runs against its own recorded
+environment with nothing else present — verified, not assumed. The learning
+curve is preserved in `README.md` instead, where it costs no dependency at all.
+
+**The lesson, stated generally.** A record that passes every completeness check
+can still fail to rebuild, and only actually attempting the rebuild tells you
+which. Three checks disagreed here, and the one that settled it was the one that
+ran the real command in a from-scratch environment. It is also the cheapest of
+the three. Run it last, and believe it over the others.
+
+**Upstream-worthy?** Yes, and the fix removes the whole dilemma: write the eval
 history to a CSV or JSONL in `out_dir` unconditionally, independent of wandb.
-`train.py` already has every value in hand at the eval step. That would give
-every reproducer a durable learning curve with no account, no credentials and no
-new dependency — and it would make "did this rebuild match?" answerable from the
-artifact alone rather than from scrollback. Of everything in this file, this is
-the change I would most want upstream.
+`train.py` already holds every value at the eval step. That gives every
+reproducer a durable learning curve with no account, no credentials and no extra
+dependency — and makes "did this rebuild match?" answerable from the artifact
+rather than from scrollback. Of everything in this file, this is the change I
+would most want upstream.
 
 ---
 
@@ -237,11 +248,13 @@ Worth recording, because the campaign's usual failure modes were all absent:
   every source of randomness in this recipe — parameter init, the `torch.randint`
   batch sampler in `get_batch`, and dropout — draws from that generator. The
   campaign only claims *reproduce*, not *replicate*, so this was not required;
-  we got it anyway. **Two independent full runs, launched separately on the same
-  host type, produced bit-identical evaluation curves at all 21 eval points**
-  (see the table in `README.md`) — not "close", identical to four decimal places
-  at every checkpoint. Seeding costs one line and it is the difference between a
-  rebuild you can compare and a rebuild you can only eyeball.
+  we got it anyway. **Four independent full runs, launched separately, produced
+  identical evaluation curves at all 21 eval points** (see the table in
+  `README.md`) — not "close", identical to four decimal places at every
+  checkpoint — and three of them emitted a **byte-identical 129 MB checkpoint**
+  (blake3 `f4cc9b6ebb52a7f8…`, confirmed against the published artifact).
+  Seeding costs one line and it is the difference between a rebuild you can
+  compare and a rebuild you can only eyeball.
 * The checkpoint-on-val-improvement logic (`always_save_checkpoint = False`) means
   the published artifact is the best-val checkpoint, not the last one — which is
   a nice property for a reproduction, since it is defined by a criterion rather

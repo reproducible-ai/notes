@@ -17,8 +17,8 @@
     "hw": "1×L40S",
     "costUsd": 0.15
   },
-  "dagUrl": "https://glaas.ai/dag/8da40ae10248123746605dc8c1e5a1ca6ce4677544bec7f6d3fc4df7c582eab6",
-  "bomUrl": "https://glaas.ai/dag/8da40ae10248123746605dc8c1e5a1ca6ce4677544bec7f6d3fc4df7c582eab6/audit",
+  "dagUrl": "https://glaas.ai/dag/72ad9675f624563a018c0e76f81fea418edb268ab19002c404a793721f86fde2",
+  "bomUrl": "https://glaas.ai/dag/72ad9675f624563a018c0e76f81fea418edb268ab19002c404a793721f86fde2/audit",
   "bomScore": 100,
   "playbookVersion": "1.0",
   "roarVersion": "0.4.4.dev0",
@@ -26,9 +26,9 @@
   "amiId": "ami-0f07f1a0b382b48f7",
   "difficulty": "2/10 — easy",
   "reproduce": {
-    "hash": "8da40ae10248123746605dc8c1e5a1ca6ce4677544bec7f6d3fc4df7c582eab6",
-    "cmd": "roar reproduce 8da40ae10248123746605dc8c1e5a1ca6ce4677544bec7f6d3fc4df7c582eab6 --lineage --run --no-puts"
+    "hash": "72ad9675f624563a018c0e76f81fea418edb268ab19002c404a793721f86fde2",
+    "cmd": "roar reproduce 72ad9675f624563a018c0e76f81fea418edb268ab19002c404a793721f86fde2 --lineage --run --no-puts"
   },
-  "notes": "Ran as published — zero patches. Two commands, three real dependencies, 10.65M parameters, 2.5 minutes on one GPU. Best validation loss 1.4666 against the README's quoted 1.4697; and because train.py pins torch.manual_seed(1337), two independent full runs produced bit-identical evaluation curves at all 21 eval points, so this row is replicated and not merely reproduced. prepare.py's four printed dataset statistics matched the expected values recorded in its own source exactly. The only deviations are two flags upstream already defines: --compile=False (drops a host-specific compile warm-up with no payoff at this scale) and --wandb_log=True (turns on the repo's own metric logging, which this config ships off). Findings are all documentation-level: the README's install line omits requests — needed by the very first quick-start command — while listing four packages this recipe never imports; the corpus is fetched from an unpinned master-branch URL; and prepare.py writes its generated data into the source tree with no way to redirect it, so the data directory is an output directory and must be treated as one or the prepare-to-train chain is lost. The one change worth making upstream is small: write the eval history to CSV/JSONL in out_dir unconditionally, so every reproducer gets a durable learning curve without needing a tracking account.",
-  "experimentUrl": "https://huggingface.co/spaces/reproducible-ai/experiments?project=shakespeare-char"
+  "notes": "Ran as published — zero patches. Two commands, three real dependencies (torch, numpy, requests), 10.65M parameters, 2.5 minutes on one GPU. Best validation loss 1.4666 against the README's quoted 1.4697; and because train.py pins torch.manual_seed(1337), four independent full runs produced identical evaluation curves at all 21 eval points and three emitted a byte-identical 129MB checkpoint (blake3 f4cc9b6e..., verified against the published artifact), so this row is replicated and not merely reproduced. prepare.py's four printed dataset statistics matched the expected values recorded in its own source exactly. The only deviation is --compile=False, a flag the README itself documents, which drops a host-specific compile warm-up with no payoff at this scale. Findings are all documentation-level: the README's install line omits requests — needed by the very first quick-start command — while listing four packages this recipe never imports; the corpus is fetched from an unpinned master-branch URL; and prepare.py writes its generated data into the source tree with no way to redirect it, so the data directory is an output directory and must be treated as one or the prepare-to-train chain is lost. Enabling the repo's built-in wandb logging was tried and backed out: the flag makes wandb a hard runtime import, which a rebuild from this row's recorded environment does not satisfy. The one change worth making upstream is small: write the eval history to CSV/JSONL in out_dir unconditionally, so every reproducer gets a durable learning curve with no tracking dependency at all.",
+  "artifactBlake3": "f4cc9b6ebb52a7f867596b5cd96329518c0f1709bdf1487cbd387beddb322202"
 }

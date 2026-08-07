@@ -9,35 +9,52 @@ On-demand list price ≈ **$1.86/hr**.
 | # | What it did | Outcome | Metered | Notes |
 |---|---|---|---:|---|
 | 0 | Bare-clone check (CPU, this box) | ✅ passed | $0.00 | prepare + a 2-iter CPU train in an empty venv |
-| 0b | Logging-path preflight (CPU, this box) | ⚠ misleading | $0.00 | ran in an unrepresentative env; its conclusion was later overturned (issue 6) |
+| 0b | Logging-path preflight (CPU, this box) | ⚠ misleading | $0.00 | ran in an unrepresentative env; right answer, wrong reasoning (issue 6) |
 | 1 | Full pipeline | ❌ setup | $0.00 | tooling install step could not run on this image |
 | 2 | Full pipeline | ❌ publish | $0.09 | prepare + train + label all succeeded; upload step aborted |
 | 3 | Full pipeline | ✅ completed | $0.06 | 2 m 53 s execution end-to-end |
-| 3b | Logging re-verification (CPU) | ✅ corrected 0b | $0.00 | showed the earlier preflight had been wrong (issue 6) |
-| 4 | Full pipeline, logging on | ✅ **published row** | $0.06 | 2 m 54 s; identical metrics to attempt 3 |
-| | **Total metered** | | **$0.21** | |
+| 3b | Logging re-verification (CPU) | ✅ informative | $0.00 | showed 0b's reasoning was wrong (issue 6) |
+| 4 | Full pipeline, logging on | ⚠ green but **rejected** | $0.06 | 2 m 54 s; metrics identical to attempt 3 |
+| 4b | Rebuild check of attempt 4 (CPU) | ✅ decisive | $0.00 | its recorded command needs a package its record lacks |
+| 5 | Full pipeline (bookkeeping re-run) | ❌ setup | $0.00 | integrity guard on a tooling download fired; not upstream |
+| 6 | Full pipeline (bookkeeping re-run) | ✅ completed | $0.19 | included instance boot |
+| 7 | Full pipeline | ✅ **published row** | $0.06 | 2 m 51 s; the record's final, coherent state |
+| | **Total metered** | | **$0.46** | |
 
-No failure was caused by the upstream repository. Attempts 1 and 2 died in the
-harness that installs capture tooling onto the machine image. Attempt 2 is the
-expensive kind: it paid for the whole training run and then fell over on the
+No failure was caused by the upstream repository. Attempts 1, 2 and 5 died in
+the harness that installs capture tooling onto the machine image. Attempt 2 is
+the expensive kind: it paid for the whole training run and then fell over on the
 last step, which is why attempt 3 asserts that step's prerequisite up front in
-setup instead of discovering it at the end.
+setup instead of discovering it at the end. Attempt 5 is the cheap kind: an
+integrity check on a tooling download failed and the job stopped before the GPU
+did any work, for $0.00. That asymmetry — assert early, fail free — is the single
+most useful habit this row reinforced.
 
-Attempt 4 is the one worth defending, because it re-ran a run that had already
-passed every gate. Attempt 0b had concluded that the repo's own metric logging
-could not usefully be enabled; re-checking against the environment the job
-actually runs in (3b) showed that conclusion was wrong. $0.06 to replace a
-correct-but-thinner record with one that carries a live learning curve is a
-trivially good trade — and the re-run is also what produced the bit-identical
-second measurement that upgrades this row from reproduced to replicated.
+Attempts 6 and 7 were pure bookkeeping: making the published artifact, the
+recorded commit and the repository HEAD all refer to the same run, after
+attempt 4 had been backed out. No training question was open by then.
+
+Attempt 4 is the interesting one, and it is a **discarded** result. It enabled
+the repo's own metric logging, completed, and passed every completeness check we
+have. A from-scratch rebuild check (4b) then showed its recorded command imports
+a package its recorded environment does not contain, so the row stayed on
+attempt 3. See issue 6.
+
+That $0.06 was not wasted. Attempt 4 is a full independent repetition of attempt
+3, and it returned **bit-identical** train and validation losses at all 21 eval
+points — which is what lets this row claim replication rather than mere
+reproduction. A rejected attempt that produces a second independent measurement
+is a decent outcome for six cents.
 
 ## All-in instance cost
 
 Metered job time understates the real burn, because an on-demand target stays
 warm between jobs and has a 15-minute idle timeout. The instance was up from
-16:40 to roughly 17:39 UTC — about **60 minutes**, ≈ **$1.85** of instance
-time — spanning all four attempts plus idle. Call the honest all-in figure for
-this row **under $2**, against a $10 not-to-exceed budget.
+16:40 to roughly 18:08 UTC — about **88 minutes**, ≈ **$2.75** of instance
+time — spanning all seven attempts plus idle. Call the honest all-in figure for
+this row **under $3**, against a $10 not-to-exceed budget. Roughly two thirds of
+that was spent on tooling and bookkeeping rather than on training; the training
+itself accounts for about eight minutes of GPU time across four full runs.
 
 ## What a clean rebuild costs
 
