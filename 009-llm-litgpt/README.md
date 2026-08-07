@@ -1,19 +1,18 @@
 # 009 — litgpt (pretrain)
 
-**Verdict: rebuilt, held short of a full published record.**
+**Verdict: reproduced, and independently certified.**
 
-The `litgpt pretrain` path rebuilds from published materials, and the rebuilt
-lineage re-runs independently: a cold `roar reproduce --lineage --run` on a
-different machine with no GPU and no prior litgpt install cloned the fork, built
-an environment from the recorded pins, ran all four steps and produced the same
-checkpoint and the same validation loss. What is *not* yet settled is one
-campaign-internal record check on the tokenization step; the row is held pending
-that, not for anything wrong with litgpt.
+The `litgpt pretrain` path rebuilds from published materials, and the published
+lineage re-runs on a machine that has never seen it. A cold
+`roar reproduce --lineage --run --no-puts` on a freshly launched host cloned the
+fork, built an environment from the recorded pins, ran **all four steps (exit 0,
+4/4)** and produced the same 169 MB checkpoint and the same validation loss —
+with all 67 recorded pins present at the recorded versions.
 
 Upstream: [`Lightning-AI/litgpt`](https://github.com/Lightning-AI/litgpt) 0.5.13
 (`2685705`), Apache-2.0, 13.6k stars, actively maintained.
 Fork: [`reproducible-ai/litgpt`](https://github.com/reproducible-ai/litgpt) at
-`c657973`. **No litgpt source file was modified.**
+`4375307`. **No litgpt source file was modified.**
 
 ---
 

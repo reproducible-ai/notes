@@ -12,11 +12,20 @@ us-east-2, AMI `ami-0f07f1a0b382b48f7`. Budget for this row was NTE $10.
 | 3 | `1c0bacd5` | COMPLETED — 4 steps, tokenization split out | 3 m 20 s | $0.03 |
 | 4 | `d5ac7e31` | COMPLETED — final; shim removed | 2 m 01 s | $0.02 |
 | 5 | `302d133b` | COMPLETED — re-capture on updated provenance tooling | 7 m 14 s | $0.06 |
-| | | | **28 m 51 s** | **$0.16** |
+| 6 | `1ae272fc` | COMPLETED — final capture; the certified one | 9 m 04 s | $0.06 |
+| | | | **37 m 55 s** | **$0.22** |
 
-Attempt 5 re-ran the identical pipeline to re-record it with a newer build of the
-campaign's provenance tooling. It changed nothing about litgpt, the recipe or the
-result — same commit, same command, same `val loss 9.738`.
+Attempts 5 and 6 re-ran the identical pipeline to re-record it with newer builds
+of the campaign's provenance tooling. Neither changed anything about litgpt, the
+recipe or the result — same commit, same command, same `val loss 9.738`.
+
+## Certification
+
+An independent cold rebuild on a freshly launched `g4dn.xlarge` — a host that had
+never seen this row — took **~24 minutes** end to end including bootstrap, of
+which the rebuild itself was about 5 minutes. Estimated **$0.22**.
+
+**Row total: $0.44.**
 
 Attempt 2 was my error, not the repo's: the prepare step was invoked as
 `python reproduction/prepare_data.py`, which puts the *script's* directory on
@@ -45,7 +54,7 @@ provisioning cycle per iteration rather than five seconds.
 
 ## Final rebuild
 
-Attempt 4: **2 m 01 s, $0.02** (the recipe of record), comprising a ~40 s dependency install, ~11 s
+Attempt 6: **9 m 04 s, $0.06** (the recipe of record), comprising a dependency install, ~11 s
 tokenizer download, <1 s data fetch, ~59 s tokenization and ~30 s of
 pretraining, then label and publish.
 
