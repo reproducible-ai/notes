@@ -12,7 +12,7 @@ with all 67 recorded pins present at the recorded versions.
 Upstream: [`Lightning-AI/litgpt`](https://github.com/Lightning-AI/litgpt) 0.5.13
 (`2685705`), Apache-2.0, 13.6k stars, actively maintained.
 Fork: [`reproducible-ai/litgpt`](https://github.com/reproducible-ai/litgpt) at
-`4375307`. **No litgpt source file was modified.**
+`c6217ba`. **No litgpt source file was modified.**
 
 ---
 
