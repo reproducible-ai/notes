@@ -15,12 +15,19 @@ python train.py config/train_shakespeare_char.py
 ```
 
 Upstream also documents `--compile=False` (README, "I only have a macbook"). We
-pass it on the GPU run as well; see `issues.md` for why. That is the **only**
-deviation from the published command line.
+pass it on the GPU run as well; see `issues.md` issue 4 for why.
 
 ```sh
 python train.py config/train_shakespeare_char.py --compile=False
 ```
+
+We additionally pass `--wandb_log=True`, which turns on the wandb instrumentation
+`train.py` already contains (it logs iteration, train loss, val loss, learning
+rate and MFU) and which this config ships switched off. It changes nothing about
+what is trained; see `issues.md` issue 6.
+
+Those two flags are the **complete** list of deviations from the published
+command line, and upstream defines both.
 
 ## Dependencies actually required
 
@@ -76,7 +83,7 @@ commands are byte-identical to the recipe; the only wrapper is the tracer:
 
 ```sh
 roar run -n prepare -- python data/shakespeare_char/prepare.py
-roar run -n train   -- python train.py config/train_shakespeare_char.py --compile=False
+roar run -n train   -- python train.py config/train_shakespeare_char.py --compile=False --wandb_log=True
 ```
 
 Both output directories are declared, so `prepare`'s `train.bin` / `val.bin` /
@@ -87,6 +94,6 @@ is two steps and not one.
 ## Reproducing this row
 
 ```sh
-roar reproduce 72ad9675f624563a018c0e76f81fea418edb268ab19002c404a793721f86fde2 \
+roar reproduce 8da40ae10248123746605dc8c1e5a1ca6ce4677544bec7f6d3fc4df7c582eab6 \
     --lineage --run --no-puts
 ```

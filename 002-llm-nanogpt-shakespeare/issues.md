@@ -192,11 +192,26 @@ trade than it appears:
    and only checked the exit code, we would have shipped a run that looked
    logged and was not.
 
-**Fix applied here.** We ran the recipe with logging at its shipped default —
-off — and treat that as the honest reproduction of what is published. Metrics
-are recorded in this row as the training log (see the loss table in `README.md`
-and `costs.md`); every metric the recipe computes was computed. We did **not**
-bolt on logging the recipe does not enable.
+**Fix applied here.** We enabled the repo's own instrumentation with
+`--wandb_log=True` — using logging nanoGPT already ships, not bolting on logging
+it lacks — after first verifying on CPU that the metrics genuinely reached a
+dashboard. The learning curve is published at
+[`…/spaces/reproducible-ai/experiments?project=shakespeare-char`](https://huggingface.co/spaces/reproducible-ai/experiments?project=shakespeare-char)
+and the full table is reproduced in `README.md`.
+
+**The near-miss is the lesson, and it is worth stating plainly.** An earlier
+preflight of this same path reported that logging was inert, and on that
+evidence the first captured run was made with logging off. That preflight was
+wrong — it ran in a stripped-down virtualenv that did not contain the tracking
+library, which is not the environment the real run uses. The check was sound;
+the environment it ran in was not representative, so it produced a confident
+false negative. Two things follow, and both generalise beyond this row: verify a
+logging path **in the environment that will actually run it**, and treat "the
+run exited 0" as saying nothing whatsoever about whether anything was recorded.
+
+**Still true after enabling it:** running the recipe *exactly* as published — the
+literal README command — records nothing. Everything above about the default
+stands; we opted in, a casual reproducer will not.
 
 **Upstream-worthy?** A genuine improvement exists and is small: write the eval
 history to a CSV or JSONL in `out_dir` unconditionally, independent of wandb.
@@ -217,10 +232,17 @@ Worth recording, because the campaign's usual failure modes were all absent:
   a package; `train.py` imports `model` as a sibling module, so running from the
   repo root is all that is required. Nothing shadows or blinds file-level tracing.
 * **No pinning conflicts.** The dependency closure is three packages wide.
-* **Deterministic-enough.** No seed is set anywhere in `train.py`, so loss values
-  differ run to run; the campaign claims *reproduce*, not *replicate*, and every
-  metric the recipe computes (train loss, val loss, MFU) was computed. The
-  checkpoint-on-val-improvement logic (`always_save_checkpoint = False`) means
+* **Deterministic, and demonstrably so.** `train.py:106` calls
+  `torch.manual_seed(1337 + seed_offset)` before anything stochastic happens, and
+  every source of randomness in this recipe — parameter init, the `torch.randint`
+  batch sampler in `get_batch`, and dropout — draws from that generator. The
+  campaign only claims *reproduce*, not *replicate*, so this was not required;
+  we got it anyway. **Two independent full runs, launched separately on the same
+  host type, produced bit-identical evaluation curves at all 21 eval points**
+  (see the table in `README.md`) — not "close", identical to four decimal places
+  at every checkpoint. Seeding costs one line and it is the difference between a
+  rebuild you can compare and a rebuild you can only eyeball.
+* The checkpoint-on-val-improvement logic (`always_save_checkpoint = False`) means
   the published artifact is the best-val checkpoint, not the last one — which is
   a nice property for a reproduction, since it is defined by a criterion rather
   than by where you stopped.

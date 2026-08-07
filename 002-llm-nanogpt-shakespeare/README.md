@@ -6,9 +6,10 @@ the README advertises.
 
 > Upstream: [`karpathy/nanoGPT`](https://github.com/karpathy/nanoGPT) ·
 > recipe: `data/shakespeare_char/prepare.py` → `train.py config/train_shakespeare_char.py` ·
-> fork: [`reproducible-ai/nanoGPT`](https://github.com/reproducible-ai/nanoGPT) @ `f4ed2cc` ·
-> lineage: [`72ad9675…`](https://glaas.ai/dag/72ad9675f624563a018c0e76f81fea418edb268ab19002c404a793721f86fde2) ·
+> fork: [`reproducible-ai/nanoGPT`](https://github.com/reproducible-ai/nanoGPT) @ `29bd095` ·
+> lineage: [`8da40ae1…`](https://glaas.ai/dag/8da40ae10248123746605dc8c1e5a1ca6ce4677544bec7f6d3fc4df7c582eab6) ·
 > artifact: [`reproducible-ai/nanogpt`](https://huggingface.co/reproducible-ai/nanogpt) ·
+> metrics: [`experiments?project=shakespeare-char`](https://huggingface.co/spaces/reproducible-ai/experiments?project=shakespeare-char) ·
 > AI-BOM **100/100**
 
 ## Summary
@@ -18,14 +19,21 @@ two and a half minutes on one GPU. `prepare.py` downloads the tiny-Shakespeare
 corpus and turns it into a character-level token stream; `train.py` trains a
 6-layer / 6-head / 384-dim GPT for 5000 iterations and keeps the checkpoint with
 the best validation loss. Nothing was patched, nothing was pinned by hand,
-nothing had to be worked around. The only deviation from the published command
-line is `--compile=False`, a flag the README itself documents.
+nothing had to be worked around. The two deviations from the published command
+line are `--compile=False` and `--wandb_log=True` — both flags upstream already
+defines, neither changing what is trained.
 
 The best validation loss was **1.4666**, at iteration 1750. The README says
 "the best validation loss is 1.4697". Those two numbers were produced on
-different GPUs, in different years, by a script that sets no random seed
-anywhere — and they agree to three decimal places. That is the single most
-persuasive artifact this rebuild produced.
+different GPUs, years apart, and they agree to within 0.2%.
+
+Better still: **two independent full runs of this recipe, launched separately,
+produced bit-identical evaluation curves** — the same four-decimal train and
+validation loss at all 21 eval points. That is not luck. `train.py:106` calls
+`torch.manual_seed(1337 + seed_offset)`, and every stochastic element here —
+parameter init, the `torch.randint` batch sampler, dropout — draws from that
+generator. The campaign only claims *reproduce*, not *replicate*; nanoGPT hands
+you *replicate* for the cost of one line.
 
 `prepare.py`'s output matched its own recorded expectations exactly:
 1,115,394 characters, vocabulary of 65, 1,003,854 train tokens, 111,540 val
@@ -33,7 +41,9 @@ tokens.
 
 ### Evaluation history
 
-Recorded here because the recipe does not persist it anywhere (see issue 6).
+Also published as a live dashboard at
+[`experiments?project=shakespeare-char`](https://huggingface.co/spaces/reproducible-ai/experiments?project=shakespeare-char);
+reproduced here because the recipe itself persists nothing to disk (issue 6).
 Evaluated every 250 iterations, 200 eval batches each:
 
 | iter | train loss | val loss | | iter | train loss | val loss |
@@ -90,28 +100,37 @@ on the campaign list looked like this, the campaign would not be interesting.
 
 ## What was hard, and where
 
-Nothing in the *model* was hard. Both failed attempts were in the machinery that
-installs the capture tooling onto the compute image, not in nanoGPT — the repo
-itself is a one-shot. That distinction is the whole point of separating "the
-model is reproducible" from "we successfully reproduced it": those are different
-claims, and this row is a clean example of the first being true while the second
-took three tries for reasons that had nothing to do with the model.
+Nothing in the *model* was hard. The recipe itself is a one-shot: it worked the
+first time it was allowed to run, and every subsequent run reproduced it exactly.
 
-The one genuinely instructive near-miss was the experiment-logging decision, and
-it is worth reading in full: see **issue 6** in `issues.md`.
+Four job launches were needed to land a complete record, and it is worth being
+precise about what consumed them, because none of it was nanoGPT. Two failed in
+the machinery that installs capture tooling onto the compute image. The third
+succeeded. The fourth re-ran with experiment logging switched on, after the
+finding described below. That distinction is the whole point of separating "the
+model is reproducible" from "we successfully reproduced it" — they are different
+claims, and here the first was true from the start while the second took four
+attempts for reasons entirely outside the repository.
+
+The one genuinely instructive near-miss was the experiment-logging decision — an
+earlier check said the logging path was inert, and it was wrong in a way that
+would have quietly cost a row. It is worth reading in full: see **issue 6** in
+`issues.md`.
 
 ## Deviations from the published recipe
 
 | Deviation | Why |
 |---|---|
 | `--compile=False` added to the train command | Documented upstream. Removes a multi-minute, host-specific `torch.compile` warm-up whose payoff on a 10 M-parameter, 5000-iteration run is negligible. Model, data and hyperparameters untouched. |
+| `--wandb_log=True` added to the train command | Turns on instrumentation the repo already ships (`train.py` logs iter, train/val loss, lr and MFU) but which this config defaults to off, so the learning curve is recorded rather than discarded to stdout. Changes nothing about what is trained. |
 
-That is the complete list. `patches/` is empty.
+That is the complete list — two flags, both already defined by upstream, neither
+altering the model, the data or a single hyperparameter. `patches/` is empty.
 
 ## Reproducing this row
 
 ```sh
-roar reproduce 72ad9675f624563a018c0e76f81fea418edb268ab19002c404a793721f86fde2 \
+roar reproduce 8da40ae10248123746605dc8c1e5a1ca6ce4677544bec7f6d3fc4df7c582eab6 \
     --lineage --run --no-puts
 ```
 
@@ -119,14 +138,15 @@ Or, without any of our tooling, from the fork:
 
 ```sh
 git clone https://github.com/reproducible-ai/nanoGPT.git && cd nanoGPT
-git checkout f4ed2cc871ec4462816cdd1a61ec8083575934ed
+git checkout 29bd09586b7fea2e1be9cfa6a6313fe0da39ab5a
 pip install torch numpy requests
 python data/shakespeare_char/prepare.py
 python train.py config/train_shakespeare_char.py --compile=False
 ```
 
-Expect a best validation loss near 1.47 within the first ~2000 iterations, and
-`out-shakespeare-char/ckpt.pt` at the end. Expect the loss to keep improving on
+Expect a best validation loss of 1.4666 at iteration 1750 — the seed is pinned
+upstream, so on comparable hardware you should get that number, not merely one
+near it — and `out-shakespeare-char/ckpt.pt` at the end. Expect the loss to keep improving on
 train and get worse on validation after that — the config is deliberately set to
 overfit, and `always_save_checkpoint = False` means the artifact you keep is the
 best one, not the last one.
