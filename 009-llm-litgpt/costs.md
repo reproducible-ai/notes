@@ -10,7 +10,7 @@ us-east-2, AMI `ami-0f07f1a0b382b48f7`. Budget for this row was NTE $10.
 | 1 | `db05cb58` | COMPLETED — 3 steps, tokenization inline | 10 m 05 s | $0.02 |
 | 2 | `f7b318cf` | FAILED — new prepare step could not `import litgpt` | 6 m 11 s | $0.03 |
 | 3 | `1c0bacd5` | COMPLETED — 4 steps, tokenization split out | 3 m 20 s | $0.03 |
-| 4 | `d5ac7e31` | COMPLETED — final; shim removed | 2 m 01 s | $0.02 |
+| 4 | `d5ac7e31` | COMPLETED — recipe reduced to litgpt's own csv logger | 2 m 01 s | $0.02 |
 | 5 | `302d133b` | COMPLETED — re-capture on updated provenance tooling | 7 m 14 s | $0.06 |
 | 6 | `1ae272fc` | COMPLETED — re-capture on updated provenance tooling | 9 m 04 s | $0.06 |
 | 7 | `a1fd4795` | COMPLETED — final capture; the certified one | 8 m 51 s | $0.06 |
