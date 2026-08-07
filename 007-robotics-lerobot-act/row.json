@@ -4,7 +4,7 @@
   "repoUrl": "https://github.com/huggingface/lerobot",
   "type": "robotics",
   "date": "2026-08-07",
-  "verified": true,
+  "verified": false,
   "status": "reproduced",
   "statusSub": "truncated: 300 of 100k steps",
   "blocker": null,
