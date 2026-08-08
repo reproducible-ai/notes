@@ -1,0 +1,72 @@
+{
+  "name": "DCGAN (CIFAR-10)",
+  "org": "PyTorch",
+  "type": "vision",
+  "date": "2026-08-06",
+  "status": "reproduced",
+  "blocker": null,
+  "notes": "https://github.com/reproducible-ai/notes/tree/main/004-vision-dcgan-cifar10",
+  "playbookVersion": "1.0",
+  "roarVersion": "0.4.3",
+  "tracer": "preload",
+  "amiId": "ami-0f07f1a0b382b48f7",
+  "dagUrl": "https://glaas.ai/dag/3a8ff4c4c89b4cf796fa568b773e4d482fe1fde848b8baf1805ce6a47b800ba0",
+  "bomUrl": "https://glaas.ai/dag/3a8ff4c4c89b4cf796fa568b773e4d482fe1fde848b8baf1805ce6a47b800ba0/audit",
+  "bomScore": 100,
+  "artifactUrl": "https://huggingface.co/reproducible-ai/dcgan",
+  "experimentUrl": null,
+  "upstream": "https://github.com/pytorch/examples",
+  "upstreamCommit": "acc295dc7b",
+  "fork": "https://github.com/reproducible-ai/examples",
+  "forkCommit": "6012a42715634b149bce107fbf77c80d87062791",
+  "license": "BSD-3-Clause",
+  "rebuild": {
+    "time": "26m41s traced (24m57s of it the CIFAR-10 download; 1m42s of training)",
+    "hw": "1x Tesla T4, 4 vCPU Intel Xeon Platinum 8259CL, CUDA 13.0 (as recorded in the DAG runtime; the instance type itself is not in the record)",
+    "costUsd": null,
+    "costNote": "Capture cost was lost with the operator's working directory and is deliberately not estimated. The tier-2 certification cost ~$0.41 per the campaign ledger. See costs.md."
+  },
+  "reproduce": {
+    "hash": "3a8ff4c4c89b4cf796fa568b773e4d482fe1fde848b8baf1805ce6a47b800ba0",
+    "cmd": "roar reproduce 3a8ff4c4c89b4cf796fa568b773e4d482fe1fde848b8baf1805ce6a47b800ba0 --lineage --run --no-puts"
+  },
+  "patch": {
+    "lines": 110,
+    "url": "https://github.com/pytorch/examples/compare/acc295dc7b...reproducible-ai:examples:6012a42715634b149bce107fbf77c80d87062791",
+    "summary": "+110/-0 across 6 files, none of them Python. dcgan/main.py is byte-for-byte upstream. The diff is a treqs workflow, a treqs config, two .gitkeep files, and a .gitignore change that converts upstream's directory-ignores on the output paths into contents-ignores so the directories survive a clean checkout and their artifacts become lineage edges."
+  },
+  "truncated": true,
+  "truncationNote": "1 epoch of an upstream default 25 (782 iterations at batch 64 over CIFAR-10's 50,000 training images). Reproduce, not replicate - no convergence and no sample-quality claim. The truncation is also stated in the artifact's own roar put message and label description, so it travels with the model.",
+  "verified": true,
+  "certification": {
+    "date": "2026-08-06",
+    "dagHash": "3a8ff4c4c89b4cf796fa568b773e4d482fe1fde848b8baf1805ce6a47b800ba0",
+    "roarVersion": "0.4.4.dev0",
+    "roarCommit": "c5c553b",
+    "exitCode": 0,
+    "exitCodeSource": "roar's own job DB, not a parsed banner",
+    "stepsRun": "2/2",
+    "stepsNote": "The DAG has 3 jobs; the third is the roar put, excluded by --no-puts by design. 2/2 is the whole reproducible pipeline.",
+    "manifestDiff": "45/45 recorded pip pins present at exact recorded versions (0 missing, 0 mismatched); both steps then ran to exit 0 with no ModuleNotFoundError, demonstrating the recorded set is sufficient for this row's import graph and not merely resolvable",
+    "outputs": [
+      {"path": "out/netG_epoch_0.pth", "sizeBytes": 14323315, "matchesCapture": true},
+      {"path": "out/real_samples.png", "sizeBytes": 379915, "matchesCapture": true},
+      {"path": "out/fake_samples_epoch_000.png", "sizeBytes": 573413, "matchesCapture": false, "captureSizeBytes": 546896}
+    ],
+    "outputsNote": "Byte-identical output is NOT claimed and was not observed. fake_samples_epoch_000.png is a PNG of generated images, so its compressed size tracks pixel content and GPU training is not bit-deterministic at a fixed seed. The two size-invariant files (a fixed-shape state dict, and a grid of dataset images chosen deterministically by the seed) matched exactly. A fourth recorded output, netD_epoch_0.pth (11,076,841 B at capture), was not stat'd on the rebuild host.",
+    "attempts": "First success after 3 inconclusive attempts; the campaign ledger records all three as substrate failures rather than row defects.",
+    "bareCorePythonFinding": "This row settled the campaign's open bare-`python` question. The certification host had no bare `python` on its system PATH, yet the recorded command `python dcgan/main.py ...` ran and exited 0 - so roar reproduce demonstrably activates the uv-provisioned venv for the workload rather than falling through to a host interpreter.",
+    "spendUsd": 0.41,
+    "spendSource": "campaign ledger figure, not a metered invoice line",
+    "evidenceProvenance": "RECONSTRUCTED from the campaign ledger's copy of the certifier's report. The certifying operator's working directory was cleaned up before the rule requiring cert evidence on a certs/ branch existed. Nothing was re-run.",
+    "freezeCaveat": "Captured on roar 0.4.3 (per the record's own roar_version and the roar-cli==0.4.3 pin in the freeze) and certified on 0.4.4.dev0 @ c5c553b - both predate roar #274, a fix to how the freeze pass enumerates installed packages, so this record may be missing packages a later capture would have caught. The imports-vs-freeze audit finds NO decisive miss (everything import torch/torchvision demonstrably loads is present) but three packages that often accompany a torch install are absent: requests, urllib3, charset-normalizer. This workload plausibly never imports them - no networking in the training loop, and torchvision's CIFAR-10 download uses stdlib urllib rather than requests. Weak evidence, NOT a proven defect; and 'no detected miss' is never 'verified complete'."
+  },
+  "tier1Recheck": {
+    "date": "2026-08-08",
+    "result": "GREEN",
+    "detail": "Re-run while reconstructing these notes: clean-dag 13/13, AI-BOM 100/100 (profile Advanced), public-urls ALL PUBLIC, freeze PORTABLE. Nothing has drifted since certification."
+  },
+  "reconstructed": true,
+  "reconstructionNote": "These notes were reconstructed from the published DAG and the campaign ledger after the operator's original working notes were lost - the working directory was cleaned up before the campaign adopted the rule that notes must be pushed to a per-row branch. The capture and certification themselves are unchanged and were never lost. No operator narrative has been reconstructed and this row carries no difficulty rating, because no operator judgement survives to support one.",
+  "summary": "DCGAN (Radford et al. 2015) from pytorch/examples, trained on CIFAR-10 for one epoch of a default 25 and published with a complete, publicly resolvable lineage record (AI-BOM 100/100). Zero upstream source lines were changed - dcgan/main.py is byte-for-byte upstream and the entire +110/-0 fork diff is workflow, config and a .gitignore fix. Certified by an independent cold rebuild: exit 0, 2/2 steps, all 45 recorded pins present at their exact recorded versions, and the published 14,323,315 B generator checkpoint regenerated at the same size. Two upstream-facing findings: the repository directory-ignores its output paths, so those directories do not survive a clean checkout and a cold rebuild has nowhere to write; and the CIFAR-10 fetch from cs.toronto.edu is throttled to ~114 kB/s, making the download 94% of the run's wall clock while the GPU sits idle. This row also settled the campaign's bare-`python` question: the certification host had no bare `python` on PATH, yet the recorded `python dcgan/main.py` step ran and exited 0, proving roar reproduce activates the venv it provisions."
+}
