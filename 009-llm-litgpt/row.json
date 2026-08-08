@@ -14,23 +14,23 @@
   "upstreamCommit": "2685705",
   "fork": "https://github.com/reproducible-ai/litgpt",
   "license": "Apache-2.0",
-  "dagUrl": "https://glaas.ai/dag/527fac009468d59a05e46973314d831ffba6d04ac582e1fe4728c97364911b84",
-  "bomUrl": "https://glaas.ai/dag/527fac009468d59a05e46973314d831ffba6d04ac582e1fe4728c97364911b84/audit",
+  "dagUrl": "https://glaas.ai/dag/314f1eb9acbf26076c12b6893c1efc8e83f1b36f70034a7d8a0ceeb496b51403",
+  "bomUrl": "https://glaas.ai/dag/314f1eb9acbf26076c12b6893c1efc8e83f1b36f70034a7d8a0ceeb496b51403/audit",
   "bomScore": 100,
   "artifactUrl": "https://huggingface.co/reproducible-ai/litgpt",
   "experimentUrl": null,
   "rebuild": {
-    "time": "9m04s",
+    "time": "8m51s",
     "hw": "g4dn.xlarge (1x Tesla T4, us-east-2)",
     "costUsd": 0.06
   },
   "reproduce": {
-    "hash": "527fac009468d59a05e46973314d831ffba6d04ac582e1fe4728c97364911b84",
-    "cmd": "roar reproduce 527fac009468d59a05e46973314d831ffba6d04ac582e1fe4728c97364911b84 --lineage --run --no-puts"
+    "hash": "314f1eb9acbf26076c12b6893c1efc8e83f1b36f70034a7d8a0ceeb496b51403",
+    "cmd": "roar reproduce 314f1eb9acbf26076c12b6893c1efc8e83f1b36f70034a7d8a0ceeb496b51403 --lineage --run --no-puts"
   },
   "patch": {
     "lines": 203,
-    "url": "https://github.com/Lightning-AI/litgpt/compare/2685705...reproducible-ai:litgpt:c657973"
+    "url": "https://github.com/Lightning-AI/litgpt/compare/2685705...reproducible-ai:litgpt:c6217ba"
   },
   "summary": "Truncated reproduction of the litgpt pretrain path: pythia-14m, 8 optimizer steps on WikiText-2 via the TextFiles data module. Certified by an independent cold rebuild on a fresh GPU-less-path host that had never seen the row: exit 0, 4/4 steps, the same 169 MB checkpoint and the same val loss 9.7379, with all 67 recorded pins present at the recorded versions. The training code reproduced exactly - the loss trajectory was bit-identical across four independent environments at seed 42. Every obstacle was in packaging rather than in the model: litgpt download raises AttributeError on huggingface_hub >= 1.0 while litgpt's own pin permits it; torchmetrics and litdata are imported unconditionally on the pretrain path but declared only as optional extras; the pinned litdata==0.2.59 drags an unbounded torchvision that hard-pins an exact torch, silently replacing a curated PyTorch; and wandb/mlflow are advertised logger choices that appear in no dependency group. No litgpt source file was modified."
 }

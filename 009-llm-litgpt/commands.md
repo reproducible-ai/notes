@@ -2,7 +2,7 @@
 
 Upstream: `Lightning-AI/litgpt` 0.5.13 (`2685705`), Apache-2.0.
 Fork: `reproducible-ai/litgpt`, default branch `main`, reproduction commit
-`4375307`. **No litgpt source file was modified** — the fork adds only a
+`c6217ba`. **No litgpt source file was modified** — the fork adds only a
 workflow, `.gitignore` rules, four `.gitkeep` files and one additive helper
 module (`reproduction/prepare_data.py`).
 
@@ -135,12 +135,12 @@ installed — this recipe needs none of them.
 ## Independent cold rebuild
 
 ```bash
-roar reproduce 527fac009468d59a05e46973314d831ffba6d04ac582e1fe4728c97364911b84 \
+roar reproduce 314f1eb9acbf26076c12b6893c1efc8e83f1b36f70034a7d8a0ceeb496b51403 \
      --lineage --run --no-puts
 ```
 
 Run on a freshly launched host that had never seen this row. It cloned the fork
-at `4375307`, provisioned the recorded Python 3.12 interpreter, installed the
+at `c6217ba`, provisioned the recorded Python 3.12 interpreter, installed the
 recorded pins, and ran all four steps:
 
 ```
@@ -148,6 +148,6 @@ Steps run: 4/4          exit code: 0
 ```
 
 It rebuilt `out/final/lit_model.pth` (168,905,247 B) and `metrics.csv` with
-`val loss 9.737926 / val ppl 16948.362` — identical to the capture. All 67
+`val loss 9.737926 / val ppl 16948.362` — identical to the capture. All 62
 recorded pins were present in the rebuilt environment at the recorded versions,
 with no missing or mismatched package.

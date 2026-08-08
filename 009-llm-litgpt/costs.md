@@ -10,22 +10,24 @@ us-east-2, AMI `ami-0f07f1a0b382b48f7`. Budget for this row was NTE $10.
 | 1 | `db05cb58` | COMPLETED — 3 steps, tokenization inline | 10 m 05 s | $0.02 |
 | 2 | `f7b318cf` | FAILED — new prepare step could not `import litgpt` | 6 m 11 s | $0.03 |
 | 3 | `1c0bacd5` | COMPLETED — 4 steps, tokenization split out | 3 m 20 s | $0.03 |
-| 4 | `d5ac7e31` | COMPLETED — final; shim removed | 2 m 01 s | $0.02 |
+| 4 | `d5ac7e31` | COMPLETED — recipe reduced to litgpt's own csv logger | 2 m 01 s | $0.02 |
 | 5 | `302d133b` | COMPLETED — re-capture on updated provenance tooling | 7 m 14 s | $0.06 |
-| 6 | `1ae272fc` | COMPLETED — final capture; the certified one | 9 m 04 s | $0.06 |
-| | | | **37 m 55 s** | **$0.22** |
+| 6 | `1ae272fc` | COMPLETED — re-capture on updated provenance tooling | 9 m 04 s | $0.06 |
+| 7 | `a1fd4795` | COMPLETED — final capture; the certified one | 8 m 51 s | $0.06 |
+| | | | **46 m 46 s** | **$0.28** |
 
-Attempts 5 and 6 re-ran the identical pipeline to re-record it with newer builds
+Attempts 5, 6 and 7 re-ran the identical pipeline to re-record it with successive builds
 of the campaign's provenance tooling. Neither changed anything about litgpt, the
 recipe or the result — same commit, same command, same `val loss 9.738`.
 
 ## Certification
 
-An independent cold rebuild on a freshly launched `g4dn.xlarge` — a host that had
-never seen this row — took **~24 minutes** end to end including bootstrap, of
-which the rebuild itself was about 5 minutes. Estimated **$0.22**.
+Two independent cold rebuilds, each on a freshly launched `g4dn.xlarge` that had
+never seen this row. The final one took **~25 minutes** end to end including
+bootstrap, of which the rebuild itself was about 5 minutes. Estimated **$0.22**
+each.
 
-**Row total: $0.44.**
+**Row total: $0.72.**
 
 Attempt 2 was my error, not the repo's: the prepare step was invoked as
 `python reproduction/prepare_data.py`, which puts the *script's* directory on
@@ -54,7 +56,7 @@ provisioning cycle per iteration rather than five seconds.
 
 ## Final rebuild
 
-Attempt 6: **9 m 04 s, $0.06** (the recipe of record), comprising a dependency install, ~11 s
+Attempt 7: **8 m 51 s, $0.06** (the recipe of record), comprising a dependency install, ~11 s
 tokenizer download, <1 s data fetch, ~59 s tokenization and ~30 s of
 pretraining, then label and publish.
 
