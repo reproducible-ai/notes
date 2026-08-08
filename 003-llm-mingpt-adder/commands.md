@@ -183,6 +183,81 @@ roar reproduce c2ffb3ef71e1f4dafd87e0fc95ef172addb0e4f9b7ebc490360dbf572d60d0cc 
 
 ---
 
+## 7. Independent cold rebuild (tier 2 certification)
+
+```bash
+roar reproduce c2ffb3ef71e1f4dafd87e0fc95ef172addb0e4f9b7ebc490360dbf572d60d0cc \
+    --lineage --run --no-puts -y --step-timeout 21600
+```
+
+Run on a freshly launched `t3.large` (no GPU — this row doesn't need one; 2 vCPU,
+us-east-2, AMI `ami-0f07f1a0b382b48f7`) that had never seen this row, under
+`roar-cli 0.4.4.dev0` installed from the presigned wheel (sha256
+`a5bcde02f6a1f7bfa29ee52044f69fb72a87a1f3b6867db6911e8e82749415f0`) with
+`uv tool install --python 3.12.10 --force` — the recorded-interpreter workaround for
+P0-14 — and the uv-installed binary symlinked onto `PATH` so the nested `roar run`
+inside the recorded step resolves. Detached with `nohup bash -c '... ; echo $? >
+/tmp/cert.exitcode' …`, polled over SSM, so the literal shell exit code of the
+`roar reproduce` process itself was captured directly rather than inferred from log text.
+
+```
+Steps run: 1/1          literal exit code: 0
+```
+
+Run **twice** end to end (the first pass didn't have the exit-code wrapper attached, so
+it was re-run cleanly to capture that literal value — both passes reproduced
+independently). Both rebuilt `out/adder/model.pt` (358,331 B) and `out/adder/config.json`
+(673 B) **byte-identical across the two independent cold runs** (same sha256 both times:
+`model.pt` = `569c1f2a7a753c185604fc7a10f9b6a9eb87b621baca6496dc659e71eac98f4a`,
+`config.json` = `aebe5b56107c5ff4c0f5ac66316ca5c81655ff3a2b91a92d0d416b30eda50dcc`) — the
+adder demo trains deterministically on CPU. `out/adder/args.txt` differed in byte count
+between the two runs (95 B vs 122 B) purely because it logs `sys.argv[0]`'s absolute
+path (see issues.md's "non-issues" note) and the two SSM invocations resolved
+`/root/reproduce/...` vs a longer snap-confined path — not a reproducibility defect.
+
+**Note on `model.pt` size vs. the capture:** the original GPU capture (README's own
+table) reports `model.pt` at 358,971 B; this CPU cold rebuild produced 358,331 B, both
+times. Expected — this claim is *reproduce*, not *replicate*, and the capture ran on a
+Tesla T4 while this certification deliberately used no GPU at all. The final train/test
+accuracy lines for this specific cold run were not captured in the polled log excerpt
+before the log rotated past them (a gap in this certification's own polling, noted
+honestly rather than papered over); the two runs' output artifacts being byte-identical
+to each other is offered as the stronger determinism evidence in its place.
+
+All **43 recorded pip pins present at recorded versions** in the reproduce venv (0
+missing, 0 mismatched) — diffed by fetching `jobs/<uid>.metadata.packages.pip` from the
+glaas public API against `uv pip freeze --python .venv/bin/python`, PEP-503
+name-normalized before comparison. (`roar reproduce --export-requirements` returned
+"Artifact not found" when invoked standalone after the run completed — not investigated
+further since the API-based diff gave the same answer directly.)
+
+**P0-14 check, direct evidence, not inference:** the reproduce venv's own `sys.path`
+contains only stdlib entries plus `.venv/lib/python3.12/site-packages` — zero
+`dist-packages` entries (`HOST_SHADOW_PATHS: []`). `ldd` on `libtorch_python.so` shows
+every torch `.so` (`libtorch`, `libtorch_cpu`, `libtorch_cuda`, `libc10`, `libcudnn`,
+`libcusparseLt`, `libcufile`, …) resolving from inside
+`.venv/lib/python3.12/site-packages/torch/lib/`, with only system `libc`/`libstdc++`/
+`libpthread` coming from `/lib`. The host itself has **no bare `python`** at all
+(`command -v python` → not found, only `/usr/bin/python3`), so the recorded step could
+only have run under the venv's own provisioned interpreter.
+
+**P0-7 purge, this host:** both stale `roar_cli-*.dist-info` dirs present as predicted
+(`0.4.0` under `/usr/local/lib/python3.10/dist-packages`, `0.4.3` under
+`/opt/pytorch/lib/python3.12/site-packages`), plus their `roar/` package dirs and
+`roar_inject.pth` files, and all four stale entrypoints
+(`/usr/local/bin/roar[-worker]`, `/opt/pytorch/bin/roar[-worker]`). Purged unpiped;
+verified empty by a follow-up `find` sweep before installing anything (`PURGE_VERIFIED_CLEAN`).
+
+`roar --version` after the symlink: `0.4.4.dev0`. `<site-packages>/roar/bin/` held all
+**6** tracer artefacts (`libroar_tracer_preload.so`, `roar-proxy`, `roar-tracer`,
+`roar-tracer-ebpf`, `roar-tracer-preload`, `roard`) — this wheel was not the P0-10
+tracerless build.
+
+Instance `i-039b2f4739e893159` terminated and confirmed terminated. ~24 min instance
+lifetime (16:01:35Z–16:25:41Z, two full reproduce passes), ~$0.03.
+
+---
+
 ## Appendix · proving `inputs: []` on the train step is correct
 
 The captured train step records zero inputs. Rather than assume, a control was run in

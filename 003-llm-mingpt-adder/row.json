@@ -29,5 +29,32 @@
   "artifact": "https://huggingface.co/reproducible-ai/mingpt",
   "upstream": "https://github.com/karpathy/minGPT",
   "fork": "https://github.com/reproducible-ai/minGPT",
-  "license": "MIT"
+  "license": "MIT",
+  "certification": {
+    "date": "2026-08-07",
+    "dagHash": "c2ffb3ef71e1f4dafd87e0fc95ef172addb0e4f9b7ebc490360dbf572d60d0cc",
+    "roarVersion": "0.4.4.dev0",
+    "wheelUrl": "s3://modelsandbox-artifacts-us-east-2/roar-builds/c5c553b/roar_cli-0.4.4.dev0-cp310-abi3-linux_x86_64.whl",
+    "wheelSha256": "a5bcde02f6a1f7bfa29ee52044f69fb72a87a1f3b6867db6911e8e82749415f0",
+    "uvInstallCmd": "uv tool install --python 3.12.10 --force roar_cli-0.4.4.dev0-cp310-abi3-linux_x86_64.whl",
+    "exitCode": 0,
+    "exitCodeSource": "literal shell exit code, captured via nohup bash -c 'roar reproduce ... ; echo $? > /tmp/cert.exitcode' (first pass lacked the wrapper and was re-run cleanly to capture this value)",
+    "stepsRun": "1/1",
+    "manifestDiff": "43/43 recorded pip pins present at recorded versions in the reproduce venv (0 missing, 0 mismatched); diffed by fetching jobs/<uid>.metadata.packages.pip from the glaas public API against `uv pip freeze --python .venv/bin/python`, PEP-503 name-normalized before comparison",
+    "outputs": [
+      {"path": "out/adder/model.pt", "sizeBytes": 358331},
+      {"path": "out/adder/config.json", "sizeBytes": 673},
+      {"path": "out/adder/args.txt", "sizeBytes": 122}
+    ],
+    "outputsNote": "model.pt and config.json were byte-identical (same sha256) across two independent cold reproduce runs on this host. model.pt differs from the original GPU capture's recorded 358,971 B (this cert used 358,331 B, both times) -- expected reproduce-not-replicate drift between a Tesla T4 capture and a no-GPU cold rebuild, not a defect. args.txt size differed between the two cold runs (95 B vs 122 B) only because it logs sys.argv[0]'s absolute path, which differed between the two SSM working-directory contexts.",
+    "finalMetricNote": "Not re-captured for this specific cold run -- the polled log excerpt had rotated past the final train/test score lines before termination. Reported honestly as a gap in this certification's polling rather than restated from the original capture's numbers.",
+    "p0_14Evidence": "Reproduce venv's sys.path contains only stdlib entries plus .venv/lib/python3.12/site-packages -- zero dist-packages entries (HOST_SHADOW_PATHS: []). ldd on libtorch_python.so shows every torch .so (libtorch, libtorch_cpu, libtorch_cuda, libc10, libcudnn, libcusparseLt, libcufile, ...) resolving from inside .venv/lib/python3.12/site-packages/torch/lib/, with only system libc/libstdc++/libpthread from /lib. Host has no bare `python` at all (command -v python -> not found, only /usr/bin/python3), so the recorded step could only have run under the venv's own provisioned interpreter.",
+    "p0_7Purge": "purged both roar_cli-*.dist-info dirs (0.4.0 under /usr/local/lib/python3.10/dist-packages, 0.4.3 under /opt/pytorch/lib/python3.12/site-packages) plus their roar/ package dirs and roar_inject.pth files, and all four stale entrypoints (/usr/local/bin/roar[-worker], /opt/pytorch/bin/roar[-worker]); verified empty by an unpiped find sweep (PURGE_VERIFIED_CLEAN) before installing",
+    "roarBinNonEmpty": "6 artefacts in <site-packages>/roar/bin/: libroar_tracer_preload.so, roar-proxy, roar-tracer, roar-tracer-ebpf, roar-tracer-preload, roard",
+    "instanceType": "t3.large (no GPU -- this row needs none), us-east-2, ami-0f07f1a0b382b48f7",
+    "instanceId": "i-039b2f4739e893159 (terminated, confirmed)",
+    "wallClock": "~24 min instance lifetime (launch 2026-08-07T16:01:35Z, terminated ~16:25:41Z), covering two full reproduce passes; training step itself ~2-3 min each pass",
+    "spendUsd": 0.03,
+    "certifiedBy": "tier-2 certification agent (cold rebuild, independent of the capturing operator)"
+  }
 }

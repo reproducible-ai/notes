@@ -1,7 +1,8 @@
 # 003 · minGPT `projects/adder` — cost
 
 Budget: NTE $10. **Actual: $0.03 reported job cost** (~$0.25 upper bound on the
-underlying instance time). This is the cheapest kind of row in the campaign.
+underlying instance time) **+ ~$0.03 independent tier-2 certification = ~$0.06 total.**
+This is the cheapest kind of row in the campaign.
 
 ## Attempts
 
@@ -10,8 +11,10 @@ underlying instance time). This is the cheapest kind of row in the campaign.
 | 0 | Local bare-clone check + iteration sweep (3000 iters, CPU) | control host, 4 vCPU | ~5 min | $0.00 | Found the undeclared `numpy` dependency; fixed the iteration budget at 3000 |
 | 1 | First capture | `reproai-g4dn-plaintorch-a` (g4dn.xlarge, Tesla T4) | 3 min 40 s | $0.00 | **FAILED** in `setup`, before any training — operator error, see below |
 | 2 | Capture | same (agent still warm) | 3 min 58 s | $0.03 | **COMPLETED** — 99.2 % test, artifact published, all four gates green |
+| 3 | Independent tier-2 certification, `c2ffb3ef…` | `t3.large` (no GPU), fresh host | ~24 min instance lifetime | ~$0.03 | **Certified.** Cold `roar reproduce --lineage --run --no-puts -y` exited 0 (literal, captured via wrapper), 1/1 steps, `model.pt`/`config.json` byte-identical across two independent cold runs, 43/43 recorded pins present, P0-14 workaround confirmed by direct `sys.path`/`ldd` evidence |
 
-**Total reported job cost: $0.03.**
+**Total reported job cost: $0.03** (capture) **+ ~$0.03** (certification instance time,
+t3.large @ ~$0.0832/hr × ~0.4 hr) **≈ $0.06.**
 
 ## Attempt 1 — what failed
 
