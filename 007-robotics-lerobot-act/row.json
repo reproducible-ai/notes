@@ -3,30 +3,30 @@
   "org": "huggingface",
   "repoUrl": "https://github.com/huggingface/lerobot",
   "type": "robotics",
-  "date": "2026-08-07",
+  "date": "2026-08-08",
   "verified": false,
   "status": "reproduced",
   "statusSub": "truncated: 300 of 100k steps",
   "blocker": null,
   "patch": {
     "lines": 0,
-    "url": "https://github.com/huggingface/lerobot/compare/ff7cc3de1de830f5f3276918a013d04bdf9ea4be...reproducible-ai:lerobot:78c775d1fe64be80e61e007593cecc5f080ac51b"
+    "url": "https://github.com/huggingface/lerobot/compare/ff7cc3de1de830f5f3276918a013d04bdf9ea4be...reproducible-ai:lerobot:b1d01f8c4ce4065915379280a3c50e884670061a"
   },
   "rebuild": {
-    "time": "6.8 min",
+    "time": "6.0 min",
     "hw": "1×L40S",
-    "costUsd": 1.2
+    "costUsd": 0.6
   },
-  "dagUrl": "https://glaas.ai/dag/023d15ffb248254a2955d46a513c57a485a78587701d43a1053819f96ad50ed8",
-  "bomUrl": "https://glaas.ai/dag/023d15ffb248254a2955d46a513c57a485a78587701d43a1053819f96ad50ed8/audit",
+  "dagUrl": "https://glaas.ai/dag/cc490321bbbf07fd270c8bd83d12967de0fb891d1265994c5cca134df57f0639",
+  "bomUrl": "https://glaas.ai/dag/cc490321bbbf07fd270c8bd83d12967de0fb891d1265994c5cca134df57f0639/audit",
   "bomScore": 100,
   "playbookVersion": "1.0",
-  "roarVersion": "0.4.4.dev0",
+  "roarVersion": "0.4.4rc2",
   "tracer": "preload",
   "amiId": "ami-0f07f1a0b382b48f7",
   "reproduce": {
-    "hash": "023d15ffb248254a2955d46a513c57a485a78587701d43a1053819f96ad50ed8",
-    "cmd": "roar reproduce 023d15ffb248254a2955d46a513c57a485a78587701d43a1053819f96ad50ed8 --lineage --run --no-puts"
+    "hash": "cc490321bbbf07fd270c8bd83d12967de0fb891d1265994c5cca134df57f0639",
+    "cmd": "roar reproduce cc490321bbbf07fd270c8bd83d12967de0fb891d1265994c5cca134df57f0639 --lineage --run --no-puts"
   },
-  "notes": "ACT (Action Chunking Transformer, ResNet-18 backbone) trains end to end on the public lerobot/pusht_image dataset with zero lines of upstream source changed. Truncated to 300 of the 100000 default steps — a pipeline-viability run, not a converged policy. Two things bite anyone reproducing a framework rather than a script. First, the documented entry point only exists after `pip install -e .`, and an editable self-install makes the tracer treat the whole repository as package territory, so the lineage loses every data and checkpoint edge; the fix is to install the dependency extra, uninstall the package, and import from the checkout. Second — and this is the one that would have shipped an un-rebuildable row — `pip uninstall` leaves `src/lerobot.egg-info/` behind, and because the reproduction puts `src/` on sys.path, `importlib.metadata` reads it straight back as an installed `lerobot 0.6.2`, a version that has never been published on PyPI. Every structural check still passes; only trying to install the recorded environment finds it. Separately, upstream's own wandb logging cannot be bridged to any substitute tracker: `WandBLogger.__init__` calls `wandb.run.get_url()` unguarded, which no wandb-compatible tracker implements, so the run is logged via a dedicated evaluation step instead (held-out eval_loss 0.536 over 2742 frames, matching training's own step-300 number)."
+  "notes": "ACT (Action Chunking Transformer, ResNet-18 backbone) trains end to end on the public lerobot/pusht_image dataset with zero lines of upstream source changed. Truncated to 300 of the 100000 default steps — a pipeline-viability run, not a converged policy. Two things bite anyone reproducing a framework rather than a script. First, the documented entry point only exists after `pip install -e .`, and an editable self-install makes the tracer treat the whole repository as package territory, so the lineage loses every data and checkpoint edge; the fix is to install the dependency extra, uninstall the package, and import from the checkout. Second — and this is the one that would have shipped an un-rebuildable row — `pip uninstall` leaves `src/lerobot.egg-info/` behind, and because the reproduction puts `src/` on sys.path, `importlib.metadata` reads it straight back as an installed `lerobot 0.6.2`, a version that has never been published on PyPI. Every structural check still passes; only trying to install the recorded environment finds it. Separately, upstream's own wandb logging cannot be bridged to any substitute tracker: `WandBLogger.__init__` calls `wandb.run.get_url()` unguarded, which no wandb-compatible tracker implements, so the run is logged via a dedicated evaluation step instead (held-out eval_loss 0.528 over 2742 frames, matching training's own step-300 number). This row was re-captured on 2026-08-08 on a newer capture toolchain that records a materially more complete package set: the download step's recorded environment went from 2 pins to 23, and a fresh clone installing exactly those 23 pins with --no-deps and PYTHONPATH unset now runs that step to exit 0. The earlier record's 2 pins could not — the step's own top-level import was missing from it."
 }

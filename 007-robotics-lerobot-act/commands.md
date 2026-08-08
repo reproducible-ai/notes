@@ -13,7 +13,8 @@ treqs project status                                          # DAG publishes un
 ```
 
 Upstream base: `ff7cc3de1de830f5f3276918a013d04bdf9ea4be` (default branch `main`).
-Captured at fork commit `78c775d1fe64be80e61e007593cecc5f080ac51b`.
+Captured at fork commit `b1d01f8c4ce4065915379280a3c50e884670061a`
+(re-capture of 2026-08-08; the previous capture was `78c775d1`, same recipe).
 
 ## 1. Environment (untraced setup stage)
 
@@ -114,7 +115,7 @@ treqs run \
 ## 5. Rebuild
 
 ```
-roar reproduce 023d15ffb248254a2955d46a513c57a485a78587701d43a1053819f96ad50ed8 \
+roar reproduce cc490321bbbf07fd270c8bd83d12967de0fb891d1265994c5cca134df57f0639 \
     --lineage --run --no-puts
 ```
 
@@ -124,15 +125,15 @@ roar reproduce 023d15ffb248254a2955d46a513c57a485a78587701d43a1053819f96ad50ed8 
 fetch_dataset : codebase_version=v3.0 episodes=206 frames=25650 tasks=1 fps=10
                 total bytes: 31621889   (7 files)
 train         : num_learnable_params=51588994 (52M), effective batch size 8
-                step:300 smpl:2K ep:19 epch:0.10 loss:2.975 grdn:93.322 lr:1.0e-05
-                       l1_loss:0.558 kld_loss:0.242 mem_gb:0.95 smp/s:30
-                step 150: eval_loss=0.5678
-                step 300: eval_loss=0.5362
+                step:300 smpl:2K ep:19 epch:0.10 loss:2.976 grdn:93.317 lr:1.0e-05
+                       l1_loss:0.559 kld_loss:0.242 mem_gb:0.95 smp/s:30
+                step 150: eval_loss=0.5662
+                step 300: eval_loss=0.5276
                 → outputs/act_pusht/checkpoints/000300/pretrained_model/model.safetensors
 evaluate      : held-out episodes: 21 of 206 (per-task, 1 task)
                 held-out frames: 2742 · eval_batches: 343
-                eval_loss = 0.5361584618513855
-                action_l1 = 53.29604597897988
+                eval_loss = 0.5275466817026583
+                action_l1 = 52.59283304075458
 ```
 
 `eval_loss` from the standalone evaluation matches training's own step-300 number to
