@@ -32,5 +32,30 @@
     "cmd": "roar reproduce 58df327f1e02faf0d64efb8f07daac7c9eca70d3713d008bc8587fea780617be --lineage --run --no-puts"
   },
   "difficulty": 2,
-  "difficultyNote": "2/10. Nothing was worked around and nothing was found by trial and error. The single-file design removes almost every failure mode this campaign measures: no editable install, no dataset, no credentials, no unresolvable pins. The only real work was noticing that ppo.py never saves a model."
+  "difficultyNote": "2/10. Nothing was worked around and nothing was found by trial and error. The single-file design removes almost every failure mode this campaign measures: no editable install, no dataset, no credentials, no unresolvable pins. The only real work was noticing that ppo.py never saves a model.",
+  "certification": {
+    "date": "2026-08-07",
+    "dagHash": "58df327f1e02faf0d64efb8f07daac7c9eca70d3713d008bc8587fea780617be",
+    "roarVersion": "0.4.4.dev0",
+    "wheelUrl": "s3://modelsandbox-artifacts-us-east-2/roar-builds/c5c553b/roar_cli-0.4.4.dev0-cp310-abi3-linux_x86_64.whl",
+    "wheelSha256": "a5bcde02f6a1f7bfa29ee52044f69fb72a87a1f3b6867db6911e8e82749415f0",
+    "uvInstallCmd": "uv tool install --python 3.12.10 --force roar_cli-0.4.4.dev0-cp310-abi3-linux_x86_64.whl",
+    "exitCode": 0,
+    "exitCodeSource": "roar's own job DB (roar dag --json, job_uid 72be16dc, node.exit_code)",
+    "stepsRun": "1/1",
+    "manifestDiff": "69/69 recorded pip pins present at recorded versions in the reproduce venv (0 missing, 0 mismatched); diffed via `roar reproduce --lineage --export-requirements` against `uv pip freeze --python .venv/bin/python`, name-normalized (case + underscore/hyphen) before comparison",
+    "outputs": [
+      {"path": "out/ppo_cartpole.cleanrl_model", "sizeBytes": 41625},
+      {"path": "runs/CartPole-v1__ppo__1__1786118877/events.out.tfevents.1786118877.ip-10-50-20-237.2715.0", "sizeBytes": 678636}
+    ],
+    "finalMetric": "episodic_return=[500.] at global_step=499612 (CartPole-v1 ceiling), matching the capture",
+    "p0_14Evidence": "Training PID's /proc/<pid>/environ carries VIRTUAL_ENV=/tmp/.../reproduce/cleanrl/.venv and PATH prepended with .venv/bin; every loaded torch .so (_C, libc10, libtorch, libtorch_cuda, ...) resolves under .venv/lib/python3.12/site-packages/torch/ per /proc/<pid>/maps; grep -c dist-packages against the same maps file = 0 (no host package directory mapped into the process at all)",
+    "p0_7Purge": "purged both roar_cli-*.dist-info dirs (0.4.0 under /usr/local/lib/python3.10/dist-packages, 0.4.3 under /opt/pytorch/lib/python3.12/site-packages) plus their roar/ package dirs, all four stale entrypoints, and two roar_inject.pth files; verified empty by a post-purge find sweep before installing",
+    "roarBinNonEmpty": "6 artefacts in <site-packages>/roar/bin/: libroar_tracer_preload.so, roar-proxy, roar-tracer, roar-tracer-ebpf, roar-tracer-preload, roard",
+    "instanceType": "g4dn.xlarge (1x Tesla T4), us-east-2, ami-0f07f1a0b382b48f7",
+    "instanceId": "i-0eb360c426f6455a2 (terminated, confirmed)",
+    "wallClock": "~15 min instance lifetime (launch 16:02:04Z, terminate 16:17:01Z); training step itself ~5 min",
+    "spendUsd": 0.13,
+    "certifiedBy": "tier-2 certification agent (cold rebuild, independent of the capturing operator)"
+  }
 }

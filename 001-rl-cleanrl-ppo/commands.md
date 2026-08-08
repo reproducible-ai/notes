@@ -114,3 +114,38 @@ Workflow: `setup → train → label → publish`, one commit, four stages.
 roar reproduce 58df327f1e02faf0d64efb8f07daac7c9eca70d3713d008bc8587fea780617be \
     --lineage --run --no-puts
 ```
+
+## 7. Independent cold rebuild (tier 2 certification)
+
+```bash
+roar reproduce 58df327f1e02faf0d64efb8f07daac7c9eca70d3713d008bc8587fea780617be \
+    --lineage --run --no-puts -y --step-timeout 21600
+```
+
+Run on a freshly launched `g4dn.xlarge` (1x Tesla T4, us-east-2, AMI
+`ami-0f07f1a0b382b48f7`) that had never seen this row, under `roar-cli 0.4.4.dev0`
+installed from the presigned wheel (sha256
+`a5bcde02f6a1f7bfa29ee52044f69fb72a87a1f3b6867db6911e8e82749415f0`) with
+`uv tool install --python 3.12.10 --force` — the recorded-interpreter workaround for
+P0-14 — and the uv-installed binary symlinked onto `PATH` so the nested `roar run`
+inside the recorded step resolves. Detached with `nohup … &`, polled over SSM.
+
+```
+Steps run: 1/1          exit code: 0   (from roar's own job DB — job_uid 72be16dc)
+```
+
+It rebuilt `out/ppo_cartpole.cleanrl_model` (41,625 B) and
+`events.out.tfevents...` (678,636 B), with `episodic_return=[500.]` at the final
+`global_step=499612` — CartPole-v1's ceiling, identical to the capture. All 69
+recorded pip pins were present in the reproduce venv at the recorded versions (0
+missing, 0 mismatched), diffed via `roar reproduce --lineage --export-requirements`
+against `uv pip freeze --python .venv/bin/python`.
+
+**P0-14 check, direct evidence, not inference:** the training process's
+`/proc/<pid>/environ` carried `VIRTUAL_ENV=…/reproduce/cleanrl/.venv` with
+`.venv/bin` prepended to `PATH`; every loaded `torch` `.so` (`_C`, `libc10`,
+`libtorch`, `libtorch_cuda`, …) resolved under `.venv/lib/python3.12/site-packages/`
+per `/proc/<pid>/maps`; and a `dist-packages` grep against those same maps returned
+zero hits — no host package directory was mapped into the process at all.
+
+Instance terminated and confirmed terminated. ~15 min instance lifetime, ~$0.13.
