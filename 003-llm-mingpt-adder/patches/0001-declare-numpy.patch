@@ -1,0 +1,25 @@
+Prepared against karpathy/minGPT @ 37baab7 (master). NOT SUBMITTED UPSTREAM —
+this campaign does not open external PRs or issues. Kept here as evidence that
+issues.md I-1 is a one-line defect with a one-line fix.
+
+`mingpt/utils.py` imports numpy at module scope, so `import mingpt` fails on a
+clean install that followed the README (`pip install -e .`) with only the
+declared dependency present. Historically masked because torch used to depend
+on numpy; modern torch wheels do not.
+
+--- a/setup.py
++++ b/setup.py
+@@ -6,6 +6,7 @@ setup(name='minGPT',
+       description='A PyTorch re-implementation of GPT',
+       license='MIT',
+       install_requires=[
+             'torch',
++            'numpy',
+       ],
+ )
+
+Reproduction of the failure:
+
+    $ python -m venv .venv && .venv/bin/pip install torch
+    $ .venv/bin/python -c "import mingpt.utils"
+    ModuleNotFoundError: No module named 'numpy'
