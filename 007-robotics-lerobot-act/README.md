@@ -17,11 +17,11 @@ not a quality result and should not be used as one.
 | | |
 |---|---|
 | Upstream | `huggingface/lerobot` @ `ff7cc3de1de830f5f3276918a013d04bdf9ea4be` (Apache-2.0) |
-| Fork | `reproducible-ai/lerobot` @ `78c775d1fe64be80e61e007593cecc5f080ac51b` |
+| Fork | `reproducible-ai/lerobot` @ `b1d01f8c4ce4065915379280a3c50e884670061a` |
 | Dataset | `lerobot/pusht_image` (public, anonymous fetch, 31 621 889 bytes over 7 files) |
 | Artifact | `hf://reproducible-ai/lerobot-act` → `model.safetensors` (207 MB, public) |
-| Lineage | [`023d15ff…50ed8`](https://glaas.ai/dag/023d15ffb248254a2955d46a513c57a485a78587701d43a1053819f96ad50ed8) — 4 jobs |
-| Metric | held-out `eval_loss` **0.5362**, unnormalised action L1 **53.30**, over 2 742 frames / 21 held-out episodes |
+| Lineage | [`cc490321…0639`](https://glaas.ai/dag/cc490321bbbf07fd270c8bd83d12967de0fb891d1265994c5cca134df57f0639) — 4 jobs |
+| Metric | held-out `eval_loss` **0.5275**, unnormalised action L1 **52.59**, over 2 742 frames / 21 held-out episodes |
 | Upstream source patched | **0 lines** |
 
 ## What made this row hard
@@ -100,11 +100,11 @@ success rate.
 ## Reproducing it
 
 ```
-roar reproduce 023d15ffb248254a2955d46a513c57a485a78587701d43a1053819f96ad50ed8 \
+roar reproduce cc490321bbbf07fd270c8bd83d12967de0fb891d1265994c5cca134df57f0639 \
     --lineage --run --no-puts
 ```
 
-Held constants: roar 0.4.4.dev0 · `preload` tracer · Python 3.12.10 · torch 2.7.0 ·
+Held constants: roar 0.4.4rc2 · `preload` tracer · Python 3.12.10 · torch 2.7.0 ·
 AMI `ami-0f07f1a0b382b48f7` · one NVIDIA L40S (46 GB) · seed 1000.
 
 Two environment notes for anyone rebuilding:
@@ -117,3 +117,53 @@ Two environment notes for anyone rebuilding:
 * **Training downloads ResNet-18 ImageNet weights** from `download.pytorch.org` at
   policy-construction time. The rebuild host needs that reachable; it is not part of
   the captured lineage.
+
+## Re-captured 2026-08-08 — what changed, and what did not
+
+Nothing about the recipe changed. The recorded commands, the dataset, the 300-step
+truncation, the seed, the host class and the upstream base commit are all identical to
+the 2026-08-07 capture; the fork moved only because the untraced setup stage now
+installs its provenance tooling from a public package index instead of a presigned URL.
+The metric moved from `eval_loss` 0.5362 to 0.5275, which is ordinary run-to-run
+variation — this row claims *reproduce*, not *replicate*, so the claim is that the
+metric is computed, not that it lands on the same number.
+
+What did change is the completeness of the recorded environment, and it is worth
+stating plainly because it is the difference between a row that rebuilds and a row that
+rebuilds *by luck*:
+
+| | 2026-08-07 | 2026-08-08 |
+|---|---|---|
+| pins recorded across the whole lineage | 57 | **80** |
+| pins recorded for the `fetch_dataset` step | 2 (`brotli`, `zstandard`) | **23** |
+| `huggingface-hub` in the record | absent | **present** (1.25.1) |
+| `tqdm`, `typing-extensions`, `packaging`, `pyyaml`, `certifi`, `filelock`, `fsspec` | absent | **present** |
+
+`fetch_dataset` is a single `huggingface_hub.snapshot_download` call, so the earlier
+record was missing the one library the step exists to call. That is now checkable
+rather than arguable — from a fresh clone, with `PYTHONPATH` unset:
+
+```
+# the new record, installed CLOSED (--no-deps): nothing but the 23 recorded pins
+$ uv pip install --no-deps -r fetch_dataset.pins.txt && \
+  env -u PYTHONPATH python repro/fetch_dataset.py --repo-id lerobot/pusht_image --out-dir /tmp/d
+...
+total bytes: 31621889
+EXIT=0
+
+# the earlier record, same treatment
+$ uv pip install --no-deps brotli==1.2.0 zstandard==0.25.0 && \
+  env -u PYTHONPATH python repro/fetch_dataset.py --repo-id lerobot/pusht_image --out-dir /tmp/d
+ModuleNotFoundError: No module named 'huggingface_hub'
+EXIT=1
+```
+
+The earlier row was never *wrong* about what it ran — it ran exactly what it says it
+ran. It was incomplete about what that needed, and every structural check passed
+anyway, because each missing package happens to be a transitive dependency of one that
+was recorded. A rebuild would have installed them by resolver accident rather than by
+record. The re-capture removes the accident for the download step: the 23 recorded pins
+are a closed set that runs on their own.
+
+The row still carries `"verified": false`. A complete record is a *precondition* for a
+rebuild, not a demonstration of one; no cold rebuild has certified this row.
