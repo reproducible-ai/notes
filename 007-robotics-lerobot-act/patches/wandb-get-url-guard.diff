@@ -1,0 +1,18 @@
+diff --git a/src/lerobot/common/wandb_utils.py b/src/lerobot/common/wandb_utils.py
+index c229b5ea..c69298cb 100644
+--- a/src/lerobot/common/wandb_utils.py
++++ b/src/lerobot/common/wandb_utils.py
+@@ -119,7 +119,12 @@ class WandBLogger:
+         # Handle custom step key for rl asynchronous training.
+         self._wandb_custom_step_key: set[str] | None = None
+         logging.info(colored("Logs will be synced with wandb.", "blue", attrs=["bold"]))
+-        logging.info(f"Track this run --> {colored(wandb.run.get_url(), 'yellow', attrs=['bold'])}")
++        # `Run.get_url()` is wandb-specific: drop-in wandb-compatible trackers
++        # implement `wandb.run.id` but not `get_url`, and this purely cosmetic
++        # line would otherwise abort training during logger construction.
++        run_url = getattr(wandb.run, "get_url", lambda: None)()
++        if run_url:
++            logging.info(f"Track this run --> {colored(run_url, 'yellow', attrs=['bold'])}")
+         self._wandb = wandb
+ 
+     def log_policy(self, checkpoint_dir: Path):
