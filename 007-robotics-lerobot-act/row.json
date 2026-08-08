@@ -4,7 +4,7 @@
   "repoUrl": "https://github.com/huggingface/lerobot",
   "type": "robotics",
   "date": "2026-08-08",
-  "verified": false,
+  "verified": true,
   "status": "reproduced",
   "statusSub": "truncated: 300 of 100k steps",
   "blocker": null,
@@ -27,6 +27,40 @@
   "reproduce": {
     "hash": "cc490321bbbf07fd270c8bd83d12967de0fb891d1265994c5cca134df57f0639",
     "cmd": "roar reproduce cc490321bbbf07fd270c8bd83d12967de0fb891d1265994c5cca134df57f0639 --lineage --run --no-puts"
+  },
+  "certification": {
+    "tier": 2,
+    "result": "PASS",
+    "date": "2026-08-08",
+    "evidence": "CERT-TIER2.md",
+    "dagHash": "cc490321bbbf07fd270c8bd83d12967de0fb891d1265994c5cca134df57f0639",
+    "roarVersion": "0.4.4rc2",
+    "wheelSha256": "3677618d4c42d66143baf42912c8ed932f9706d5511d032bb2898fda6a465471",
+    "wheelFilename": "roar_cli-0.4.4rc2-cp310-abi3-manylinux_2_34_x86_64.whl",
+    "cmd": "roar reproduce cc490321bbbf07fd270c8bd83d12967de0fb891d1265994c5cca134df57f0639 --lineage --run --no-puts -y --step-timeout 21600",
+    "exitCode": 0,
+    "stepsRun": "3/3",
+    "stepsNote": "4 jobs in the lineage; the 4th is the roar put publish step, excluded by --no-puts",
+    "manifestDiff": "80/80 recorded pins present at the exact recorded version — 0 missing, 0 mismatched (23/79/73 per step); 24 extra transitive distributions",
+    "recordedInterpreter": "3.12.10",
+    "rebuildInterpreter": "3.12.10",
+    "venvClosure": "include-system-site-packages=false; no dist-packages or host site-packages on sys.path; torch/huggingface_hub/safetensors/numpy all resolve inside .venv",
+    "outputs": {
+      "model.safetensors": 206666968,
+      "optimizer_state.safetensors": 412752084,
+      "train_config.json": 6891,
+      "config.json": 1517,
+      "metrics.json": 520
+    },
+    "rebuilds": 2,
+    "bitIdentical": false,
+    "bitIdenticalNote": "weights differ between runs (non-deterministic GPU training); we claim reproduce, not replicate",
+    "instanceType": "g6e.xlarge",
+    "instanceId": "i-0c2b37e68aa8339c3",
+    "amiId": "ami-0f07f1a0b382b48f7",
+    "wallClockMin": 40,
+    "costUsd": 1.25,
+    "openObservation": "torchcodec is a recorded pin but needs FFmpeg, an OS package no pip freeze captures; it fails to load on a bare host and LeRobot falls back to pyav (also a recorded pin). Did not affect this row's result."
   },
   "notes": "ACT (Action Chunking Transformer, ResNet-18 backbone) trains end to end on the public lerobot/pusht_image dataset with zero lines of upstream source changed. Truncated to 300 of the 100000 default steps — a pipeline-viability run, not a converged policy. Two things bite anyone reproducing a framework rather than a script. First, the documented entry point only exists after `pip install -e .`, and an editable self-install makes the tracer treat the whole repository as package territory, so the lineage loses every data and checkpoint edge; the fix is to install the dependency extra, uninstall the package, and import from the checkout. Second — and this is the one that would have shipped an un-rebuildable row — `pip uninstall` leaves `src/lerobot.egg-info/` behind, and because the reproduction puts `src/` on sys.path, `importlib.metadata` reads it straight back as an installed `lerobot 0.6.2`, a version that has never been published on PyPI. Every structural check still passes; only trying to install the recorded environment finds it. Separately, upstream's own wandb logging cannot be bridged to any substitute tracker: `WandBLogger.__init__` calls `wandb.run.get_url()` unguarded, which no wandb-compatible tracker implements, so the run is logged via a dedicated evaluation step instead (held-out eval_loss 0.528 over 2742 frames, matching training's own step-300 number). This row was re-captured on 2026-08-08 on a newer capture toolchain that records a materially more complete package set: the download step's recorded environment went from 2 pins to 23, and a fresh clone installing exactly those 23 pins with --no-deps and PYTHONPATH unset now runs that step to exit 0. The earlier record's 2 pins could not — the step's own top-level import was missing from it."
 }
