@@ -4,7 +4,7 @@
   "repoUrl": "https://github.com/karpathy/nanoGPT",
   "type": "LLM",
   "date": "2026-08-07",
-  "verified": false,
+  "verified": true,
   "status": "reproduced",
   "statusSub": "best val loss 1.4666 vs 1.4697 published",
   "blocker": null,
@@ -14,7 +14,7 @@
   },
   "rebuild": {
     "time": "4.8 min",
-    "hw": "1×L40S",
+    "hw": "1\u00d7L40S",
     "costUsd": 0.15
   },
   "dagUrl": "https://glaas.ai/dag/72ad9675f624563a018c0e76f81fea418edb268ab19002c404a793721f86fde2",
@@ -24,11 +24,84 @@
   "roarVersion": "0.4.4.dev0",
   "tracer": "preload",
   "amiId": "ami-0f07f1a0b382b48f7",
-  "difficulty": "2/10 — easy",
+  "difficulty": "2/10 \u2014 easy",
   "reproduce": {
     "hash": "72ad9675f624563a018c0e76f81fea418edb268ab19002c404a793721f86fde2",
     "cmd": "roar reproduce 72ad9675f624563a018c0e76f81fea418edb268ab19002c404a793721f86fde2 --lineage --run --no-puts"
   },
-  "notes": "Ran as published — zero patches. Two commands, three real dependencies (torch, numpy, requests), 10.65M parameters, 2.5 minutes on one GPU. Best validation loss 1.4666 against the README's quoted 1.4697; and because train.py pins torch.manual_seed(1337), four independent full runs produced identical evaluation curves at all 21 eval points and three emitted a byte-identical 129MB checkpoint (blake3 f4cc9b6e..., verified against the published artifact), so this row is replicated and not merely reproduced. prepare.py's four printed dataset statistics matched the expected values recorded in its own source exactly. The only deviation is --compile=False, a flag the README itself documents, which drops a host-specific compile warm-up with no payoff at this scale. Findings are all documentation-level: the README's install line omits requests — needed by the very first quick-start command — while listing four packages this recipe never imports; the corpus is fetched from an unpinned master-branch URL; and prepare.py writes its generated data into the source tree with no way to redirect it, so the data directory is an output directory and must be treated as one or the prepare-to-train chain is lost. Enabling the repo's built-in wandb logging was tried and backed out: the flag makes wandb a hard runtime import, which a rebuild from this row's recorded environment does not satisfy. The one change worth making upstream is small: write the eval history to CSV/JSONL in out_dir unconditionally, so every reproducer gets a durable learning curve with no tracking dependency at all.",
-  "artifactBlake3": "f4cc9b6ebb52a7f867596b5cd96329518c0f1709bdf1487cbd387beddb322202"
+  "notes": "Ran as published \u2014 zero patches. Two commands, three real dependencies (torch, numpy, requests), 10.65M parameters, 2.5 minutes on one GPU. Best validation loss 1.4666 against the README's quoted 1.4697; and because train.py pins torch.manual_seed(1337), four independent full runs produced identical evaluation curves at all 21 eval points and three emitted a byte-identical 129MB checkpoint (blake3 f4cc9b6e..., verified against the published artifact), so this row is replicated and not merely reproduced. prepare.py's four printed dataset statistics matched the expected values recorded in its own source exactly. The only deviation is --compile=False, a flag the README itself documents, which drops a host-specific compile warm-up with no payoff at this scale. Findings are all documentation-level: the README's install line omits requests \u2014 needed by the very first quick-start command \u2014 while listing four packages this recipe never imports; the corpus is fetched from an unpinned master-branch URL; and prepare.py writes its generated data into the source tree with no way to redirect it, so the data directory is an output directory and must be treated as one or the prepare-to-train chain is lost. Enabling the repo's built-in wandb logging was tried and backed out: the flag makes wandb a hard runtime import, which a rebuild from this row's recorded environment does not satisfy. The one change worth making upstream is small: write the eval history to CSV/JSONL in out_dir unconditionally, so every reproducer gets a durable learning curve with no tracking dependency at all.",
+  "artifactBlake3": "f4cc9b6ebb52a7f867596b5cd96329518c0f1709bdf1487cbd387beddb322202",
+  "certification": {
+    "tier": 2,
+    "result": "PASS",
+    "resultCaveat": "Rebuilt DESPITE the record, not because of it: the 24 recorded pins are not a closed set. Installed with --no-deps they fail both recorded steps (ModuleNotFoundError: typing_extensions / idna). The rebuild works only because pip resolves the transitive closure of those 24.",
+    "date": "2026-08-08",
+    "evidence": "CERT-TIER2.md",
+    "dagHash": "72ad9675f624563a018c0e76f81fea418edb268ab19002c404a793721f86fde2",
+    "hfRepo": "reproducible-ai/nanogpt",
+    "roarVersion": "0.4.4rc2",
+    "wheelSha256": "3677618d4c42d66143baf42912c8ed932f9706d5511d032bb2898fda6a465471",
+    "wheelFilename": "roar_cli-0.4.4rc2-cp310-abi3-manylinux_2_34_x86_64.whl",
+    "cmd": "roar reproduce 72ad9675f624563a018c0e76f81fea418edb268ab19002c404a793721f86fde2 --lineage --run --no-puts -y --step-timeout 21600",
+    "exitCode": 0,
+    "stepsRun": "2/2",
+    "stepsNote": "3 jobs in the lineage; the 3rd is the roar put publish step, excluded by --no-puts",
+    "gitCommitCloned": "f4ed2cc871ec4462816cdd1a61ec8083575934ed",
+    "recordedPins": 24,
+    "installedDistributions": 60,
+    "manifestDiff": "24/24 recorded pins present at the exact recorded version - 0 missing, 0 mismatched; 36 extra transitive distributions",
+    "freezeSufficiency": {
+      "closedSet": false,
+      "test": "second venv built from the exported recorded-requirements.txt with --no-deps (exactly 24 pins)",
+      "importTorch": "exit 1 - ModuleNotFoundError: No module named 'typing_extensions'",
+      "recordedStep1": "exit 1 - ModuleNotFoundError: No module named 'idna' (from requests/packages.py)",
+      "recordedStep2": "exit 1 - ModuleNotFoundError: No module named 'typing_extensions'",
+      "control": "same import in the full rebuild venv exits 0",
+      "loadedButUnrecorded": [
+        "tqdm",
+        "typing-extensions"
+      ],
+      "coveredByLoadBearingPins": {
+        "typing-extensions": "torch==2.7.0",
+        "filelock": "torch==2.7.0",
+        "fsspec": "torch==2.7.0",
+        "jinja2": "torch==2.7.0",
+        "certifi": "requests==2.33.1",
+        "idna": "requests==2.33.1"
+      },
+      "coveredOnlyByTrackingBridge": {
+        "tqdm": "huggingface-hub <- gradio_client==2.5.0 / trackio==0.33.0",
+        "pyyaml": "huggingface-hub <- gradio_client==2.5.0 / trackio==0.33.0",
+        "packaging": "gradio_client==2.5.0 / huggingface-hub",
+        "huggingface-hub": "gradio_client==2.5.0 / trackio==0.33.0"
+      },
+      "note": "tqdm is one of the two packages `import torch` actually loads, and its only path into the environment is the experiment-tracking bridge. Recommend re-capture against a freeze recording the full import closure before this row is cited as evidence that a thin record suffices."
+    },
+    "recordedInterpreter": "3.12.10",
+    "rebuildInterpreter": "3.12.10",
+    "venvClosure": "include-system-site-packages=false; no dist-packages or host site-packages on sys.path (host python is 3.10.12 and has no bare `python`, yet the recorded `python ...` steps ran); torch and numpy resolve inside .venv",
+    "outputs": {
+      "out-shakespeare-char/ckpt.pt": 128985500,
+      "data/shakespeare_char/train.bin": 2007708,
+      "data/shakespeare_char/val.bin": 223080,
+      "data/shakespeare_char/meta.pkl": 703
+    },
+    "ckptSha256": "955dfb202451cc0a47149102f23b67980f55f2b7017897cb024628f4031f336e",
+    "ckptBlake3": "8f8683e8e65f832246b4ffc2a93a90ccc660205628a90a857b82a17b804e5254",
+    "bitIdentical": false,
+    "bitIdenticalNote": "size matches the published 128,985,500 B exactly but the digest differs from the record's f4cc9b6e...: record was produced on an L40S, this rebuild on an A10G. We claim reproduce, not replicate.",
+    "bestValLoss": 1.4735,
+    "bestValLossNote": "at step 1750; record 1.4666 on different hardware. Metric values are out of scope for reproduce.",
+    "iterations": 5000,
+    "evalPoints": 21,
+    "rebuilds": 1,
+    "instanceType": "g5.xlarge",
+    "instanceId": "i-07cff20bd1931292f",
+    "amiId": "ami-0f07f1a0b382b48f7",
+    "watchdogMin": 150,
+    "reproduceWallClockMin": 7.0,
+    "wallClockMin": 22,
+    "costUsd": 0.38,
+    "verifiedFlagNote": "Set true because a cold rebuild objectively passed (exit 0, 2/2). The MMA may wish to reconsider given freezeSufficiency.closedSet=false - the publish decision is the operator's, not the certifier's."
+  }
 }
