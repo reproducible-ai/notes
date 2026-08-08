@@ -1,0 +1,34 @@
+diff --git a/.gitignore b/.gitignore
+index 1d4cfa0..5c2ad7d 100644
+--- a/.gitignore
++++ b/.gitignore
+@@ -1,6 +1,12 @@
+ slurm
+ .aim
+-runs
++# was a bare `runs` (a DIRECTORY ignore). git never descends into an excluded
++# directory, so `!runs/.gitkeep` further down was inert and runs/ could not
++# survive a clean checkout -- roar's own checklist flagged it: "all artifact
++# paths in tracked directories [FAIL]". ppo.py writes its TensorBoard events to
++# runs/{run_name}/, so that IS an artifact dir. Same ignore effect, but now the
++# negation below can re-include the placeholder.
++runs/*
+ balance_bot.xml
+ cleanrl/ppo_continuous_action_isaacgym/isaacgym/examples
+ cleanrl/ppo_continuous_action_isaacgym/isaacgym/isaacgym
+@@ -129,3 +135,15 @@ venv.bak/
+ 
+ # mypy
+ .mypy_cache/
++
++# roar state — the generated setup stage runs `roar init`, which creates
++# .roar/. Without this rule the worktree goes dirty and the FIRST PAID
++# `roar run` refuses to execute ("Run blocked: untracked files").
++.roar/
++# --- reproduction outputs (scaffold_row.py: mnist rule) ---
++# file-pattern ignore + tracked .gitkeep so each dir survives a clean
++# checkout and roar keeps the outputs in lineage. NEVER dir-ignore.
++out/*
++!out/.gitkeep
++runs/*
++!runs/.gitkeep
