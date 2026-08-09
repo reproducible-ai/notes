@@ -61,9 +61,12 @@ torchvision:
 Tier-1 therefore reports `NOT PUBLISHABLE` (clean-dag 10/13, AI-BOM 82.8/100). Freeze
 audit is **PORTABLE** and public-URL check is **ALL PUBLIC**; an imports-vs-freeze audit
 found **zero Tier-A misses** against the 44 recorded pins, with three Tier-B maybes
-(`requests`, `urllib3`, `charset-normalizer`). The training and evaluation themselves are
-sound — see `issues.md` for the upstream findings, which stand on their own regardless of
-the record's status.
+(`requests`, `urllib3`, `charset-normalizer`) — none of which is imported by any script in
+the recipe, so the recorded pins cover what the workload actually loads. Imagenette is
+fetched through `torchvision.datasets`, which uses stdlib `urllib`, not `requests`.
+
+The training and evaluation themselves are sound — see `issues.md` for the upstream
+findings, which stand on their own regardless of the record's status.
 
 ## Reading order
 
