@@ -1,0 +1,50 @@
+From: Reproducible AI <noreply@example.invalid>
+Subject: [PATCH] references/classification: allow --resume to read our own checkpoints
+
+train.py pickles the run's argparse.Namespace into every checkpoint under the
+"args" key (see the checkpoint dict built in main()), but loads checkpoints with
+torch.load(..., weights_only=True).  Since PyTorch 2.6 that unpickler refuses any
+global that is not explicitly allow-listed, and argparse.Namespace is not one, so
+every --resume and every --test-only --resume raises:
+
+    _pickle.UnpicklingError: Weights only load failed.
+      WeightsUnpickler error: Unsupported global: GLOBAL argparse.Namespace was
+      not an allowed global by default.
+
+The only producer of these files is train.py and the only consumer is train.py,
+so the documented resume path cannot round-trip on any currently supported
+PyTorch.  Reproduced on torch 2.7.0 with a checkpoint written by train.py itself.
+
+Allow-list argparse.Namespace for this one load.  The scope is limited to the
+resume call, so no other torch.load in the file is loosened, and the checkpoint
+format is unchanged (existing checkpoints keep working).
+
+An alternative fix is to stop writing "args" into the checkpoint at all -- it is
+never read back; the load below only touches "model", "optimizer",
+"lr_scheduler", "epoch", "model_ema" and "scaler".  That is the tidier change but
+it breaks anyone who reads args out of an existing checkpoint, so the
+conservative fix is proposed here.
+
+NOT SUBMITTED UPSTREAM.
+
+---
+diff --git a/references/classification/train.py b/references/classification/train.py
+--- a/references/classification/train.py
++++ b/references/classification/train.py
+@@ -1,3 +1,4 @@
++import argparse
+ import datetime
+ import os
+ import time
+@@ -339,7 +340,10 @@
+         model_ema = utils.ExponentialMovingAverage(model_without_ddp, device=device, decay=1.0 - alpha)
+ 
+     if args.resume:
+-        checkpoint = torch.load(args.resume, map_location="cpu", weights_only=True)
++        # train.py stores the run's argparse.Namespace under "args"; weights_only
++        # unpickling rejects it unless it is explicitly allow-listed.
++        with torch.serialization.safe_globals([argparse.Namespace]):
++            checkpoint = torch.load(args.resume, map_location="cpu", weights_only=True)
+         model_without_ddp.load_state_dict(checkpoint["model"])
+         if not args.test_only:
+             optimizer.load_state_dict(checkpoint["optimizer"])
