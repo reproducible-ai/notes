@@ -1,0 +1,36 @@
+{
+  "name": "torchvision (classification)",
+  "org": "PyTorch",
+  "type": "vision",
+  "date": "2026-08-09",
+  "status": "partial",
+  "blocker": null,
+  "notes": "https://github.com/reproducible-ai/notes/tree/main/010-vision-torchvision-imagenette",
+  "playbookVersion": "1.0",
+  "roarVersion": "0.4.4rc2",
+  "tracer": "preload",
+  "amiId": "ami-0f07f1a0b382b48f7",
+  "upstream": "https://github.com/pytorch/vision",
+  "upstreamCommit": "34572106",
+  "fork": "https://github.com/reproducible-ai/vision",
+  "license": "BSD-3-Clause",
+  "dagUrl": "https://glaas.ai/dag/4a67bb177a77a98a37d64a05a3951fb66f48c556c155d03e33977d44068bff8c",
+  "bomUrl": "https://glaas.ai/dag/4a67bb177a77a98a37d64a05a3951fb66f48c556c155d03e33977d44068bff8c/audit",
+  "bomScore": 82.8,
+  "artifactUrl": "https://huggingface.co/reproducible-ai/vision-classifier",
+  "experimentUrl": null,
+  "rebuild": {
+    "time": "17m29s",
+    "hw": "g6e.xlarge (1x NVIDIA L40S, us-east-2)",
+    "costUsd": 0.54
+  },
+  "reproduce": {
+    "hash": "4a67bb177a77a98a37d64a05a3951fb66f48c556c155d03e33977d44068bff8c",
+    "cmd": "roar reproduce 4a67bb177a77a98a37d64a05a3951fb66f48c556c155d03e33977d44068bff8c --lineage --run --no-puts"
+  },
+  "patch": {
+    "lines": 361,
+    "url": "https://github.com/pytorch/vision/compare/34572106ad1f0ea95793e379751f8bb0cfeeac1c...reproducible-ai:vision:5fb94cecacdec397927a2b64c8c7473fa167e162"
+  },
+  "summary": "Truncated reproduction of the torchvision references/classification recipe: resnet18 trained from scratch for 4 epochs (592 steps) on Imagenette, a 10-class ImageNet subset, reaching top-1 55.31% on the held-out split. No upstream file was modified; the fork adds only a workflow, gitignore rules, two additive scripts beside train.py and one document. The model rebuilds cleanly and the recorded environment is portable (44 pins, zero Tier-A misses, PORTABLE freeze, all artifact URLs public), but the captured lineage is missing the evaluation step and is unattributed, so the row is held at partial pending a re-capture. Six upstream findings, two of them bugs that break documented flags: train.py pickles the run's argparse.Namespace into every checkpoint but reloads with weights_only=True, so --resume and --test-only --resume cannot read a checkpoint train.py itself wrote on PyTorch >= 2.6 (a prepared patch is included); and CosineAnnealingLR is built with an unguarded T_max = epochs - lr_warmup_epochs, so --epochs 1 with the README's own warmup flag cannot start. The script also writes two 89 MB checkpoints per epoch with no way to disable it, the repository root shadows the installed torchvision so scripts must be run by path, and a stale egg-info reports a version published to no index."
+}
