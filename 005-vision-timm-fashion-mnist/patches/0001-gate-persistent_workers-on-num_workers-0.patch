@@ -1,0 +1,44 @@
+Subject: [PATCH] data/loader: gate persistent_workers on num_workers > 0
+
+`create_loader()` passes `persistent_workers=` straight through to
+`torch.utils.data.DataLoader`, and its default is True. PyTorch rejects that
+combination when there are no workers:
+
+    ValueError: persistent_workers option needs num_workers > 0
+
+So the documented single-process data loading path — `train.py -j 0` and
+`validate.py -j 0` / `--workers 0`, which is the normal choice on a small
+dataset, in a container with little shared memory, or when a profiler or
+tracer must observe the workload in a single process — raises before the
+first batch is fetched. `validate.py` is affected identically; it reaches
+the same helper.
+
+Gating the flag on `num_workers > 0` restores the documented behaviour and
+changes nothing for the default `-j 4` path, where the expression is
+already True.
+
+NOT SUBMITTED UPSTREAM — the Reproducible AI campaign does not open pull
+requests or issues on the projects it rebuilds. The patch is published here
+so the finding is actionable by anyone who wants it.
+
+---
+ timm/data/loader.py | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
+
+diff --git a/timm/data/loader.py b/timm/data/loader.py
+index b13c019..53a1c10 100644
+--- a/timm/data/loader.py
++++ b/timm/data/loader.py
+@@ -423,7 +423,11 @@ def create_loader(
+         collate_fn=collate_fn,
+         pin_memory=pin_memory,
+         worker_init_fn=partial(_worker_init, worker_seeding=worker_seeding),
+-        persistent_workers=persistent_workers
++        # torch.utils.data.DataLoader raises
++        #   ValueError: persistent_workers option needs num_workers > 0
++        # so the documented `train.py -j 0` / `validate.py -j 0` (single-process
++        # loading) is unusable without this guard.
++        persistent_workers=persistent_workers and num_workers > 0,
+     )
+     if scheduled_batching:
+         loader_args['batch_sampler'] = ScheduledBatchSampler(
