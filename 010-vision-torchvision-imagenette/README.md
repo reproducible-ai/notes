@@ -1,18 +1,19 @@
 # 010 — torchvision `references/classification` (resnet18 / Imagenette)
 
-**Verdict: partial.** The model rebuilds. The *record* of the rebuild is incomplete.
+**Verdict: reproduced.** The recipe runs from published materials, trains a real model,
+and the record of that run is complete and public.
 
 The reference training recipe in [`pytorch/vision`](https://github.com/pytorch/vision)
 `references/classification/train.py` runs end to end from published materials with **no
 modification to any upstream file**, trains a resnet18 from scratch, and produces a real
-checkpoint and a real held-out metric. The lineage captured for that run, however, is
-missing a step and is not attributed, so the row is held below the tier-1 bar pending a
-re-capture. The shortfall is in the capture, not in torchvision.
+checkpoint and a real held-out metric. Everything the run touched — the dataset it
+downloaded, the checkpoint it wrote, the metric it scored — is in the published graph,
+under the four steps that actually ran.
 
 Upstream: [`pytorch/vision`](https://github.com/pytorch/vision) at
 [`34572106`](https://github.com/pytorch/vision/commit/34572106ad1f0ea95793e379751f8bb0cfeeac1c),
 BSD-3-Clause.
-Fork: [`reproducible-ai/vision`](https://github.com/reproducible-ai/vision) at `5fb94ce`
+Fork: [`reproducible-ai/vision`](https://github.com/reproducible-ai/vision) at `f3b4159`
 (+361 lines, **0 deleted — no upstream file touched**).
 
 ---
@@ -31,16 +32,22 @@ layout `train.py` expects. That keeps the *code path* upstream and only shrinks 
 | Data | Imagenette 320px — 9,469 train / 3,925 val, 10 classes |
 | Schedule | 4 epochs, batch 64, SGD lr 0.05, cosine annealing, 1 warmup epoch |
 | Steps | 592 optimizer steps |
-| Hardware | 1× g6e.xlarge (L40S), us-east-2 |
-| Wall clock | train 3m43s; whole pipeline ~17m including dataset fetch |
-| Artefact | `checkpoint.pth`, 89,551,113 B → [huggingface.co/reproducible-ai/vision-classifier](https://huggingface.co/reproducible-ai/vision-classifier) |
-| Metric | **top-1 55.31 %**, top-5 92.23 % on the held-out Imagenette val split |
+| Hardware | 1× g4dn.xlarge (Tesla T4), us-east-2c |
+| Wall clock | fetch 2m50s · train 5m47s · evaluate 23.9s · whole pipeline 15m09s |
+| Artefact | `checkpoint.pth`, 89,553,609 B, sha256 `05e40efa79fa…` → [huggingface.co/reproducible-ai/vision-classifier](https://huggingface.co/reproducible-ai/vision-classifier) |
+| Metric | **top-1 60.13 %**, top-5 93.78 % on the held-out Imagenette val split |
 
-Accuracy climbed 29.4 → 32.5 → 38.4 → 55.3 across the four epochs, so the run is
+Accuracy climbed 32.8 → 41.6 → 51.1 → 60.1 across the four epochs, so the run is
 visibly learning and well clear of the 10 % chance level. It is **not** converged and
 **not** an ImageNet number; the run is deliberately truncated and
 `references/classification/REPRODUCIBLE_AI.md` in the fork says so at the top, because a
-`55.3` sitting next to the word "resnet18" invites exactly the wrong reading.
+`60.1` sitting next to the word "resnet18" invites exactly the wrong reading.
+
+We claim **reproduce, not replicate**. An earlier run of this identical recipe on a
+different GPU reached top-1 55.31 %. Nothing was changed between them: `train.py`
+exposes no determinism flag and cuDNN algorithm selection is unpinned, so the metric
+moves a few points run to run. What reproduces is the *procedure and its artefacts*, not
+the digits.
 
 Two additive scripts sit beside `train.py` (neither modifies it):
 `fetch_imagenette.py` (download + extract) and `evaluate_checkpoint.py` (re-uses
@@ -48,28 +55,32 @@ Two additive scripts sit beside `train.py` (neither modifies it):
 because of issue #1 below — upstream's own `--test-only --resume` path cannot read the
 checkpoint upstream just wrote.
 
-## What blocks the row
+## The record
 
-The published lineage for this run has two gaps, both in the capture rather than in
-torchvision:
+Tier 1 is green on all four gates:
 
-- the **evaluate step is absent** from the published graph. It ran (exit 0, wrote
-  `metrics.json`, top-1 55.3121) but only 3 of the 4 recorded steps reached the
-  published DAG, so the metric artefact is not in lineage;
-- the graph carrying the run is **not attributed** to the organisation.
+```
+  [✅] clean-dag    Clean-DAG check — 13/13 passed  ·  4 jobs (published DAG)
+  [✅] ai-bom       AI-BOM score: 100/100  ·  profile: Advanced
+  [✅] public-urls  RESULT: ALL PUBLIC
+  [✅] freeze       RESULT: PORTABLE
+```
 
-Tier-1 therefore reports `NOT PUBLISHABLE` (clean-dag 10/13, AI-BOM 82.8/100). Freeze
-audit is **PORTABLE** and public-URL check is **ALL PUBLIC**; an imports-vs-freeze audit
-found **zero Tier-A misses** against the 44 recorded pins, with three Tier-B maybes
-(`requests`, `urllib3`, `charset-normalizer`) — none of which is imported by any script in
-the recipe, so the recorded pins cover what the workload actually loads. Imagenette is
-fetched through `torchvision.datasets`, which uses stdlib `urllib`, not `requests`.
+The published graph carries all four steps — `fetch_imagenette` → `train` → `evaluate`
+→ publish — numbered 1 to 4 with no gaps, matching the four steps the host actually ran.
 
-The training and evaluation themselves are sound — see `issues.md` for the upstream
-findings, which stand on their own regardless of the record's status.
+**One honest caveat.** The recorded environment is 21 pins and it is portable: every pin
+resolves, the set installs as a set, and none carries a `+cu` local version that exists on
+no index. But it is *not* a complete list of what the recipe loads. `typing-extensions` is
+imported in-process by `import torch`, and `tqdm` is used by torchvision's own download
+path (`torch.utils.model_zoo.tqdm`) during the dataset fetch; neither appears in the
+recorded pins. Both are transitive dependencies of `torch==2.7.0`, so installing the
+recorded set brings them back and the rebuild works — but it works because the resolver
+happens to supply them today, not because they were recorded. That is worth stating
+plainly rather than letting "portable" stand in for "complete".
 
 ## Reading order
 
-- `issues.md` — five upstream findings, two of them real bugs, with a prepared patch
+- `issues.md` — upstream findings, two of them real bugs, with a prepared patch
 - `commands.md` — the exact commands, reproducible as written
 - `costs.md` — spend
