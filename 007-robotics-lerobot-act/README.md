@@ -68,15 +68,53 @@ the uninstall: `rm -rf src/*.egg-info`. Verified on-target: the setup stage asse
 `lerobot distributions visible to importlib.metadata: []` with `src/` on the path,
 and the published freeze contains no `lerobot` pin.
 
-**3. Upstream's experiment logging cannot be bridged.** LeRobot ships wandb support
-behind `--wandb.enable=true`, so the honest thing would be to enable it and let it
-mirror to a hosted Space. It cannot: `WandBLogger.__init__` calls
-`wandb.run.get_url()` unguarded at `src/lerobot/common/wandb_utils.py:122`, and
-`get_url` does not exist on any wandb-API-compatible tracker we can substitute
-(checked against `trackio` 0.34.0 — the symbol appears nowhere in the package).
-Enabling logging therefore aborts training at startup. Rather than patch upstream to
-suit the tracker, this row runs with logging **off** and computes the held-out metric
-as its own pipeline step instead. See `issues.md`.
+**3. Upstream's experiment logging is wandb-shaped, not wandb-*compatible*-shaped.**
+LeRobot ships wandb support behind `--wandb.enable=true`, so the honest thing would be
+to enable it and let it mirror to a hosted dashboard. It does not survive substitution.
+`WandBLogger` is written against wandb's exact API surface rather than the subset that
+wandb-API-compatible trackers implement, and it trips on three separate points — the
+first two of which kill the run outright:
+
+| where | what LeRobot does | why a substitute rejects it |
+|---|---|---|
+| `wandb_utils.py:110` | forwards wandb's `resume=None` default into `init()` | wandb treats `None` as "don't resume"; substitutes take only `"must"`/`"allow"`/`"never"` and raise on `None` |
+| `wandb_utils.py:202` | `wandb.log(data=…, step=…)` | wandb's first parameter is *named* `data`; substitutes name it `metrics`, so the keyword form is a `TypeError` |
+| `wandb_utils.py:122` | `wandb.run.get_url()`, unguarded | `get_url` is a wandb-only method with no equivalent on the substitute's `Run` |
+
+None of this is a bug in LeRobot — it is what "we use wandb" means in practice. But it
+is exactly the coupling that makes an experiment link expensive to reproduce: enabling
+logging here needs *real wandb credentials on the training host*, which this campaign
+declines to place there. Rather than patch upstream to suit a tracker, this row runs
+with logging **off** and computes the held-out metric as its own pipeline step instead,
+publishing it as `metrics/metrics.json`. See `issues.md`.
+
+## What a full-length run costs
+
+This row is truncated to **300 of LeRobot's own default 100 000 steps**
+(`TrainPipelineConfig.steps`, `src/lerobot/configs/train.py:142`) — 0.3 %. The raw
+6m01s / $0.60 of the captured run therefore answers a different question from *"what am
+I in for if I rebuild this?"*, and the split matters because most of the captured run is
+**fixed cost that does not scale**:
+
+| step | duration (from the lineage) | scales with `--steps`? |
+|---|---|---|
+| `fetch_dataset` | 6.3 s | no |
+| `train` — dataset + policy construction, and the two held-out eval passes `--eval_steps=150` triggers | 191.3 s | no |
+| `train` — 300 optimizer steps at 3.72 steps/s | 80.6 s | **yes** |
+| `evaluate` | 83.2 s | no |
+| provisioning + setup (dependency install, environment gates) | ~150 s | no |
+
+So **only 80.6 s of the 361.4 s traced run is variable** — 22 %. Fixed ≈ 430.8 s ≈
+0.120 h ≈ **$0.22** at $1.861/h (`g6e.xlarge` on-demand, us-east-2); variable ≈
+**$0.000139 per step**. A full 100 000-step run is therefore ≈ 26 882 s of optimizer
+time (7 h 28 m) plus the fixed portion — **≈ 7 h 36 m and ≈ $14.12** on the same
+instance.
+
+Two caveats a reader should apply before trusting that number. It holds the *number* of
+held-out evaluations at two, i.e. it assumes `--eval_steps` is scaled with the run
+length; leaving `--eval_steps=150` fixed would add 666 held-out passes and roughly
+double the figure. And it excludes the ResNet-18 ImageNet weight download, which is
+fixed, unmetered here, and outside the captured lineage.
 
 ## Shape of the pipeline
 

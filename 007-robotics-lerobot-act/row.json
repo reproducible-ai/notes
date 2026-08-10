@@ -12,9 +12,13 @@
     "url": "https://github.com/huggingface/lerobot/compare/ff7cc3de1de830f5f3276918a013d04bdf9ea4be...reproducible-ai:lerobot:b1d01f8c4ce4065915379280a3c50e884670061a"
   },
   "rebuild": {
-    "time": "6.0 min",
-    "hw": "1\u00d7 NVIDIA L40S (g6e.xlarge)",
-    "costUsd": 0.6
+    "time": "6m01s",
+    "hw": "1× NVIDIA L40S (g6e.xlarge)",
+    "costUsd": 0.6,
+    "fixedCostUsd": 0.22,
+    "scalingCostUsd": 0.000139,
+    "fullRunEstimateUsd": 14.12,
+    "fullRunEstimateBasis": "Per-step durations read from the lineage itself (cc490321): fetch_dataset 6.3s, train 271.9s, evaluate 83.2s — 361.4s traced. Only the optimizer loop scales. Training ran at 3.72 steps/s, so the 300 steps are 80.6s of the train step; the other 191.3s are dataset+policy construction and the two held-out eval passes that --eval_steps=150 triggers. FIXED = 6.3s fetch + 191.3s train overhead + 83.2s evaluate + ~150s provisioning/setup = 430.8s = 0.120h = $0.22 at $1.861/h (g6e.xlarge on-demand, us-east-2). VARIABLE = 1/3.72 s/step = 0.2688s = $0.000139 per step. 100 000 steps = 26 882s = 7h28m = $13.90, so a full run is 0.22 + 13.90 = ~$14.12 and ~7h36m on the same instance. Assumes the number of held-out evaluations is held at 2 (i.e. --eval_steps scaled with the run length); leaving --eval_steps=150 fixed would add 666 held-out passes and roughly double the figure. Excludes the ResNet-18 ImageNet weight download, which is fixed and unmetered here."
   },
   "dagUrl": "https://glaas.ai/dag/cc490321bbbf07fd270c8bd83d12967de0fb891d1265994c5cca134df57f0639",
   "bomUrl": "https://glaas.ai/dag/cc490321bbbf07fd270c8bd83d12967de0fb891d1265994c5cca134df57f0639/audit",
@@ -40,7 +44,7 @@
     "exitCode": 0,
     "stepsRun": "3/3",
     "stepsNote": "4 jobs in the lineage; the 4th is the roar put publish step, excluded by --no-puts",
-    "manifestDiff": "80/80 recorded pins present at the exact recorded version \u2014 0 missing, 0 mismatched (23/79/73 per step); 24 extra transitive distributions",
+    "manifestDiff": "80/80 recorded pins present at the exact recorded version — 0 missing, 0 mismatched (23/79/73 per step); 24 extra transitive distributions",
     "recordedInterpreter": "3.12.10",
     "rebuildInterpreter": "3.12.10",
     "venvClosure": "include-system-site-packages=false; no dist-packages or host site-packages on sys.path; torch/huggingface_hub/safetensors/numpy all resolve inside .venv",
@@ -60,7 +64,7 @@
     "wallClockMin": 40,
     "costUsd": 1.25,
     "openObservation": "torchcodec is a recorded pin but needs FFmpeg, an OS package no pip freeze captures; it fails to load on a bare host and LeRobot falls back to pyav (also a recorded pin). Did not affect this row's result.",
-    "resultCaveat": "torchcodec \u2192 FFmpeg is an OS-package edge invisible to a pip freeze (P1-11)."
+    "resultCaveat": "torchcodec → FFmpeg is an OS-package edge invisible to a pip freeze (P1-11)."
   },
   "notes": "https://github.com/reproducible-ai/notes/tree/main/007-robotics-lerobot-act",
   "dagHash": "cc490321bbbf07fd270c8bd83d12967de0fb891d1265994c5cca134df57f0639",
@@ -69,8 +73,20 @@
     "023d15ffb248254a2955d46a513c57a485a78587701d43a1053819f96ad50ed8"
   ],
   "upstreamUrl": "https://github.com/huggingface/lerobot",
-  "summary": "ACT (Action Chunking Transformer, ResNet-18 backbone) trains end to end on the public lerobot/pusht_image dataset with zero lines of upstream source changed. Truncated to 300 of the 100000 default steps \u2014 a pipeline-viability run, not a converged policy. Two things bite anyone reproducing a framework rather than a script. First, the documented entry point only exists after `pip install -e .`, and an editable self-install makes the tracer treat the whole repository as package territory, so the lineage loses every data and checkpoint edge; the fix is to install the dependency extra, uninstall the package, and import from the checkout. Second \u2014 and this is the one that would have shipped an un-rebuildable row \u2014 `pip uninstall` leaves `src/lerobot.egg-info/` behind, and because the reproduction puts `src/` on sys.path, `importlib.metadata` reads it straight back as an installed `lerobot 0.6.2`, a version that has never been published on PyPI. Every structural check still passes; only trying to install the recorded environment finds it. Separately, upstream's own wandb logging cannot be bridged to any substitute tracker: `WandBLogger.__init__` calls `wandb.run.get_url()` unguarded, which no wandb-compatible tracker implements, so the run is logged via a dedicated evaluation step instead (held-out eval_loss 0.528 over 2742 frames, matching training's own step-300 number). This row was re-captured on 2026-08-08 on a newer capture toolchain that records a materially more complete package set: the download step's recorded environment went from 2 pins to 23, and a fresh clone installing exactly those 23 pins with --no-deps and PYTHONPATH unset now runs that step to exit 0. The earlier record's 2 pins could not \u2014 the step's own top-level import was missing from it.",
+  "summary": "ACT (Action Chunking Transformer, ResNet-18 backbone) trains end to end on the public lerobot/pusht_image dataset with zero lines of upstream source changed. Truncated to 300 of the 100000 default steps — a pipeline-viability run, not a converged policy. Two things bite anyone reproducing a framework rather than a script. First, the documented entry point only exists after `pip install -e .`, and an editable self-install makes the tracer treat the whole repository as package territory, so the lineage loses every data and checkpoint edge; the fix is to install the dependency extra, uninstall the package, and import from the checkout. Second — and this is the one that would have shipped an un-rebuildable row — `pip uninstall` leaves `src/lerobot.egg-info/` behind, and because the reproduction puts `src/` on sys.path, `importlib.metadata` reads it straight back as an installed `lerobot 0.6.2`, a version that has never been published on PyPI. Every structural check still passes; only trying to install the recorded environment finds it. Separately, upstream's own wandb logging does not survive substitution by a wandb-compatible tracker: `WandBLogger` is coupled to wandb's exact API in three places — it forwards wandb's `resume=None` default, calls `wandb.log(data=...)` with wandb's keyword name, and calls the wandb-only `wandb.run.get_url()` — the first two of which abort the run outright. So the run is logged via a dedicated evaluation step instead (held-out eval_loss 0.528 over 2742 frames, matching training's own step-300 number). This row was re-captured on 2026-08-08 on a newer capture toolchain that records a materially more complete package set: the download step's recorded environment went from 2 pins to 23, and a fresh clone installing exactly those 23 pins with --no-deps and PYTHONPATH unset now runs that step to exit 0. The earlier record's 2 pins could not — the step's own top-level import was missing from it.",
   "license": "Apache-2.0",
   "experimentUrl": null,
-  "experimentUrlNote": "BLOCKED UPSTREAM: LeRobot WandBLogger.__init__ calls wandb.run.get_url() unguarded (wandb_utils.py:122); no wandb-compatible substitute implements get_url(), so enabling it kills the run. Not fixable without patching upstream."
+  "experimentUrlNote": "No link. LeRobot ships wandb logging behind --wandb.enable=true, but WandBLogger is written against wandb's exact API surface rather than the subset wandb-compatible trackers implement: __init__ forwards wandb's resume=None default and calls wandb.run.get_url() (src/lerobot/common/wandb_utils.py:110,122), and log_dict calls wandb.log(data=..., step=...) using wandb's keyword name (wandb_utils.py:202). Substitute trackers reject all three. Enabling logging therefore needs real wandb credentials on the training host, which this campaign declines to do. The held-out metric is published as metrics/metrics.json by a dedicated evaluate step instead.",
+  "truncated": true,
+  "truncation": {
+    "ran": 300,
+    "full": 100000,
+    "unit": "steps",
+    "note": "300 of LeRobot's own default 100 000 training steps (TrainPipelineConfig.steps, src/lerobot/configs/train.py:142) — 0.3%. The recipe is otherwise unchanged: same policy, dataset, batch size and seed; only the step count was reduced. The published weights are a pipeline-viability run, not a converged policy."
+  },
+  "forkUrl": "https://github.com/reproducible-ai/lerobot",
+  "artifactUrl": "https://huggingface.co/reproducible-ai/lerobot-act",
+  "upstreamCommit": "ff7cc3de1de830f5f3276918a013d04bdf9ea4be",
+  "difficulty": "7/10 — hard",
+  "truncationNote": "300 of LeRobot's own default 100 000 training steps (0.3%), batch 8, seed 1000. Recipe otherwise unchanged. Reproduce, not replicate — a pipeline-viability run, not a converged policy; the published weights are not a quality result. A full 100 000-step run is ~7h36m and ~$14.12 on the same instance."
 }

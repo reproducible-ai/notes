@@ -43,12 +43,31 @@ where most of that run's extra minute went.
 
 ## What a full-length run would cost
 
-This row is truncated to **300 of the 100 000 default steps** — 0.3 %. At the observed
-3.75 steps/s and holding everything else equal, 100 000 steps is ≈ 7 h 25 m of pure
-optimizer time on one L40S, plus held-out evaluations at whatever `eval_steps`
-cadence is chosen; call it **≈ $14–16** at on-demand pricing. That is the honest
-figure for a converged ACT policy on `pusht_image`, and it is why this row publishes
-a pipeline-viability truncation instead.
+This row is truncated to **300 of the 100 000 default steps** — 0.3 %. Scaling the
+headline 6m01s by 333 would be wrong by a wide margin, because **only 22 % of the
+traced run is variable**. The step durations below are read from the lineage itself
+(`cc490321`), not from a stopwatch:
+
+| component | duration | scales with `--steps`? |
+|---|---|---|
+| `fetch_dataset` | 6.3 s | no |
+| `train` — dataset + policy construction and the two `--eval_steps=150` held-out passes | 191.3 s | no |
+| `train` — 300 optimizer steps @ 3.72 steps/s | 80.6 s | **yes** |
+| `evaluate` | 83.2 s | no |
+| provisioning + setup | ~150 s | no |
+| **fixed total** | **430.8 s = 0.120 h = $0.22** | |
+| **variable** | **0.2688 s/step = $0.000139/step** | |
+
+At $1.861/h (`g6e.xlarge` on-demand, us-east-2): 100 000 steps ≈ 26 882 s ≈ 7 h 28 m of
+optimizer time ≈ $13.90, plus $0.22 fixed → **≈ 7 h 36 m and ≈ $14.12**. That is the
+honest figure for a converged ACT policy on `pusht_image`, and it is why this row
+publishes a pipeline-viability truncation instead.
+
+Two caveats. The estimate holds the *number* of held-out evaluations at two — i.e. it
+assumes `--eval_steps` is scaled with the run length. Leaving `--eval_steps=150` fixed
+would trigger 666 held-out passes at ~95 s each and roughly double the total. And it
+excludes the ResNet-18 ImageNet weight download, which is fixed, unmetered here, and
+outside the captured lineage.
 
 ## Human/agent effort
 

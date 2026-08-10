@@ -1,0 +1,42 @@
+diff --git a/src/lerobot/common/wandb_utils.py b/src/lerobot/common/wandb_utils.py
+index c229b5ea..96bbc763 100644
+--- a/src/lerobot/common/wandb_utils.py
++++ b/src/lerobot/common/wandb_utils.py
+@@ -109,7 +109,10 @@ class WandBLogger:
+             save_code=False,
+             # TODO(rcadene): split train and eval, and run async eval with job_type="eval"
+             job_type="train_eval",
+-            resume="must" if cfg.resume else None,
++            # wandb reads `None` as "do not resume"; wandb-compatible trackers accept
++            # only "must"/"allow"/"never" and raise ValueError on None. "never" is what
++            # this branch already means, and is identical for wandb users.
++            resume="must" if cfg.resume else "never",
+             mode=self.cfg.mode if self.cfg.mode in ["online", "offline", "disabled"] else "online",
+         )
+         run_id = wandb.run.id
+@@ -119,7 +122,12 @@ class WandBLogger:
+         # Handle custom step key for rl asynchronous training.
+         self._wandb_custom_step_key: set[str] | None = None
+         logging.info(colored("Logs will be synced with wandb.", "blue", attrs=["bold"]))
+-        logging.info(f"Track this run --> {colored(wandb.run.get_url(), 'yellow', attrs=['bold'])}")
++        # `Run.get_url()` is wandb-specific: drop-in wandb-compatible trackers
++        # implement `wandb.run.id` but not `get_url`, and this purely cosmetic line
++        # would otherwise abort training during logger construction.
++        run_url = getattr(wandb.run, "get_url", lambda: None)()
++        if run_url:
++            logging.info(f"Track this run --> {colored(run_url, 'yellow', attrs=['bold'])}")
+         self._wandb = wandb
+ 
+     def log_policy(self, checkpoint_dir: Path):
+@@ -199,7 +207,10 @@ class WandBLogger:
+                 batch_data[f"{mode}/{custom_step_key}"] = d[custom_step_key]
+                 self._wandb.log(batch_data)
+             else:
+-                self._wandb.log(data=batch_data, step=step)
++                # positional, like the branch above: wandb names this parameter
++                # `data`, wandb-compatible trackers name it `metrics`, and only the
++                # positional form works against both.
++                self._wandb.log(batch_data, step=step)
+ 
+     def log_video(self, video_path: str, step: int, mode: str = "train"):
+         if mode not in {"train", "eval"}:
