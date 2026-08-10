@@ -2,7 +2,7 @@
 
 Upstream: `pytorch/vision` at `34572106`, BSD-3-Clause.
 Fork: `reproducible-ai/vision`, default branch `main`, reproduction commit
-`f3b4159`. **No upstream file was modified** — the fork adds a workflow,
+`032ac1b7`. **No upstream file was modified** — the fork adds a workflow,
 `.gitignore` rules, two `.gitkeep` files, two additive scripts next to
 `train.py`, and one document.
 
@@ -48,7 +48,7 @@ python references/classification/train.py \
     --output-dir out --device cuda
 ```
 
-Unmodified upstream `train.py`. 592 optimizer steps, 5 m 47 s on one T4.
+Unmodified upstream `train.py`. 592 optimizer steps, 5 m 41 s on one T4.
 
 Two flag notes:
 
@@ -58,7 +58,7 @@ Two flag notes:
 - `--workers 0` is deliberate. It keeps the traced process tree single-process so
   the recorded environment is the environment the workload actually imported.
   It costs less than it looks: throughput is bound by JPEG decode on the host CPU,
-  measured at ~400 img/s here, so the accelerator is never the constraint. That
+  measured at ~385 img/s here, so the accelerator is never the constraint. That
   is also why a T4 finishes this in the same few minutes a much larger GPU would.
 
 This writes **five** checkpoints — `model_0.pth` … `model_3.pth` plus
@@ -85,7 +85,7 @@ for two reasons, both upstream limitations:
 2. `--test-only` only *prints* the accuracy. A record needs it as a durable
    artefact, so the helper writes `metrics.json`.
 
-Result: **top-1 60.13 %**, top-5 93.78 % on the held-out split.
+Result: **top-1 55.36 %**, top-5 93.10 % on the held-out split.
 
 ## 4. Publish
 
@@ -95,13 +95,15 @@ roar put out/checkpoint.pth hf://reproducible-ai/vision-classifier --public --ye
 
 → [huggingface.co/reproducible-ai/vision-classifier](https://huggingface.co/reproducible-ai/vision-classifier)
 (`checkpoint.pth`, 89,553,609 B, sha256
-`05e40efa79facb1debb5ed1486755ae76d6d1226c1742ff1e1593d42c99e6af8`).
+`d78326dda05260c3d2df549ef41af02622ca2acfc3927c2a57c9d6f09d4a1c54`).
 
 ## Bare-clone check
 
-Run before any GPU was provisioned: a fresh clone, a scratch venv containing only
-`torch`, `torchvision` and `pillow`, `PYTHONPATH` unset, on CPU with a
-tiny subset. The full four-step sequence above completed and produced a
-`checkpoint.pth` and a `metrics.json` with no `ModuleNotFoundError`. That check is
+Run before any GPU was provisioned: a fresh clone, a scratch venv containing 13
+distributions — `torch`, `torchvision`, `pillow` and their own requirements and
+nothing else — `PYTHONPATH` unset, on CPU with a tiny subset. `sys.path` carried
+no `dist-packages` and no host `site-packages` entry. The full sequence above
+completed and produced a `checkpoint.pth` and a `metrics.json` with no
+`ModuleNotFoundError`. That check is
 what surfaced issues #1, #2 and #4 — all three would otherwise have been found
 on a GPU at ~30× the cost per iteration.
