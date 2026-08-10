@@ -5,7 +5,7 @@
   "date": "2026-08-07",
   "status": "reproduced",
   "blocker": null,
-  "notes": "Single-file PPO reproduced at upstream's own default hyperparameters, full 500k timesteps, converged to CartPole-v1's maximum episodic return of 500. Easiest row so far: ppo.py imports nothing from its own repository, so there is no package install to blind a tracer or vanish from a dependency freeze, and the whole dependency set is five distributions that resolve cleanly from PyPI. One real gap, patched in 10 lines: ppo.py as published saves no model at all, only TensorBoard scalars, so there was no artifact to publish. The flag was ported from its own sibling ppo_continuous_action.py, which already has it. Also worth noting: GitHub's licence API reports 'Other' for this repository because ~290 lines of third-party attribution follow the MIT text in LICENSE; the project is MIT.",
+  "notes": "https://github.com/reproducible-ai/notes/tree/main/001-rl-cleanrl-ppo",
   "playbookVersion": "1.0",
   "roarVersion": "0.4.4.dev0",
   "tracer": "preload",
@@ -13,7 +13,6 @@
   "bomScore": 100,
   "dagUrl": "https://glaas.ai/dag/58df327f1e02faf0d64efb8f07daac7c9eca70d3713d008bc8587fea780617be",
   "bomUrl": "https://glaas.ai/dag/58df327f1e02faf0d64efb8f07daac7c9eca70d3713d008bc8587fea780617be/audit",
-  "modelUrl": "https://huggingface.co/reproducible-ai/cleanrl-ppo",
   "upstreamUrl": "https://github.com/vwxyzjn/cleanrl",
   "forkUrl": "https://github.com/reproducible-ai/cleanrl",
   "license": "MIT",
@@ -31,7 +30,7 @@
     "hash": "58df327f1e02faf0d64efb8f07daac7c9eca70d3713d008bc8587fea780617be",
     "cmd": "roar reproduce 58df327f1e02faf0d64efb8f07daac7c9eca70d3713d008bc8587fea780617be --lineage --run --no-puts"
   },
-  "difficulty": 2,
+  "difficulty": "2/10",
   "difficultyNote": "2/10. Nothing was worked around and nothing was found by trial and error. The single-file design removes almost every failure mode this campaign measures: no editable install, no dataset, no credentials, no unresolvable pins. The only real work was noticing that ppo.py never saves a model.",
   "certification": {
     "date": "2026-08-07",
@@ -62,10 +61,16 @@
     "instanceId": "i-0eb360c426f6455a2 (terminated, confirmed)",
     "wallClock": "~15 min instance lifetime (launch 16:02:04Z, terminate 16:17:01Z); training step itself ~5 min",
     "spendUsd": 0.13,
-    "certifiedBy": "tier-2 certification agent (cold rebuild, independent of the capturing operator)"
+    "certifiedBy": "tier-2 certification agent (cold rebuild, independent of the capturing operator)",
+    "tier": 2,
+    "result": "PASS",
+    "evidence": "row.json:certification (no standalone CERT file; recovered from the cert branch)"
   },
   "dagHash": "58df327f1e02faf0d64efb8f07daac7c9eca70d3713d008bc8587fea780617be",
   "supersededDagHashes": [
     "a026cb75b6d24e9e0c338456d1eccbd3f9cff948651c6d9049fc98570387733b"
-  ]
+  ],
+  "artifactUrl": "https://huggingface.co/reproducible-ai/cleanrl-ppo",
+  "summary": "Single-file PPO reproduced at upstream's own default hyperparameters, full 500k timesteps, converged to CartPole-v1's maximum episodic return of 500. Easiest row so far: ppo.py imports nothing from its own repository, so there is no package install to blind a tracer or vanish from a dependency freeze, and the whole dependency set is five distributions that resolve cleanly from PyPI. One real gap, patched in 10 lines: ppo.py as published saves no model at all, only TensorBoard scalars, so there was no artifact to publish. The flag was ported from its own sibling ppo_continuous_action.py, which already has it. Also worth noting: GitHub's licence API reports 'Other' for this repository because ~290 lines of third-party attribution follow the MIT text in LICENSE; the project is MIT.",
+  "verified": true
 }

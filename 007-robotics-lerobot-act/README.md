@@ -165,5 +165,24 @@ was recorded. A rebuild would have installed them by resolver accident rather th
 record. The re-capture removes the accident for the download step: the 23 recorded pins
 are a closed set that runs on their own.
 
-The row still carries `"verified": false`. A complete record is a *precondition* for a
-rebuild, not a demonstration of one; no cold rebuild has certified this row.
+**Update, 2026-08-08 — this row has since been certified.** The paragraph above was
+written before the cold rebuild and described the state at capture time.
+
+A complete record is a *precondition* for a rebuild, not a demonstration of one — that
+distinction still holds, and it is why the record and the certification are tracked
+separately. This row now has both. A cold agent rebuilt it from the published lineage:
+**exit 0, 3/3 steps, 80/80 recorded pins present at recorded versions** (0 missing, 0
+mismatched), with a clean venv closure — no `dist-packages` and no host `site-packages`
+on `sys.path`. `row.json` carries `"verified": true` and the full evidence is in
+`CERT-TIER2.md`.
+
+One caveat survives certification and is worth stating plainly: `torchcodec` reaches
+FFmpeg through `libavutil.so.*`, an **OS-package** edge that a pip freeze cannot see
+(P1-11). The pip closure is complete; the closure below pip is not, and no gate we run
+would catch that.
+
+_A note on comparing pin counts: this row was captured on roar `0.4.4rc2`. Later rows
+captured on `0.4.4rc3` show **fewer** pins because rc3 strips roar's own dependency
+footprint from the freeze. A smaller freeze on a newer row is that fix, not a
+regression — read each write-up's pin numbers against the roar version that produced
+them._

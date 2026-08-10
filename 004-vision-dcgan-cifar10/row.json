@@ -15,9 +15,7 @@
   "bomScore": 100,
   "artifactUrl": "https://huggingface.co/reproducible-ai/dcgan",
   "experimentUrl": null,
-  "upstream": "https://github.com/pytorch/examples",
   "upstreamCommit": "acc295dc7b",
-  "fork": "https://github.com/reproducible-ai/examples",
   "forkCommit": "6012a42715634b149bce107fbf77c80d87062791",
   "license": "BSD-3-Clause",
   "rebuild": {
@@ -72,7 +70,10 @@
     "spendUsd": 0.41,
     "spendSource": "campaign ledger figure, not a metered invoice line",
     "evidenceProvenance": "RECONSTRUCTED from the campaign ledger's copy of the certifier's report. The certifying operator's working directory was cleaned up before the rule requiring cert evidence on a certs/ branch existed. Nothing was re-run.",
-    "freezeCaveat": "Captured on roar 0.4.3 (per the record's own roar_version and the roar-cli==0.4.3 pin in the freeze) and certified on 0.4.4.dev0 @ c5c553b - both predate roar #274, a fix to how the freeze pass enumerates installed packages, so this record may be missing packages a later capture would have caught. The imports-vs-freeze audit finds NO decisive miss (everything import torch/torchvision demonstrably loads is present) but three packages that often accompany a torch install are absent: requests, urllib3, charset-normalizer. This workload plausibly never imports them - no networking in the training loop, and torchvision's CIFAR-10 download uses stdlib urllib rather than requests. Weak evidence, NOT a proven defect; and 'no detected miss' is never 'verified complete'."
+    "freezeCaveat": "Captured on roar 0.4.3 (per the record's own roar_version and the roar-cli==0.4.3 pin in the freeze) and certified on 0.4.4.dev0 @ c5c553b - both predate roar #274, a fix to how the freeze pass enumerates installed packages, so this record may be missing packages a later capture would have caught. The imports-vs-freeze audit finds NO decisive miss (everything import torch/torchvision demonstrably loads is present) but three packages that often accompany a torch install are absent: requests, urllib3, charset-normalizer. This workload plausibly never imports them - no networking in the training loop, and torchvision's CIFAR-10 download uses stdlib urllib rather than requests. Weak evidence, NOT a proven defect; and 'no detected miss' is never 'verified complete'.",
+    "tier": 2,
+    "result": "PASS",
+    "evidence": "CERTIFICATION.md"
   },
   "tier1Recheck": {
     "date": "2026-08-08",
@@ -85,5 +86,7 @@
   "dagHash": "3a8ff4c4c89b4cf796fa568b773e4d482fe1fde848b8baf1805ce6a47b800ba0",
   "supersededDagHashes": [
     "79e8112cc315cca76c535db258b521bf787d977ffcc3cc15db0d41b982fb6eec"
-  ]
+  ],
+  "upstreamUrl": "https://github.com/pytorch/examples",
+  "forkUrl": "https://github.com/reproducible-ai/examples"
 }

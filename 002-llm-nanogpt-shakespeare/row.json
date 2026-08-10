@@ -1,8 +1,7 @@
 {
   "name": "nanoGPT-shakespeare-char",
   "org": "karpathy",
-  "repoUrl": "https://github.com/karpathy/nanoGPT",
-  "type": "LLM",
+  "type": "llm",
   "date": "2026-08-07",
   "verified": true,
   "status": "reproduced",
@@ -29,12 +28,12 @@
     "hash": "72ad9675f624563a018c0e76f81fea418edb268ab19002c404a793721f86fde2",
     "cmd": "roar reproduce 72ad9675f624563a018c0e76f81fea418edb268ab19002c404a793721f86fde2 --lineage --run --no-puts"
   },
-  "notes": "Ran as published \u2014 zero patches. Two commands, three real dependencies (torch, numpy, requests), 10.65M parameters, 2.5 minutes on one GPU. Best validation loss 1.4666 against the README's quoted 1.4697; and because train.py pins torch.manual_seed(1337), four independent full runs produced identical evaluation curves at all 21 eval points and three emitted a byte-identical 129MB checkpoint (blake3 f4cc9b6e..., verified against the published artifact), so this row is replicated and not merely reproduced. prepare.py's four printed dataset statistics matched the expected values recorded in its own source exactly. The only deviation is --compile=False, a flag the README itself documents, which drops a host-specific compile warm-up with no payoff at this scale. Findings are all documentation-level: the README's install line omits requests \u2014 needed by the very first quick-start command \u2014 while listing four packages this recipe never imports; the corpus is fetched from an unpinned master-branch URL; and prepare.py writes its generated data into the source tree with no way to redirect it, so the data directory is an output directory and must be treated as one or the prepare-to-train chain is lost. Enabling the repo's built-in wandb logging was tried and backed out: the flag makes wandb a hard runtime import, which a rebuild from this row's recorded environment does not satisfy. The one change worth making upstream is small: write the eval history to CSV/JSONL in out_dir unconditionally, so every reproducer gets a durable learning curve with no tracking dependency at all.",
+  "notes": "https://github.com/reproducible-ai/notes/tree/main/002-llm-nanogpt-shakespeare",
   "artifactBlake3": "f4cc9b6ebb52a7f867596b5cd96329518c0f1709bdf1487cbd387beddb322202",
   "certification": {
     "tier": 2,
     "result": "PASS",
-    "resultCaveat": "Rebuilt DESPITE the record, not because of it: the 24 recorded pins are not a closed set. Installed with --no-deps they fail both recorded steps (ModuleNotFoundError: typing_extensions / idna). The rebuild works only because pip resolves the transitive closure of those 24.",
+    "resultCaveat": "Passed DESPITE its record, not because of it: the freeze is unrunnable as a closed set and the rebuild succeeded on transitives plus roar\u2019s own bridge footprint (P0-18d).",
     "date": "2026-08-08",
     "evidence": "CERT-TIER2.md",
     "dagHash": "72ad9675f624563a018c0e76f81fea418edb268ab19002c404a793721f86fde2",
@@ -107,5 +106,8 @@
   "dagHash": "72ad9675f624563a018c0e76f81fea418edb268ab19002c404a793721f86fde2",
   "supersededDagHashes": [
     "e85f392984e6de72ec32979865b25a3ec5328bf8ae522283e526c73702aa4c58"
-  ]
+  ],
+  "upstreamUrl": "https://github.com/karpathy/nanoGPT",
+  "summary": "Ran as published \u2014 zero patches. Two commands, three real dependencies (torch, numpy, requests), 10.65M parameters, 2.5 minutes on one GPU. Best validation loss 1.4666 against the README's quoted 1.4697; and because train.py pins torch.manual_seed(1337), four independent full runs produced identical evaluation curves at all 21 eval points and three emitted a byte-identical 129MB checkpoint (blake3 f4cc9b6e..., verified against the published artifact), so this row is replicated and not merely reproduced. prepare.py's four printed dataset statistics matched the expected values recorded in its own source exactly. The only deviation is --compile=False, a flag the README itself documents, which drops a host-specific compile warm-up with no payoff at this scale. Findings are all documentation-level: the README's install line omits requests \u2014 needed by the very first quick-start command \u2014 while listing four packages this recipe never imports; the corpus is fetched from an unpinned master-branch URL; and prepare.py writes its generated data into the source tree with no way to redirect it, so the data directory is an output directory and must be treated as one or the prepare-to-train chain is lost. Enabling the repo's built-in wandb logging was tried and backed out: the flag makes wandb a hard runtime import, which a rebuild from this row's recorded environment does not satisfy. The one change worth making upstream is small: write the eval history to CSV/JSONL in out_dir unconditionally, so every reproducer gets a durable learning curve with no tracking dependency at all.",
+  "license": "MIT"
 }

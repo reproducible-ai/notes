@@ -5,7 +5,7 @@
   "date": "2026-08-07",
   "status": "reproduced",
   "blocker": null,
-  "notes": "Rebuilt with zero changes to upstream source. gpt-nano (0.09M params) trained from scratch to add two 2-digit numbers: 99.2% on the held-out test split in 195s on one T4 \u2014 and 2m22s on 4 CPU cores, so no GPU is needed. No dataset to fetch: AdditionDataset synthesises every problem in-process from a seeded RNG. Two real upstream gaps: setup.py declares only torch but mingpt/utils.py imports numpy, so a clean install per the README fails to import; and the demo has no stopping criterion at all (Trainer.max_iters defaults to None, so it trains forever) and publishes no target accuracy, so max_iters=3000 is the operator's choice, not upstream's.",
+  "notes": "https://github.com/reproducible-ai/notes/tree/main/003-llm-mingpt-adder",
   "playbookVersion": "1.0",
   "roarVersion": "0.4.4.dev0",
   "tracer": "preload",
@@ -26,9 +26,6 @@
     "lines": 0,
     "url": "https://github.com/reproducible-ai/minGPT/compare/37baab7...e2108219"
   },
-  "artifact": "https://huggingface.co/reproducible-ai/mingpt",
-  "upstream": "https://github.com/karpathy/minGPT",
-  "fork": "https://github.com/reproducible-ai/minGPT",
   "license": "MIT",
   "certification": {
     "date": "2026-08-07",
@@ -64,10 +61,18 @@
     "instanceId": "i-039b2f4739e893159 (terminated, confirmed)",
     "wallClock": "~24 min instance lifetime (launch 2026-08-07T16:01:35Z, terminated ~16:25:41Z), covering two full reproduce passes; training step itself ~2-3 min each pass",
     "spendUsd": 0.03,
-    "certifiedBy": "tier-2 certification agent (cold rebuild, independent of the capturing operator)"
+    "certifiedBy": "tier-2 certification agent (cold rebuild, independent of the capturing operator)",
+    "tier": 2,
+    "result": "PASS",
+    "evidence": "row.json:certification (no standalone CERT file; recovered from the cert branch)"
   },
   "dagHash": "c2ffb3ef71e1f4dafd87e0fc95ef172addb0e4f9b7ebc490360dbf572d60d0cc",
   "supersededDagHashes": [
     "1b860439789f1542cbb735dea33b1c0d86ed97611d24d95078c76271f7a34e2b"
-  ]
+  ],
+  "upstreamUrl": "https://github.com/karpathy/minGPT",
+  "forkUrl": "https://github.com/reproducible-ai/minGPT",
+  "artifactUrl": "https://huggingface.co/reproducible-ai/mingpt",
+  "summary": "Rebuilt with zero changes to upstream source. gpt-nano (0.09M params) trained from scratch to add two 2-digit numbers: 99.2% on the held-out test split in 195s on one T4 \u2014 and 2m22s on 4 CPU cores, so no GPU is needed. No dataset to fetch: AdditionDataset synthesises every problem in-process from a seeded RNG. Two real upstream gaps: setup.py declares only torch but mingpt/utils.py imports numpy, so a clean install per the README fails to import; and the demo has no stopping criterion at all (Trainer.max_iters defaults to None, so it trains forever) and publishes no target accuracy, so max_iters=3000 is the operator's choice, not upstream's.",
+  "verified": true
 }

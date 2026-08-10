@@ -10,9 +10,7 @@
   "roarVersion": "0.4.4.dev0",
   "tracer": "preload",
   "amiId": "ami-0f07f1a0b382b48f7",
-  "upstream": "https://github.com/Lightning-AI/litgpt",
   "upstreamCommit": "2685705",
-  "fork": "https://github.com/reproducible-ai/litgpt",
   "license": "Apache-2.0",
   "dagUrl": "https://glaas.ai/dag/314f1eb9acbf26076c12b6893c1efc8e83f1b36f70034a7d8a0ceeb496b51403",
   "bomUrl": "https://glaas.ai/dag/314f1eb9acbf26076c12b6893c1efc8e83f1b36f70034a7d8a0ceeb496b51403/audit",
@@ -36,5 +34,15 @@
   "dagHash": "314f1eb9acbf26076c12b6893c1efc8e83f1b36f70034a7d8a0ceeb496b51403",
   "supersededDagHashes": [
     "b865916577f77891d21977fe392250026398ab7f72f274c7a594ed7f3cfa1b56"
-  ]
+  ],
+  "upstreamUrl": "https://github.com/Lightning-AI/litgpt",
+  "forkUrl": "https://github.com/reproducible-ai/litgpt",
+  "certification": {
+    "tier": 2,
+    "result": "PASS",
+    "date": "2026-08-07",
+    "evidence": "CERTIFICATION.md",
+    "manifestDiff": "62/62 pins exact"
+  },
+  "verified": true
 }
