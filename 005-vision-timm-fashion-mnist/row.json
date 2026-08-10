@@ -20,7 +20,11 @@
   "rebuild": {
     "time": "9m34s",
     "hw": "1\u00d7 Tesla T4 (g4dn.xlarge)",
-    "costUsd": 0.1
+    "costUsd": 0.1,
+    "fixedCostUsd": 0.07,
+    "scalingCostUsd": 0.03,
+    "fullRunEstimateUsd": 1.8,
+    "fullRunEstimateBasis": "Of the 574s the instance was billed, 165.8s was training (5 epochs) and the remainder is fixed (fetch 17.3s + validate 41.5s + instance boot/teardown). Splitting the recorded $0.10 in that proportion gives $0.07 fixed + $0.03 variable, i.e. $0.0058 per epoch. The untruncated 300 epochs therefore cost about $1.80 on the same g4dn.xlarge (T4) at $0.526/h. Per-step durations are from the published DAG; the hourly rate is AWS list price (pricing:GetProducts is denied to this role)."
   },
   "reproduce": {
     "hash": "42b381d91f299d028c45ff043a71e34e6c9e1122574585f32c3b3d99b31f10c2",
@@ -44,5 +48,12 @@
     "resultCaveat": "GPU training is not bit-reproducible at --seed 42 (cuDNN algorithm selection is unpinned); metrics 85.56/99.57 vs recorded 85.67/99.73. Reproduce, not replicate."
   },
   "verified": true,
-  "experimentUrlNote": "recipe did not pass timm --log-wandb; bridge armed but the workload never called wandb"
+  "experimentUrlNote": "recipe did not pass timm --log-wandb; bridge armed but the workload never called wandb",
+  "truncated": true,
+  "truncation": {
+    "ran": 5,
+    "full": 300,
+    "unit": "epochs",
+    "note": "Five of timm's default 300 epochs. Recipe otherwise unchanged."
+  }
 }

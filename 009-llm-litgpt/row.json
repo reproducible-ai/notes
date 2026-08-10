@@ -20,7 +20,9 @@
   "rebuild": {
     "time": "8m51s",
     "hw": "1\u00d7 Tesla T4 (g4dn.xlarge)",
-    "costUsd": 0.06
+    "costUsd": 0.06,
+    "fullRunEstimateUsd": null,
+    "fullRunEstimateBasis": "NOT ESTIMATED, and not estimable. The truncated dimension is a token budget the operator chooses (--train.max_tokens 2048); litgpt defines no default budget for a from-scratch pretrain on custom text, so there is no 'full run' to extrapolate to. Quoting a figure would mean inventing the denominator. Per-step timings ARE recorded (download 97.2s, fetch 0.8s, prepare 57.5s, pretrain 93.3s), so an estimate can be produced the moment a target token budget is specified."
   },
   "reproduce": {
     "hash": "314f1eb9acbf26076c12b6893c1efc8e83f1b36f70034a7d8a0ceeb496b51403",
@@ -45,5 +47,12 @@
     "manifestDiff": "62/62 pins exact"
   },
   "verified": true,
-  "experimentUrlNote": "bridge not armed; recipe did not enable logging"
+  "experimentUrlNote": "bridge not armed; recipe did not enable logging",
+  "truncated": true,
+  "truncation": {
+    "ran": 2048,
+    "full": null,
+    "unit": "training tokens",
+    "note": "Truncated via --train.max_tokens 2048. Unlike an epoch count there is no upstream default to truncate FROM: litgpt's pretrain on a custom TextFiles dataset requires the caller to choose a token budget, so no untruncated recipe is defined by upstream."
+  }
 }
