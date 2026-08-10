@@ -2,7 +2,7 @@
 
 Upstream: `pytorch/vision` at `34572106`, BSD-3-Clause.
 Fork: `reproducible-ai/vision`, default branch `main`, reproduction commit
-`5fb94ce`. **No upstream file was modified** — the fork adds a workflow,
+`f3b4159`. **No upstream file was modified** — the fork adds a workflow,
 `.gitignore` rules, two `.gitkeep` files, two additive scripts next to
 `train.py`, and one document.
 
@@ -48,7 +48,7 @@ python references/classification/train.py \
     --output-dir out --device cuda
 ```
 
-Unmodified upstream `train.py`. 592 optimizer steps, 3 m 43 s on one L40S.
+Unmodified upstream `train.py`. 592 optimizer steps, 5 m 47 s on one T4.
 
 Two flag notes:
 
@@ -57,7 +57,9 @@ Two flag notes:
   built (`issues.md` #2), so the obvious "does it run?" smoke command crashes.
 - `--workers 0` is deliberate. It keeps the traced process tree single-process so
   the recorded environment is the environment the workload actually imported.
-  It costs nothing here: throughput is bound by JPEG decode, ~219 img/s.
+  It costs less than it looks: throughput is bound by JPEG decode on the host CPU,
+  measured at ~400 img/s here, so the accelerator is never the constraint. That
+  is also why a T4 finishes this in the same few minutes a much larger GPU would.
 
 This writes **five** checkpoints — `model_0.pth` … `model_3.pth` plus
 `checkpoint.pth`, 448 MB total — and there is no flag to ask for fewer
@@ -83,7 +85,7 @@ for two reasons, both upstream limitations:
 2. `--test-only` only *prints* the accuracy. A record needs it as a durable
    artefact, so the helper writes `metrics.json`.
 
-Result: **top-1 55.31 %**, top-5 92.23 % on the held-out split.
+Result: **top-1 60.13 %**, top-5 93.78 % on the held-out split.
 
 ## 4. Publish
 
@@ -92,7 +94,8 @@ roar put out/checkpoint.pth hf://reproducible-ai/vision-classifier --public --ye
 ```
 
 → [huggingface.co/reproducible-ai/vision-classifier](https://huggingface.co/reproducible-ai/vision-classifier)
-(`checkpoint.pth`, 89,551,113 B).
+(`checkpoint.pth`, 89,553,609 B, sha256
+`05e40efa79facb1debb5ed1486755ae76d6d1226c1742ff1e1593d42c99e6af8`).
 
 ## Bare-clone check
 
