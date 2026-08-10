@@ -63,41 +63,69 @@ contributor docs. Not filed — the campaign does not open upstream issues.
 
 ---
 
-## 2. `WandBLogger.__init__` calls `wandb.run.get_url()` unguarded, so no wandb-compatible tracker can substitute
+## 2. `WandBLogger` is coupled to wandb's exact API, so no wandb-compatible tracker can substitute
 
 **Symptom.** Enabling upstream's own experiment logging (`--wandb.enable=true`) under
-any drop-in `wandb` replacement aborts training during logger construction, before
-step 1, with `AttributeError: 'Run' object has no attribute 'get_url'`.
+any drop-in `wandb` replacement aborts — twice over, at two different points, both on
+the happy path.
 
-**Root cause.** `src/lerobot/common/wandb_utils.py`:
+**Root cause.** Three distinct couplings in `src/lerobot/common/wandb_utils.py`, found
+by replaying the exact call shapes against `trackio` 0.34.0:
 
 ```python
-119:        run_id = wandb.run.id
+ 99:        wandb.init(id=…, project=…, entity=…, name=…, notes=…, tags=…, dir=…,
+110:                   config=…, save_code=False, job_type="train_eval",
+110:                   resume="must" if cfg.resume else None,   # ← (a)
+111:                   mode=…)
+115:        run_id = wandb.run.id
+122:        logging.info(f"Track this run --> {colored(wandb.run.get_url(), …)}")   # ← (c)
 ...
-122:        logging.info(f"Track this run --> {colored(wandb.run.get_url(), 'yellow', attrs=['bold'])}")
+202:                self._wandb.log(data=batch_data, step=step)                     # ← (b)
 ```
 
-`wandb.run.id` is broadly implemented by wandb-compatible trackers; `Run.get_url()` is
-wandb-specific. Verified against `trackio` 0.34.0: `get_url` does not appear anywhere
-in the package, on `Run` or elsewhere. The call is on the constructor's happy path and
-is only used to print a link, so a purely cosmetic line takes down the run.
+**(a) `resume=None` — fatal, at construction.** `TrainPipelineConfig.resume` defaults
+to `False`, so every non-resumed run passes `resume=None`. wandb reads `None` as "do
+not resume"; substitutes accept only `"must"` / `"allow"` / `"never"` and raise
+`ValueError: resume must be one of: 'must', 'allow', or 'never'`. This fires before
+step 1. Trivially fixed upstream by passing `"never"` instead of `None` — which is
+also what the value *means*.
+
+**(b) `log(data=…)` — fatal, at the first `log_freq` boundary.** wandb's first
+parameter is literally named `data`; substitutes name it `metrics`, so the keyword
+form is `TypeError: log() got an unexpected keyword argument 'data'`. Note line 200
+already calls `self._wandb.log(batch_data)` **positionally** on the custom-step-key
+branch — so the two branches of the same method have different portability. Passing
+`batch_data` positionally on line 202 as well would fix it and change nothing for
+wandb users.
+
+**(c) `wandb.run.get_url()` — cosmetic, but unguarded.** `wandb.run.id` is broadly
+implemented by wandb-compatible trackers; `Run.get_url()` is wandb-specific and does
+not appear anywhere in `trackio` 0.34.0, on `Run` or elsewhere. It is used only to
+print a link, so a purely cosmetic line takes down the run.
+
+**(d) Not fatal, but worth knowing:** with `--wandb.enable=true` and
+`training.save_checkpoint` on, `log_policy()` uploads the whole checkpoint as a run
+artifact at every save — 207 MB on this row. `--wandb.disable_artifact=true` turns that
+off and is a config flag, not a patch.
 
 **Workaround.** Run with logging off (the default) and compute the held-out metric as
 a separate pipeline step (`repro/evaluate_act.py` → `metrics/metrics.json`). Nothing
 of substance is lost: the number training would have logged is recomputed from the
 saved checkpoint, and it becomes a real artifact rather than a log line.
 
-**Upstream-worthy? Yes.** A two-line change makes LeRobot tracker-agnostic without
-altering behaviour for wandb users:
+**Upstream-worthy? Yes, and it is small.** Three edits — one of them a single word —
+make `WandBLogger` tracker-agnostic without altering behaviour for wandb users:
+`resume=None` → `resume="never"`, `log(data=x, …)` → `log(x, …)`, and a `getattr`
+guard around `get_url()`. See `patches/wandb-tracker-agnostic.diff` (all three;
+`patches/wandb-get-url-guard.diff` is the earlier, partial version and is kept only
+for provenance). **Not submitted** — the campaign prepares upstream patches but does
+not post them.
 
-```python
-run_url = getattr(getattr(wandb, "run", None), "get_url", lambda: None)()
-if run_url:
-    logging.info(f"Track this run --> {colored(run_url, 'yellow', attrs=['bold'])}")
-```
-
-See `patches/wandb-get-url-guard.diff`. **Not submitted** — the campaign prepares
-upstream patches but does not post them.
+**How this was established.** Not by inference: each call shape above was replayed
+directly against `trackio` 0.34.0 with LeRobot's exact keyword set, and the failures
+are the verbatim exception messages quoted. The check costs seconds and needs no GPU,
+which is the general lesson — a logging integration can be validated against a
+substitute tracker before any training host is provisioned.
 
 ---
 
