@@ -18,8 +18,8 @@
   "artifactUrl": "https://huggingface.co/reproducible-ai/vision-classifier",
   "experimentUrl": null,
   "rebuild": {
-    "time": "15m09s (9m01s traced: fetch 2m50s, train 5m47s, evaluate 23.9s)",
-    "hw": "g4dn.xlarge (1x Tesla T4, us-east-2c)",
+    "time": "15m09s",
+    "hw": "1\u00d7 Tesla T4 (g4dn.xlarge)",
     "costUsd": 0.22
   },
   "reproduce": {

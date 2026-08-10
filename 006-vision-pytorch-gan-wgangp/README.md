@@ -138,3 +138,17 @@ RESULT: REPRODUCIBLE RECORD — tier 1 complete (NOT yet a Certified reproductio
   does not expose the machine image, so that field is taken from the campaign's own
   compute-target configuration and cannot be checked by a reader against the DAG.
   Everything else in `row.json` is derived from the record.
+
+## Recorded hardware, in full
+
+`row.json` carries `hw` as an atomic value (`1× NVIDIA L40S (g6e.xlarge)`) so it renders in an
+index table. The complete runtime as recorded in the DAG:
+
+- **1× NVIDIA L40S**, 4 vCPU AMD EPYC 7R13, **CUDA 13.0**
+- The instance *type* is not in the record — only the accelerator and CPU are. `g6e.xlarge` is
+  inferred from that pairing, and is stated here as an inference rather than a finding.
+
+Peak GPU memory was **582 MB of 46,068 MB** — this row used **1.3%** of the card it was given.
+A T4 would have run it identically for roughly a third of the price. The truncated run cost
+$0.10, so the absolute waste was trivial; at the untruncated 200 epochs (estimated ~75m33s,
+**~$2.34** on the L40S) the same choice would cost meaningfully more than it needs to.

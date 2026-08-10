@@ -19,7 +19,7 @@
   },
   "rebuild": {
     "time": "4 min",
-    "hw": "1x Tesla T4 (g4dn.xlarge) - CPU-only is sufficient",
+    "hw": "1\u00d7 Tesla T4 (g4dn.xlarge)",
     "costUsd": 0.03
   },
   "patch": {

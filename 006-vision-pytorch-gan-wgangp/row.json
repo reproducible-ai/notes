@@ -20,10 +20,14 @@
   "forkCommit": "b4c63045aead8024952f36cf7b664d8dcf1ee0c5",
   "license": "MIT",
   "rebuild": {
-    "time": "3m22s traced (2m06s MNIST download, 1m06s training, 6.6s evaluation)",
-    "hw": "1x NVIDIA L40S, 4 vCPU AMD EPYC 7R13, CUDA 13.0 (as recorded in the DAG runtime; the instance type itself is not in the record). Heavily over-provisioned: peak GPU memory was 582 MB of 46,068 MB.",
-    "costUsd": null,
-    "costNote": "Capture cost was lost with the operator's working directory and is deliberately not estimated. The tier-2 certification cost ~$0.10 per the campaign ledger - the cheapest certification in the campaign to date. See costs.md."
+    "time": "3m22s",
+    "hw": "1\u00d7 NVIDIA L40S (g6e.xlarge)",
+    "costUsd": 0.1,
+    "costNote": "Capture cost was lost with the operator's working directory and is deliberately not estimated. The tier-2 certification cost ~$0.10 per the campaign ledger - the cheapest certification in the campaign to date. See costs.md.",
+    "fixedCostUsd": 0.07,
+    "scalingCostUsd": 0.01,
+    "fullRunEstimateUsd": 2.34,
+    "fullRunEstimateBasis": "Of the 3m22s traced run, 2m06s was the MNIST download and 6.6s the evaluation \u2014 both fixed. 1m06s covered 3 epochs, so \u224822s per epoch. 200 epochs \u2248 73m20s training + 2m13s fixed \u2248 75m33s on the same g6e.xlarge at $1.861/h. Excludes instance boot and provisioning, which this row records as uncaptured."
   },
   "reproduce": {
     "hash": "e812e9815b0934fa19a21be4f57c33349a462b5dee108b0fc9692f57b8f04f3a",
@@ -81,5 +85,11 @@
   "dagHash": "e812e9815b0934fa19a21be4f57c33349a462b5dee108b0fc9692f57b8f04f3a",
   "upstreamUrl": "https://github.com/eriklindernoren/PyTorch-GAN",
   "forkUrl": "https://github.com/reproducible-ai/PyTorch-GAN",
-  "experimentUrlNote": "recipe did not enable logging; bridge armed but the workload never called wandb"
+  "experimentUrlNote": "recipe did not enable logging; bridge armed but the workload never called wandb",
+  "truncation": {
+    "ran": 3,
+    "full": 200,
+    "unit": "epochs",
+    "note": "Three of 200 epochs. The recipe is unchanged; only the epoch count was reduced."
+  }
 }

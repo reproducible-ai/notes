@@ -18,8 +18,8 @@
   "artifactUrl": "https://huggingface.co/reproducible-ai/timm-classifier",
   "experimentUrl": null,
   "rebuild": {
-    "time": "9m34s (3m47s traced: fetch 18.3s, train 166.5s, evaluate 42.2s)",
-    "hw": "g4dn.xlarge (1x Tesla T4, us-east-2c)",
+    "time": "9m34s",
+    "hw": "1\u00d7 Tesla T4 (g4dn.xlarge)",
     "costUsd": 0.1
   },
   "reproduce": {

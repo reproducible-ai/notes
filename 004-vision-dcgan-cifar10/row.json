@@ -19,10 +19,14 @@
   "forkCommit": "6012a42715634b149bce107fbf77c80d87062791",
   "license": "BSD-3-Clause",
   "rebuild": {
-    "time": "26m41s traced (24m57s of it the CIFAR-10 download; 1m42s of training)",
-    "hw": "1x Tesla T4, 4 vCPU Intel Xeon Platinum 8259CL, CUDA 13.0 (as recorded in the DAG runtime; the instance type itself is not in the record)",
-    "costUsd": null,
-    "costNote": "Capture cost was lost with the operator's working directory and is deliberately not estimated. The tier-2 certification cost ~$0.41 per the campaign ledger. See costs.md."
+    "time": "26m41s",
+    "hw": "1\u00d7 Tesla T4 (g4dn.xlarge)",
+    "costUsd": 0.41,
+    "costNote": "Capture cost was lost with the operator's working directory and is deliberately not estimated. The tier-2 certification cost ~$0.41 per the campaign ledger. See costs.md.",
+    "fixedCostUsd": 0.22,
+    "scalingCostUsd": 0.01,
+    "fullRunEstimateUsd": 0.59,
+    "fullRunEstimateBasis": "24m57s of the 26m41s traced run was the CIFAR-10 download, which does not scale; 1m42s was one epoch of training, which does. 25 epochs \u2248 42m30s training + 24m57s fixed \u2248 67m27s on the same g4dn.xlarge at $0.526/h. Excludes instance boot and provisioning, which this row records as uncaptured \u2014 so it is a floor, not a ceiling."
   },
   "reproduce": {
     "hash": "3a8ff4c4c89b4cf796fa568b773e4d482fe1fde848b8baf1805ce6a47b800ba0",
@@ -89,5 +93,11 @@
   ],
   "upstreamUrl": "https://github.com/pytorch/examples",
   "forkUrl": "https://github.com/reproducible-ai/examples",
-  "experimentUrlNote": "recipe did not enable logging; bridge armed but the workload never called wandb"
+  "experimentUrlNote": "recipe did not enable logging; bridge armed but the workload never called wandb",
+  "truncation": {
+    "ran": 1,
+    "full": 25,
+    "unit": "epochs",
+    "note": "One of 25 epochs. The recipe is unchanged; only the epoch count was reduced."
+  }
 }

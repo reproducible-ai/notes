@@ -19,7 +19,7 @@
   "experimentUrl": null,
   "rebuild": {
     "time": "8m51s",
-    "hw": "g4dn.xlarge (1x Tesla T4, us-east-2)",
+    "hw": "1\u00d7 Tesla T4 (g4dn.xlarge)",
     "costUsd": 0.06
   },
   "reproduce": {

@@ -13,7 +13,7 @@
   },
   "rebuild": {
     "time": "4.8 min",
-    "hw": "1\u00d7L40S",
+    "hw": "1\u00d7 NVIDIA L40S (g6e.xlarge)",
     "costUsd": 0.15
   },
   "dagUrl": "https://glaas.ai/dag/72ad9675f624563a018c0e76f81fea418edb268ab19002c404a793721f86fde2",

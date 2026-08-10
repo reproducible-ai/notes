@@ -18,7 +18,7 @@
   "license": "MIT",
   "rebuild": {
     "time": "5 min",
-    "hw": "1x Tesla T4 (g4dn.xlarge)",
+    "hw": "1\u00d7 Tesla T4 (g4dn.xlarge)",
     "costUsd": 0.05
   },
   "patch": {

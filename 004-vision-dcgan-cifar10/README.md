@@ -137,3 +137,25 @@ RESULT: REPRODUCIBLE RECORD — tier 1 complete (NOT yet a Certified reproductio
   does not expose the machine image, so that field is taken from the campaign's own
   compute-target configuration and cannot be checked by a reader against the DAG.
   Everything else in `row.json` is derived from the record.
+
+## Where the wall-clock actually went
+
+The traced run was **26m41s**, and it is worth being precise about the shape of that
+number, because it is the difference between a useful cost estimate and a misleading one.
+
+| phase | duration | scales with epochs? |
+|---|---|---|
+| CIFAR-10 download | **24m57s** | no — fixed |
+| training (1 epoch) | **1m42s** | yes |
+
+**94% of this run was a fixed cost.** Anyone scaling the headline 26m41s by 25 to price the
+untruncated recipe would land near 11 hours; the real figure is closer to **67 minutes** —
+42m30s of training plus the same 24m57s download. That is a factor-of-ten error, and it comes
+entirely from treating a fixed cost as a variable one.
+
+This is why `row.json` carries `fixedCostUsd`, `scalingCostUsd` and `fullRunEstimateBasis`
+separately rather than a single number: the fixed/variable split differs on every row, and only
+someone who watched the run knows which portion scales.
+
+_Caveat, recorded in `costs.md` and repeated here: the instance's total billed lifetime was not
+captured — boot and provisioning are outside the traced window. Every figure here is a floor._
