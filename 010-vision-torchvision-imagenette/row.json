@@ -43,5 +43,6 @@
     "tier": 1,
     "result": null,
     "resultCaveat": "Tier-1 record only \u2014 NOT certified. No cold rebuild has been run. The freeze is also THIN: imports-vs-freeze Tier-A misses are 2 (tqdm, typing-extensions) because roar 0.4.4rc3 over-corrects (P0-28)."
-  }
+  },
+  "experimentUrlNote": "recipe did not enable logging; bridge armed but the workload never called wandb"
 }

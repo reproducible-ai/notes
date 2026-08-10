@@ -72,5 +72,6 @@
   ],
   "artifactUrl": "https://huggingface.co/reproducible-ai/cleanrl-ppo",
   "summary": "Single-file PPO reproduced at upstream's own default hyperparameters, full 500k timesteps, converged to CartPole-v1's maximum episodic return of 500. Easiest row so far: ppo.py imports nothing from its own repository, so there is no package install to blind a tracer or vanish from a dependency freeze, and the whole dependency set is five distributions that resolve cleanly from PyPI. One real gap, patched in 10 lines: ppo.py as published saves no model at all, only TensorBoard scalars, so there was no artifact to publish. The flag was ported from its own sibling ppo_continuous_action.py, which already has it. Also worth noting: GitHub's licence API reports 'Other' for this repository because ~290 lines of third-party attribution follow the MIT text in LICENSE; the project is MIT.",
-  "verified": true
+  "verified": true,
+  "experimentUrl": "https://huggingface.co/spaces/reproducible-ai/experiments?project=cleanrl-ppo-cartpole"
 }

@@ -43,5 +43,6 @@
     "manifestDiff": "57/57 pins exact",
     "resultCaveat": "GPU training is not bit-reproducible at --seed 42 (cuDNN algorithm selection is unpinned); metrics 85.56/99.57 vs recorded 85.67/99.73. Reproduce, not replicate."
   },
-  "verified": true
+  "verified": true,
+  "experimentUrlNote": "recipe did not pass timm --log-wandb; bridge armed but the workload never called wandb"
 }

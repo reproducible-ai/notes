@@ -74,5 +74,7 @@
   "forkUrl": "https://github.com/reproducible-ai/minGPT",
   "artifactUrl": "https://huggingface.co/reproducible-ai/mingpt",
   "summary": "Rebuilt with zero changes to upstream source. gpt-nano (0.09M params) trained from scratch to add two 2-digit numbers: 99.2% on the held-out test split in 195s on one T4 \u2014 and 2m22s on 4 CPU cores, so no GPU is needed. No dataset to fetch: AdditionDataset synthesises every problem in-process from a seeded RNG. Two real upstream gaps: setup.py declares only torch but mingpt/utils.py imports numpy, so a clean install per the README fails to import; and the demo has no stopping criterion at all (Trainer.max_iters defaults to None, so it trains forever) and publishes no target accuracy, so max_iters=3000 is the operator's choice, not upstream's.",
-  "verified": true
+  "verified": true,
+  "experimentUrl": null,
+  "experimentUrlNote": "recipe did not enable logging; bridge armed but the workload never called wandb"
 }

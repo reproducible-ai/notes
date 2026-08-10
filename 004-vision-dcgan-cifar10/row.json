@@ -88,5 +88,6 @@
     "79e8112cc315cca76c535db258b521bf787d977ffcc3cc15db0d41b982fb6eec"
   ],
   "upstreamUrl": "https://github.com/pytorch/examples",
-  "forkUrl": "https://github.com/reproducible-ai/examples"
+  "forkUrl": "https://github.com/reproducible-ai/examples",
+  "experimentUrlNote": "recipe did not enable logging; bridge armed but the workload never called wandb"
 }

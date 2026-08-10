@@ -44,5 +44,6 @@
     "evidence": "CERTIFICATION.md",
     "manifestDiff": "62/62 pins exact"
   },
-  "verified": true
+  "verified": true,
+  "experimentUrlNote": "bridge not armed; recipe did not enable logging"
 }

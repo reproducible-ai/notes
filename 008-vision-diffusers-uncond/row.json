@@ -45,5 +45,6 @@
     "evidence": "CERTIFICATION.md",
     "manifestDiff": "85/85 pins exact"
   },
-  "verified": true
+  "verified": true,
+  "experimentUrl": "https://huggingface.co/spaces/reproducible-ai/experiments?project=train_unconditional"
 }
