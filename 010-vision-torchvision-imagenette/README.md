@@ -1,5 +1,9 @@
 # 010 — torchvision `references/classification` (resnet18 / Imagenette)
 
+> **Re-capture in progress (2026-08-10).** This row is being captured a third time.
+> The numbers below describe the second capture and will be replaced when the third
+> completes; the workload and its result are unchanged, only the record is being redone.
+
 **Verdict: reproduced.** The recipe runs from published materials, trains a real model,
 and the record of that run is complete and public.
 
