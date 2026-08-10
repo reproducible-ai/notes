@@ -73,3 +73,11 @@ findings, which stand on their own regardless of the record's status.
 - `issues.md` — five upstream findings, two of them real bugs, with a prepared patch
 - `commands.md` — the exact commands, reproducible as written
 - `costs.md` — spend
+
+---
+
+## Re-capture in progress (2026-08-10)
+
+The recipe above is unchanged. Only the capture is being re-run, to try to obtain a
+published graph that is both complete and attributed. This section is a placeholder and
+is replaced by the result.
