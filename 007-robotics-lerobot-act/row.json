@@ -14,7 +14,7 @@
   },
   "rebuild": {
     "time": "6.0 min",
-    "hw": "1×L40S",
+    "hw": "1\u00d7L40S",
     "costUsd": 0.6
   },
   "dagUrl": "https://glaas.ai/dag/cc490321bbbf07fd270c8bd83d12967de0fb891d1265994c5cca134df57f0639",
@@ -41,7 +41,7 @@
     "exitCode": 0,
     "stepsRun": "3/3",
     "stepsNote": "4 jobs in the lineage; the 4th is the roar put publish step, excluded by --no-puts",
-    "manifestDiff": "80/80 recorded pins present at the exact recorded version — 0 missing, 0 mismatched (23/79/73 per step); 24 extra transitive distributions",
+    "manifestDiff": "80/80 recorded pins present at the exact recorded version \u2014 0 missing, 0 mismatched (23/79/73 per step); 24 extra transitive distributions",
     "recordedInterpreter": "3.12.10",
     "rebuildInterpreter": "3.12.10",
     "venvClosure": "include-system-site-packages=false; no dist-packages or host site-packages on sys.path; torch/huggingface_hub/safetensors/numpy all resolve inside .venv",
@@ -62,5 +62,10 @@
     "costUsd": 1.25,
     "openObservation": "torchcodec is a recorded pin but needs FFmpeg, an OS package no pip freeze captures; it fails to load on a bare host and LeRobot falls back to pyav (also a recorded pin). Did not affect this row's result."
   },
-  "notes": "ACT (Action Chunking Transformer, ResNet-18 backbone) trains end to end on the public lerobot/pusht_image dataset with zero lines of upstream source changed. Truncated to 300 of the 100000 default steps — a pipeline-viability run, not a converged policy. Two things bite anyone reproducing a framework rather than a script. First, the documented entry point only exists after `pip install -e .`, and an editable self-install makes the tracer treat the whole repository as package territory, so the lineage loses every data and checkpoint edge; the fix is to install the dependency extra, uninstall the package, and import from the checkout. Second — and this is the one that would have shipped an un-rebuildable row — `pip uninstall` leaves `src/lerobot.egg-info/` behind, and because the reproduction puts `src/` on sys.path, `importlib.metadata` reads it straight back as an installed `lerobot 0.6.2`, a version that has never been published on PyPI. Every structural check still passes; only trying to install the recorded environment finds it. Separately, upstream's own wandb logging cannot be bridged to any substitute tracker: `WandBLogger.__init__` calls `wandb.run.get_url()` unguarded, which no wandb-compatible tracker implements, so the run is logged via a dedicated evaluation step instead (held-out eval_loss 0.528 over 2742 frames, matching training's own step-300 number). This row was re-captured on 2026-08-08 on a newer capture toolchain that records a materially more complete package set: the download step's recorded environment went from 2 pins to 23, and a fresh clone installing exactly those 23 pins with --no-deps and PYTHONPATH unset now runs that step to exit 0. The earlier record's 2 pins could not — the step's own top-level import was missing from it."
+  "notes": "ACT (Action Chunking Transformer, ResNet-18 backbone) trains end to end on the public lerobot/pusht_image dataset with zero lines of upstream source changed. Truncated to 300 of the 100000 default steps \u2014 a pipeline-viability run, not a converged policy. Two things bite anyone reproducing a framework rather than a script. First, the documented entry point only exists after `pip install -e .`, and an editable self-install makes the tracer treat the whole repository as package territory, so the lineage loses every data and checkpoint edge; the fix is to install the dependency extra, uninstall the package, and import from the checkout. Second \u2014 and this is the one that would have shipped an un-rebuildable row \u2014 `pip uninstall` leaves `src/lerobot.egg-info/` behind, and because the reproduction puts `src/` on sys.path, `importlib.metadata` reads it straight back as an installed `lerobot 0.6.2`, a version that has never been published on PyPI. Every structural check still passes; only trying to install the recorded environment finds it. Separately, upstream's own wandb logging cannot be bridged to any substitute tracker: `WandBLogger.__init__` calls `wandb.run.get_url()` unguarded, which no wandb-compatible tracker implements, so the run is logged via a dedicated evaluation step instead (held-out eval_loss 0.528 over 2742 frames, matching training's own step-300 number). This row was re-captured on 2026-08-08 on a newer capture toolchain that records a materially more complete package set: the download step's recorded environment went from 2 pins to 23, and a fresh clone installing exactly those 23 pins with --no-deps and PYTHONPATH unset now runs that step to exit 0. The earlier record's 2 pins could not \u2014 the step's own top-level import was missing from it.",
+  "dagHash": "cc490321bbbf07fd270c8bd83d12967de0fb891d1265994c5cca134df57f0639",
+  "supersededDagHashes": [
+    "2f512f4cd4d7050b0adbd7a8d8f573afd3155f932890c0f9f7a2082eb69fb14e",
+    "023d15ffb248254a2955d46a513c57a485a78587701d43a1053819f96ad50ed8"
+  ]
 }

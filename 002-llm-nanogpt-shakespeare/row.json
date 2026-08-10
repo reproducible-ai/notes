@@ -103,5 +103,9 @@
     "wallClockMin": 22,
     "costUsd": 0.38,
     "verifiedFlagNote": "Set true because a cold rebuild objectively passed (exit 0, 2/2). The MMA may wish to reconsider given freezeSufficiency.closedSet=false - the publish decision is the operator's, not the certifier's."
-  }
+  },
+  "dagHash": "72ad9675f624563a018c0e76f81fea418edb268ab19002c404a793721f86fde2",
+  "supersededDagHashes": [
+    "e85f392984e6de72ec32979865b25a3ec5328bf8ae522283e526c73702aa4c58"
+  ]
 }

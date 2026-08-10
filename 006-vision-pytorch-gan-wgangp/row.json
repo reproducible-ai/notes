@@ -1,6 +1,6 @@
 {
   "name": "WGAN-GP (MNIST)",
-  "org": "Erik Linder-Norén",
+  "org": "Erik Linder-Nor\u00e9n",
   "type": "vision",
   "date": "2026-08-06",
   "status": "reproduced",
@@ -49,13 +49,22 @@
     "stepsNote": "The DAG has 4 jobs; the fourth is the roar put, excluded by --no-puts by design. 3/3 is the whole reproducible pipeline.",
     "manifestDiff": "45/45 recorded pip pins present at exact recorded versions (0 missing, 0 mismatched); all three steps then ran to exit 0 with no ModuleNotFoundError, demonstrating the recorded set is sufficient for this row's import graph and not merely resolvable",
     "outputs": [
-      {"path": "out/wgangp.pt", "sizeBytes": 8197921, "matchesCapture": true},
-      {"path": "metrics/metrics.json", "sizeBytes": 632, "matchesCapture": false, "captureSizeBytes": 633}
+      {
+        "path": "out/wgangp.pt",
+        "sizeBytes": 8197921,
+        "matchesCapture": true
+      },
+      {
+        "path": "metrics/metrics.json",
+        "sizeBytes": 632,
+        "matchesCapture": false,
+        "captureSizeBytes": 633
+      }
     ],
     "outputsNote": "Byte-identical output is NOT claimed. metrics.json differs by one byte between the capture record (633) and the certification evidence (632); this is NOT reconciled - the certification host is gone and only the size was stat'd, so there is nothing left to diff. Floating-point metrics on a non-deterministically-trained checkpoint would produce exactly this, but that is an explanation offered, not a verification performed; a ledger transcription slip is equally consistent with the evidence. The eight samples/*.png grids are recorded outputs of step 2 and were not stat'd at rebuild.",
     "p0_14Evidence": "Did NOT manifest. The reproduce venv's sys.path carried no host dist-packages and torch loaded from inside the venv, so the certification exercised the recorded environment rather than the machine image.",
     "pythonVersion": "Recorded interpreter 3.12.10 CPython matched the reproduce environment exactly - no PYTHON VERSION MISMATCH warning was emitted.",
-    "spendUsd": 0.10,
+    "spendUsd": 0.1,
     "spendSource": "campaign ledger figure, not a metered invoice line",
     "evidenceProvenance": "RECONSTRUCTED from the campaign ledger's copy of the certifier's report. The certifying operator's working directory was cleaned up before the rule requiring cert evidence on a certs/ branch existed. Nothing was re-run.",
     "freezeCaveat": "Captured on roar 0.4.3 (per the record's own roar_version and the roar-cli==0.4.3 pin in the freeze) and certified on 0.4.4.dev0 @ c5c553b - both predate roar #274, a fix to how the freeze pass enumerates installed packages, so this record may be missing packages a later capture would have caught. The imports-vs-freeze audit finds NO decisive miss (everything import torch/torchvision demonstrably loads is present) but three packages that often accompany a torch install are absent: requests, urllib3, charset-normalizer. This workload plausibly never imports them - no networking in the training loop, and torchvision's MNIST download uses stdlib urllib rather than requests. Weak evidence, NOT a proven defect; and 'no detected miss' is never 'verified complete'."
@@ -67,5 +76,6 @@
   },
   "reconstructed": true,
   "reconstructionNote": "These notes were reconstructed from the published DAG and the campaign ledger after the operator's original working notes were lost - the working directory was cleaned up before the campaign adopted the rule that notes must be pushed to a per-row branch. The capture and certification themselves are unchanged and were never lost. The upstream findings in issues.md are an exception: they survived because the operator committed them into the fork as implementations/wgan_gp/REPRODUCTION.md, so they are contemporaneous and in the operator's own words. No operator narrative has been invented and this row carries no difficulty rating, because no operator judgement survives to support one.",
-  "summary": "WGAN-GP (Gulrajani et al. 2017) from eriklindernoren/PyTorch-GAN - an MLP generator and critic on 28x28 MNIST - trained 3 epochs of an upstream default 200, published with a complete, publicly resolvable lineage record (AI-BOM 100/100), with a metric computed on the held-out test split. Certified by an independent cold rebuild: exit 0, 3/3 steps, all 45 recorded pins present at their exact recorded versions, and the published 8,197,921 B checkpoint regenerated at the same size. The headline upstream finding is that this implementation saves no model at all: after up to 200 epochs the generator and critic are discarded at process exit, leaving only PNG grids, so there is no artifact whose lineage could be recorded. Seven further upstream observations were recorded and none was fixed - notably nn.BatchNorm1d(out_feat, 0.8) passes 0.8 as eps rather than momentum, about five orders of magnitude above the default epsilon; two command-line flags (--n_cpu, --clip_value) are parsed but dead; requirements.txt is unpinned back to torch>=0.4.0 and describes no rebuildable environment; and a repository-level *.json gitignore rule silently swallows any metrics file written at a default path. Zero lines of the model definition or training loop were changed."
+  "summary": "WGAN-GP (Gulrajani et al. 2017) from eriklindernoren/PyTorch-GAN - an MLP generator and critic on 28x28 MNIST - trained 3 epochs of an upstream default 200, published with a complete, publicly resolvable lineage record (AI-BOM 100/100), with a metric computed on the held-out test split. Certified by an independent cold rebuild: exit 0, 3/3 steps, all 45 recorded pins present at their exact recorded versions, and the published 8,197,921 B checkpoint regenerated at the same size. The headline upstream finding is that this implementation saves no model at all: after up to 200 epochs the generator and critic are discarded at process exit, leaving only PNG grids, so there is no artifact whose lineage could be recorded. Seven further upstream observations were recorded and none was fixed - notably nn.BatchNorm1d(out_feat, 0.8) passes 0.8 as eps rather than momentum, about five orders of magnitude above the default epsilon; two command-line flags (--n_cpu, --clip_value) are parsed but dead; requirements.txt is unpinned back to torch>=0.4.0 and describes no rebuildable environment; and a repository-level *.json gitignore rule silently swallows any metrics file written at a default path. Zero lines of the model definition or training loop were changed.",
+  "dagHash": "e812e9815b0934fa19a21be4f57c33349a462b5dee108b0fc9692f57b8f04f3a"
 }

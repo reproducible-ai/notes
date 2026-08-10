@@ -45,8 +45,14 @@
     "stepsRun": "1/1",
     "manifestDiff": "69/69 recorded pip pins present at recorded versions in the reproduce venv (0 missing, 0 mismatched); diffed via `roar reproduce --lineage --export-requirements` against `uv pip freeze --python .venv/bin/python`, name-normalized (case + underscore/hyphen) before comparison",
     "outputs": [
-      {"path": "out/ppo_cartpole.cleanrl_model", "sizeBytes": 41625},
-      {"path": "runs/CartPole-v1__ppo__1__1786118877/events.out.tfevents.1786118877.ip-10-50-20-237.2715.0", "sizeBytes": 678636}
+      {
+        "path": "out/ppo_cartpole.cleanrl_model",
+        "sizeBytes": 41625
+      },
+      {
+        "path": "runs/CartPole-v1__ppo__1__1786118877/events.out.tfevents.1786118877.ip-10-50-20-237.2715.0",
+        "sizeBytes": 678636
+      }
     ],
     "finalMetric": "episodic_return=[500.] at global_step=499612 (CartPole-v1 ceiling), matching the capture",
     "p0_14Evidence": "Training PID's /proc/<pid>/environ carries VIRTUAL_ENV=/tmp/.../reproduce/cleanrl/.venv and PATH prepended with .venv/bin; every loaded torch .so (_C, libc10, libtorch, libtorch_cuda, ...) resolves under .venv/lib/python3.12/site-packages/torch/ per /proc/<pid>/maps; grep -c dist-packages against the same maps file = 0 (no host package directory mapped into the process at all)",
@@ -57,5 +63,9 @@
     "wallClock": "~15 min instance lifetime (launch 16:02:04Z, terminate 16:17:01Z); training step itself ~5 min",
     "spendUsd": 0.13,
     "certifiedBy": "tier-2 certification agent (cold rebuild, independent of the capturing operator)"
-  }
+  },
+  "dagHash": "58df327f1e02faf0d64efb8f07daac7c9eca70d3713d008bc8587fea780617be",
+  "supersededDagHashes": [
+    "a026cb75b6d24e9e0c338456d1eccbd3f9cff948651c6d9049fc98570387733b"
+  ]
 }

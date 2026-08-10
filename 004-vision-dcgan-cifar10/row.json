@@ -49,9 +49,22 @@
     "stepsNote": "The DAG has 3 jobs; the third is the roar put, excluded by --no-puts by design. 2/2 is the whole reproducible pipeline.",
     "manifestDiff": "45/45 recorded pip pins present at exact recorded versions (0 missing, 0 mismatched); both steps then ran to exit 0 with no ModuleNotFoundError, demonstrating the recorded set is sufficient for this row's import graph and not merely resolvable",
     "outputs": [
-      {"path": "out/netG_epoch_0.pth", "sizeBytes": 14323315, "matchesCapture": true},
-      {"path": "out/real_samples.png", "sizeBytes": 379915, "matchesCapture": true},
-      {"path": "out/fake_samples_epoch_000.png", "sizeBytes": 573413, "matchesCapture": false, "captureSizeBytes": 546896}
+      {
+        "path": "out/netG_epoch_0.pth",
+        "sizeBytes": 14323315,
+        "matchesCapture": true
+      },
+      {
+        "path": "out/real_samples.png",
+        "sizeBytes": 379915,
+        "matchesCapture": true
+      },
+      {
+        "path": "out/fake_samples_epoch_000.png",
+        "sizeBytes": 573413,
+        "matchesCapture": false,
+        "captureSizeBytes": 546896
+      }
     ],
     "outputsNote": "Byte-identical output is NOT claimed and was not observed. fake_samples_epoch_000.png is a PNG of generated images, so its compressed size tracks pixel content and GPU training is not bit-deterministic at a fixed seed. The two size-invariant files (a fixed-shape state dict, and a grid of dataset images chosen deterministically by the seed) matched exactly. A fourth recorded output, netD_epoch_0.pth (11,076,841 B at capture), was not stat'd on the rebuild host.",
     "attempts": "First success after 3 inconclusive attempts; the campaign ledger records all three as substrate failures rather than row defects.",
@@ -68,5 +81,9 @@
   },
   "reconstructed": true,
   "reconstructionNote": "These notes were reconstructed from the published DAG and the campaign ledger after the operator's original working notes were lost - the working directory was cleaned up before the campaign adopted the rule that notes must be pushed to a per-row branch. The capture and certification themselves are unchanged and were never lost. No operator narrative has been reconstructed and this row carries no difficulty rating, because no operator judgement survives to support one.",
-  "summary": "DCGAN (Radford et al. 2015) from pytorch/examples, trained on CIFAR-10 for one epoch of a default 25 and published with a complete, publicly resolvable lineage record (AI-BOM 100/100). Zero upstream source lines were changed - dcgan/main.py is byte-for-byte upstream and the entire +110/-0 fork diff is workflow, config and a .gitignore fix. Certified by an independent cold rebuild: exit 0, 2/2 steps, all 45 recorded pins present at their exact recorded versions, and the published 14,323,315 B generator checkpoint regenerated at the same size. Two upstream-facing findings: the repository directory-ignores its output paths, so those directories do not survive a clean checkout and a cold rebuild has nowhere to write; and the CIFAR-10 fetch from cs.toronto.edu is throttled to ~114 kB/s, making the download 94% of the run's wall clock while the GPU sits idle. This row also settled the campaign's bare-`python` question: the certification host had no bare `python` on PATH, yet the recorded `python dcgan/main.py` step ran and exited 0, proving roar reproduce activates the venv it provisions."
+  "summary": "DCGAN (Radford et al. 2015) from pytorch/examples, trained on CIFAR-10 for one epoch of a default 25 and published with a complete, publicly resolvable lineage record (AI-BOM 100/100). Zero upstream source lines were changed - dcgan/main.py is byte-for-byte upstream and the entire +110/-0 fork diff is workflow, config and a .gitignore fix. Certified by an independent cold rebuild: exit 0, 2/2 steps, all 45 recorded pins present at their exact recorded versions, and the published 14,323,315 B generator checkpoint regenerated at the same size. Two upstream-facing findings: the repository directory-ignores its output paths, so those directories do not survive a clean checkout and a cold rebuild has nowhere to write; and the CIFAR-10 fetch from cs.toronto.edu is throttled to ~114 kB/s, making the download 94% of the run's wall clock while the GPU sits idle. This row also settled the campaign's bare-`python` question: the certification host had no bare `python` on PATH, yet the recorded `python dcgan/main.py` step ran and exited 0, proving roar reproduce activates the venv it provisions.",
+  "dagHash": "3a8ff4c4c89b4cf796fa568b773e4d482fe1fde848b8baf1805ce6a47b800ba0",
+  "supersededDagHashes": [
+    "79e8112cc315cca76c535db258b521bf787d977ffcc3cc15db0d41b982fb6eec"
+  ]
 }
