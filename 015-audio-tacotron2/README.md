@@ -230,14 +230,6 @@ numbers that force them, `repro/preflight_cpu.py` fails loudly if any ceiling is
 wrong, `repro/assert_upstream_unmodified.py` fails if an upstream file moves, and
 `repro/native_deps_probe.py` prints the library boundary into the run's own log.
 
-What the *recorded environment* carries is thinner than that, and the difference
-is the honest answer to "can a stranger rebuild this?": a freeze can tell you
-`librosa==0.9.2` was installed. It cannot tell you that 0.9.2 is a ceiling rather
-than a coincidence, that setuptools is load-bearing, or that 53 of the libraries
-the process mapped are outside every package manager on the box.
-
-## What the recorded environment does and does not carry
-
 The training step's recorded package list has **71 pins** and an
 imports-versus-freeze audit finds **zero Tier-A misses**: `torch`, `numpy`,
 `scipy`, `librosa`, `matplotlib`, `numba`, `llvmlite`, `soundfile`, `audioread`,
@@ -248,6 +240,17 @@ lazily-imported hints are absent — `requests`, `idna`, `charset-normalizer`,
 `pooch` imports `requests` only when it downloads something, and this workload
 never makes it.
 
+It is also, in the other direction, **thicker than the workload**: 22 of the 71
+pins are packages Tacotron 2 never imports — `boto3`, `botocore`, `s3transfer`,
+`jmespath`, `paramiko`, `PyNaCl`, `bcrypt`, `invoke`, `google-auth`, `psutil`,
+`pandas`, `pyarrow`, `pytz`, `cloudpickle`, `dill`, `tabulate`, `wcwidth`,
+`defusedxml`, `brotli`, `zstandard`, `backports.tarfile`, `platformdirs`. That
+set is an AWS-plus-SSH-plus-dataframe stack, i.e. the machinery of the machine
+rather than of the model, and none of it belongs to any other model this campaign
+has built. A thick freeze installs fine and does not block a rebuild, but it is
+worth saying out loud that a recorded package list is evidence of what a *host*
+had loaded, not a statement about what a workload needs.
+
 The dataset step records nine packages, which is the recording tool's own
 closure and is **correct** for that step rather than a gap: an AST parse of the
 exact file it ran shows `repro/fetch_ljspeech.py` imports `__future__`,
@@ -256,11 +259,13 @@ nothing outside the standard library — with no `__import__`, `importlib`, `exe
 or `subprocess` anywhere to hide one. A step with no third-party imports has no
 third-party pins to record.
 
-What the environment cannot carry is the *reason* for the pins. A freeze that
-lists `librosa==0.9.2` and `numpy==1.26.4` is a faithful description of what was
-installed and says nothing about the fact that both are ceilings. That is the
-gap this row documents, and it is why the ceilings are written into the workflow
-next to the upstream line numbers that force them.
+What the environment cannot carry is the *reason* for the pins, and that is the
+honest answer to "can a stranger rebuild this?". A freeze can tell you
+`librosa==0.9.2` and `numpy==1.26.4` were installed. It cannot tell you that both
+are ceilings rather than coincidences, that setuptools is load-bearing, or that
+53 of the libraries the process mapped are outside every package manager on the
+box. That is why the ceilings are written into the workflow next to the upstream
+line numbers that force them, rather than left to the freeze to imply.
 
 ## Experiment logging
 
