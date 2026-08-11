@@ -1,0 +1,59 @@
+{
+  "name": "Tacotron 2 (LJ Speech)",
+  "org": "NVIDIA",
+  "type": "audio",
+  "date": "2026-08-11",
+  "status": "partial",
+  "blocker": "The lineage split in two: the graph with the steps, package lists and artefact edge is anonymous, and the attributed graph carrying the organisation, project and training-request backlink landed with zero jobs. The training itself ran cleanly and the artefact is published; only the record is broken.",
+  "notes": "https://github.com/reproducible-ai/notes/tree/main/015-audio-tacotron2",
+  "playbookVersion": "1.0",
+  "roarVersion": "0.4.4rc6",
+  "roarWheelSha256": "c7115b748886259b6a089e547404376acf84c3b81b4cbc8dc5610490ebea7199",
+  "tracer": "preload",
+  "amiId": "ami-0f07f1a0b382b48f7",
+  "upstreamCommit": "185cd24",
+  "license": "BSD-3-Clause",
+  "dagHash": "d7f014101bb02917996cbf3e539dac95958bb0b82b2b69486b0db8ded194f807",
+  "attributedDagHash": "bd10e34c8e450c46b6ccc5481fb9cc47c3a03b0fe25b9342c0f63a64b0392930",
+  "dagUrl": "https://glaas.ai/dag/d7f014101bb02917996cbf3e539dac95958bb0b82b2b69486b0db8ded194f807",
+  "bomUrl": "https://glaas.ai/dag/d7f014101bb02917996cbf3e539dac95958bb0b82b2b69486b0db8ded194f807/audit",
+  "bomScore": 82.8,
+  "upstreamUrl": "https://github.com/NVIDIA/tacotron2",
+  "forkUrl": "https://github.com/reproducible-ai/tacotron2",
+  "artifactUrl": "https://huggingface.co/reproducible-ai/tacotron2-ljspeech",
+  "experimentUrl": null,
+  "experimentUrlNote": "Upstream ships TensorBoard and nothing else, and TensorBoard is not bridged to trackio, so no experiment URL can come from this workload without adding logging code to it. grep -ri 'wandb|mlflow|comet|neptune' over the whole tree returns nothing. The TensorBoard integration is real rather than vestigial and this run exercised it: logger.py subclasses torch.utils.tensorboard.SummaryWriter, train.py calls log_training every iteration (train.py:242) and log_validation at every checkpoint (train.py:147), and the run wrote scalars, per-parameter histograms and three matplotlib figures (alignment, target mel, predicted mel) into outdir/logdir. Adding a wandb.init() to train.py to manufacture a link would have modified the workload and forfeited the zero-upstream-lines property that makes this row worth reading, so it was not done. There is no logging flag that was left unpressed.",
+  "difficulty": "8/10 - hard; the published dependency set is unbuildable on any current interpreter and four modern libraries have each removed a call upstream makes",
+  "truncated": true,
+  "truncation": {
+    "ran": 101,
+    "full": 390500,
+    "unit": "optimiser steps",
+    "note": "390500 is derived from upstream's own config, not guessed: hparams.py sets epochs=500 (read at run time through repro/tf_hparams_shim.py, which supplies the deleted tf.contrib.training.HParams container so upstream's file executes as published), and filelists/ljs_audio_text_train_filelist.txt holds 12500 utterances, which at this row's batch_size=16 with train.py's drop_last=True is 781 steps per epoch. 500 x 781 = 390500. At upstream's default batch_size of 64 the same 500 epochs are 97500 steps; 16 is used because Tacotron 2 unrolls a 1024-wide decoder LSTM over every mel frame of the longest clip in the batch and 64 does not fit in a T4's 16 GB. epochs, batch_size and iters_per_checkpoint are all set through upstream's own --hparams flag; only --train-iters is this row's, and it is inside the recorded argv. At 101 steps training loss falls 49.42 -> 3.00 and validation loss 36.17 -> 5.19; the attention alignment is still noise and the model is NOT converged."
+  },
+  "rebuild": {
+    "time": "22m09s",
+    "hw": "1x Tesla T4 (g4dn.xlarge)",
+    "costUsd": 0.19,
+    "fixedCostUsd": 0.16,
+    "scalingCostUsd": 0.43,
+    "fullRunEstimateUsd": 167.5,
+    "fullRunEstimateBasis": "g4dn.xlarge (1x Tesla T4) at $0.526/hr on-demand, us-east-2. FIXED portion 1,114 s = $0.16: 165 s provisioning + 277 s setup (the dependency install) + 305 s dataset fetch (23.0 s download at 119 MB/s, 7.5 s sha256, 242.2 s bzip2 extraction of 13,100 wavs) + 46.5 s for the first optimiser step, which is CUDA context creation and cuDNN autotuning rather than training + 1 s dataloader construction + 1 s label + 109 s artefact upload + 210 s lineage publication. VARIABLE portion measured over the 100 steps after the first: 2.891 s/step (min 2.54, max 3.15) = $0.422 per 1,000 steps, plus one validation pass per checkpoint at 34.1 s each; upstream's default iters_per_checkpoint is 1000, so that adds $0.005 per 1,000 steps, giving the $0.43 per 1,000 steps in scalingCostUsd. Upstream's own epochs=500 over the 12,500-utterance filelist at batch_size 16 is 390,500 steps = 1,132,450 s of training + 391 validation passes = 13,099 s, plus the 1,114 s fixed = 1,146,663 s = 318.5 h = $167.5. That is for THIS row's configuration on a T4; NVIDIA trained this model on V100s at batch_size 64, where the per-step cost and the step count both differ.",
+    "instanceLifetimeNote": "The published attempt's host lived 20:45:02-21:25 UTC (~40 min) because provisioning and the post-job idle window are outside the job's 22m09s. Two earlier attempts were killed mid-run by host terminations this job did not initiate, adding ~21 min of billed job time; total attributable spend across all three attempts is ~$0.38."
+  },
+  "reproduce": {
+    "hash": "d7f014101bb02917996cbf3e539dac95958bb0b82b2b69486b0db8ded194f807",
+    "cmd": "roar reproduce d7f014101bb02917996cbf3e539dac95958bb0b82b2b69486b0db8ded194f807 --lineage --run --no-puts"
+  },
+  "certification": {
+    "tier": 1,
+    "result": null,
+    "resultCaveat": "Not certified, and not certifiable as published. This row was captured only; a cold rebuild by a different agent is what would decide a Tier-2 result, and none has run. The capture's own exit codes and step counts are Tier-1 completion signals and are deliberately not transcribed into a pass. Independently of certification, the record is split: the graph named in dagHash carries all three steps, 71 pins on the training step and the artefact edge but is anonymous; the attributed graph named in attributedDagHash carries the organisation, the project and the training-request backlink but zero jobs. A certifier rebuilding from dagHash gets the real recipe; a reader looking for attribution has to be told which half to look at, which is the defect."
+  },
+  "patch": {
+    "lines": 1825,
+    "url": "https://github.com/NVIDIA/tacotron2/compare/185cd24e046cc1304b4f8e564734d2498c6e2e6f...reproducible-ai:tacotron2:7869e7ecf63b6760e3ac0d2a6c7f816eceee0967"
+  },
+  "summary": "Truncated reproduction of NVIDIA's Tacotron 2 on the LJ Speech corpus: a character-to-mel-spectrogram sequence-to-sequence model with location-sensitive attention, 512-wide encoder, 1024-wide decoder LSTMs and a 5-layer postnet, trained for 101 of upstream's 390,500 optimiser steps on one T4 with training loss 49.42 -> 3.00 and validation loss 36.17 -> 5.19. Not one line of NVIDIA's code is modified and a per-run check proves all 32 upstream files byte-identical by git blob hash; the truncation is applied by capping the batches upstream's own DataLoader yields, and epochs, batch size and checkpoint interval go through upstream's own --hparams flag. The row's finding is a dependency window nothing in the record describes: this 2019 code runs on a 2026 stack only below four specific versions, each of which REMOVED a call it makes -- librosa 0.10 made the mel filterbank keyword-only, setuptools 84 deleted pkg_resources that librosa 0.9.2 imports, numpy 2.0 removed the binary mode of np.fromstring and matplotlib 3.10 removed canvas.tostring_rgb, and the last two are reached only from the validation pass, so with the image's own numpy the run trains correctly for as long as you like and then dies at the first checkpoint. A second finding sharpens the pip-closure question: of 335 native libraries the workload maps, 276 are inside wheels (including libsndfile, which travels inside the soundfile wheel, so the audio stack is pip-closed), 5 are dpkg-owned, and 53 -- libc, the dynamic loader, all 41 CPython stdlib extension modules and the CUDA driver -- are owned by no package manager at all and could never enter a record built from either pip or apt.",
+  "verified": false
+}

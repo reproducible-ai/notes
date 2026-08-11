@@ -1,0 +1,671 @@
+{
+ "session": {
+  "hash": "d7f014101bb02917996cbf3e539dac95958bb0b82b2b69486b0db8ded194f807",
+  "createdAt": "2026-08-11T21:06:24.070Z",
+  "gitRepo": "https://github.com/reproducible-ai/tacotron2.git",
+  "gitCommit": "7869e7ecf63b6760e3ac0d2a6c7f816eceee0967",
+  "gitBranch": "HEAD",
+  "lastActivity": "2026-08-11T21:06:24.069Z",
+  "labels": [],
+  "scope": {
+   "owner_id": "00000000-0000-0000-0000-000000000000",
+   "owner_name": null,
+   "owner_type": "user",
+   "project_id": null,
+   "project_name": null,
+   "visibility": "public"
+  }
+ },
+ "jobs": [
+  {
+   "stepNumber": 1,
+   "jobUid": "cf964a7071f655fd394a7d2b168b2a06",
+   "command": "python repro/fetch_ljspeech.py --out-dir DUMMY",
+   "exitCode": 0,
+   "durationSeconds": 276.9182126522064,
+   "metadata": {
+    "cwd": "",
+    "git": {
+     "clean": true,
+     "branch": "HEAD",
+     "commit": "7869e7ecf63b6760e3ac0d2a6c7f816eceee0967",
+     "remote_url": "https://github.com/reproducible-ai/tacotron2.git",
+     "commit_message": "Re-arm the watchdog at every stage, not once in setup",
+     "commit_timestamp": "2026-08-11 20:28:31 +0000",
+     "uncommitted_changes": null
+    },
+    "runtime": {
+     "os": {
+      "system": "Linux",
+      "machine": "x86_64",
+      "release": "6.8.0-1052-aws",
+      "version": "#55~22.04.1-Ubuntu SMP Tue Apr  7 04:58:22 UTC 2026"
+     },
+     "vm": {
+      "cloud": "aws",
+      "hypervisor": "amazon"
+     },
+     "cpu": {
+      "count": 4,
+      "model": "Intel(R) Xeon(R) Platinum 8259CL CPU @ 2.50GHz",
+      "sockets": 1,
+      "architecture": "x86_64",
+      "cores_per_socket": 2,
+      "threads_per_core": 2
+     },
+     "gpu": [
+      {
+       "name": "Tesla T4",
+       "memory_mb": 15360,
+       "compute_cap": "7.5"
+      }
+     ],
+     "cuda": {
+      "cuda_version": "13.0",
+      "driver_version": "580.126.09"
+     },
+     "memory": {
+      "total_mb": 15788,
+      "available_mb": 14694
+     },
+     "python": {
+      "version": "3.12.10",
+      "implementation": "CPython"
+     },
+     "timing": {
+      "end": "2026-08-11T20:57:03.567527+00:00",
+      "start": "2026-08-11T20:52:26.823613+00:00",
+      "duration_seconds": 276.7439141273499
+     },
+     "command": [
+      "python",
+      "repro/fetch_ljspeech.py",
+      "--out-dir",
+      "DUMMY"
+     ],
+     "env_vars": {
+      "LANG": "C.UTF-8"
+     },
+     "hostname": "ip-10-50-56-169",
+     "gpu_accounting": {
+      "enabled": true,
+      "gpu_used": false,
+      "gpu_count_used": 0,
+      "gpu_peak_mem_mb": 0
+     }
+    },
+    "packages": {
+     "pip": {
+      "click": "8.4.2",
+      "PyYAML": "6.0.3",
+      "blake3": "1.0.9",
+      "pydantic": "2.13.3",
+      "cryptography": "46.0.7",
+      "pydantic_core": "2.46.3",
+      "annotated-types": "0.7.0",
+      "typing-inspection": "0.4.2",
+      "typing_extensions": "4.15.0"
+     },
+     "dpkg": {
+      "libssl3": "3.0.2-0ubuntu1.23",
+      "libuuid1": "2.37.2-4ubuntu3.5",
+      "libsqlite3-0": "3.37.2-2ubuntu0.5"
+     }
+    },
+    "roar_version": "0.4.4rc6"
+   },
+   "inputCount": 3,
+   "outputCount": 13102,
+   "inputsSample": [
+    {
+     "artifactHash": "70612ffa3fbc410ce74bce66785b51a422cbb3fbd5c647af6da92f2ed3e09da3",
+     "path": "/var/lib/treqs-agent/work/5c26b05a-e860-4ef5-a60b-62acd9e897e2/_work/70532295-f315-49d6-90f3-5a716e28a88a/repository/filelists/ljs_audio_text_test_filelist.txt",
+     "artifact": {
+      "hash": "70612ffa3fbc410ce74bce66785b51a422cbb3fbd5c647af6da92f2ed3e09da3",
+      "size": "60834",
+      "sourceType": null,
+      "registeredAt": "2026-08-11T19:59:56.649Z",
+      "metadata": null,
+      "isComposite": false,
+      "labels": []
+     }
+    },
+    {
+     "artifactHash": "53af4c72cf27bff9f728882133833fe89725dfc38786b82edac93dc51935034c",
+     "path": "/var/lib/treqs-agent/work/5c26b05a-e860-4ef5-a60b-62acd9e897e2/_work/70532295-f315-49d6-90f3-5a716e28a88a/repository/filelists/ljs_audio_text_val_filelist.txt",
+     "artifact": {
+      "hash": "53af4c72cf27bff9f728882133833fe89725dfc38786b82edac93dc51935034c",
+      "size": "11911",
+      "sourceType": null,
+      "registeredAt": "2026-08-11T19:59:56.653Z",
+      "metadata": null,
+      "isComposite": false,
+      "labels": []
+     }
+    },
+    {
+     "artifactHash": "ad85efa70ff4a7087b7bdfca4a3eed7e3c86ac1e05616fec2695eeb028e74825",
+     "path": "/var/lib/treqs-agent/work/5c26b05a-e860-4ef5-a60b-62acd9e897e2/_work/70532295-f315-49d6-90f3-5a716e28a88a/repository/filelists/ljs_audio_text_train_filelist.txt",
+     "artifact": {
+      "hash": "ad85efa70ff4a7087b7bdfca4a3eed7e3c86ac1e05616fec2695eeb028e74825",
+      "size": "1524164",
+      "sourceType": null,
+      "registeredAt": "2026-08-11T19:59:56.636Z",
+      "metadata": null,
+      "isComposite": false,
+      "labels": []
+     }
+    }
+   ],
+   "outputsSample": [
+    {
+     "artifactHash": "8548acfbc739b8a746dd4acb271541b14e2f229521939151be1c006aa5778d61",
+     "path": "/var/lib/treqs-agent/work/5c26b05a-e860-4ef5-a60b-62acd9e897e2/_work/70532295-f315-49d6-90f3-5a716e28a88a/repository/DUMMY/LJ028-0078.wav",
+     "artifact": {
+      "hash": "8548acfbc739b8a746dd4acb271541b14e2f229521939151be1c006aa5778d61",
+      "size": "333670",
+      "sourceType": null,
+      "registeredAt": "2026-08-11T21:05:20.035Z",
+      "metadata": null,
+      "isComposite": false,
+      "labels": []
+     }
+    },
+    {
+     "artifactHash": "1aa3fb8018991c4e22e4f065e3b25d3b26934a073efe923e8418fb19a004b33d",
+     "path": "/var/lib/treqs-agent/work/5c26b05a-e860-4ef5-a60b-62acd9e897e2/_work/70532295-f315-49d6-90f3-5a716e28a88a/repository/DUMMY/LJ018-0301.wav",
+     "artifact": {
+      "hash": "1aa3fb8018991c4e22e4f065e3b25d3b26934a073efe923e8418fb19a004b33d",
+      "size": "256870",
+      "sourceType": null,
+      "registeredAt": "2026-08-11T21:05:20.046Z",
+      "metadata": null,
+      "isComposite": false,
+      "labels": []
+     }
+    },
+    {
+     "artifactHash": "552a75716b8bf9b7408f8dc96062efcbcb91812cd0309d4dda4d0712293a4530",
+     "path": "/var/lib/treqs-agent/work/5c26b05a-e860-4ef5-a60b-62acd9e897e2/_work/70532295-f315-49d6-90f3-5a716e28a88a/repository/DUMMY/LJ005-0087.wav",
+     "artifact": {
+      "hash": "552a75716b8bf9b7408f8dc96062efcbcb91812cd0309d4dda4d0712293a4530",
+      "size": "216422",
+      "sourceType": null,
+      "registeredAt": "2026-08-11T20:00:14.770Z",
+      "metadata": null,
+      "isComposite": false,
+      "labels": []
+     }
+    },
+    {
+     "artifactHash": "463a81cd8506366bd872a957b069563baec5b7e6d9515523ab6d061c0c0472cf",
+     "path": "/var/lib/treqs-agent/work/5c26b05a-e860-4ef5-a60b-62acd9e897e2/_work/70532295-f315-49d6-90f3-5a716e28a88a/repository/DUMMY/LJ016-0074.wav",
+     "artifact": {
+      "hash": "463a81cd8506366bd872a957b069563baec5b7e6d9515523ab6d061c0c0472cf",
+      "size": "350054",
+      "sourceType": null,
+      "registeredAt": "2026-08-11T21:05:20.050Z",
+      "metadata": null,
+      "isComposite": false,
+      "labels": []
+     }
+    },
+    {
+     "artifactHash": "5adef197d51ba78fbe6ce81e50543e1e105ff4d88a7b999fbe45bbe4fe26a30b",
+     "path": "/var/lib/treqs-agent/work/5c26b05a-e860-4ef5-a60b-62acd9e897e2/_work/70532295-f315-49d6-90f3-5a716e28a88a/repository/DUMMY/LJ027-0002.wav",
+     "artifact": {
+      "hash": "5adef197d51ba78fbe6ce81e50543e1e105ff4d88a7b999fbe45bbe4fe26a30b",
+      "size": "214374",
+      "sourceType": null,
+      "registeredAt": "2026-08-11T21:05:20.054Z",
+      "metadata": null,
+      "isComposite": false,
+      "labels": []
+     }
+    },
+    {
+     "artifactHash": "ed4af1096edf360400dd29b621ad5275b8ee707810e1be7d7bd04b5cad39535e",
+     "path": "/var/lib/treqs-agent/work/5c26b05a-e860-4ef5-a60b-62acd9e897e2/_work/70532295-f315-49d6-90f3-5a716e28a88a/repository/DUMMY/LJ034-0046.wav",
+     "artifact": {
+      "hash": "ed4af1096edf360400dd29b621ad5275b8ee707810e1be7d7bd04b5cad39535e",
+      "size": "334694",
+      "sourceType": null,
+      "registeredAt": "2026-08-11T20:00:13.403Z",
+      "metadata": null,
+      "isComposite": false,
+      "labels": []
+     }
+    },
+    {
+     "artifactHash": "fba4d7425ae6b41a36610a544ef3f2002824154b0f5fcee347408da4e69d7041",
+     "path": "/var/lib/treqs-agent/work/5c26b05a-e860-4ef5-a60b-62acd9e897e2/_work/70532295-f315-49d6-90f3-5a716e28a88a/repository/DUMMY/LJ022-0081.wav",
+     "artifact": {
+      "hash": "fba4d7425ae6b41a36610a544ef3f2002824154b0f5fcee347408da4e69d7041",
+      "size": "364902",
+      "sourceType": null,
+      "registeredAt": "2026-08-11T21:05:20.059Z",
+      "metadata": null,
+      "isComposite": false,
+      "labels": []
+     }
+    },
+    {
+     "artifactHash": "df04a5108bbf1d0fbd721a76ddb5f8f587f03a4875befb1dba26ab0993a7e9a1",
+     "path": "/var/lib/treqs-agent/work/5c26b05a-e860-4ef5-a60b-62acd9e897e2/_work/70532295-f315-49d6-90f3-5a716e28a88a/repository/DUMMY/LJ028-0255.wav",
+     "artifact": {
+      "hash": "df04a5108bbf1d0fbd721a76ddb5f8f587f03a4875befb1dba26ab0993a7e9a1",
+      "size": "103270",
+      "sourceType": null,
+      "registeredAt": "2026-08-11T21:05:20.063Z",
+      "metadata": null,
+      "isComposite": false,
+      "labels": []
+     }
+    }
+   ]
+  },
+  {
+   "stepNumber": 2,
+   "jobUid": "77d0aff9792557bf91c06c0615cb0c29",
+   "command": "python repro/train_truncated.py --train-iters 101 --dataloader-workers 0 --output_directory=outdir --log_directory=logdir --hparams=epochs=1,batch_size=16,iters_per_checkpoint=100",
+   "exitCode": 0,
+   "durationSeconds": 416.9539561271667,
+   "metadata": {
+    "cwd": "",
+    "git": {
+     "clean": true,
+     "branch": "HEAD",
+     "commit": "7869e7ecf63b6760e3ac0d2a6c7f816eceee0967",
+     "remote_url": "https://github.com/reproducible-ai/tacotron2.git",
+     "commit_message": "Re-arm the watchdog at every stage, not once in setup",
+     "commit_timestamp": "2026-08-11 20:28:31 +0000",
+     "uncommitted_changes": null
+    },
+    "runtime": {
+     "os": {
+      "system": "Linux",
+      "machine": "x86_64",
+      "release": "6.8.0-1052-aws",
+      "version": "#55~22.04.1-Ubuntu SMP Tue Apr  7 04:58:22 UTC 2026"
+     },
+     "vm": {
+      "cloud": "aws",
+      "hypervisor": "amazon"
+     },
+     "cpu": {
+      "count": 4,
+      "model": "Intel(R) Xeon(R) Platinum 8259CL CPU @ 2.50GHz",
+      "sockets": 1,
+      "architecture": "x86_64",
+      "cores_per_socket": 2,
+      "threads_per_core": 2
+     },
+     "gpu": [
+      {
+       "name": "Tesla T4",
+       "memory_mb": 15360,
+       "compute_cap": "7.5"
+      }
+     ],
+     "cuda": {
+      "cuda_version": "13.0",
+      "driver_version": "580.126.09"
+     },
+     "memory": {
+      "total_mb": 15788,
+      "available_mb": 14723
+     },
+     "python": {
+      "version": "3.12.10",
+      "implementation": "CPython"
+     },
+     "timing": {
+      "end": "2026-08-11T21:04:28.676222+00:00",
+      "start": "2026-08-11T20:57:31.835577+00:00",
+      "duration_seconds": 416.8406457901001
+     },
+     "command": [
+      "python",
+      "repro/train_truncated.py",
+      "--train-iters",
+      "101",
+      "--dataloader-workers",
+      "0",
+      "--output_directory=outdir",
+      "--log_directory=logdir",
+      "--hparams=epochs=1,batch_size=16,iters_per_checkpoint=100"
+     ],
+     "env_vars": {
+      "LANG": "C.UTF-8",
+      "PATH": "/opt/pytorch/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/snap/bin"
+     },
+     "hostname": "ip-10-50-56-169",
+     "gpu_accounting": {
+      "enabled": true,
+      "gpu_used": true,
+      "gpu_count_used": 1,
+      "gpu_peak_mem_mb": 5342
+     }
+    },
+    "analysis": {
+     "experiment_tracking": {
+      "runs": [],
+      "ignore_patterns": [],
+      "trackers_detected": [
+       "tensorboard"
+      ]
+     }
+    },
+    "packages": {
+     "pip": {
+      "six": "1.17.0",
+      "dill": "0.4.1",
+      "pytz": "2026.1.post1",
+      "tqdm": "4.67.3",
+      "boto3": "1.42.96",
+      "click": "8.4.2",
+      "numba": "0.65.1",
+      "numpy": "1.26.4",
+      "pooch": "1.9.0",
+      "scipy": "1.17.1",
+      "sympy": "1.14.0",
+      "torch": "2.7.0",
+      "PyNaCl": "1.6.2",
+      "PyYAML": "6.0.3",
+      "bcrypt": "5.0.0",
+      "blake3": "1.0.9",
+      "brotli": "1.2.0",
+      "cycler": "0.12.1",
+      "fsspec": "2026.3.0",
+      "invoke": "3.0.3",
+      "joblib": "1.5.3",
+      "mpmath": "1.3.0",
+      "pandas": "2.3.3",
+      "pillow": "12.2.0",
+      "psutil": "7.2.2",
+      "triton": "3.3.0",
+      "absl-py": "2.5.0",
+      "certifi": "2026.4.22",
+      "inflect": "7.5.0",
+      "librosa": "0.9.2",
+      "pyarrow": "23.0.1",
+      "resampy": "0.4.3",
+      "urllib3": "2.6.3",
+      "wcwidth": "0.6.0",
+      "botocore": "1.42.96",
+      "filelock": "3.29.0",
+      "jmespath": "1.1.0",
+      "llvmlite": "0.47.0",
+      "networkx": "3.6.1",
+      "paramiko": "4.0.0",
+      "protobuf": "6.33.6",
+      "pydantic": "2.13.3",
+      "tabulate": "0.10.0",
+      "Unidecode": "1.4.0",
+      "audioread": "3.1.0",
+      "decorator": "5.2.1",
+      "packaging": "26.2",
+      "pyparsing": "3.3.2",
+      "soundfile": "0.14.0",
+      "typeguard": "4.6.0",
+      "zstandard": "0.25.0",
+      "defusedxml": "0.7.1",
+      "kiwisolver": "1.5.0",
+      "matplotlib": "3.9.4",
+      "s3transfer": "0.16.1",
+      "setuptools": "79.0.1",
+      "cloudpickle": "3.1.2",
+      "google-auth": "2.49.2",
+      "tensorboard": "2.21.0",
+      "cryptography": "46.0.7",
+      "nvidia-ml-py": "13.595.45",
+      "platformdirs": "4.9.6",
+      "scikit-learn": "1.8.0",
+      "pydantic_core": "2.46.3",
+      "threadpoolctl": "3.6.0",
+      "more-itertools": "11.1.0",
+      "annotated-types": "0.7.0",
+      "python-dateutil": "2.9.0.post0",
+      "backports.tarfile": "1.2.0",
+      "typing-inspection": "0.4.2",
+      "typing_extensions": "4.15.0"
+     },
+     "dpkg": {
+      "libffi8": "3.4.2-4",
+      "libssl3": "3.0.2-0ubuntu1.23",
+      "libuuid1": "2.37.2-4ubuntu3.5",
+      "libstdc++6": "12.3.0-1ubuntu1~22.04.3",
+      "libsqlite3-0": "3.37.2-2ubuntu0.5"
+     }
+    },
+    "roar_version": "0.4.4rc6"
+   },
+   "inputCount": 1734,
+   "outputCount": 3,
+   "inputsSample": [
+    {
+     "artifactHash": "5adef197d51ba78fbe6ce81e50543e1e105ff4d88a7b999fbe45bbe4fe26a30b",
+     "path": "/var/lib/treqs-agent/work/5c26b05a-e860-4ef5-a60b-62acd9e897e2/_work/70532295-f315-49d6-90f3-5a716e28a88a/repository/DUMMY/LJ027-0002.wav",
+     "artifact": {
+      "hash": "5adef197d51ba78fbe6ce81e50543e1e105ff4d88a7b999fbe45bbe4fe26a30b",
+      "size": "214374",
+      "sourceType": null,
+      "registeredAt": "2026-08-11T21:05:20.054Z",
+      "metadata": null,
+      "isComposite": false,
+      "labels": []
+     }
+    },
+    {
+     "artifactHash": "86411ba3a7cc8c78c029fb8a8a90a7e1ce171742cc170da95596c734fdecd089",
+     "path": "/var/lib/treqs-agent/work/5c26b05a-e860-4ef5-a60b-62acd9e897e2/_work/70532295-f315-49d6-90f3-5a716e28a88a/repository/DUMMY/LJ034-0160.wav",
+     "artifact": {
+      "hash": "86411ba3a7cc8c78c029fb8a8a90a7e1ce171742cc170da95596c734fdecd089",
+      "size": "321382",
+      "sourceType": null,
+      "registeredAt": "2026-08-11T21:05:20.216Z",
+      "metadata": null,
+      "isComposite": false,
+      "labels": []
+     }
+    },
+    {
+     "artifactHash": "7b31274a4d83bf954302822e21a7e64ac08623f27521183ea58a63a822d9732d",
+     "path": "/var/lib/treqs-agent/work/5c26b05a-e860-4ef5-a60b-62acd9e897e2/_work/70532295-f315-49d6-90f3-5a716e28a88a/repository/DUMMY/LJ026-0005.wav",
+     "artifact": {
+      "hash": "7b31274a4d83bf954302822e21a7e64ac08623f27521183ea58a63a822d9732d",
+      "size": "345958",
+      "sourceType": null,
+      "registeredAt": "2026-08-11T21:05:20.300Z",
+      "metadata": null,
+      "isComposite": false,
+      "labels": []
+     }
+    },
+    {
+     "artifactHash": "5e97f0b7a9f70c5247da5d6f0ee1e3b68588ccb66ec4a97590618aa86bfd810b",
+     "path": "/var/lib/treqs-agent/work/5c26b05a-e860-4ef5-a60b-62acd9e897e2/_work/70532295-f315-49d6-90f3-5a716e28a88a/repository/DUMMY/LJ028-0350.wav",
+     "artifact": {
+      "hash": "5e97f0b7a9f70c5247da5d6f0ee1e3b68588ccb66ec4a97590618aa86bfd810b",
+      "size": "193894",
+      "sourceType": null,
+      "registeredAt": "2026-08-11T21:05:20.351Z",
+      "metadata": null,
+      "isComposite": false,
+      "labels": []
+     }
+    },
+    {
+     "artifactHash": "60afa9093485b2e2452f277d5e54f8d1b984e3f672c50ab629a5c2190356485c",
+     "path": "/var/lib/treqs-agent/work/5c26b05a-e860-4ef5-a60b-62acd9e897e2/_work/70532295-f315-49d6-90f3-5a716e28a88a/repository/DUMMY/LJ027-0129.wav",
+     "artifact": {
+      "hash": "60afa9093485b2e2452f277d5e54f8d1b984e3f672c50ab629a5c2190356485c",
+      "size": "222566",
+      "sourceType": null,
+      "registeredAt": "2026-08-11T21:05:20.433Z",
+      "metadata": null,
+      "isComposite": false,
+      "labels": []
+     }
+    },
+    {
+     "artifactHash": "6a8d7faf004f62d8a6f7d022d8791061041f558d30f0a4a581f9ffe04fafc0e4",
+     "path": "/var/lib/treqs-agent/work/5c26b05a-e860-4ef5-a60b-62acd9e897e2/_work/70532295-f315-49d6-90f3-5a716e28a88a/repository/DUMMY/LJ049-0179.wav",
+     "artifact": {
+      "hash": "6a8d7faf004f62d8a6f7d022d8791061041f558d30f0a4a581f9ffe04fafc0e4",
+      "size": "353126",
+      "sourceType": null,
+      "registeredAt": "2026-08-11T20:00:10.395Z",
+      "metadata": null,
+      "isComposite": false,
+      "labels": []
+     }
+    },
+    {
+     "artifactHash": "ea0d32f8ca4170b5086672fb643ed87f18f4904c6157c815c57b638933050729",
+     "path": "/var/lib/treqs-agent/work/5c26b05a-e860-4ef5-a60b-62acd9e897e2/_work/70532295-f315-49d6-90f3-5a716e28a88a/repository/DUMMY/LJ046-0229.wav",
+     "artifact": {
+      "hash": "ea0d32f8ca4170b5086672fb643ed87f18f4904c6157c815c57b638933050729",
+      "size": "281446",
+      "sourceType": null,
+      "registeredAt": "2026-08-11T20:00:12.855Z",
+      "metadata": null,
+      "isComposite": false,
+      "labels": []
+     }
+    },
+    {
+     "artifactHash": "f3e34dcc6c94ff36ed09502fba7a1244631b4973bf4ddbbfa9f3dc13b672d98a",
+     "path": "/var/lib/treqs-agent/work/5c26b05a-e860-4ef5-a60b-62acd9e897e2/_work/70532295-f315-49d6-90f3-5a716e28a88a/repository/DUMMY/LJ038-0234.wav",
+     "artifact": {
+      "hash": "f3e34dcc6c94ff36ed09502fba7a1244631b4973bf4ddbbfa9f3dc13b672d98a",
+      "size": "358246",
+      "sourceType": null,
+      "registeredAt": "2026-08-11T21:05:20.563Z",
+      "metadata": null,
+      "isComposite": false,
+      "labels": []
+     }
+    }
+   ],
+   "outputsSample": [
+    {
+     "artifactHash": "3a7ac81cb49778ec9456c51ce5ec51d554360c4ba8d1206416d4ecfc66cf00f2",
+     "path": "/var/lib/treqs-agent/work/5c26b05a-e860-4ef5-a60b-62acd9e897e2/_work/70532295-f315-49d6-90f3-5a716e28a88a/repository/outdir/logdir/events.out.tfevents.1786481884.ip-10-50-56-169.7514.0",
+     "artifact": {
+      "hash": "3a7ac81cb49778ec9456c51ce5ec51d554360c4ba8d1206416d4ecfc66cf00f2",
+      "size": "1445619",
+      "sourceType": null,
+      "registeredAt": "2026-08-11T21:06:23.577Z",
+      "metadata": null,
+      "isComposite": false,
+      "labels": []
+     }
+    },
+    {
+     "artifactHash": "4588963b9e0160c54f2bb7def5129415c4866016118e6dc878998c8dccfbeea7",
+     "path": "/var/lib/treqs-agent/work/5c26b05a-e860-4ef5-a60b-62acd9e897e2/_work/70532295-f315-49d6-90f3-5a716e28a88a/repository/outdir/checkpoint_0",
+     "artifact": {
+      "hash": "4588963b9e0160c54f2bb7def5129415c4866016118e6dc878998c8dccfbeea7",
+      "size": "338428960",
+      "sourceType": null,
+      "registeredAt": "2026-08-11T21:06:23.573Z",
+      "metadata": null,
+      "isComposite": false,
+      "labels": []
+     }
+    },
+    {
+     "artifactHash": "48ae950814d6324ba6b38e9eff8d22895ae47fc63c362aaa7b9b49a69541f80b",
+     "path": "/var/lib/treqs-agent/work/5c26b05a-e860-4ef5-a60b-62acd9e897e2/_work/70532295-f315-49d6-90f3-5a716e28a88a/repository/outdir/checkpoint_100",
+     "artifact": {
+      "hash": "48ae950814d6324ba6b38e9eff8d22895ae47fc63c362aaa7b9b49a69541f80b",
+      "size": "338429486",
+      "sourceType": "hf",
+      "registeredAt": "2026-08-11T21:06:23.581Z",
+      "metadata": null,
+      "isComposite": false,
+      "labels": [
+       {
+        "id": "ac06f881-4e9a-4ecb-85de-fb563bdaf48d",
+        "entityType": "artifact",
+        "version": 1,
+        "metadata": {
+         "roar": {
+          "distribution": {
+           "url": "https://huggingface.co/reproducible-ai/tacotron2-ljspeech/resolve/main/checkpoint_100"
+          }
+         }
+        },
+        "createdAt": "2026-08-11T21:06:26.095Z",
+        "sessionHash": "d7f014101bb02917996cbf3e539dac95958bb0b82b2b69486b0db8ded194f807",
+        "jobId": null,
+        "jobUid": null,
+        "artifactHash": "48ae950814d6324ba6b38e9eff8d22895ae47fc63c362aaa7b9b49a69541f80b"
+       }
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "stepNumber": 3,
+   "jobUid": "94541df2b243cb445ba357f8ec0c2ddd",
+   "command": "roar put outdir/checkpoint_100 hf://reproducible-ai/tacotron2-ljspeech --public --no-tag -m 'Tacotron 2 trained on LJ Speech, 101 of 390500 optimiser steps (upstream hparams.py: 500 epochs). TRUNCATED pipeline-viability run: NOT converged and not a quality result.'",
+   "exitCode": 0,
+   "durationSeconds": 0,
+   "metadata": {
+    "put": {
+     "git_tag": null,
+     "message": "Tacotron 2 trained on LJ Speech, 101 of 390500 optimiser steps (upstream hparams.py: 500 epochs). TRUNCATED pipeline-viability run: NOT converged and not a quality result.",
+     "artifacts": {
+      "835ca98cb88f820e5737c1eaec37b271": "https://huggingface.co/reproducible-ai/tacotron2-ljspeech/resolve/main/checkpoint_100"
+     },
+     "timestamp": 1786482319.873354,
+     "composites": [],
+     "git_commit": "7869e7ecf63b6760e3ac0d2a6c7f816eceee0967",
+     "destination": "hf://reproducible-ai/tacotron2-ljspeech",
+     "destination_type": "hf",
+     "lineage_composites": [],
+     "dataset_identifiers": []
+    }
+   },
+   "inputCount": 1,
+   "outputCount": 0,
+   "inputsSample": [
+    {
+     "artifactHash": "48ae950814d6324ba6b38e9eff8d22895ae47fc63c362aaa7b9b49a69541f80b",
+     "path": "/var/lib/treqs-agent/work/5c26b05a-e860-4ef5-a60b-62acd9e897e2/_work/70532295-f315-49d6-90f3-5a716e28a88a/repository/outdir/checkpoint_100",
+     "artifact": {
+      "hash": "48ae950814d6324ba6b38e9eff8d22895ae47fc63c362aaa7b9b49a69541f80b",
+      "size": "338429486",
+      "sourceType": "hf",
+      "registeredAt": "2026-08-11T21:06:23.581Z",
+      "metadata": null,
+      "isComposite": false,
+      "labels": [
+       {
+        "id": "ac06f881-4e9a-4ecb-85de-fb563bdaf48d",
+        "entityType": "artifact",
+        "version": 1,
+        "metadata": {
+         "roar": {
+          "distribution": {
+           "url": "https://huggingface.co/reproducible-ai/tacotron2-ljspeech/resolve/main/checkpoint_100"
+          }
+         }
+        },
+        "createdAt": "2026-08-11T21:06:26.095Z",
+        "sessionHash": "d7f014101bb02917996cbf3e539dac95958bb0b82b2b69486b0db8ded194f807",
+        "jobId": null,
+        "jobUid": null,
+        "artifactHash": "48ae950814d6324ba6b38e9eff8d22895ae47fc63c362aaa7b9b49a69541f80b"
+       }
+      ]
+     }
+    }
+   ],
+   "outputsSample": []
+  }
+ ]
+}

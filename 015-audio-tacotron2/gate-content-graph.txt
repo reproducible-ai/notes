@@ -1,0 +1,45 @@
+Tier-1 bar — d7f014101bb02917 · reproducible-ai/tacotron2-ljspeech
+  [❌] clean-dag    Clean-DAG check — 9/13 passed  ·  d7f014101bb02917 · 3 jobs (published DAG)
+  [❌] ai-bom       AI-BOM score: 82.8/100  ·  profile: Standard  ·  glaas.ai/dag/d7f014101bb02917996cbf3e539dac95958bb0b82b2b69486b0db8ded194f807/audit
+  [✅] public-urls  RESULT: ALL PUBLIC
+  [✅] freeze       RESULT: PORTABLE
+
+RESULT: NOT PUBLISHABLE — 2 gate(s) failed: clean-dag, ai-bom
+
+--- clean-dag ---
+Clean-DAG check — 9/13 passed  ·  d7f014101bb02917 · 3 jobs (published DAG)
+  [✅] producing jobs captured outputs
+  [❌] each step recorded a real workload environment
+       → step(s) recorded only roar's own dependency closure — the workload's imports are missing from the record, so a rebuild will fail on them: @1 python repro/fetch_ljspeech.py --o (9 pkgs)
+  [✅] producing steps chain (graph has edges)
+  [✅] published artifact traces to a job output
+  [✅] model has a resolvable download location
+  [✅] published to hf://reproducible-ai/tacotron2-ljspeech
+  [✅] commit on a shareable remote
+  [❌] DAG attributed to a user (not anonymous)
+       → one or more nodes are ANONYMOUS
+  [❌] attributed to christreqs
+       → users=[]
+  [❌] TR backlink present (funnel)
+       → no treqs.training_request_url label on the DAG
+  [✅] put command records its destination
+  [✅] session header commit matches jobs
+  [✅] experiment link n/a (recipe has no logging)
+
+RESULT: BLOCKED — do not publish
+
+--- ai-bom ---
+AI-BOM score: 82.8/100  ·  profile: Standard  ·  glaas.ai/dag/d7f014101bb02917996cbf3e539dac95958bb0b82b2b69486b0db8ded194f807/audit
+  Required Fields (Generated) 4/4  (20/20 pts)
+  Metadata                   3/5  (12/20 pts)
+  Component Basics           4/6  (13.3/20 pts)
+  Lineage & Provenance       9/9  (30/30 pts)
+  External References        3/4  (7.5/10 pts)
+  missing (5):
+    - [critical] supplier → Set metadata.supplier.name to the organization that produced the AI system
+    - [important] author → Set metadata.manufacturer.name to the organization that generated the BOM
+    - [important] componentLicenses → Add labels with keys "license.id" and/or "license.name" to the artifact
+    - [supplementary] componentDescription → Add a label with key "description" to the artifact
+    - [supplementary] documentationUrl → Add a label with key "documentation.url" to the artifact
+
+RESULT: BELOW (score 82.8 vs min 90.0)

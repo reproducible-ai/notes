@@ -1,0 +1,857 @@
+19:40:29  local              Validating Git source and workflow
+19:40:29  local              Source commit ready: f0cd4acc9019
+19:40:30  request            Creating training request
+19:40:30  workflow           Snapshotting committed workflow
+19:40:30  queue              Queueing on reproai-g4dn-plaintorch-a
+19:40:30  queued             Job queued at position 2
+19:40:30  queued             Job queued on compute target reproai-g4dn-plaintorch-a
+19:42:15  acquired           Agent acquired the job
+19:42:15  running            Run started
+19:42:15  repository         Preparing repository
+19:42:16  publishing_lineage Publishing lineage
+19:42:17  repository         Repository ready
+19:42:17  environment        Preparing execution environment
+19:42:17  environment        Execution environment ready
+19:42:17  task               Running task setup
+python 3.12.10 (main, Apr 27 2026, 17:38:48) [GCC 11.4.0]
+
+[notice] A new release of pip is available: 26.1 -> 26.2.1
+[notice] To update, run: pip install --upgrade pip
+/dev/root       146G   29G  117G  20% /
+Shutdown scheduled for Tue 2026-08-11 20:42:49 UTC, use 'shutdown -c' to cancel.
+watchdog: halt scheduled at +60 min (2x the 30-min measured expectation)
+origin	https://github.com/reproducible-ai/tacotron2.git (fetch)
+origin	https://github.com/reproducible-ai/tacotron2.git (push)
+downloading uv 0.12.3 x86_64-unknown-linux-gnu
+installing to /usr/local/bin
+  uv
+  uvx
+everything's installed!
+/usr/local/bin/uv
+recorded interpreter: 3.12.10
+Resolved 40 packages in 932ms
+Downloading roar-cli (9.9MiB)
+Downloading pygments (1.2MiB)
+Downloading hf-xet (4.3MiB)
+Downloading pydantic-core (2.0MiB)
+Downloading cryptography (4.5MiB)
+Downloading pysqlite3-binary (4.7MiB)
+Downloading dependency-injector (1.8MiB)
+ Downloaded dependency-injector
+ Downloaded pydantic-core
+ Downloaded hf-xet
+ Downloaded pysqlite3-binary
+ Downloaded roar-cli
+ Downloaded cryptography
+ Downloaded pygments
+   Building sqlalchemy==2.0.52
+      Built sqlalchemy==2.0.52
+Prepared 40 packages in 27.49s
+Installed 40 packages in 27ms
+ + annotated-types==0.8.0
+ + anyio==4.14.2
+ + blake3==1.0.9
+ + certifi==2026.7.22
+ + cffi==2.1.1
+ + click==8.4.2
+ + cryptography==50.0.0
+ + dependency-injector==4.49.1
+ + filelock==3.32.2
+ + fsspec==2026.7.0
+ + greenlet==3.5.5
+ + h11==0.16.0
+ + hf-xet==1.6.0
+ + httpcore==1.0.9
+ + httpx==0.28.1
+ + huggingface-hub==1.27.0
+ + idna==3.18
+ + linkify-it-py==2.1.0
+ + markdown-it-py==4.2.0
+ + mdit-py-plugins==0.6.1
+ + mdurl==0.1.2
+ + msgpack==1.2.1
+ + packaging==26.3
+ + platformdirs==4.11.2
+ + pycparser==3.0
+ + pydantic==2.13.4
+ + pydantic-core==2.46.4
+ + pydantic-settings==2.15.0
+ + pygments==2.20.0
+ + pysqlite3-binary==0.5.4.post2
+ + python-dotenv==1.2.2
+ + pyyaml==6.0.3
+ + rich==15.0.0
+ + roar-cli==0.4.4rc6
+ + sqlalchemy==2.0.52
+ + textual==8.2.8
+ + tqdm==4.70.0
+ + typing-extensions==4.16.0
+ + typing-inspection==0.4.3
+ + uc-micro-py==2.0.0
+Installed 2 executables: roar, roar-worker
+index: https://test.pypi.org/pypi/roar-cli/0.4.4rc6/json
+  published: roar_cli-0.4.4rc6-cp310-abi3-macosx_10_12_x86_64.whl  sha256=aba522305f43e1cb65b817d5e4f1b122d2a6d5d3fcfd255842851aecab4acb81
+  published: roar_cli-0.4.4rc6-cp310-abi3-macosx_11_0_arm64.whl  sha256=5bb49a788b33d93b59141c6efcca17a5686d12ec6109b0daac438eb9cd6d4c4c
+  published: roar_cli-0.4.4rc6-cp310-abi3-manylinux_2_34_aarch64.whl  sha256=be61225c01c7431ff5a0d36fb135a0655d249dd735724f2cd46d5348cdc99629
+  published: roar_cli-0.4.4rc6-cp310-abi3-manylinux_2_34_x86_64.whl  sha256=c7115b748886259b6a089e547404376acf84c3b81b4cbc8dc5610490ebea7199
+  published: roar_cli-0.4.4rc6.tar.gz  sha256=0352aa2051e66b22ee68062db68895d0a28379c6912c5646e78798b8f0466b21
+selected: roar_cli-0.4.4rc6-cp310-abi3-manylinux_2_34_x86_64.whl
+  published sha256: c7115b748886259b6a089e547404376acf84c3b81b4cbc8dc5610490ebea7199
+  expected  sha256: c7115b748886259b6a089e547404376acf84c3b81b4cbc8dc5610490ebea7199
+  served    sha256: c7115b748886259b6a089e547404376acf84c3b81b4cbc8dc5610490ebea7199
+installed RECORD: /root/.local/share/uv/tools/roar-cli/lib/python3.12/site-packages/roar_cli-0.4.4rc6.dist-info/RECORD
+  wheel entries with a hash: 422
+  installed entries:         424
+roar wheel verification: PASS (roar_cli-0.4.4rc6-cp310-abi3-manylinux_2_34_x86_64.whl sha256=c7115b748886259b6a089e547404376acf84c3b81b4cbc8dc5610490ebea7199)
+roar, version 0.4.4rc6
+Default tracer set to: preload  (saved to [REDACTED]/a41f100d-c025-449a-a061-cc7dc60d8378/_work/35965a38-cc32-425e-9eb6-50c5a34be4b3/repository/.roar/config.toml)
+roar: roar tracer  ·  active: preload (ready)
+
+  Tracer   Status  Tradeoff               Requirements
+  preload  ready   comparable to eBPF     no extra perms
+           ↳ skips statically-linked binaries (Go)
+  ebpf     ready   fastest, low overhead  needs CAP_BPF + perf_event_paranoid<=1; Linux only
+  ptrace   ready   slow but correct       no extra perms; works on every binary
+
+hint: To pick one explicitly: roar tracer use {auto|ebpf|preload|ptrace}
+hint: To probe one:           roar tracer check {auto|ebpf|preload|ptrace}
+hint: Docs: https://glaas.ai/docs/tracers
+ERROR: pip's dependency resolver does not currently take into account all the packages that are installed. This behaviour is the source of the following dependency conflicts.
+shap 0.51.0 requires numpy>=2, but you have numpy 1.26.4 which is incompatible.
+torch 2.7.0 requires nvidia-cublas-cu12==12.6.4.1; platform_system == "Linux" and platform_machine == "x86_64", but you have nvidia-cublas-cu12 12.8.3.14 which is incompatible.
+torch 2.7.0 requires nvidia-cuda-cupti-cu12==12.6.80; platform_system == "Linux" and platform_machine == "x86_64", but you have nvidia-cuda-cupti-cu12 12.8.57 which is incompatible.
+torch 2.7.0 requires nvidia-cuda-nvrtc-cu12==12.6.77; platform_system == "Linux" and platform_machine == "x86_64", but you have nvidia-cuda-nvrtc-cu12 12.8.61 which is incompatible.
+torch 2.7.0 requires nvidia-cuda-runtime-cu12==12.6.77; platform_system == "Linux" and platform_machine == "x86_64", but you have nvidia-cuda-runtime-cu12 12.8.57 which is incompatible.
+torch 2.7.0 requires nvidia-cudnn-cu12==9.5.1.17; platform_system == "Linux" and platform_machine == "x86_64", but you have nvidia-cudnn-cu12 9.7.1.26 which is incompatible.
+torch 2.7.0 requires nvidia-cufft-cu12==11.3.0.4; platform_system == "Linux" and platform_machine == "x86_64", but you have nvidia-cufft-cu12 11.3.3.41 which is incompatible.
+torch 2.7.0 requires nvidia-cufile-cu12==1.11.1.6; platform_system == "Linux" and platform_machine == "x86_64", but you have nvidia-cufile-cu12 1.13.0.11 which is incompatible.
+torch 2.7.0 requires nvidia-curand-cu12==10.3.7.77; platform_system == "Linux" and platform_machine == "x86_64", but you have nvidia-curand-cu12 10.3.9.55 which is incompatible.
+torch 2.7.0 requires nvidia-cusolver-cu12==11.7.1.2; platform_system == "Linux" and platform_machine == "x86_64", but you have nvidia-cusolver-cu12 11.7.2.55 which is incompatible.
+torch 2.7.0 requires nvidia-cusparse-cu12==12.5.4.2; platform_system == "Linux" and platform_machine == "x86_64", but you have nvidia-cusparse-cu12 12.5.7.53 which is incompatible.
+torch 2.7.0 requires nvidia-nvjitlink-cu12==12.6.85; platform_system == "Linux" and platform_machine == "x86_64", but you have nvidia-nvjitlink-cu12 12.8.61 which is incompatible.
+torch 2.7.0 requires nvidia-nvtx-cu12==12.6.77; platform_system == "Linux" and platform_machine == "x86_64", but you have nvidia-nvtx-cu12 12.8.55 which is incompatible.
+
+[notice] A new release of pip is available: 26.1 -> 26.2.1
+[notice] To update, run: pip install --upgrade pip
+/opt/pytorch/lib/python3.12/site-packages/torch/cuda/__init__.py:61: FutureWarning: The pynvml package is deprecated. Please install nvidia-ml-py instead. If you did not install pynvml directly, please report this to the maintainers of the package that installed pynvml for you.
+  import pynvml  # type: ignore[import]
+torch 2.7.0+cu126 | numpy 1.26.4 | scipy 1.17.1 | librosa 0.9.2 | matplotlib 3.9.4
+/opt/pytorch/lib/python3.12/site-packages/torch/cuda/__init__.py:61: FutureWarning: The pynvml package is deprecated. Please install nvidia-ml-py instead. If you did not install pynvml directly, please report this to the maintainers of the package that installed pynvml for you.
+  import pynvml  # type: ignore[import]
+cuda True | Tesla T4
+upstream: https://github.com/NVIDIA/tacotron2 @ 185cd24e046cc1304b4f8e564734d2498c6e2e6f
+upstream files: 32  |  files in HEAD: 44
+added by this fork (12):
+  + .gitignore
+  + .treqs/workflows/tacotron2-ljspeech.yaml
+  + DUMMY/.gitkeep
+  + outdir/.gitkeep
+  + repro/assert_upstream_unmodified.py
+  + repro/fetch_ljspeech.py
+  + repro/freeze_audit.py
+  + repro/native_deps_probe.py
+  + repro/preflight_cpu.py
+  + repro/tf_hparams_shim.py
+  + repro/train_truncated.py
+  + repro/verify_roar_wheel.py
+assert_upstream_unmodified: PASS (32 upstream files byte-identical to 185cd24e046c, 0 declared exemption(s))
+freeze audit: 309 distributions
+  local-version pins (`+cuNNN` etc.): none
+  PEP-503 duplicate pins: none
+freeze audit: PASS
+/opt/pytorch/lib/python3.12/site-packages/torch/cuda/__init__.py:61: FutureWarning: The pynvml package is deprecated. Please install nvidia-ml-py instead. If you did not install pynvml directly, please report this to the maintainers of the package that installed pynvml for you.
+  import pynvml  # type: ignore[import]
+--- preflight: upstream's 2019 API calls against this environment ---
+python 3.12.10 | numpy 1.26.4 | torch 2.7.0+cu126
+[shim] `import tensorflow` in hparams.py is served by repro/tf_hparams_shim.py -- it provides tf.contrib.training.HParams and tf.logging and nothing else. TensorFlow itself is NOT installed: tf.contrib was removed in TF 2.0 and the pinned tensorflow==1.15.2 has no wheel for this interpreter. hparams.py itself is upstream's, unmodified.
+[REDACTED]/a41f100d-c025-449a-a061-cc7dc60d8378/_work/35965a38-cc32-425e-9eb6-50c5a34be4b3/repository/text/__init__.py:74: SyntaxWarning: "is not" with 'str' literal. Did you mean "!="?
+  return s in _symbol_to_id and s is not '_' and s is not '~'
+[REDACTED]/a41f100d-c025-449a-a061-cc7dc60d8378/_work/35965a38-cc32-425e-9eb6-50c5a34be4b3/repository/text/__init__.py:74: SyntaxWarning: "is not" with 'str' literal. Did you mean "!="?
+  return s in _symbol_to_id and s is not '_' and s is not '~'
+  PASS  upstream hparams.py (via the TF shim): epochs=500 batch_size=64 iters_per_checkpoint=1000 n_symbols=148
+[tf.logging] Parsing command line hparams: epochs=1,batch_size=16,iters_per_checkpoint=100
+  PASS  --hparams= override grammar: epochs=1 batch_size=16 types preserved
+[shim] withdrawn: `import tensorflow` now fails as it would on any host without TensorFlow. TensorBoard's SummaryWriter probes for it and would otherwise route its file IO through tf.io.gfile.
+[REDACTED]/a41f100d-c025-449a-a061-cc7dc60d8378/_work/35965a38-cc32-425e-9eb6-50c5a34be4b3/repository/stft.py:67: FutureWarning: Pass size=1024 as keyword args. From version 0.10 passing these as positional arguments will result in an error
+  fft_window = pad_center(fft_window, filter_length)
+[REDACTED]/a41f100d-c025-449a-a061-cc7dc60d8378/_work/35965a38-cc32-425e-9eb6-50c5a34be4b3/repository/layers.py:50: FutureWarning: Pass sr=22050, n_fft=1024, n_mels=80, fmin=0.0, fmax=8000.0 as keyword args. From version 0.10 passing these as positional arguments will result in an error
+  mel_basis = librosa_mel_fn(
+[REDACTED]/a41f100d-c025-449a-a061-cc7dc60d8378/_work/35965a38-cc32-425e-9eb6-50c5a34be4b3/repository/audio_processing.py:50: FutureWarning: Pass size=1024 as keyword args. From version 0.10 passing these as positional arguments will result in an error
+  win_sq = librosa_util.pad_center(win_sq, n_fft)
+  PASS  librosa positional mel filterbank (layers.TacotronSTFT): mel_basis (80, 513)
+  PASS  mel spectrogram of a waveform (data_utils.get_mel path): mel (1, 80, 173) range [-11.51, 1.44]
+  PASS  STFT.inverse -> librosa.util.pad_center (audio_processing): round trip (1, 1, 22016)
+  PASS  text_to_sequence with english_cleaners (inflect + unidecode): 88 symbol ids
+  PASS  scipy.io.wavfile.read (utils.load_wav_to_torch): (22050,) @ 22050 Hz
+  PASS  plotting_utils (matplotlib tostring_rgb + np.fromstring): alignment (400, 600, 3) spectrogram (300, 1200, 3) gate (300, 1200, 3)
+  PASS  import train.py itself, with the shim already withdrawn: train.train() present: True
+  PASS  logger.Tacotron2Logger (torch.utils.tensorboard): 1 event file(s) written
+preflight_cpu: PASS
+/opt/pytorch/lib/python3.12/site-packages/torch/cuda/__init__.py:61: FutureWarning: The pynvml package is deprecated. Please install nvidia-ml-py instead. If you did not install pynvml directly, please report this to the maintainers of the package that installed pynvml for you.
+  import pynvml  # type: ignore[import]
+19:46:54  task               Task setup completed
+19:46:54  task               Running task fetch_ljspeech
+python: 3.12.10 (/opt/pytorch/bin/python)
+platform: Linux ip-10-50-51-207 6.8.0-1052-aws #55~22.04.1-Ubuntu SMP Tue Apr  7 04:58:22 UTC 2026 x86_64
+--- imports ---
+  numpy                ok   (numpy 1.26.4)
+  scipy.io.wavfile     ok   (scipy 1.17.1)
+  scipy.signal         ok   (scipy 1.17.1)
+  librosa              ok   (librosa 0.9.2)
+  librosa.util         ok   (librosa 0.9.2)
+  soundfile            ok   (soundfile 0.14.0)
+  audioread            ok   (audioread ?)
+  numba                ok   (numba 0.65.1)
+  torch                ok   (torch 2.7.0+cu126)
+  matplotlib           ok   (matplotlib 3.9.4)
+  unidecode            ok   (Unidecode ?)
+  inflect              ok   (inflect ?)
+--- native libraries mapped into this process: 334 ---
+[A] inside a Python wheel -- covered by the pip freeze (276):
+    /opt/pytorch/lib/python3.12/site-packages/PIL/_imaging.cpython-312-x86_64-linux-gnu.so
+    /opt/pytorch/lib/python3.12/site-packages/_cffi_backend.cpython-312-x86_64-linux-gnu.so
+    /opt/pytorch/lib/python3.12/site-packages/_soundfile_data/libsndfile_x86_64.so
+    /opt/pytorch/lib/python3.12/site-packages/bcrypt/_bcrypt.abi3.so
+    /opt/pytorch/lib/python3.12/site-packages/cryptography/hazmat/bindings/_rust.abi3.so
+    /opt/pytorch/lib/python3.12/site-packages/cusparselt/lib/libcusparseLt.so.0
+    /opt/pytorch/lib/python3.12/site-packages/kiwisolver/_cext.cpython-312-x86_64-linux-gnu.so
+    /opt/pytorch/lib/python3.12/site-packages/llvmlite/binding/libllvmlite.so
+    /opt/pytorch/lib/python3.12/site-packages/matplotlib/_c_internal_utils.cpython-312-x86_64-linux-gnu.so
+    /opt/pytorch/lib/python3.12/site-packages/matplotlib/_image.cpython-312-x86_64-linux-gnu.so
+    /opt/pytorch/lib/python3.12/site-packages/matplotlib/_path.cpython-312-x86_64-linux-gnu.so
+    /opt/pytorch/lib/python3.12/site-packages/matplotlib/ft2font.cpython-312-x86_64-linux-gnu.so
+    /opt/pytorch/lib/python3.12/site-packages/nacl/_sodium.abi3.so
+    /opt/pytorch/lib/python3.12/site-packages/numba/_devicearray.cpython-312-x86_64-linux-gnu.so
+    /opt/pytorch/lib/python3.12/site-packages/numba/_dispatcher.cpython-312-x86_64-linux-gnu.so
+    /opt/pytorch/lib/python3.12/site-packages/numba/_dynfunc.cpython-312-x86_64-linux-gnu.so
+    /opt/pytorch/lib/python3.12/site-packages/numba/_helperlib.cpython-312-x86_64-linux-gnu.so
+    /opt/pytorch/lib/python3.12/site-packages/numba/core/runtime/_nrt_python.cpython-312-x86_64-linux-gnu.so
+    /opt/pytorch/lib/python3.12/site-packages/numba/core/typeconv/_typeconv.cpython-312-x86_64-linux-gnu.so
+    /opt/pytorch/lib/python3.12/site-packages/numba/experimental/jitclass/_box.cpython-312-x86_64-linux-gnu.so
+    /opt/pytorch/lib/python3.12/site-packages/numba/np/ufunc/_internal.cpython-312-x86_64-linux-gnu.so
+    /opt/pytorch/lib/python3.12/site-packages/numpy.libs/libgfortran-040039e1.so.5.0.0
+    /opt/pytorch/lib/python3.12/site-packages/numpy.libs/libopenblas64_p-r0-0cf96a72.3.23.dev.so
+    /opt/pytorch/lib/python3.12/site-packages/numpy.libs/libquadmath-96973f99.so.0.0.0
+    /opt/pytorch/lib/python3.12/site-packages/numpy/core/_multiarray_tests.cpython-312-x86_64-linux-gnu.so
+    /opt/pytorch/lib/python3.12/site-packages/numpy/core/_multiarray_umath.cpython-312-x86_64-linux-gnu.so
+    /opt/pytorch/lib/python3.12/site-packages/numpy/fft/_pocketfft_internal.cpython-312-x86_64-linux-gnu.so
+    /opt/pytorch/lib/python3.12/site-packages/numpy/linalg/_umath_linalg.cpython-312-x86_64-linux-gnu.so
+    /opt/pytorch/lib/python3.12/site-packages/numpy/random/_bounded_integers.cpython-312-x86_64-linux-gnu.so
+    /opt/pytorch/lib/python3.12/site-packages/numpy/random/_common.cpython-312-x86_64-linux-gnu.so
+    /opt/pytorch/lib/python3.12/site-packages/numpy/random/_generator.cpython-312-x86_64-linux-gnu.so
+    /opt/pytorch/lib/python3.12/site-packages/numpy/random/_mt19937.cpython-312-x86_64-linux-gnu.so
+    /opt/pytorch/lib/python3.12/site-packages/numpy/random/_pcg64.cpython-312-x86_64-linux-gnu.so
+    /opt/pytorch/lib/python3.12/site-packages/numpy/random/_philox.cpython-312-x86_64-linux-gnu.so
+    /opt/pytorch/lib/python3.12/site-packages/numpy/random/_sfc64.cpython-312-x86_64-linux-gnu.so
+    /opt/pytorch/lib/python3.12/site-packages/numpy/random/bit_generator.cpython-312-x86_64-linux-gnu.so
+    /opt/pytorch/lib/python3.12/site-packages/numpy/random/mtrand.cpython-312-x86_64-linux-gnu.so
+    /opt/pytorch/lib/python3.12/site-packages/nvidia/cublas/lib/libcublas.so.12
+    /opt/pytorch/lib/python3.12/site-packages/nvidia/cublas/lib/libcublasLt.so.12
+    /opt/pytorch/lib/python3.12/site-packages/nvidia/cuda_cupti/lib/libcupti.so.12
+    /opt/pytorch/lib/python3.12/site-packages/nvidia/cuda_nvrtc/lib/libnvrtc.so.12
+    /opt/pytorch/lib/python3.12/site-packages/nvidia/cuda_runtime/lib/libcudart.so.12
+    /opt/pytorch/lib/python3.12/site-packages/nvidia/cudnn/lib/libcudnn.so.9
+    /opt/pytorch/lib/python3.12/site-packages/nvidia/cufft/lib/libcufft.so.11
+    /opt/pytorch/lib/python3.12/site-packages/nvidia/cufile/lib/libcufile.so.0
+    /opt/pytorch/lib/python3.12/site-packages/nvidia/curand/lib/libcurand.so.10
+    /opt/pytorch/lib/python3.12/site-packages/nvidia/cusparse/lib/libcusparse.so.12
+    /opt/pytorch/lib/python3.12/site-packages/nvidia/nccl/lib/libnccl.so.2
+    /opt/pytorch/lib/python3.12/site-packages/nvidia/nvjitlink/lib/libnvJitLink.so.12
+    /opt/pytorch/lib/python3.12/site-packages/pandas/_libs/algos.cpython-312-x86_64-linux-gnu.so
+    /opt/pytorch/lib/python3.12/site-packages/pandas/_libs/arrays.cpython-312-x86_64-linux-gnu.so
+    /opt/pytorch/lib/python3.12/site-packages/pandas/_libs/groupby.cpython-312-x86_64-linux-gnu.so
+    /opt/pytorch/lib/python3.12/site-packages/pandas/_libs/hashing.cpython-312-x86_64-linux-gnu.so
+    /opt/pytorch/lib/python3.12/site-packages/pandas/_libs/hashtable.cpython-312-x86_64-linux-gnu.so
+    /opt/pytorch/lib/python3.12/site-packages/pandas/_libs/index.cpython-312-x86_64-linux-gnu.so
+    /opt/pytorch/lib/python3.12/site-packages/pandas/_libs/indexing.cpython-312-x86_64-linux-gnu.so
+    /opt/pytorch/lib/python3.12/site-packages/pandas/_libs/internals.cpython-312-x86_64-linux-gnu.so
+    /opt/pytorch/lib/python3.12/site-packages/pandas/_libs/interval.cpython-312-x86_64-linux-gnu.so
+    /opt/pytorch/lib/python3.12/site-packages/pandas/_libs/join.cpython-312-x86_64-linux-gnu.so
+    /opt/pytorch/lib/python3.12/site-packages/pandas/_libs/json.cpython-312-x86_64-linux-gnu.so
+    /opt/pytorch/lib/python3.12/site-packages/pandas/_libs/lib.cpython-312-x86_64-linux-gnu.so
+    /opt/pytorch/lib/python3.12/site-packages/pandas/_libs/missing.cpython-312-x86_64-linux-gnu.so
+    /opt/pytorch/lib/python3.12/site-packages/pandas/_libs/ops.cpython-312-x86_64-linux-gnu.so
+    /opt/pytorch/lib/python3.12/site-packages/pandas/_libs/ops_dispatch.cpython-312-x86_64-linux-gnu.so
+    /opt/pytorch/lib/python3.12/site-packages/pandas/_libs/pandas_datetime.cpython-312-x86_64-linux-gnu.so
+    /opt/pytorch/lib/python3.12/site-packages/pandas/_libs/pandas_parser.cpython-312-x86_64-linux-gnu.so
+    /opt/pytorch/lib/python3.12/site-packages/pandas/_libs/parsers.cpython-312-x86_64-linux-gnu.so
+    /opt/pytorch/lib/python3.12/site-packages/pandas/_libs/properties.cpython-312-x86_64-linux-gnu.so
+    /opt/pytorch/lib/python3.12/site-packages/pandas/_libs/reshape.cpython-312-x86_64-linux-gnu.so
+    /opt/pytorch/lib/python3.12/site-packages/pandas/_libs/sparse.cpython-312-x86_64-linux-gnu.so
+    /opt/pytorch/lib/python3.12/site-packages/pandas/_libs/testing.cpython-312-x86_64-linux-gnu.so
+    /opt/pytorch/lib/python3.12/site-packages/pandas/_libs/tslib.cpython-312-x86_64-linux-gnu.so
+    /opt/pytorch/lib/python3.12/site-packages/pandas/_libs/tslibs/base.cpython-312-x86_64-linux-gnu.so
+    /opt/pytorch/lib/python3.12/site-packages/pandas/_libs/tslibs/ccalendar.cpython-312-x86_64-linux-gnu.so
+    /opt/pytorch/lib/python3.12/site-packages/pandas/_libs/tslibs/conversion.cpython-312-x86_64-linux-gnu.so
+    /opt/pytorch/lib/python3.12/site-packages/pandas/_libs/tslibs/dtypes.cpython-312-x86_64-linux-gnu.so
+    /opt/pytorch/lib/python3.12/site-packages/pandas/_libs/tslibs/fields.cpython-312-x86_64-linux-gnu.so
+    /opt/pytorch/lib/python3.12/site-packages/pandas/_libs/tslibs/nattype.cpython-312-x86_64-linux-gnu.so
+    /opt/pytorch/lib/python3.12/site-packages/pandas/_libs/tslibs/np_datetime.cpython-312-x86_64-linux-gnu.so
+    /opt/pytorch/lib/python3.12/site-packages/pandas/_libs/tslibs/offsets.cpython-312-x86_64-linux-gnu.so
+    /opt/pytorch/lib/python3.12/site-packages/pandas/_libs/tslibs/parsing.cpython-312-x86_64-linux-gnu.so
+    /opt/pytorch/lib/python3.12/site-packages/pandas/_libs/tslibs/period.cpython-312-x86_64-linux-gnu.so
+    /opt/pytorch/lib/python3.12/site-packages/pandas/_libs/tslibs/strptime.cpython-312-x86_64-linux-gnu.so
+    /opt/pytorch/lib/python3.12/site-packages/pandas/_libs/tslibs/timedeltas.cpython-312-x86_64-linux-gnu.so
+    /opt/pytorch/lib/python3.12/site-packages/pandas/_libs/tslibs/timestamps.cpython-312-x86_64-linux-gnu.so
+    /opt/pytorch/lib/python3.12/site-packages/pandas/_libs/tslibs/timezones.cpython-312-x86_64-linux-gnu.so
+    /opt/pytorch/lib/python3.12/site-packages/pandas/_libs/tslibs/tzconversion.cpython-312-x86_64-linux-gnu.so
+    /opt/pytorch/lib/python3.12/site-packages/pandas/_libs/tslibs/vectorized.cpython-312-x86_64-linux-gnu.so
+    /opt/pytorch/lib/python3.12/site-packages/pandas/_libs/window/aggregations.cpython-312-x86_64-linux-gnu.so
+    /opt/pytorch/lib/python3.12/site-packages/pandas/_libs/window/indexers.cpython-312-x86_64-linux-gnu.so
+    /opt/pytorch/lib/python3.12/site-packages/pandas/_libs/writers.cpython-312-x86_64-linux-gnu.so
+    /opt/pytorch/lib/python3.12/site-packages/pillow.libs/libXau-154567c4.so.6.0.0
+    /opt/pytorch/lib/python3.12/site-packages/pillow.libs/libjpeg-8296d2fa.so.62.4.0
+    /opt/pytorch/lib/python3.12/site-packages/pillow.libs/liblzma-3c942967.so.5.8.3
+    /opt/pytorch/lib/python3.12/site-packages/pillow.libs/libopenjp2-f3576751.so.2.5.4
+    /opt/pytorch/lib/python3.12/site-packages/pillow.libs/libtiff-f4bc73ff.so.6.2.0
+    /opt/pytorch/lib/python3.12/site-packages/pillow.libs/libxcb-bac6ebc8.so.1.1.0
+    /opt/pytorch/lib/python3.12/site-packages/pillow.libs/libzstd-6ea785c0.so.1.5.7
+    /opt/pytorch/lib/python3.12/site-packages/psutil/_psutil_linux.abi3.so
+    /opt/pytorch/lib/python3.12/site-packages/pyarrow/_compute.cpython-312-x86_64-linux-gnu.so
+    /opt/pytorch/lib/python3.12/site-packages/pyarrow/lib.cpython-312-x86_64-linux-gnu.so
+    /opt/pytorch/lib/python3.12/site-packages/pyarrow/libarrow.so.2300
+    /opt/pytorch/lib/python3.12/site-packages/pyarrow/libarrow_acero.so.2300
+    /opt/pytorch/lib/python3.12/site-packages/pyarrow/libarrow_compute.so.2300
+    /opt/pytorch/lib/python3.12/site-packages/pyarrow/libarrow_dataset.so.2300
+    /opt/pytorch/lib/python3.12/site-packages/pyarrow/libarrow_python.so.2300
+    /opt/pytorch/lib/python3.12/site-packages/pyarrow/libarrow_substrait.so.2300
+    /opt/pytorch/lib/python3.12/site-packages/pyarrow/libparquet.so.2300
+    /opt/pytorch/lib/python3.12/site-packages/scikit_learn.libs/libgomp-e985bcbb.so.1.0.0
+    /opt/pytorch/lib/python3.12/site-packages/scipy.libs/libgfortran-040039e1-0352e75f.so.5.0.0
+    /opt/pytorch/lib/python3.12/site-packages/scipy.libs/libgfortran-8f1e9814.so.5.0.0
+    /opt/pytorch/lib/python3.12/site-packages/scipy.libs/libquadmath-828275a7.so.0.0.0
+    /opt/pytorch/lib/python3.12/site-packages/scipy.libs/libquadmath-96973f99-934c22de.so.0.0.0
+    /opt/pytorch/lib/python3.12/site-packages/scipy.libs/libscipy_openblas-6cdc3b4a.so
+    /opt/pytorch/lib/python3.12/site-packages/scipy/_cyutility.cpython-312-x86_64-linux-gnu.so
+    /opt/pytorch/lib/python3.12/site-packages/scipy/_lib/_ccallback_c.cpython-312-x86_64-linux-gnu.so
+    /opt/pytorch/lib/python3.12/site-packages/scipy/_lib/_uarray/_uarray.cpython-312-x86_64-linux-gnu.so
+    /opt/pytorch/lib/python3.12/site-packages/scipy/_lib/messagestream.cpython-312-x86_64-linux-gnu.so
+    /opt/pytorch/lib/python3.12/site-packages/scipy/fft/_pocketfft/pypocketfft.cpython-312-x86_64-linux-gnu.so
+    /opt/pytorch/lib/python3.12/site-packages/scipy/fftpack/convolve.cpython-312-x86_64-linux-gnu.so
+    /opt/pytorch/lib/python3.12/site-packages/scipy/integrate/_dop.cpython-312-x86_64-linux-gnu.so
+    /opt/pytorch/lib/python3.12/site-packages/scipy/integrate/_odepack.cpython-312-x86_64-linux-gnu.so
+    /opt/pytorch/lib/python3.12/site-packages/scipy/integrate/_quadpack.cpython-312-x86_64-linux-gnu.so
+    /opt/pytorch/lib/python3.12/site-packages/scipy/integrate/_vode.cpython-312-x86_64-linux-gnu.so
+    /opt/pytorch/lib/python3.12/site-packages/scipy/interpolate/_dfitpack.cpython-312-x86_64-linux-gnu.so
+    /opt/pytorch/lib/python3.12/site-packages/scipy/interpolate/_dierckx.cpython-312-x86_64-linux-gnu.so
+    /opt/pytorch/lib/python3.12/site-packages/scipy/interpolate/_fitpack.cpython-312-x86_64-linux-gnu.so
+    /opt/pytorch/lib/python3.12/site-packages/scipy/interpolate/_interpnd.cpython-312-x86_64-linux-gnu.so
+    /opt/pytorch/lib/python3.12/site-packages/scipy/interpolate/_ppoly.cpython-312-x86_64-linux-gnu.so
+    /opt/pytorch/lib/python3.12/site-packages/scipy/interpolate/_rbfinterp_pythran.cpython-312-x86_64-linux-gnu.so
+    /opt/pytorch/lib/python3.12/site-packages/scipy/interpolate/_rgi_cython.cpython-312-x86_64-linux-gnu.so
+    /opt/pytorch/lib/python3.12/site-packages/scipy/io/matlab/_mio5_utils.cpython-312-x86_64-linux-gnu.so
+    /opt/pytorch/lib/python3.12/site-packages/scipy/io/matlab/_mio_utils.cpython-312-x86_64-linux-gnu.so
+    /opt/pytorch/lib/python3.12/site-packages/scipy/io/matlab/_streams.cpython-312-x86_64-linux-gnu.so
+    /opt/pytorch/lib/python3.12/site-packages/scipy/linalg/_batched_linalg.cpython-312-x86_64-linux-gnu.so
+    /opt/pytorch/lib/python3.12/site-packages/scipy/linalg/_cythonized_array_utils.cpython-312-x86_64-linux-gnu.so
+    /opt/pytorch/lib/python3.12/site-packages/scipy/linalg/_decomp_interpolative.cpython-312-x86_64-linux-gnu.so
+    /opt/pytorch/lib/python3.12/site-packages/scipy/linalg/_decomp_lu_cython.cpython-312-x86_64-linux-gnu.so
+    /opt/pytorch/lib/python3.12/site-packages/scipy/linalg/_decomp_update.cpython-312-x86_64-linux-gnu.so
+    /opt/pytorch/lib/python3.12/site-packages/scipy/linalg/_fblas.cpython-312-x86_64-linux-gnu.so
+    /opt/pytorch/lib/python3.12/site-packages/scipy/linalg/_flapack.cpython-312-x86_64-linux-gnu.so
+    /opt/pytorch/lib/python3.12/site-packages/scipy/linalg/_linalg_pythran.cpython-312-x86_64-linux-gnu.so
+    /opt/pytorch/lib/python3.12/site-packages/scipy/linalg/_matfuncs_expm.cpython-312-x86_64-linux-gnu.so
+    /opt/pytorch/lib/python3.12/site-packages/scipy/linalg/_matfuncs_schur_sqrtm.cpython-312-x86_64-linux-gnu.so
+    /opt/pytorch/lib/python3.12/site-packages/scipy/linalg/_solve_toeplitz.cpython-312-x86_64-linux-gnu.so
+    /opt/pytorch/lib/python3.12/site-packages/scipy/linalg/cython_blas.cpython-312-x86_64-linux-gnu.so
+    /opt/pytorch/lib/python3.12/site-packages/scipy/linalg/cython_lapack.cpython-312-x86_64-linux-gnu.so
+    /opt/pytorch/lib/python3.12/site-packages/scipy/ndimage/_nd_image.cpython-312-x86_64-linux-gnu.so
+    /opt/pytorch/lib/python3.12/site-packages/scipy/ndimage/_ni_label.cpython-312-x86_64-linux-gnu.so
+    /opt/pytorch/lib/python3.12/site-packages/scipy/ndimage/_rank_filter_1d.cpython-312-x86_64-linux-gnu.so
+    /opt/pytorch/lib/python3.12/site-packages/scipy/optimize/_bglu_dense.cpython-312-x86_64-linux-gnu.so
+    /opt/pytorch/lib/python3.12/site-packages/scipy/optimize/_direct.cpython-312-x86_64-linux-gnu.so
+    /opt/pytorch/lib/python3.12/site-packages/scipy/optimize/_group_columns.cpython-312-x86_64-linux-gnu.so
+    /opt/pytorch/lib/python3.12/site-packages/scipy/optimize/_highspy/_core.cpython-312-x86_64-linux-gnu.so
+    /opt/pytorch/lib/python3.12/site-packages/scipy/optimize/_highspy/_highs_options.cpython-312-x86_64-linux-gnu.so
+    /opt/pytorch/lib/python3.12/site-packages/scipy/optimize/_lbfgsb.cpython-312-x86_64-linux-gnu.so
+    /opt/pytorch/lib/python3.12/site-packages/scipy/optimize/_lsap.cpython-312-x86_64-linux-gnu.so
+    /opt/pytorch/lib/python3.12/site-packages/scipy/optimize/_lsq/givens_elimination.cpython-312-x86_64-linux-gnu.so
+    /opt/pytorch/lib/python3.12/site-packages/scipy/optimize/_minpack.cpython-312-x86_64-linux-gnu.so
+    /opt/pytorch/lib/python3.12/site-packages/scipy/optimize/_moduleTNC.cpython-312-x86_64-linux-gnu.so
+    /opt/pytorch/lib/python3.12/site-packages/scipy/optimize/_pava_pybind.cpython-312-x86_64-linux-gnu.so
+    /opt/pytorch/lib/python3.12/site-packages/scipy/optimize/_slsqplib.cpython-312-x86_64-linux-gnu.so
+    /opt/pytorch/lib/python3.12/site-packages/scipy/optimize/_trlib/_trlib.cpython-312-x86_64-linux-gnu.so
+    /opt/pytorch/lib/python3.12/site-packages/scipy/optimize/_zeros.cpython-312-x86_64-linux-gnu.so
+    /opt/pytorch/lib/python3.12/site-packages/scipy/signal/_max_len_seq_inner.cpython-312-x86_64-linux-gnu.so
+    /opt/pytorch/lib/python3.12/site-packages/scipy/signal/_peak_finding_utils.cpython-312-x86_64-linux-gnu.so
+    /opt/pytorch/lib/python3.12/site-packages/scipy/signal/_sigtools.cpython-312-x86_64-linux-gnu.so
+    /opt/pytorch/lib/python3.12/site-packages/scipy/signal/_sosfilt.cpython-312-x86_64-linux-gnu.so
+    /opt/pytorch/lib/python3.12/site-packages/scipy/signal/_spline.cpython-312-x86_64-linux-gnu.so
+    /opt/pytorch/lib/python3.12/site-packages/scipy/signal/_upfirdn_apply.cpython-312-x86_64-linux-gnu.so
+    /opt/pytorch/lib/python3.12/site-packages/scipy/sparse/_csparsetools.cpython-312-x86_64-linux-gnu.so
+    /opt/pytorch/lib/python3.12/site-packages/scipy/sparse/_sparsetools.cpython-312-x86_64-linux-gnu.so
+    /opt/pytorch/lib/python3.12/site-packages/scipy/sparse/csgraph/_flow.cpython-312-x86_64-linux-gnu.so
+    /opt/pytorch/lib/python3.12/site-packages/scipy/sparse/csgraph/_matching.cpython-312-x86_64-linux-gnu.so
+    /opt/pytorch/lib/python3.12/site-packages/scipy/sparse/csgraph/_min_spanning_tree.cpython-312-x86_64-linux-gnu.so
+    /opt/pytorch/lib/python3.12/site-packages/scipy/sparse/csgraph/_reordering.cpython-312-x86_64-linux-gnu.so
+    /opt/pytorch/lib/python3.12/site-packages/scipy/sparse/csgraph/_shortest_path.cpython-312-x86_64-linux-gnu.so
+    /opt/pytorch/lib/python3.12/site-packages/scipy/sparse/csgraph/_tools.cpython-312-x86_64-linux-gnu.so
+    /opt/pytorch/lib/python3.12/site-packages/scipy/sparse/csgraph/_traversal.cpython-312-x86_64-linux-gnu.so
+    /opt/pytorch/lib/python3.12/site-packages/scipy/sparse/linalg/_dsolve/_superlu.cpython-312-x86_64-linux-gnu.so
+    /opt/pytorch/lib/python3.12/site-packages/scipy/sparse/linalg/_eigen/arpack/_arpacklib.cpython-312-x86_64-linux-gnu.so
+    /opt/pytorch/lib/python3.12/site-packages/scipy/sparse/linalg/_propack.cpython-312-x86_64-linux-gnu.so
+    /opt/pytorch/lib/python3.12/site-packages/scipy/spatial/_ckdtree.cpython-312-x86_64-linux-gnu.so
+    /opt/pytorch/lib/python3.12/site-packages/scipy/spatial/_distance_pybind.cpython-312-x86_64-linux-gnu.so
+    /opt/pytorch/lib/python3.12/site-packages/scipy/spatial/_distance_wrap.cpython-312-x86_64-linux-gnu.so
+    /opt/pytorch/lib/python3.12/site-packages/scipy/spatial/_hausdorff.cpython-312-x86_64-linux-gnu.so
+    /opt/pytorch/lib/python3.12/site-packages/scipy/spatial/_qhull.cpython-312-x86_64-linux-gnu.so
+    /opt/pytorch/lib/python3.12/site-packages/scipy/spatial/_voronoi.cpython-312-x86_64-linux-gnu.so
+    /opt/pytorch/lib/python3.12/site-packages/scipy/spatial/transform/_rigid_transform_cy.cpython-312-x86_64-linux-gnu.so
+    /opt/pytorch/lib/python3.12/site-packages/scipy/spatial/transform/_rotation_cy.cpython-312-x86_64-linux-gnu.so
+    /opt/pytorch/lib/python3.12/site-packages/scipy/special/_comb.cpython-312-x86_64-linux-gnu.so
+    /opt/pytorch/lib/python3.12/site-packages/scipy/special/_ellip_harm_2.cpython-312-x86_64-linux-gnu.so
+    /opt/pytorch/lib/python3.12/site-packages/scipy/special/_gufuncs.cpython-312-x86_64-linux-gnu.so
+    /opt/pytorch/lib/python3.12/site-packages/scipy/special/_specfun.cpython-312-x86_64-linux-gnu.so
+    /opt/pytorch/lib/python3.12/site-packages/scipy/special/_special_ufuncs.cpython-312-x86_64-linux-gnu.so
+    /opt/pytorch/lib/python3.12/site-packages/scipy/special/_ufuncs.cpython-312-x86_64-linux-gnu.so
+    /opt/pytorch/lib/python3.12/site-packages/scipy/special/_ufuncs_cxx.cpython-312-x86_64-linux-gnu.so
+    /opt/pytorch/lib/python3.12/site-packages/scipy/special/cython_special.cpython-312-x86_64-linux-gnu.so
+    /opt/pytorch/lib/python3.12/site-packages/scipy/stats/_ansari_swilk_statistics.cpython-312-x86_64-linux-gnu.so
+    /opt/pytorch/lib/python3.12/site-packages/scipy/stats/_biasedurn.cpython-312-x86_64-linux-gnu.so
+    /opt/pytorch/lib/python3.12/site-packages/scipy/stats/_levy_stable/levyst.cpython-312-x86_64-linux-gnu.so
+    /opt/pytorch/lib/python3.12/site-packages/scipy/stats/_qmc_cy.cpython-312-x86_64-linux-gnu.so
+    /opt/pytorch/lib/python3.12/site-packages/scipy/stats/_qmvnt_cy.cpython-312-x86_64-linux-gnu.so
+    /opt/pytorch/lib/python3.12/site-packages/scipy/stats/_rcont/rcont.cpython-312-x86_64-linux-gnu.so
+    /opt/pytorch/lib/python3.12/site-packages/scipy/stats/_sobol.cpython-312-x86_64-linux-gnu.so
+    /opt/pytorch/lib/python3.12/site-packages/scipy/stats/_stats.cpython-312-x86_64-linux-gnu.so
+    /opt/pytorch/lib/python3.12/site-packages/scipy/stats/_stats_pythran.cpython-312-x86_64-linux-gnu.so
+    /opt/pytorch/lib/python3.12/site-packages/sklearn/__check_build/_check_build.cpython-312-x86_64-linux-gnu.so
+    /opt/pytorch/lib/python3.12/site-packages/sklearn/_cyutility.cpython-312-x86_64-linux-gnu.so
+    /opt/pytorch/lib/python3.12/site-packages/sklearn/_isotonic.cpython-312-x86_64-linux-gnu.so
+    /opt/pytorch/lib/python3.12/site-packages/sklearn/_loss/_loss.cpython-312-x86_64-linux-gnu.so
+    /opt/pytorch/lib/python3.12/site-packages/sklearn/cluster/_dbscan_inner.cpython-312-x86_64-linux-gnu.so
+    /opt/pytorch/lib/python3.12/site-packages/sklearn/cluster/_hdbscan/_linkage.cpython-312-x86_64-linux-gnu.so
+    /opt/pytorch/lib/python3.12/site-packages/sklearn/cluster/_hdbscan/_reachability.cpython-312-x86_64-linux-gnu.so
+    /opt/pytorch/lib/python3.12/site-packages/sklearn/cluster/_hdbscan/_tree.cpython-312-x86_64-linux-gnu.so
+    /opt/pytorch/lib/python3.12/site-packages/sklearn/cluster/_hierarchical_fast.cpython-312-x86_64-linux-gnu.so
+    /opt/pytorch/lib/python3.12/site-packages/sklearn/cluster/_k_means_common.cpython-312-x86_64-linux-gnu.so
+    /opt/pytorch/lib/python3.12/site-packages/sklearn/cluster/_k_means_elkan.cpython-312-x86_64-linux-gnu.so
+    /opt/pytorch/lib/python3.12/site-packages/sklearn/cluster/_k_means_lloyd.cpython-312-x86_64-linux-gnu.so
+    /opt/pytorch/lib/python3.12/site-packages/sklearn/cluster/_k_means_minibatch.cpython-312-x86_64-linux-gnu.so
+    /opt/pytorch/lib/python3.12/site-packages/sklearn/decomposition/_cdnmf_fast.cpython-312-x86_64-linux-gnu.so
+    /opt/pytorch/lib/python3.12/site-packages/sklearn/decomposition/_online_lda_fast.cpython-312-x86_64-linux-gnu.so
+    /opt/pytorch/lib/python3.12/site-packages/sklearn/feature_extraction/_hashing_fast.cpython-312-x86_64-linux-gnu.so
+    /opt/pytorch/lib/python3.12/site-packages/sklearn/linear_model/_cd_fast.cpython-312-x86_64-linux-gnu.so
+    /opt/pytorch/lib/python3.12/site-packages/sklearn/linear_model/_sag_fast.cpython-312-x86_64-linux-gnu.so
+    /opt/pytorch/lib/python3.12/site-packages/sklearn/linear_model/_sgd_fast.cpython-312-x86_64-linux-gnu.so
+    /opt/pytorch/lib/python3.12/site-packages/sklearn/manifold/_barnes_hut_tsne.cpython-312-x86_64-linux-gnu.so
+    /opt/pytorch/lib/python3.12/site-packages/sklearn/manifold/_utils.cpython-312-x86_64-linux-gnu.so
+    /opt/pytorch/lib/python3.12/site-packages/sklearn/metrics/_dist_metrics.cpython-312-x86_64-linux-gnu.so
+    /opt/pytorch/lib/python3.12/site-packages/sklearn/metrics/_pairwise_distances_reduction/_argkmin.cpython-312-x86_64-linux-gnu.so
+    /opt/pytorch/lib/python3.12/site-packages/sklearn/metrics/_pairwise_distances_reduction/_argkmin_classmode.cpython-312-x86_64-linux-gnu.so
+    /opt/pytorch/lib/python3.12/site-packages/sklearn/metrics/_pairwise_distances_reduction/_base.cpython-312-x86_64-linux-gnu.so
+    /opt/pytorch/lib/python3.12/site-packages/sklearn/metrics/_pairwise_distances_reduction/_datasets_pair.cpython-312-x86_64-linux-gnu.so
+    /opt/pytorch/lib/python3.12/site-packages/sklearn/metrics/_pairwise_distances_reduction/_middle_term_computer.cpython-312-x86_64-linux-gnu.so
+    /opt/pytorch/lib/python3.12/site-packages/sklearn/metrics/_pairwise_distances_reduction/_radius_neighbors.cpython-312-x86_64-linux-gnu.so
+    /opt/pytorch/lib/python3.12/site-packages/sklearn/metrics/_pairwise_distances_reduction/_radius_neighbors_classmode.cpython-312-x86_64-linux-gnu.so
+    /opt/pytorch/lib/python3.12/site-packages/sklearn/metrics/_pairwise_fast.cpython-312-x86_64-linux-gnu.so
+    /opt/pytorch/lib/python3.12/site-packages/sklearn/metrics/cluster/_expected_mutual_info_fast.cpython-312-x86_64-linux-gnu.so
+    /opt/pytorch/lib/python3.12/site-packages/sklearn/neighbors/_ball_tree.cpython-312-x86_64-linux-gnu.so
+    /opt/pytorch/lib/python3.12/site-packages/sklearn/neighbors/_kd_tree.cpython-312-x86_64-linux-gnu.so
+    /opt/pytorch/lib/python3.12/site-packages/sklearn/neighbors/_partition_nodes.cpython-312-x86_64-linux-gnu.so
+    /opt/pytorch/lib/python3.12/site-packages/sklearn/neighbors/_quad_tree.cpython-312-x86_64-linux-gnu.so
+    /opt/pytorch/lib/python3.12/site-packages/sklearn/preprocessing/_csr_polynomial_expansion.cpython-312-x86_64-linux-gnu.so
+    /opt/pytorch/lib/python3.12/site-packages/sklearn/preprocessing/_target_encoder_fast.cpython-312-x86_64-linux-gnu.so
+    /opt/pytorch/lib/python3.12/site-packages/sklearn/svm/_liblinear.cpython-312-x86_64-linux-gnu.so
+    /opt/pytorch/lib/python3.12/site-packages/sklearn/svm/_libsvm.cpython-312-x86_64-linux-gnu.so
+    /opt/pytorch/lib/python3.12/site-packages/sklearn/svm/_libsvm_sparse.cpython-312-x86_64-linux-gnu.so
+    /opt/pytorch/lib/python3.12/site-packages/sklearn/tree/_criterion.cpython-312-x86_64-linux-gnu.so
+    /opt/pytorch/lib/python3.12/site-packages/sklearn/tree/_partitioner.cpython-312-x86_64-linux-gnu.so
+    /opt/pytorch/lib/python3.12/site-packages/sklearn/tree/_splitter.cpython-312-x86_64-linux-gnu.so
+    /opt/pytorch/lib/python3.12/site-packages/sklearn/tree/_tree.cpython-312-x86_64-linux-gnu.so
+    /opt/pytorch/lib/python3.12/site-packages/sklearn/tree/_utils.cpython-312-x86_64-linux-gnu.so
+    /opt/pytorch/lib/python3.12/site-packages/sklearn/utils/_cython_blas.cpython-312-x86_64-linux-gnu.so
+    /opt/pytorch/lib/python3.12/site-packages/sklearn/utils/_fast_dict.cpython-312-x86_64-linux-gnu.so
+    /opt/pytorch/lib/python3.12/site-packages/sklearn/utils/_heap.cpython-312-x86_64-linux-gnu.so
+    /opt/pytorch/lib/python3.12/site-packages/sklearn/utils/_isfinite.cpython-312-x86_64-linux-gnu.so
+    /opt/pytorch/lib/python3.12/site-packages/sklearn/utils/_openmp_helpers.cpython-312-x86_64-linux-gnu.so
+    /opt/pytorch/lib/python3.12/site-packages/sklearn/utils/_random.cpython-312-x86_64-linux-gnu.so
+    /opt/pytorch/lib/python3.12/site-packages/sklearn/utils/_seq_dataset.cpython-312-x86_64-linux-gnu.so
+    /opt/pytorch/lib/python3.12/site-packages/sklearn/utils/_sorting.cpython-312-x86_64-linux-gnu.so
+    /opt/pytorch/lib/python3.12/site-packages/sklearn/utils/_vector_sentinel.cpython-312-x86_64-linux-gnu.so
+    /opt/pytorch/lib/python3.12/site-packages/sklearn/utils/_weight_vector.cpython-312-x86_64-linux-gnu.so
+    /opt/pytorch/lib/python3.12/site-packages/sklearn/utils/arrayfuncs.cpython-312-x86_64-linux-gnu.so
+    /opt/pytorch/lib/python3.12/site-packages/sklearn/utils/murmurhash.cpython-312-x86_64-linux-gnu.so
+    /opt/pytorch/lib/python3.12/site-packages/sklearn/utils/sparsefuncs_fast.cpython-312-x86_64-linux-gnu.so
+    /opt/pytorch/lib/python3.12/site-packages/torch/_C.cpython-312-x86_64-linux-gnu.so
+    /opt/pytorch/lib/python3.12/site-packages/torch/lib/libc10.so
+    /opt/pytorch/lib/python3.12/site-packages/torch/lib/libc10_cuda.so
+    /opt/pytorch/lib/python3.12/site-packages/torch/lib/libgomp-c9fef706.so.1
+    /opt/pytorch/lib/python3.12/site-packages/torch/lib/libshm.so
+    /opt/pytorch/lib/python3.12/site-packages/torch/lib/libtorch.so
+    /opt/pytorch/lib/python3.12/site-packages/torch/lib/libtorch_cpu.so
+    /opt/pytorch/lib/python3.12/site-packages/torch/lib/libtorch_cuda.so
+    /opt/pytorch/lib/python3.12/site-packages/torch/lib/libtorch_global_deps.so
+    /opt/pytorch/lib/python3.12/site-packages/torch/lib/libtorch_python.so
+    /opt/pytorch/lib/python3.12/site-packages/yaml/_yaml.cpython-312-x86_64-linux-gnu.so
+[B] outside the wheels but OWNED by a dpkg package (5) -- a pip freeze cannot express these:
+    libssl3                      /usr/lib/x86_64-linux-gnu/libcrypto.so.3
+    libffi8                      /usr/lib/x86_64-linux-gnu/libffi.so.8.1.0
+    libssl3                      /usr/lib/x86_64-linux-gnu/libssl.so.3
+    libstdc++6                   /usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.30
+    libuuid1                     /usr/lib/x86_64-linux-gnu/libuuid.so.1.3.0
+[C] outside the wheels and owned by NO dpkg package (53) -- invisible to pip AND to apt:
+    /usr/lib/x86_64-linux-gnu/ld-linux-x86-64.so.2
+    /usr/lib/x86_64-linux-gnu/libbz2.so.1.0.4
+    /usr/lib/x86_64-linux-gnu/libc.so.6
+    /usr/lib/x86_64-linux-gnu/libcuda.so.580.126.09
+    /usr/lib/x86_64-linux-gnu/libdl.so.2
+    /usr/lib/x86_64-linux-gnu/libgcc_s.so.1
+    /usr/lib/x86_64-linux-gnu/liblzma.so.5.2.5
+    /usr/lib/x86_64-linux-gnu/libm.so.6
+    /usr/lib/x86_64-linux-gnu/libmvec.so.1
+    /usr/lib/x86_64-linux-gnu/libpthread.so.0
+    /usr/lib/x86_64-linux-gnu/librt.so.1
+    /usr/lib/x86_64-linux-gnu/libutil.so.1
+    /usr/lib/x86_64-linux-gnu/libz.so.1.2.11
+    /usr/local/lib/python3.12/lib-dynload/_asyncio.cpython-312-x86_64-linux-gnu.so
+    /usr/local/lib/python3.12/lib-dynload/_bisect.cpython-312-x86_64-linux-gnu.so
+    /usr/local/lib/python3.12/lib-dynload/_blake2.cpython-312-x86_64-linux-gnu.so
+    /usr/local/lib/python3.12/lib-dynload/_bz2.cpython-312-x86_64-linux-gnu.so
+    /usr/local/lib/python3.12/lib-dynload/_contextvars.cpython-312-x86_64-linux-gnu.so
+    /usr/local/lib/python3.12/lib-dynload/_csv.cpython-312-x86_64-linux-gnu.so
+    /usr/local/lib/python3.12/lib-dynload/_ctypes.cpython-312-x86_64-linux-gnu.so
+    /usr/local/lib/python3.12/lib-dynload/_datetime.cpython-312-x86_64-linux-gnu.so
+    /usr/local/lib/python3.12/lib-dynload/_decimal.cpython-312-x86_64-linux-gnu.so
+    /usr/local/lib/python3.12/lib-dynload/_elementtree.cpython-312-x86_64-linux-gnu.so
+    /usr/local/lib/python3.12/lib-dynload/_hashlib.cpython-312-x86_64-linux-gnu.so
+    /usr/local/lib/python3.12/lib-dynload/_heapq.cpython-312-x86_64-linux-gnu.so
+    /usr/local/lib/python3.12/lib-dynload/_json.cpython-312-x86_64-linux-gnu.so
+    /usr/local/lib/python3.12/lib-dynload/_lzma.cpython-312-x86_64-linux-gnu.so
+    /usr/local/lib/python3.12/lib-dynload/_multiprocessing.cpython-312-x86_64-linux-gnu.so
+    /usr/local/lib/python3.12/lib-dynload/_opcode.cpython-312-x86_64-linux-gnu.so
+    /usr/local/lib/python3.12/lib-dynload/_pickle.cpython-312-x86_64-linux-gnu.so
+    /usr/local/lib/python3.12/lib-dynload/_posixshmem.cpython-312-x86_64-linux-gnu.so
+    /usr/local/lib/python3.12/lib-dynload/_posixsubprocess.cpython-312-x86_64-linux-gnu.so
+    /usr/local/lib/python3.12/lib-dynload/_queue.cpython-312-x86_64-linux-gnu.so
+    /usr/local/lib/python3.12/lib-dynload/_random.cpython-312-x86_64-linux-gnu.so
+    /usr/local/lib/python3.12/lib-dynload/_sha2.cpython-312-x86_64-linux-gnu.so
+    /usr/local/lib/python3.12/lib-dynload/_socket.cpython-312-x86_64-linux-gnu.so
+    /usr/local/lib/python3.12/lib-dynload/_ssl.cpython-312-x86_64-linux-gnu.so
+    /usr/local/lib/python3.12/lib-dynload/_struct.cpython-312-x86_64-linux-gnu.so
+    /usr/local/lib/python3.12/lib-dynload/_uuid.cpython-312-x86_64-linux-gnu.so
+    /usr/local/lib/python3.12/lib-dynload/_zoneinfo.cpython-312-x86_64-linux-gnu.so
+    /usr/local/lib/python3.12/lib-dynload/array.cpython-312-x86_64-linux-gnu.so
+    /usr/local/lib/python3.12/lib-dynload/binascii.cpython-312-x86_64-linux-gnu.so
+    /usr/local/lib/python3.12/lib-dynload/cmath.cpython-312-x86_64-linux-gnu.so
+    /usr/local/lib/python3.12/lib-dynload/fcntl.cpython-312-x86_64-linux-gnu.so
+    /usr/local/lib/python3.12/lib-dynload/grp.cpython-312-x86_64-linux-gnu.so
+    /usr/local/lib/python3.12/lib-dynload/math.cpython-312-x86_64-linux-gnu.so
+    /usr/local/lib/python3.12/lib-dynload/mmap.cpython-312-x86_64-linux-gnu.so
+    /usr/local/lib/python3.12/lib-dynload/pyexpat.cpython-312-x86_64-linux-gnu.so
+    /usr/local/lib/python3.12/lib-dynload/resource.cpython-312-x86_64-linux-gnu.so
+    /usr/local/lib/python3.12/lib-dynload/select.cpython-312-x86_64-linux-gnu.so
+    /usr/local/lib/python3.12/lib-dynload/termios.cpython-312-x86_64-linux-gnu.so
+    /usr/local/lib/python3.12/lib-dynload/unicodedata.cpython-312-x86_64-linux-gnu.so
+    /usr/local/lib/python3.12/lib-dynload/zlib.cpython-312-x86_64-linux-gnu.so
+--- libsndfile provenance ---
+  soundfile 0.14.0 reports libsndfile 1.2.2
+  loaded object: <Lib object for '/opt/pytorch/lib/python3.12/site-packages/_soundfile_data/libsndfile_x86_64.so'>
+native_deps_probe: done (diagnostic only, never fatal)
+HF_TOKEN present in task env: True | length: 37
+roar: roar init
+.roar directory already exists at [REDACTED]/a41f100d-c025-449a-a061-cc7dc60d8378/_work/35965a38-cc32-425e-9eb6-50c5a34be4b3/repository/.roar
+[fetch] GET https://data.keithito.com/data/speech/LJSpeech-1.1.tar.bz2
+[fetch]   0.01 / 2.75 GB (0%)
+[fetch]   0.28 / 2.75 GB (10%)
+[fetch]   0.55 / 2.75 GB (20%)
+[fetch]   0.83 / 2.75 GB (30%)
+[fetch]   1.11 / 2.75 GB (40%)
+[fetch]   1.38 / 2.75 GB (50%)
+[fetch]   1.65 / 2.75 GB (60%)
+[fetch]   1.93 / 2.75 GB (70%)
+[fetch]   2.21 / 2.75 GB (80%)
+[fetch]   2.47 / 2.75 GB (90%)
+[fetch]   2.75 / 2.75 GB (100%)
+[timing] download: 2748572632 bytes in 23.3s (117.7 MB/s)
+[timing] sha256: 7.6s
+[check] sha256 be1a30453f28eb8dd26af4101ae40cbf2c50413b1bb21936cbcdc6fae3de8aa5
+[check] archive matches the pinned SHA-256
+[fetch]   extracted 2000 files
+[fetch]   extracted 4000 files
+[fetch]   extracted 6000 files
+[fetch]   extracted 8000 files
+[fetch]   extracted 10000 files
+[fetch]   extracted 12000 files
+[timing] extract: 13102 files in 250.3s
+[check] 13100 .wav files in [REDACTED]/a41f100d-c025-449a-a061-cc7dc60d8378/_work/35965a38-cc32-425e-9eb6-50c5a34be4b3/repository/DUMMY (13102 files written)
+[check] all 13100 audio paths in upstream's three filelists resolve, with the filelists unmodified
+[fetch] removed /var/tmp/LJSpeech-1.1.tar.bz2
+19:52:08  task               Task fetch_ljspeech completed
+19:52:09  task               Running task train
+roar: done · 313.4s (trace 286.4s + post 27.0s, exit 0)
+hint: next: roar show @1  ·  roar dag  ·  roar register @1
+[shim] `import tensorflow` in hparams.py is served by repro/tf_hparams_shim.py -- it provides tf.contrib.training.HParams and tf.logging and nothing else. TensorFlow itself is NOT installed: tf.contrib was removed in TF 2.0 and the pinned tensorflow==1.15.2 has no wheel for this interpreter. hparams.py itself is upstream's, unmodified.
+[shim] withdrawn: `import tensorflow` now fails as it would on any host without TensorFlow. TensorBoard's SummaryWriter probes for it and would otherwise route its file IO through tf.io.gfile.
+/root/.local/share/uv/tools/roar-cli/lib/python3.12/site-packages/roar/execution/runtime/inject/tracker.py:360: FutureWarning: The pynvml package is deprecated. Please install nvidia-ml-py instead. If you did not install pynvml directly, please report this to the maintainers of the package that installed pynvml for you.
+  module = self._real_import(name, globals, locals, fromlist, level)
+[env] torch 2.7.0+cu126 | cuda available: True
+[env] device: Tesla T4
+[tf.logging] Parsing command line hparams: epochs=1,batch_size=16,iters_per_checkpoint=100
+FP16 Run: False
+Dynamic Loss Scaling: True
+Distributed Run: False
+cuDNN Enabled: True
+cuDNN Benchmark: False
+[REDACTED]/a41f100d-c025-449a-a061-cc7dc60d8378/_work/35965a38-cc32-425e-9eb6-50c5a34be4b3/repository/stft.py:67: FutureWarning: Pass size=1024 as keyword args. From version 0.10 passing these as positional arguments will result in an error
+  fft_window = pad_center(fft_window, filter_length)
+[REDACTED]/a41f100d-c025-449a-a061-cc7dc60d8378/_work/35965a38-cc32-425e-9eb6-50c5a34be4b3/repository/layers.py:50: FutureWarning: Pass sr=22050, n_fft=1024, n_mels=80, fmin=0.0, fmax=8000.0 as keyword args. From version 0.10 passing these as positional arguments will result in an error
+  mel_basis = librosa_mel_fn(
+[timing] dataloaders built in 1.5s (12500 train utterances, 100 validation utterances)
+[truncation] upstream would run 1 epoch(s) x 781 steps/epoch = 781 optimiser steps at batch_size=16; running 101 step(s) (--train-iters 101).
+[dataloader] num_workers forced to 0 (upstream hardcodes 1 at train.py:55); see repro/train_truncated.py
+Epoch: 0
+[REDACTED]/a41f100d-c025-449a-a061-cc7dc60d8378/_work/35965a38-cc32-425e-9eb6-50c5a34be4b3/repository/utils.py:8: UserWarning: The torch.cuda.*DtypeTensor constructors are no longer recommended. It's best to use methods such as torch.tensor(data, dtype=*, device='cuda') to create tensors. (Triggered internally at /pytorch/torch/csrc/tensor/python_tensor.cpp:78.)
+  ids = torch.arange(0, max_len, out=torch.cuda.LongTensor(max_len))
+Train loss 0 49.424385 Grad Norm 14.143738 36.95s/it
+Validation loss 0: 36.168824
+Saving model and optimizer state at iteration 0 to outdir/checkpoint_0
+Train loss 1 38.546654 Grad Norm 27.963467 2.97s/it
+Train loss 2 15.759630 Grad Norm 16.108850 2.90s/it
+Train loss 3 8.668735 Grad Norm 23.742327 3.00s/it
+Train loss 4 5.707703 Grad Norm 6.299018 2.90s/it
+Train loss 5 5.882160 Grad Norm 6.333197 2.84s/it
+Train loss 6 5.747682 Grad Norm 7.288324 3.08s/it
+Train loss 7 5.358381 Grad Norm 6.032738 2.72s/it
+Train loss 8 5.664365 Grad Norm 5.384295 2.99s/it
+Train loss 9 5.100771 Grad Norm 3.971209 3.04s/it
+Train loss 10 4.814967 Grad Norm 2.651328 3.29s/it
+Train loss 11 4.434531 Grad Norm 2.599507 2.85s/it
+Train loss 12 4.739739 Grad Norm 5.923015 2.79s/it
+Train loss 13 4.557664 Grad Norm 13.259419 2.97s/it
+Train loss 14 5.436362 Grad Norm 5.405529 2.93s/it
+Train loss 15 4.490939 Grad Norm 26.554644 2.91s/it
+Train loss 16 5.433411 Grad Norm 10.668587 2.99s/it
+Train loss 17 5.049242 Grad Norm 23.791067 3.01s/it
+Train loss 18 5.753369 Grad Norm 14.754446 2.85s/it
+Train loss 19 4.972801 Grad Norm 7.164617 3.04s/it
+Train loss 20 5.504850 Grad Norm 4.371312 3.01s/it
+Train loss 21 4.563933 Grad Norm 10.362715 3.13s/it
+Train loss 22 4.302760 Grad Norm 8.008871 2.55s/it
+Train loss 23 4.657578 Grad Norm 9.291596 2.67s/it
+Train loss 24 4.692780 Grad Norm 8.441206 2.98s/it
+Train loss 25 5.318438 Grad Norm 4.922193 2.95s/it
+Train loss 26 4.504900 Grad Norm 10.903349 2.80s/it
+Train loss 27 4.477013 Grad Norm 11.033956 2.82s/it
+Train loss 28 4.699270 Grad Norm 9.953368 2.75s/it
+Train loss 29 4.275311 Grad Norm 15.309547 2.83s/it
+Train loss 30 4.829349 Grad Norm 5.118312 2.78s/it
+Train loss 31 4.323822 Grad Norm 11.085622 2.92s/it
+Train loss 32 4.791116 Grad Norm 5.492084 2.61s/it
+Train loss 33 4.207528 Grad Norm 18.062757 2.57s/it
+Train loss 34 4.212086 Grad Norm 20.078657 2.99s/it
+Train loss 35 4.003737 Grad Norm 19.931604 2.69s/it
+Train loss 36 5.701344 Grad Norm 14.813285 3.04s/it
+Train loss 37 3.940532 Grad Norm 10.530786 2.85s/it
+Train loss 38 4.126064 Grad Norm 7.172596 2.94s/it
+Train loss 39 4.317016 Grad Norm 4.075996 2.91s/it
+Train loss 40 3.994361 Grad Norm 6.664949 2.70s/it
+Train loss 41 4.701134 Grad Norm 3.738010 2.99s/it
+Train loss 42 4.302475 Grad Norm 4.377177 2.84s/it
+Train loss 43 3.438510 Grad Norm 8.635543 3.03s/it
+Train loss 44 4.787516 Grad Norm 3.049242 2.86s/it
+Train loss 45 3.512137 Grad Norm 7.897757 2.94s/it
+Train loss 46 3.977417 Grad Norm 3.412119 2.94s/it
+Train loss 47 4.449203 Grad Norm 1.777943 2.91s/it
+Train loss 48 4.582579 Grad Norm 2.190719 2.99s/it
+Train loss 49 4.183565 Grad Norm 5.769513 2.99s/it
+Train loss 50 4.258228 Grad Norm 4.003691 3.00s/it
+Train loss 51 3.856711 Grad Norm 4.389066 2.96s/it
+Train loss 52 3.902918 Grad Norm 3.146460 3.03s/it
+Train loss 53 4.163197 Grad Norm 3.867814 3.19s/it
+Train loss 54 4.584016 Grad Norm 6.477282 2.84s/it
+Train loss 55 4.765625 Grad Norm 4.751311 2.86s/it
+Train loss 56 4.151592 Grad Norm 5.703327 2.90s/it
+Train loss 57 4.273141 Grad Norm 3.346225 2.80s/it
+Train loss 58 4.109884 Grad Norm 3.408316 3.02s/it
+Train loss 59 4.009015 Grad Norm 3.686322 2.89s/it
+Train loss 60 3.740940 Grad Norm 4.436100 2.63s/it
+Train loss 61 3.680039 Grad Norm 2.577104 3.03s/it
+Train loss 62 3.878754 Grad Norm 2.555906 2.95s/it
+Train loss 63 4.221414 Grad Norm 16.778008 2.75s/it
+Train loss 64 5.025051 Grad Norm 15.075862 2.79s/it
+Train loss 65 4.722065 Grad Norm 11.326013 2.90s/it
+Train loss 66 4.703475 Grad Norm 14.223619 2.99s/it
+Train loss 67 4.598008 Grad Norm 7.404355 2.95s/it
+Train loss 68 4.158040 Grad Norm 4.616404 2.94s/it
+Train loss 69 3.762239 Grad Norm 4.009735 2.90s/it
+Train loss 70 3.476027 Grad Norm 5.218334 2.95s/it
+Train loss 71 3.723757 Grad Norm 9.425926 2.95s/it
+Train loss 72 4.503469 Grad Norm 6.354325 2.96s/it
+Train loss 73 4.044708 Grad Norm 5.430574 3.00s/it
+Train loss 74 3.393812 Grad Norm 3.319743 2.93s/it
+Train loss 75 4.280511 Grad Norm 5.104848 2.99s/it
+Train loss 76 4.727601 Grad Norm 6.354825 2.95s/it
+Train loss 77 3.992433 Grad Norm 6.567953 3.00s/it
+Train loss 78 3.961307 Grad Norm 6.863564 2.99s/it
+Train loss 79 4.037331 Grad Norm 8.142749 2.99s/it
+Train loss 80 4.061727 Grad Norm 6.889807 2.99s/it
+Train loss 81 4.068675 Grad Norm 5.155496 2.99s/it
+Train loss 82 4.032365 Grad Norm 6.901905 3.00s/it
+Train loss 83 3.832439 Grad Norm 4.785659 3.15s/it
+Train loss 84 3.678872 Grad Norm 3.225920 2.74s/it
+Train loss 85 3.838014 Grad Norm 5.378133 2.67s/it
+Train loss 86 4.132886 Grad Norm 3.852977 2.67s/it
+Train loss 87 3.451675 Grad Norm 2.024853 2.76s/it
+Train loss 88 3.368460 Grad Norm 3.037362 2.98s/it
+Train loss 89 3.677296 Grad Norm 11.188190 2.97s/it
+Train loss 90 3.669883 Grad Norm 3.800983 2.96s/it
+Train loss 91 3.450667 Grad Norm 4.480200 2.83s/it
+Train loss 92 3.609252 Grad Norm 5.428510 2.70s/it
+Train loss 93 3.081861 Grad Norm 3.802894 2.77s/it
+Train loss 94 3.466753 Grad Norm 2.231387 3.00s/it
+Train loss 95 3.111885 Grad Norm 2.353068 2.88s/it
+Train loss 96 3.197098 Grad Norm 4.788718 2.99s/it
+Train loss 97 3.341802 Grad Norm 5.125150 3.06s/it
+Train loss 98 3.547647 Grad Norm 2.915129 2.92s/it
+Train loss 99 3.466748 Grad Norm 2.587138 2.82s/it
+Train loss 100 2.906570 Grad Norm 3.435866 2.96s/it
+Validation loss 100:  5.609226
+Saving model and optimizer state at iteration 100 to outdir/checkpoint_100
+[timing] train() returned after 403.6s
+[timing] 4.00s per optimiser step, including the validation passes
+19:59:13  task               Task train completed
+19:59:13  task               Running task label
+19:59:14  task               Task label completed
+19:59:14  task               Running task publish
+roar: done · 423.9s (trace 416.7s + post 7.1s, exit 0)
+hint: next: roar show @2  ·  roar dag  ·  roar register @2
+hint: 13 files under /tmp ignored (filters.ignore_tmp_files).
+hint:   to track them: roar config set filters.ignore_tmp_files false
+Updated labels (version 1):
+  description=Tacotron 2 (NVIDIA): character-to-mel-spectrogram sequence-to-sequence TTS with location-sensitive attention, trained on the LJ Speech corpus. TRUNCATED pipeline-viability run: 101 of 390500 optimiser steps, NOT converged.
+  documentation.url=https://github.com/NVIDIA/tacotron2/blob/master/README.md
+  license.id=BSD-3-Clause
+  license.name=BSD 3-Clause License
+  model.name=tacotron2-ljspeech
+  model.version=1
+
+
+
+
+  ...ory/outdir/checkpoint_100:   1%|▏         | 4.47MB /  338MB            
+
+
+  ...ory/outdir/checkpoint_100:   1%|▏         | 4.47MB /  338MB            
+
+
+
+  ...ory/outdir/checkpoint_100:   7%|▋         | 25.2MB /  338MB            
+
+
+
+  ...ory/outdir/checkpoint_100:  14%|█▎        | 45.8MB /  338MB            
+
+
+
+  ...ory/outdir/checkpoint_100:  19%|█▉        | 66.0MB /  338MB            
+
+
+
+  ...ory/outdir/checkpoint_100:  20%|█▉        | 67.0MB /  338MB            
+
+
+
+  ...ory/outdir/checkpoint_100:  20%|██        | 68.1MB /  338MB            
+
+
+
+  ...ory/outdir/checkpoint_100:  26%|██▌       | 87.1MB /  338MB            
+
+
+
+  ...ory/outdir/checkpoint_100:  33%|███▎      |  111MB /  338MB            
+
+
+
+  ...ory/outdir/checkpoint_100:  40%|███▉      |  134MB /  338MB            
+
+
+
+  ...ory/outdir/checkpoint_100:  40%|███▉      |  134MB /  338MB            
+
+
+  ...ory/outdir/checkpoint_100:  41%|████      |  138MB /  338MB            
+
+
+
+  ...ory/outdir/checkpoint_100:  45%|████▍     |  152MB /  338MB            
+
+
+
+  ...ory/outdir/checkpoint_100:  51%|█████     |  172MB /  338MB            
+
+
+
+  ...ory/outdir/checkpoint_100:  57%|█████▋    |  192MB /  338MB            
+
+
+
+  ...ory/outdir/checkpoint_100:  59%|█████▉    |  201MB /  338MB            
+
+
+
+  ...ory/outdir/checkpoint_100:  60%|█████▉    |  202MB /  338MB            
+
+
+
+  ...ory/outdir/checkpoint_100:  64%|██████▍   |  216MB /  338MB            
+
+
+
+  ...ory/outdir/checkpoint_100:  73%|███████▎  |  247MB /  338MB            
+
+
+
+  ...ory/outdir/checkpoint_100:  79%|███████▉  |  268MB /  338MB            
+
+
+
+  ...ory/outdir/checkpoint_100:  79%|███████▉  |  268MB /  338MB            
+
+
+  ...ory/outdir/checkpoint_100:  81%|████████  |  274MB /  338MB            
+
+
+
+  ...ory/outdir/checkpoint_100:  88%|████████▊ |  299MB /  338MB            
+
+
+
+  ...ory/outdir/checkpoint_100:  96%|█████████▌|  325MB /  338MB            
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+20:17:23  cancelled          Run cancelled
+20:17:24  terminal           Job cancelled
+Training request: 23cea028-0928-49bf-b0fd-7f243698cd05
+Job: 35965a38-cc32-425e-9eb6-50c5a34be4b3
+Status: CANCELLED
+Source commit: f0cd4acc901926fe2613eb7cd1883ee589d2717a
+Workflow snapshot: 560d3c21-28eb-4f0a-9905-f7a63fd07b2f
+Error: Job 35965a38-cc32-425e-9eb6-50c5a34be4b3 finished with status CANCELLED.

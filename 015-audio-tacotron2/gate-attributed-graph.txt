@@ -1,0 +1,52 @@
+Tier-1 bar — bd10e34c8e450c46 · reproducible-ai/tacotron2-ljspeech
+  [❌] clean-dag    Clean-DAG check — 7/13 passed  ·  bd10e34c8e450c46 · 0 jobs (published DAG)
+  [❌] ai-bom       AI-BOM score: 30.4/100  ·  profile: Incomplete  ·  glaas.ai/dag/bd10e34c8e450c46b6ccc5481fb9cc47c3a03b0fe25b9342c0f63a64b0392930/audit
+  [✅] public-urls  RESULT: ALL PUBLIC
+  [❌] freeze       
+
+RESULT: NOT PUBLISHABLE — 3 gate(s) failed: clean-dag, ai-bom, freeze
+
+--- clean-dag ---
+Clean-DAG check — 7/13 passed  ·  bd10e34c8e450c46 · 0 jobs (published DAG)
+  [❌] producing jobs captured outputs
+       → no output edges anywhere
+  [✅] each step recorded a real workload environment
+  [✅] producing steps chain (graph has edges)
+  [❌] published artifact traces to a job output
+       → no put/publish step found
+  [❌] model has a resolvable download location
+       → no put destination / resolve URL recorded
+  [❌] published to hf://reproducible-ai/tacotron2-ljspeech
+       → destinations=[]
+  [✅] commit on a shareable remote
+  [❌] DAG attributed to a user (not anonymous)
+       → one or more nodes are ANONYMOUS
+  [❌] attributed to christreqs
+       → users=[]
+  [✅] TR backlink present (funnel)
+  [✅] put command records its destination
+  [✅] session header commit matches jobs
+  [✅] experiment link n/a (recipe has no logging)
+
+RESULT: BLOCKED — do not publish
+
+--- ai-bom ---
+Ensure jobs declare their input artifacts
+    - [critical] taskOutputs → Ensure jobs declare their output artifacts
+    - [important] componentVersion → Set version to the artifact content hash
+    - [important] componentLicenses → Add labels with keys "license.id" and/or "license.name" to the artifact
+    - [important] gitCommit → Ensure pipeline runs capture the git commit
+    - [important] gitRepo → Ensure pipeline runs capture the git repo URL
+    - [important] taskCount → Multi-step pipelines improve lineage traceability
+    - [important] artifactHashes → Ensure all artifacts are content-addressed with BLAKE3 hashes
+    - [important] vcsUrl → Add a link to the source repository
+    - [important] downloadLocation → Publish the artifact with `roar put` to record a distribution URL
+    - [supplementary] componentDescription → Add a label with key "description" to the artifact
+    - [supplementary] gitBranch → Ensure pipeline runs capture the git branch
+    - [supplementary] documentationUrl → Add a label with key "documentation.url" to the artifact
+    - [supplementary] componentProperties → Add labels to artifacts for richer BOM properties
+
+RESULT: BELOW (score 30.4 vs min 90.0)
+
+--- freeze ---
+freeze audit — bd10e34c8e450c46: NO PIP FREEZE RECORDED (nothing to install)
