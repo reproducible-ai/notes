@@ -96,11 +96,18 @@ logging code into someone else's training script, which forfeits the zero-upstre
 property that makes this row worth anything. So there is no link, and that is a finding
 about the upstream recipe rather than an omission here.
 
-**Not certified.** No cold rebuild has been run against this record. Everything above
-says the record is complete and public; none of it says the record has been executed.
+**Certified — tier 2, 2026-08-11.** The record has now been executed, twice, on a fresh
+g4dn.xlarge that had never seen this row. Both cold rebuilds exited **0** at **3/3** steps
+(the fourth recorded job is the `roar put`, which a rebuild deliberately skips), the
+environment came back at **44/44 recorded pins exact** with nothing missing and nothing
+mismatched, and every artefact regenerated — including a `checkpoint.pth` at exactly the
+published 89,553,609 bytes, with a fresh held-out top-1 computed from it by the separate
+evaluation step. Not byte-identical weights, and not meant to be: this is *reproduce*, not
+*replicate*. The full evidence, hashes included, is in `CERT-TIER2.md`.
 
 ## Reading order
 
+- `CERT-TIER2.md` — the cold rebuild: exit code, manifest diff, every artefact with its hash
 - `issues.md` — upstream findings, two of them real bugs, with a prepared patch
 - `commands.md` — the exact commands, reproducible as written
 - `costs.md` — spend, and the fixed/variable split behind the full-run estimate
