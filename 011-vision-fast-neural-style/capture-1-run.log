@@ -1,0 +1,413 @@
+03:11:45  local              Validating Git source and workflow
+03:11:45  local              Source commit ready: 5dc5122a27c0
+03:11:45  request            Creating training request
+03:11:46  workflow           Snapshotting committed workflow
+03:11:46  queue              Queueing on reproai-g4dn-plaintorch-a
+03:11:46  queued             Job queued at position 1
+03:11:46  provisioning       Compute provisioning started in us-east-2
+03:11:46  provisioning       Provisioning compute target reproai-g4dn-plaintorch-a
+03:11:47  booting            Provider accepted the instance request
+03:11:47  waiting_for_agent  Provider accepted the instance; waiting for the TReqs agent
+03:12:30  waiting_for_agent  Still waiting — Provider accepted the instance; waiting for the TReqs agent
+03:12:58  waiting_for_agent  Still waiting — Provider accepted the instance; waiting for the TReqs agent
+03:13:26  waiting_for_agent  Still waiting — Provider accepted the instance; waiting for the TReqs agent
+03:13:53  waiting_for_agent  Still waiting — Provider accepted the instance; waiting for the TReqs agent
+03:14:21  waiting_for_agent  Still waiting — Provider accepted the instance; waiting for the TReqs agent
+03:14:48  waiting_for_agent  Still waiting — Provider accepted the instance; waiting for the TReqs agent
+03:15:14  acquired           Agent acquired the job
+03:15:14  running            Run started
+03:15:15  repository         Preparing repository
+03:15:15  publishing_lineage Publishing lineage
+03:15:18  repository         Repository ready
+03:15:18  environment        Preparing execution environment
+03:15:18  environment        Execution environment ready
+03:15:18  task               Running task setup
+python 3.12.10 (main, Apr 27 2026, 17:38:48) [GCC 11.4.0]
+03:15:45  running_task       Still waiting — Running task setup
+03:16:13  running_task       Still waiting — Running task setup
+
+[notice] A new release of pip is available: 26.1 -> 26.2.1
+[notice] To update, run: pip install --upgrade pip
+downloading uv 0.12.3 x86_64-unknown-linux-gnu
+installing to /usr/local/bin
+  uv
+  uvx
+everything's installed!
+/usr/local/bin/uv
+recorded interpreter: 3.12.10
+Resolved 40 packages in 994ms
+Downloading pydantic-core (2.0MiB)
+Downloading hf-xet (4.3MiB)
+Downloading pysqlite3-binary (4.7MiB)
+Downloading pygments (1.2MiB)
+Downloading sqlalchemy (3.2MiB)
+Downloading cryptography (4.5MiB)
+Downloading dependency-injector (1.8MiB)
+Downloading roar-cli (9.9MiB)
+ Downloaded pydantic-core
+ Downloaded dependency-injector
+ Downloaded hf-xet
+ Downloaded pysqlite3-binary
+ Downloaded cryptography
+ Downloaded sqlalchemy
+ Downloaded pygments
+ Downloaded roar-cli
+Prepared 40 packages in 944ms
+Installed 40 packages in 158ms
+ + annotated-types==0.8.0
+ + anyio==4.14.2
+ + blake3==1.0.9
+ + certifi==2026.7.22
+ + cffi==2.1.1
+ + click==8.4.2
+ + cryptography==50.0.0
+ + dependency-injector==4.49.1
+ + filelock==3.32.2
+ + fsspec==2026.7.0
+ + greenlet==3.5.5
+ + h11==0.16.0
+ + hf-xet==1.6.0
+ + httpcore==1.0.9
+ + httpx==0.28.1
+ + huggingface-hub==1.27.0
+ + idna==3.18
+ + linkify-it-py==2.1.0
+ + markdown-it-py==4.2.0
+ + mdit-py-plugins==0.6.1
+ + mdurl==0.1.2
+ + msgpack==1.2.1
+ + packaging==26.3
+ + platformdirs==4.11.2
+ + pycparser==3.0
+ + pydantic==2.13.4
+ + pydantic-core==2.46.4
+ + pydantic-settings==2.15.0
+ + pygments==2.20.0
+ + pysqlite3-binary==0.5.4.post2
+ + python-dotenv==1.2.2
+ + pyyaml==6.0.3
+ + rich==15.0.0
+ + roar-cli==0.4.4rc5
+ + sqlalchemy==2.0.51
+ + textual==8.2.8
+ + tqdm==4.70.0
+ + typing-extensions==4.16.0
+ + typing-inspection==0.4.3
+ + uc-micro-py==2.0.0
+Installed 2 executables: roar, roar-worker
+index: https://test.pypi.org/pypi/roar-cli/0.4.4rc5/json
+  published: roar_cli-0.4.4rc5-cp310-abi3-macosx_10_12_x86_64.whl  sha256=c123316669bc0c0069f3c5a21e7e2da91f1f9cb58573e0a7be1075c0b4fbdadd
+  published: roar_cli-0.4.4rc5-cp310-abi3-macosx_11_0_arm64.whl  sha256=451ef8b01fbab6d3da90327dea944a345bc05ed8d7f43161ae2cd56184465d7a
+  published: roar_cli-0.4.4rc5-cp310-abi3-manylinux_2_34_aarch64.whl  sha256=3f262d1541051541242b73af30fb460e994bfbd5f4287dbe0323404ee9dc4cf2
+  published: roar_cli-0.4.4rc5-cp310-abi3-manylinux_2_34_x86_64.whl  sha256=ed35ed6bda3b5698ab65a887e7390c2ac073123f6d94bfa27b8282285352219c
+  published: roar_cli-0.4.4rc5.tar.gz  sha256=d983f137dac12da06dca74340894be8429e9b135f664d62f100abdc7be548b22
+selected: roar_cli-0.4.4rc5-cp310-abi3-manylinux_2_34_x86_64.whl
+  published sha256: ed35ed6bda3b5698ab65a887e7390c2ac073123f6d94bfa27b8282285352219c
+  expected  sha256: ed35ed6bda3b5698ab65a887e7390c2ac073123f6d94bfa27b8282285352219c
+  served    sha256: ed35ed6bda3b5698ab65a887e7390c2ac073123f6d94bfa27b8282285352219c
+installed RECORD: /root/.local/share/uv/tools/roar-cli/lib/python3.12/site-packages/roar_cli-0.4.4rc5.dist-info/RECORD
+  wheel entries with a hash: 422
+  installed entries:         424
+roar wheel verification: PASS (roar_cli-0.4.4rc5-cp310-abi3-manylinux_2_34_x86_64.whl sha256=ed35ed6bda3b5698ab65a887e7390c2ac073123f6d94bfa27b8282285352219c)
+roar, version 0.4.4rc5
+Default tracer set to: preload  (saved to [REDACTED]/ea1fa4f6-42ca-400c-b4d6-3ee1b1592f9a/_work/60639552-37a2-447f-a19b-8403786caa35/repository/.roar/config.toml)
+roar: roar tracer  ·  active: preload (ready)
+
+  Tracer   Status  Tradeoff               Requirements
+  preload  ready   comparable to eBPF     no extra perms
+           ↳ skips statically-linked binaries (Go)
+  ebpf     ready   fastest, low overhead  needs CAP_BPF + perf_event_paranoid<=1; Linux only
+  ptrace   ready   slow but correct       no extra perms; works on every binary
+
+hint: To pick one explicitly: roar tracer use {auto|ebpf|preload|ptrace}
+hint: To probe one:           roar tracer check {auto|ebpf|preload|ptrace}
+hint: Docs: https://glaas.ai/docs/tracers
+numpy                                2.4.4
+pillow                               12.2.0
+torch                                2.7.0
+torchvision                          0.22.0
+pillow 12.2.0
+03:16:41  running_task       Still waiting — Running task setup
+03:17:08  running_task       Still waiting — Running task setup
+03:17:36  running_task       Still waiting — Running task setup
+/opt/pytorch/lib/python3.12/site-packages/torch/cuda/__init__.py:61: FutureWarning: The pynvml package is deprecated. Please install nvidia-ml-py instead. If you did not install pynvml directly, please report this to the maintainers of the package that installed pynvml for you.
+  import pynvml  # type: ignore[import]
+03:18:03  running_task       Still waiting — Running task setup
+torch 2.7.0+cu126 | accelerator available: True
+03:18:29  running_task       Still waiting — Running task setup
+/opt/pytorch/lib/python3.12/site-packages/torch/cuda/__init__.py:61: FutureWarning: The pynvml package is deprecated. Please install nvidia-ml-py instead. If you did not install pynvml directly, please report this to the maintainers of the package that installed pynvml for you.
+  import pynvml  # type: ignore[import]
+cuda True | Tesla T4
+freeze audit: 295 distributions
+  local-version pins (`+cuNNN` etc.): none
+  PEP-503 duplicate pins: none
+freeze audit: PASS
+HF_TOKEN present in task env: True | length: 37
+/opt/pytorch/lib/python3.12/site-packages/torch/cuda/__init__.py:61: FutureWarning: The pynvml package is deprecated. Please install nvidia-ml-py instead. If you did not install pynvml directly, please report this to the maintainers of the package that installed pynvml for you.
+  import pynvml  # type: ignore[import]
+03:18:55  running_task       Still waiting — Running task setup
+03:19:23  running_task       Still waiting — Running task setup
+Downloading: "https://download.pytorch.org/models/vgg16-397923af.pth" to /var/tmp/torchhome-probe/hub/checkpoints/vgg16-397923af.pth
+
+  0%|          | 0.00/528M [00:00<?, ?B/s]
+  3%|▎         | 17.4M/528M [00:00<00:02, 182MB/s]
+  7%|▋         | 37.4M/528M [00:00<00:02, 198MB/s]
+ 11%|█         | 57.2M/528M [00:00<00:02, 203MB/s]
+ 15%|█▍        | 77.1M/528M [00:00<00:02, 205MB/s]
+03:19:38  task               Task setup completed
+03:19:38  task               Running task fetch_dataset
+ 18%|█▊        | 96.9M/528M [00:00<00:02, 205MB/s]
+ 22%|██▏       | 117M/528M [00:00<00:02, 206MB/s]
+ 26%|██▌       | 137M/528M [00:00<00:01, 207MB/s]
+ 30%|██▉       | 156M/528M [00:00<00:01, 206MB/s]
+ 33%|███▎      | 176M/528M [00:00<00:01, 207MB/s]
+ 37%|███▋      | 196M/528M [00:01<00:01, 207MB/s]
+ 41%|████      | 216M/528M [00:01<00:01, 207MB/s]
+ 45%|████▍     | 236M/528M [00:01<00:01, 208MB/s]
+ 48%|████▊     | 256M/528M [00:01<00:01, 208MB/s]
+ 52%|█████▏    | 276M/528M [00:01<00:01, 208MB/s]
+ 56%|█████▌    | 296M/528M [00:01<00:01, 208MB/s]
+ 60%|█████▉    | 316M/528M [00:01<00:01, 209MB/s]
+ 64%|██████▎   | 336M/528M [00:01<00:00, 209MB/s]
+ 67%|██████▋   | 356M/528M [00:01<00:00, 186MB/s]
+ 71%|███████   | 376M/528M [00:01<00:00, 193MB/s]
+ 75%|███████▌  | 396M/528M [00:02<00:00, 197MB/s]
+ 79%|███████▉  | 416M/528M [00:02<00:00, 201MB/s]
+ 82%|████████▏ | 435M/528M [00:02<00:00, 195MB/s]
+ 86%|████████▌ | 455M/528M [00:02<00:00, 198MB/s]
+ 90%|████████▉ | 475M/528M [00:02<00:00, 201MB/s]
+ 94%|█████████▎| 495M/528M [00:02<00:00, 204MB/s]
+ 98%|█████████▊| 515M/528M [00:02<00:00, 205MB/s]
+100%|██████████| 528M/528M [00:02<00:00, 203MB/s]
+VGG16_IMAGENET_WEIGHTS_DOWNLOAD_SECONDS 4.37 BYTES 553433881
+roar: roar init
+.roar directory already exists at [REDACTED]/ea1fa4f6-42ca-400c-b4d6-3ee1b1592f9a/_work/60639552-37a2-447f-a19b-8403786caa35/repository/.roar
+FETCH_START 1786418378 2026-08-11T03:19:38Z
+fetching https://s3.amazonaws.com/fast-ai-imageclas/imagenette2-320.tgz
+  34/342 MB
+  67/342 MB
+  101/342 MB
+  134/342 MB
+  168/342 MB
+  201/342 MB
+  235/342 MB
+  268/342 MB
+  302/342 MB
+  336/342 MB
+downloaded 341663724 bytes in 6.3s
+archive sha256 569b4497c98db6dd29f335d1f109cf315fe127053cedf69010d047f0188e158c
+extracted in 5.8s
+train: 9469 images across 10 classes
+val: 3925 images across 10 classes
+dataset root for --dataset: fast_neural_style/out-data/imagenette2-320/train
+03:20:04  running_task       Still waiting — Running task fetch_dataset
+03:20:31  task               Task fetch_dataset completed
+03:20:31  task               Running task train
+roar: done · 51.9s (trace 22.6s + post 29.3s, exit 0)
+hint: next: roar show @1  ·  roar dag  ·  roar register @1
+FETCH_END 1786418431 2026-08-11T03:20:31Z
+TRAIN_START 1786418431 2026-08-11T03:20:31Z
+/root/.local/share/uv/tools/roar-cli/lib/python3.12/site-packages/roar/execution/runtime/inject/tracker.py:360: FutureWarning: The pynvml package is deprecated. Please install nvidia-ml-py instead. If you did not install pynvml directly, please report this to the maintainers of the package that installed pynvml for you.
+  module = self._real_import(name, globals, locals, fromlist, level)
+Using device: cuda
+Downloading: "https://download.pytorch.org/models/vgg16-397923af.pth" to /root/.cache/torch/hub/checkpoints/vgg16-397923af.pth
+
+  0%|          | 0.00/528M [00:00<?, ?B/s]
+  4%|▎         | 18.9M/528M [00:00<00:02, 198MB/s]
+  8%|▊         | 39.9M/528M [00:00<00:02, 210MB/s]
+ 11%|█▏        | 60.6M/528M [00:00<00:02, 213MB/s]
+ 15%|█▌        | 81.4M/528M [00:00<00:02, 215MB/s]
+ 19%|█▉        | 102M/528M [00:00<00:02, 216MB/s]
+ 23%|██▎       | 123M/528M [00:00<00:01, 216MB/s]
+ 27%|██▋       | 143M/528M [00:00<00:01, 216MB/s]
+ 31%|███       | 164M/528M [00:00<00:01, 216MB/s]
+ 35%|███▍      | 185M/528M [00:00<00:01, 216MB/s]
+ 39%|███▉      | 206M/528M [00:01<00:01, 217MB/s]
+ 43%|████▎     | 227M/528M [00:01<00:01, 217MB/s]
+ 47%|████▋     | 248M/528M [00:01<00:01, 218MB/s]
+ 51%|█████     | 268M/528M [00:01<00:01, 218MB/s]
+ 55%|█████▍    | 289M/528M [00:01<00:01, 218MB/s]
+ 59%|█████▉    | 310M/528M [00:01<00:01, 219MB/s]
+ 63%|██████▎   | 331M/528M [00:01<00:00, 219MB/s]
+ 67%|██████▋   | 352M/528M [00:01<00:00, 219MB/s]
+ 71%|███████   | 373M/528M [00:01<00:00, 219MB/s]
+ 75%|███████▍  | 394M/528M [00:01<00:00, 219MB/s]
+ 79%|███████▊  | 415M/528M [00:02<00:00, 220MB/s]
+ 83%|████████▎ | 436M/528M [00:02<00:00, 220MB/s]
+ 87%|████████▋ | 457M/528M [00:02<00:00, 220MB/s]
+ 91%|█████████ | 478M/528M [00:02<00:00, 220MB/s]
+ 95%|█████████▍| 500M/528M [00:02<00:00, 220MB/s]
+ 99%|█████████▊| 521M/528M [00:02<00:00, 220MB/s]
+100%|██████████| 528M/528M [00:02<00:00, 218MB/s]
+03:20:59  running_task       Still waiting — Running task train
+03:21:27  running_task       Still waiting — Running task train
+03:21:55  running_task       Still waiting — Running task train
+Tue Aug 11 03:21:53 2026	Epoch 1:	[800/9469]	content: 1140257.901875	style: 9573014.841250	total: 10713272.743125
+03:22:21  running_task       Still waiting — Running task train
+Tue Aug 11 03:22:34 2026	Epoch 1:	[1600/9469]	content: 1314776.440625	style: 5898843.627500	total: 7213620.068125
+03:22:48  running_task       Still waiting — Running task train
+03:23:15  running_task       Still waiting — Running task train
+Tue Aug 11 03:23:16 2026	Epoch 1:	[2400/9469]	content: 1382233.156667	style: 4354889.068854	total: 5737122.225521
+03:23:42  running_task       Still waiting — Running task train
+Tue Aug 11 03:23:57 2026	Epoch 1:	[3200/9469]	content: 1416263.883125	style: 3492840.549531	total: 4909104.432656
+03:24:09  running_task       Still waiting — Running task train
+03:24:36  running_task       Still waiting — Running task train
+Tue Aug 11 03:24:39 2026	Epoch 1:	[4000/9469]	content: 1435232.811875	style: 2939639.479813	total: 4374872.291687
+03:25:03  running_task       Still waiting — Running task train
+Tue Aug 11 03:25:20 2026	Epoch 1:	[4800/9469]	content: 1443710.784063	style: 2552124.512656	total: 3995835.296719
+03:25:30  running_task       Still waiting — Running task train
+03:25:57  running_task       Still waiting — Running task train
+Tue Aug 11 03:26:02 2026	Epoch 1:	[5600/9469]	content: 1440444.275893	style: 2264822.806942	total: 3705267.082835
+03:26:24  running_task       Still waiting — Running task train
+Tue Aug 11 03:26:43 2026	Epoch 1:	[6400/9469]	content: 1432591.348437	style: 2041973.200957	total: 3474564.549395
+03:26:51  running_task       Still waiting — Running task train
+03:27:18  running_task       Still waiting — Running task train
+Tue Aug 11 03:27:25 2026	Epoch 1:	[7200/9469]	content: 1423177.691875	style: 1866699.182049	total: 3289876.873924
+03:27:45  running_task       Still waiting — Running task train
+Tue Aug 11 03:28:06 2026	Epoch 1:	[8000/9469]	content: 1414738.999062	style: 1726033.346734	total: 3140772.345797
+03:28:11  running_task       Still waiting — Running task train
+03:28:39  running_task       Still waiting — Running task train
+Tue Aug 11 03:28:48 2026	Epoch 1:	[8800/9469]	content: 1408811.716591	style: 1608154.898920	total: 3016966.615511
+03:29:06  running_task       Still waiting — Running task train
+
+Done, trained model saved at fast_neural_style/out-models/epoch_1_2026-08-11_03-29-25_100000.0_10000000000.0.model
+03:29:33  running_task       Still waiting — Running task train
+03:30:00  task               Task train completed
+03:30:00  task               Running task stylize
+roar: done · 567.2s (trace 538.9s + post 28.4s, exit 0)
+hint: next: roar show @2  ·  roar dag  ·  roar register @2
+hint: 13 files under /tmp ignored (filters.ignore_tmp_files).
+hint:   to track them: roar config set filters.ignore_tmp_files false
+TRAIN_END 1786419000 2026-08-11T03:30:00Z
+fast_neural_style/out-ckpt:
+total 6592
+drwxr-xr-x 2 root root    4096 Aug 11 03:29 .
+drwxr-xr-x 9 root root    4096 Aug 11 03:15 ..
+-rw-r--r-- 1 root root       0 Aug 11 03:15 .gitkeep
+-rw-r--r-- 1 root root 6739701 Aug 11 03:29 ckpt_epoch_0_batch_id_2368.pth
+
+fast_neural_style/out-models:
+total 6592
+drwxr-xr-x 2 root root    4096 Aug 11 03:29 .
+drwxr-xr-x 9 root root    4096 Aug 11 03:15 ..
+-rw-r--r-- 1 root root       0 Aug 11 03:15 .gitkeep
+-rw-r--r-- 1 root root 6741397 Aug 11 03:29 epoch_1_2026-08-11_03-29-25_100000.0_10000000000.0.model
+0037317747b68643c0ee578d8e225de3cd5cfba4ed9895f0df4a077781f1cb62  fast_neural_style/out-ckpt/ckpt_epoch_0_batch_id_2368.pth
+e0f2f94cfe4754c537120f17a504998585f151566104dd142fe933b2e75a517b  fast_neural_style/out-models/epoch_1_2026-08-11_03-29-25_100000.0_10000000000.0.model
+STYLIZE_START 1786419000 2026-08-11T03:30:00Z
+/root/.local/share/uv/tools/roar-cli/lib/python3.12/site-packages/roar/execution/runtime/inject/tracker.py:360: FutureWarning: The pynvml package is deprecated. Please install nvidia-ml-py instead. If you did not install pynvml directly, please report this to the maintainers of the package that installed pynvml for you.
+  module = self._real_import(name, globals, locals, fromlist, level)
+Using device: cuda
+03:30:11  task               Task stylize completed
+03:30:11  task               Running task label
+03:30:12  task               Task label completed
+03:30:12  task               Running task publish
+roar: done · 10.4s (trace 6.4s + post 4.0s, exit 0)
+hint: next: roar show @3  ·  roar dag  ·  roar register @3
+hint: 13 files under /tmp ignored (filters.ignore_tmp_files).
+hint:   to track them: roar config set filters.ignore_tmp_files false
+STYLIZE_END 1786419011 2026-08-11T03:30:11Z
+total 372
+drwxr-xr-x 2 root root   4096 Aug 11 03:30 .
+drwxr-xr-x 9 root root   4096 Aug 11 03:15 ..
+-rw-r--r-- 1 root root      0 Aug 11 03:15 .gitkeep
+-rw-r--r-- 1 root root 369405 Aug 11 03:30 amber-mosaic.jpg
+89ca8e8339be6f0c942a73a8d0f43cc24023de57be043ba9206c62ce925797d0  fast_neural_style/out-stylized/amber-mosaic.jpg
+Updated labels (version 1):
+  description=fast-neural-style TransformerNet (Johnson et al. perceptual losses + instance normalisation) trained against the mosaic style image with a VGG-16 perceptual loss. TRUNCATED pipeline-viability run: 1 of upstream's default 2 epochs, over Imagenette-320 (9,469 images) instead of the README's COCO-2014-train (82,783). NOT converged.
+  documentation.url=https://github.com/pytorch/examples/blob/main/fast_neural_style/README.md
+  license.id=BSD-3-Clause
+  license.name=BSD 3-Clause License
+  model.name=fast-neural-style
+  model.version=1
+
+Processing Files (0 / 0)      : |          |  0.00B /  0.00B
+
+New Data Upload               : |          |  0.00B /  0.00B            
+
+
+  ...epoch_0_batch_id_2368.pth:  90%|█████████ | 6.08MB / 6.74MB            
+
+
+  ...epoch_0_batch_id_2368.pth:  90%|█████████ | 6.08MB / 6.74MB            
+Processing Files (0 / 1)      :  90%|█████████ | 6.08MB / 6.74MB,   ???B/s
+
+New Data Upload               :  90%|█████████ | 6.08MB / 6.74MB,   ???B/s  
+
+
+  ...epoch_0_batch_id_2368.pth: 100%|█████████▉| 6.74MB / 6.74MB            
+Processing Files (0 / 1)      : 100%|█████████▉| 6.74MB / 6.74MB,   ???B/s
+
+New Data Upload               : 100%|█████████▉| 6.74MB / 6.74MB,   ???B/s  
+
+
+  ...epoch_0_batch_id_2368.pth: 100%|█████████▉| 6.74MB / 6.74MB            
+
+
+  ...epoch_0_batch_id_2368.pth: 100%|██████████| 6.74MB / 6.74MB            
+Processing Files (1 / 1)      : 100%|██████████| 6.74MB / 6.74MB,  652kB/s
+
+New Data Upload               : 100%|██████████| 6.74MB / 6.74MB,  652kB/s  
+
+
+  ...epoch_0_batch_id_2368.pth: 100%|██████████| 6.74MB / 6.74MB            
+Processing Files (1 / 1)      : 100%|██████████| 6.74MB / 6.74MB,  652kB/s
+
+New Data Upload               : 100%|██████████| 6.74MB / 6.74MB,  652kB/s
+
+  ...epoch_0_batch_id_2368.pth: 100%|██████████| 6.74MB / 6.74MB
+03:30:38  running_task       Still waiting — Running task publish
+03:31:06  running_task       Still waiting — Running task publish
+03:31:34  running_task       Still waiting — Running task publish
+03:31:44  task               Task publish completed
+03:31:44  lineage export     Exporting lineage package
+03:31:44  publishing_lineage Publishing lineage
+Published 1 file(s) to hf://reproducible-ai/fast-neural-style
+Session: 479a02e38e28...
+Job step: @4
+Job UID: 915464b8
+
+Uploaded files:
+  [REDACTED]/ea1fa4f6-42ca-400c-b4d6-3ee1b1592f9a/_work/60639552-37a2-447f-a19b-8403786caa35/repository/fast_neural_style/out-ckpt/ckpt_epoch_0_batch_id_2368.pth -> https://huggingface.co/reproducible-ai/fast-neural-style/resolve/main/ckpt_epoch_0_batch_id_2368.pth
+
+Reproducibility — 5/7
+  [✅] code committed to git
+  [✅] single git commit across all steps
+  [❌] commit reachable on a remote
+       → no shareable git remote — others can't fetch the exact code (add one: `git remote add origin <url>`)
+  [✅] all inputs sourced
+  [❌] all artifact paths in tracked directories
+       → can't guarantee these paths exist on reproduction — see `roar status --untracked-dirs`; add a .gitkeep (or other placeholder) to those directories
+  [✅] runtime captured (interpreter + packages)
+  [✅] lineage saved on glaas.ai
+       1 files · published to hf://reproducible-ai/fast-neural-style
+⚠  This lineage may not reproduce as recorded — see the unchecked items.
+
+GLaaS:
+  Session: https://glaas.ai/dag/479a02e38e28d697ffc1ea3ca363d14c296b48e3f7d2ac368872195abb24890b
+
+Next:
+  roar show --job 915464b8
+  roar show --session
+03:32:11  publishing_lineage Still waiting — Publishing lineage
+03:32:35  lineage export     Lineage package exported
+03:32:35  lineage upload     Uploading lineage package
+03:32:35  publishing         Publishing lineage
+03:33:06  publishing_lineage Still waiting — Publishing lineage
+03:33:34  publishing_lineage Still waiting — Publishing lineage
+03:33:37  finalizing         Finalizing job results
+03:34:05  finalizing         Still waiting — Finalizing job results
+03:34:32  finalizing         Still waiting — Finalizing job results
+03:34:39  publishing_lineage Publishing lineage
+03:35:06  publishing_lineage Still waiting — Publishing lineage
+03:35:21  lineage upload     Lineage package uploaded
+03:35:21  published          Lineage published
+03:35:21  finalizing         Finalizing job results
+03:35:21  completed          Run completed successfully
+03:35:21  terminal           Job completed
+Training request: 07ff8613-7162-423f-84ee-b9ac992339ae
+Job: 60639552-37a2-447f-a19b-8403786caa35
+Status: COMPLETED
+Source commit: 5dc5122a27c006fe4b93d889538dabfe94582f53
+Workflow snapshot: 700906e7-87b1-4967-be2d-09b0f77e52df
+Lineage URL: https://glaas.ai/dag/f659deb828e51a418a1a618af88899fae3035960e63e271eb7667a2c9b2a314b

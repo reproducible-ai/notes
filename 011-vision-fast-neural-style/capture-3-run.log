@@ -1,0 +1,305 @@
+04:02:21  local              Validating Git source and workflow
+04:02:21  local              Source commit ready: bcd248121cf5
+04:02:21  request            Creating training request
+04:02:21  workflow           Snapshotting committed workflow
+04:02:21  queue              Queueing on reproai-g4dn-plaintorch-a
+04:02:21  queued             Job queued at position 1
+04:02:21  queued             Job queued on compute target reproai-g4dn-plaintorch-a
+04:02:49  queued             Still waiting — Job queued on compute target reproai-g4dn-plaintorch-a
+04:03:16  queued             Still waiting — Job queued on compute target reproai-g4dn-plaintorch-a
+04:03:42  acquired           Agent acquired the job
+04:03:42  running            Run started
+04:03:42  repository         Preparing repository
+04:03:42  publishing_lineage Publishing lineage
+04:03:43  repository         Repository ready
+04:03:43  environment        Preparing execution environment
+04:03:43  environment        Execution environment ready
+04:03:43  task               Running task setup
+python 3.12.10 (main, Apr 27 2026, 17:38:48) [GCC 11.4.0]
+
+[notice] A new release of pip is available: 26.1 -> 26.2.1
+[notice] To update, run: pip install --upgrade pip
+/usr/local/bin/uv
+recorded interpreter: 3.12.10
+Resolved 40 packages in 357ms
+Installed 40 packages in 21ms
+ + annotated-types==0.8.0
+ + anyio==4.14.2
+ + blake3==1.0.9
+ + certifi==2026.7.22
+ + cffi==2.1.1
+ + click==8.4.2
+ + cryptography==50.0.0
+ + dependency-injector==4.49.1
+ + filelock==3.32.2
+ + fsspec==2026.7.0
+ + greenlet==3.5.5
+ + h11==0.16.0
+ + hf-xet==1.6.0
+ + httpcore==1.0.9
+ + httpx==0.28.1
+ + huggingface-hub==1.27.0
+ + idna==3.18
+ + linkify-it-py==2.1.0
+ + markdown-it-py==4.2.0
+ + mdit-py-plugins==0.6.1
+ + mdurl==0.1.2
+ + msgpack==1.2.1
+ + packaging==26.3
+ + platformdirs==4.11.2
+ + pycparser==3.0
+ + pydantic==2.13.4
+ + pydantic-core==2.46.4
+ + pydantic-settings==2.15.0
+ + pygments==2.20.0
+ + pysqlite3-binary==0.5.4.post2
+ + python-dotenv==1.2.2
+ + pyyaml==6.0.3
+ + rich==15.0.0
+ + roar-cli==0.4.4rc5
+ + sqlalchemy==2.0.51
+ + textual==8.2.8
+ + tqdm==4.70.0
+ + typing-extensions==4.16.0
+ + typing-inspection==0.4.3
+ + uc-micro-py==2.0.0
+Installed 2 executables: roar, roar-worker
+index: https://test.pypi.org/pypi/roar-cli/0.4.4rc5/json
+  published: roar_cli-0.4.4rc5-cp310-abi3-macosx_10_12_x86_64.whl  sha256=c123316669bc0c0069f3c5a21e7e2da91f1f9cb58573e0a7be1075c0b4fbdadd
+  published: roar_cli-0.4.4rc5-cp310-abi3-macosx_11_0_arm64.whl  sha256=451ef8b01fbab6d3da90327dea944a345bc05ed8d7f43161ae2cd56184465d7a
+  published: roar_cli-0.4.4rc5-cp310-abi3-manylinux_2_34_aarch64.whl  sha256=3f262d1541051541242b73af30fb460e994bfbd5f4287dbe0323404ee9dc4cf2
+  published: roar_cli-0.4.4rc5-cp310-abi3-manylinux_2_34_x86_64.whl  sha256=ed35ed6bda3b5698ab65a887e7390c2ac073123f6d94bfa27b8282285352219c
+  published: roar_cli-0.4.4rc5.tar.gz  sha256=d983f137dac12da06dca74340894be8429e9b135f664d62f100abdc7be548b22
+selected: roar_cli-0.4.4rc5-cp310-abi3-manylinux_2_34_x86_64.whl
+  published sha256: ed35ed6bda3b5698ab65a887e7390c2ac073123f6d94bfa27b8282285352219c
+  expected  sha256: ed35ed6bda3b5698ab65a887e7390c2ac073123f6d94bfa27b8282285352219c
+  served    sha256: ed35ed6bda3b5698ab65a887e7390c2ac073123f6d94bfa27b8282285352219c
+installed RECORD: /root/.local/share/uv/tools/roar-cli/lib/python3.12/site-packages/roar_cli-0.4.4rc5.dist-info/RECORD
+  wheel entries with a hash: 422
+  installed entries:         424
+roar wheel verification: PASS (roar_cli-0.4.4rc5-cp310-abi3-manylinux_2_34_x86_64.whl sha256=ed35ed6bda3b5698ab65a887e7390c2ac073123f6d94bfa27b8282285352219c)
+roar, version 0.4.4rc5
+Default tracer set to: preload  (saved to [REDACTED]/44462675-8159-483b-94c6-79b11b664a0f/_work/99c7d6e8-a5f4-45a7-ab4a-b5ee2fbccc1a/repository/.roar/config.toml)
+roar: roar tracer  ·  active: preload (ready)
+
+  Tracer   Status  Tradeoff               Requirements
+  preload  ready   comparable to eBPF     no extra perms
+           ↳ skips statically-linked binaries (Go)
+  ebpf     ready   fastest, low overhead  needs CAP_BPF + perf_event_paranoid<=1; Linux only
+  ptrace   ready   slow but correct       no extra perms; works on every binary
+
+hint: To pick one explicitly: roar tracer use {auto|ebpf|preload|ptrace}
+hint: To probe one:           roar tracer check {auto|ebpf|preload|ptrace}
+hint: Docs: https://glaas.ai/docs/tracers
+numpy                                2.4.4
+pillow                               12.2.0
+torch                                2.7.0
+torchvision                          0.22.0
+pillow 12.2.0
+/opt/pytorch/lib/python3.12/site-packages/torch/cuda/__init__.py:61: FutureWarning: The pynvml package is deprecated. Please install nvidia-ml-py instead. If you did not install pynvml directly, please report this to the maintainers of the package that installed pynvml for you.
+  import pynvml  # type: ignore[import]
+torch 2.7.0+cu126 | accelerator available: True
+/opt/pytorch/lib/python3.12/site-packages/torch/cuda/__init__.py:61: FutureWarning: The pynvml package is deprecated. Please install nvidia-ml-py instead. If you did not install pynvml directly, please report this to the maintainers of the package that installed pynvml for you.
+  import pynvml  # type: ignore[import]
+cuda True | Tesla T4
+freeze audit: 303 distributions
+  local-version pins (`+cuNNN` etc.): none
+  PEP-503 duplicate pins: none
+freeze audit: PASS
+HF_TOKEN present in task env: True | length: 37
+/opt/pytorch/lib/python3.12/site-packages/torch/cuda/__init__.py:61: FutureWarning: The pynvml package is deprecated. Please install nvidia-ml-py instead. If you did not install pynvml directly, please report this to the maintainers of the package that installed pynvml for you.
+  import pynvml  # type: ignore[import]
+Downloading: "https://download.pytorch.org/models/vgg16-397923af.pth" to /var/tmp/torchhome-probe/hub/checkpoints/vgg16-397923af.pth
+
+  0%|          | 0.00/528M [00:00<?, ?B/s]
+  3%|▎         | 18.4M/528M [00:00<00:02, 192MB/s]
+  7%|▋         | 39.0M/528M [00:00<00:02, 206MB/s]
+ 11%|█▏        | 59.8M/528M [00:00<00:02, 211MB/s]
+ 15%|█▌        | 80.5M/528M [00:00<00:02, 213MB/s]
+ 19%|█▉        | 101M/528M [00:00<00:02, 214MB/s]
+ 23%|██▎       | 122M/528M [00:00<00:01, 215MB/s]
+ 27%|██▋       | 143M/528M [00:00<00:01, 215MB/s]
+ 31%|███       | 163M/528M [00:00<00:01, 215MB/s]
+ 35%|███▍      | 184M/528M [00:00<00:01, 215MB/s]
+ 39%|███▉      | 205M/528M [00:01<00:01, 216MB/s]
+ 43%|████▎     | 225M/528M [00:01<00:01, 216MB/s]
+ 47%|████▋     | 246M/528M [00:01<00:01, 216MB/s]
+ 51%|█████     | 267M/528M [00:01<00:01, 216MB/s]
+ 54%|█████▍    | 287M/528M [00:01<00:01, 216MB/s]
+ 58%|█████▊    | 308M/528M [00:01<00:01, 216MB/s]
+ 62%|██████▏   | 329M/528M [00:01<00:00, 216MB/s]
+ 66%|██████▌   | 350M/528M [00:01<00:00, 217MB/s]
+ 70%|███████   | 370M/528M [00:01<00:00, 217MB/s]
+04:04:06  task               Task setup completed
+04:04:06  task               Running task fetch_dataset
+ 74%|███████▍  | 391M/528M [00:01<00:00, 217MB/s]
+ 78%|███████▊  | 412M/528M [00:02<00:00, 216MB/s]
+ 82%|████████▏ | 433M/528M [00:02<00:00, 216MB/s]
+ 86%|████████▌ | 453M/528M [00:02<00:00, 216MB/s]
+ 90%|████████▉ | 474M/528M [00:02<00:00, 216MB/s]
+ 94%|█████████▎| 495M/528M [00:02<00:00, 216MB/s]
+ 98%|█████████▊| 515M/528M [00:02<00:00, 216MB/s]
+100%|██████████| 528M/528M [00:02<00:00, 215MB/s]
+VGG16_IMAGENET_WEIGHTS_DOWNLOAD_SECONDS 4.05 BYTES 553433881
+origin
+origin	https://github.com/reproducible-ai/examples.git (fetch)
+origin	https://github.com/reproducible-ai/examples.git (push)
+commit bcd248121cf54d7ada57a3589c0fb0c2f8fddb52 IS reachable on origin
+roar: roar init
+.roar directory already exists at [REDACTED]/44462675-8159-483b-94c6-79b11b664a0f/_work/99c7d6e8-a5f4-45a7-ab4a-b5ee2fbccc1a/repository/.roar
+FETCH_START 1786421046 2026-08-11T04:04:06Z
+fetching https://s3.amazonaws.com/fast-ai-imageclas/imagenette2-320.tgz
+  34/342 MB
+  67/342 MB
+  101/342 MB
+  134/342 MB
+  168/342 MB
+  201/342 MB
+  235/342 MB
+  268/342 MB
+  302/342 MB
+  336/342 MB
+downloaded 341663724 bytes in 6.6s
+archive sha256 569b4497c98db6dd29f335d1f109cf315fe127053cedf69010d047f0188e158c
+extracted in 5.8s
+train: 9469 images across 10 classes
+val: 3925 images across 10 classes
+dataset root for --dataset: fast_neural_style/out-data/imagenette2-320/train
+04:04:33  running_task       Still waiting — Running task fetch_dataset
+04:04:50  task               Task fetch_dataset completed
+04:04:50  task               Running task train
+roar: done · 43.7s (trace 14.7s + post 29.0s, exit 0)
+hint: next: roar show @1  ·  roar dag  ·  roar register @1
+FETCH_END 1786421090 2026-08-11T04:04:50Z
+TRAIN_START 1786421090 2026-08-11T04:04:50Z
+/root/.local/share/uv/tools/roar-cli/lib/python3.12/site-packages/roar/execution/runtime/inject/tracker.py:360: FutureWarning: The pynvml package is deprecated. Please install nvidia-ml-py instead. If you did not install pynvml directly, please report this to the maintainers of the package that installed pynvml for you.
+  module = self._real_import(name, globals, locals, fromlist, level)
+Using device: cuda
+Downloading: "https://download.pytorch.org/models/vgg16-397923af.pth" to /root/.cache/torch/hub/checkpoints/vgg16-397923af.pth
+
+  0%|          | 0.00/528M [00:00<?, ?B/s]
+  3%|▎         | 15.5M/528M [00:00<00:03, 162MB/s]
+  7%|▋         | 35.8M/528M [00:00<00:02, 191MB/s]
+ 11%|█         | 56.0M/528M [00:00<00:02, 201MB/s]
+ 14%|█▍        | 76.2M/528M [00:00<00:02, 205MB/s]
+ 18%|█▊        | 96.5M/528M [00:00<00:02, 208MB/s]
+ 22%|██▏       | 117M/528M [00:00<00:02, 209MB/s]
+ 26%|██▌       | 137M/528M [00:00<00:01, 210MB/s]
+ 30%|██▉       | 157M/528M [00:00<00:01, 210MB/s]
+ 34%|███▎      | 178M/528M [00:00<00:01, 211MB/s]
+ 37%|███▋      | 198M/528M [00:01<00:01, 211MB/s]
+ 41%|████▏     | 218M/528M [00:01<00:01, 211MB/s]
+ 45%|████▌     | 238M/528M [00:01<00:01, 212MB/s]
+ 49%|████▉     | 259M/528M [00:01<00:01, 212MB/s]
+ 53%|█████▎    | 279M/528M [00:01<00:01, 212MB/s]
+ 57%|█████▋    | 299M/528M [00:01<00:01, 212MB/s]
+ 61%|██████    | 319M/528M [00:01<00:01, 212MB/s]
+ 64%|██████▍   | 340M/528M [00:01<00:00, 212MB/s]
+ 68%|██████▊   | 360M/528M [00:01<00:00, 212MB/s]
+ 72%|███████▏  | 380M/528M [00:01<00:00, 212MB/s]
+ 76%|███████▌  | 400M/528M [00:02<00:00, 212MB/s]
+ 80%|███████▉  | 421M/528M [00:02<00:00, 212MB/s]
+ 84%|████████▎ | 441M/528M [00:02<00:00, 212MB/s]
+ 87%|████████▋ | 461M/528M [00:02<00:00, 212MB/s]
+ 91%|█████████ | 481M/528M [00:02<00:00, 212MB/s]
+ 95%|█████████▌| 502M/528M [00:02<00:00, 212MB/s]
+ 99%|█████████▉| 522M/528M [00:02<00:00, 212MB/s]
+100%|██████████| 528M/528M [00:02<00:00, 210MB/s]
+04:05:18  running_task       Still waiting — Running task train
+04:05:46  running_task       Still waiting — Running task train
+Tue Aug 11 04:05:46 2026	Epoch 1:	[800/9469]	content: 1147702.550938	style: 9552585.003750	total: 10700287.554688
+04:06:13  running_task       Still waiting — Running task train
+Tue Aug 11 04:06:27 2026	Epoch 1:	[1600/9469]	content: 1316064.849844	style: 5848007.419375	total: 7164072.269219
+04:06:39  running_task       Still waiting — Running task train
+04:07:07  running_task       Still waiting — Running task train
+Tue Aug 11 04:07:09 2026	Epoch 1:	[2400/9469]	content: 1382629.950937	style: 4322610.841771	total: 5705240.792708
+04:07:33  running_task       Still waiting — Running task train
+Tue Aug 11 04:07:51 2026	Epoch 1:	[3200/9469]	content: 1417612.617734	style: 3469886.479453	total: 4887499.097188
+04:08:00  running_task       Still waiting — Running task train
+04:08:28  running_task       Still waiting — Running task train
+Tue Aug 11 04:08:32 2026	Epoch 1:	[4000/9469]	content: 1437107.140937	style: 2922991.749125	total: 4360098.890062
+04:08:54  running_task       Still waiting — Running task train
+Tue Aug 11 04:09:14 2026	Epoch 1:	[4800/9469]	content: 1445908.626615	style: 2541913.232865	total: 3987821.859479
+04:09:21  running_task       Still waiting — Running task train
+04:09:49  running_task       Still waiting — Running task train
+Tue Aug 11 04:09:56 2026	Epoch 1:	[5600/9469]	content: 1442903.555313	style: 2257099.216116	total: 3700002.771429
+04:10:15  running_task       Still waiting — Running task train
+Tue Aug 11 04:10:38 2026	Epoch 1:	[6400/9469]	content: 1435246.624258	style: 2036429.646504	total: 3471676.270762
+04:10:42  running_task       Still waiting — Running task train
+04:11:10  running_task       Still waiting — Running task train
+Tue Aug 11 04:11:20 2026	Epoch 1:	[7200/9469]	content: 1426074.791840	style: 1862172.912431	total: 3288247.704271
+04:11:36  running_task       Still waiting — Running task train
+04:12:04  running_task       Still waiting — Running task train
+Tue Aug 11 04:12:02 2026	Epoch 1:	[8000/9469]	content: 1417595.140469	style: 1722785.670000	total: 3140380.810469
+04:12:30  running_task       Still waiting — Running task train
+Tue Aug 11 04:12:44 2026	Epoch 1:	[8800/9469]	content: 1411424.747301	style: 1605531.810483	total: 3016956.557784
+04:12:57  running_task       Still waiting — Running task train
+
+Done, trained model saved at fast_neural_style/out-models/epoch_1_2026-08-11_04-13-19_100000.0_10000000000.0.model
+04:13:24  running_task       Still waiting — Running task train
+04:13:49  task               Task train completed
+04:13:49  task               Running task stylize
+roar: done · 538.2s (trace 510.8s + post 27.4s, exit 0)
+hint: next: roar show @2  ·  roar dag  ·  roar register @2
+hint: 13 files under /tmp ignored (filters.ignore_tmp_files).
+hint:   to track them: roar config set filters.ignore_tmp_files false
+TRAIN_END 1786421629 2026-08-11T04:13:49Z
+fast_neural_style/out-ckpt:
+total 6592
+drwxr-xr-x 2 root root    4096 Aug 11 04:13 .
+drwxr-xr-x 9 root root    4096 Aug 11 04:03 ..
+-rw-r--r-- 1 root root       0 Aug 11 04:03 .gitkeep
+-rw-r--r-- 1 root root 6739701 Aug 11 04:13 ckpt_epoch_0_batch_id_2368.pth
+
+fast_neural_style/out-models:
+total 6592
+drwxr-xr-x 2 root root    4096 Aug 11 04:13 .
+drwxr-xr-x 9 root root    4096 Aug 11 04:03 ..
+-rw-r--r-- 1 root root       0 Aug 11 04:03 .gitkeep
+-rw-r--r-- 1 root root 6741397 Aug 11 04:13 epoch_1_2026-08-11_04-13-19_100000.0_10000000000.0.model
+9ca8b841f8f591aeb740027ed13c6e2066fd0cb07811e24275101413d55cfc02  fast_neural_style/out-ckpt/ckpt_epoch_0_batch_id_2368.pth
+6c79576750650950a69c162996db15a06661cfa32f8e65e2f8cd521334192503  fast_neural_style/out-models/epoch_1_2026-08-11_04-13-19_100000.0_10000000000.0.model
+STYLIZE_START 1786421629 2026-08-11T04:13:49Z
+04:14:16  running_task       Still waiting — Running task stylize
+04:14:44  running_task       Still waiting — Running task stylize
+04:15:12  running_task       Still waiting — Running task stylize
+04:15:39  running_task       Still waiting — Running task stylize
+04:16:07  running_task       Still waiting — Running task stylize
+04:16:34  running_task       Still waiting — Running task stylize
+04:17:02  running_task       Still waiting — Running task stylize
+04:17:30  running_task       Still waiting — Running task stylize
+04:17:57  running_task       Still waiting — Running task stylize
+04:18:25  running_task       Still waiting — Running task stylize
+04:18:52  running_task       Still waiting — Running task stylize
+04:19:20  running_task       Still waiting — Running task stylize
+04:19:48  running_task       Still waiting — Running task stylize
+04:20:15  running_task       Still waiting — Running task stylize
+04:20:43  running_task       Still waiting — Running task stylize
+04:21:11  running_task       Still waiting — Running task stylize
+04:21:38  running_task       Still waiting — Running task stylize
+04:22:06  running_task       Still waiting — Running task stylize
+04:22:34  running_task       Still waiting — Running task stylize
+04:23:01  running_task       Still waiting — Running task stylize
+04:23:29  running_task       Still waiting — Running task stylize
+04:23:56  running_task       Still waiting — Running task stylize
+04:24:24  running_task       Still waiting — Running task stylize
+04:24:51  running_task       Still waiting — Running task stylize
+04:25:19  running_task       Still waiting — Running task stylize
+04:25:47  running_task       Still waiting — Running task stylize
+04:26:14  running_task       Still waiting — Running task stylize
+04:26:42  running_task       Still waiting — Running task stylize
+04:27:09  running_task       Still waiting — Running task stylize
+04:27:37  running_task       Still waiting — Running task stylize
+04:28:05  running_task       Still waiting — Running task stylize
+04:28:32  running_task       Still waiting — Running task stylize
+04:29:00  running_task       Still waiting — Running task stylize
+04:29:27  running_task       Still waiting — Running task stylize
+04:29:55  running_task       Still waiting — Running task stylize
+04:30:23  running_task       Still waiting — Running task stylize
+04:30:50  running_task       Still waiting — Running task stylize
+04:31:18  running_task       Still waiting — Running task stylize
+04:31:45  running_task       Still waiting — Running task stylize
+04:32:13  running_task       Still waiting — Running task stylize
+04:32:41  running_task       Still waiting — Running task stylize
+04:33:08  running_task       Still waiting — Running task stylize
+04:33:36  running_task       Still waiting — Running task stylize
