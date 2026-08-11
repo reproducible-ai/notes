@@ -2,57 +2,68 @@
   "name": "litgpt (pretrain)",
   "org": "Lightning AI",
   "type": "llm",
-  "date": "2026-08-07",
+  "date": "2026-08-11",
   "status": "reproduced",
   "blocker": null,
+  "verified": true,
+  "difficulty": "5/10 — moderate: the training code reproduces bit-identically, but four dependency-range defects block a from-scratch install before a single token is trained",
   "notes": "https://github.com/reproducible-ai/notes/tree/main/009-llm-litgpt",
   "playbookVersion": "1.0",
-  "roarVersion": "0.4.4.dev0",
+  "roarVersion": "0.4.4rc5",
   "tracer": "preload",
   "amiId": "ami-0f07f1a0b382b48f7",
+  "upstreamUrl": "https://github.com/Lightning-AI/litgpt",
   "upstreamCommit": "2685705",
+  "forkUrl": "https://github.com/reproducible-ai/litgpt",
   "license": "Apache-2.0",
-  "dagUrl": "https://glaas.ai/dag/314f1eb9acbf26076c12b6893c1efc8e83f1b36f70034a7d8a0ceeb496b51403",
-  "bomUrl": "https://glaas.ai/dag/314f1eb9acbf26076c12b6893c1efc8e83f1b36f70034a7d8a0ceeb496b51403/audit",
+  "dagHash": "3b9c6606967c1008bc75ef5d5c83b8df4e6ea6183967eaee596329e324f47647",
+  "supersededDagHashes": [
+    "314f1eb9acbf26076c12b6893c1efc8e83f1b36f70034a7d8a0ceeb496b51403"
+  ],
+  "dagUrl": "https://glaas.ai/dag/3b9c6606967c1008bc75ef5d5c83b8df4e6ea6183967eaee596329e324f47647",
+  "bomUrl": "https://glaas.ai/dag/3b9c6606967c1008bc75ef5d5c83b8df4e6ea6183967eaee596329e324f47647/audit",
   "bomScore": 100,
   "artifactUrl": "https://huggingface.co/reproducible-ai/litgpt",
   "experimentUrl": null,
-  "rebuild": {
-    "time": "8m51s",
-    "hw": "1\u00d7 Tesla T4 (g4dn.xlarge)",
-    "costUsd": 0.06,
-    "fullRunEstimateUsd": null,
-    "fullRunEstimateBasis": "NOT ESTIMATED, and not estimable. The truncated dimension is a token budget the operator chooses (--train.max_tokens 2048); litgpt defines no default budget for a from-scratch pretrain on custom text, so there is no 'full run' to extrapolate to. Quoting a figure would mean inventing the denominator. Per-step timings ARE recorded (download 97.2s, fetch 0.8s, prepare 57.5s, pretrain 93.3s), so an estimate can be produced the moment a target token budget is specified."
-  },
-  "reproduce": {
-    "hash": "314f1eb9acbf26076c12b6893c1efc8e83f1b36f70034a7d8a0ceeb496b51403",
-    "cmd": "roar reproduce 314f1eb9acbf26076c12b6893c1efc8e83f1b36f70034a7d8a0ceeb496b51403 --lineage --run --no-puts"
-  },
-  "patch": {
-    "lines": 203,
-    "url": "https://github.com/Lightning-AI/litgpt/compare/2685705...reproducible-ai:litgpt:c6217ba"
-  },
-  "summary": "Truncated reproduction of the litgpt pretrain path: pythia-14m, 8 optimizer steps on WikiText-2 via the TextFiles data module. Certified by an independent cold rebuild on a fresh GPU-less-path host that had never seen the row: exit 0, 4/4 steps, the same 169 MB checkpoint and the same val loss 9.7379, with all 67 recorded pins present at the recorded versions. The training code reproduced exactly - the loss trajectory was bit-identical across four independent environments at seed 42. Every obstacle was in packaging rather than in the model: litgpt download raises AttributeError on huggingface_hub >= 1.0 while litgpt's own pin permits it; torchmetrics and litdata are imported unconditionally on the pretrain path but declared only as optional extras; the pinned litdata==0.2.59 drags an unbounded torchvision that hard-pins an exact torch, silently replacing a curated PyTorch; and wandb/mlflow are advertised logger choices that appear in no dependency group. No litgpt source file was modified.",
-  "dagHash": "314f1eb9acbf26076c12b6893c1efc8e83f1b36f70034a7d8a0ceeb496b51403",
-  "supersededDagHashes": [
-    "b865916577f77891d21977fe392250026398ab7f72f274c7a594ed7f3cfa1b56"
-  ],
-  "upstreamUrl": "https://github.com/Lightning-AI/litgpt",
-  "forkUrl": "https://github.com/reproducible-ai/litgpt",
-  "certification": {
-    "tier": 2,
-    "result": "PASS",
-    "date": "2026-08-07",
-    "evidence": "CERTIFICATION.md",
-    "manifestDiff": "62/62 pins exact"
-  },
-  "verified": true,
-  "experimentUrlNote": "bridge not armed; recipe did not enable logging",
+  "experimentUrlNote": "No public experiment dashboard, and this is a measured result rather than an omission. litgpt DOES ship a flag-only wandb integration (`--logger_name wandb`, one of the five choices in litgpt/constants.py:7), so the usual excuse does not apply — it was enabled and it cannot work. The wandb->trackio bridge is a module alias (sys.modules['wandb'] = trackio), and Lightning's WandbLogger defeats an alias twice over: (1) lightning/pytorch/loggers/wandb.py:312 gates on RequirementCache('wandb>=0.12.10'), which reads installed DISTRIBUTION METADATA that no sys.modules entry can supply, so WandbLogger dies in its constructor with \"Requirement 'wandb>=0.12.10' not met\"; (2) installing real wandb to get past that, it then dies at lightning/pytorch/loggers/wandb.py:390 on `from wandb.sdk.lib import RunDisabled` — a SUBMODULE import resolved through the aliased package's __path__, which now points at trackio — with \"No module named 'wandb.sdk'\". Both were reproduced by direct execution against lightning 2.6.5 (the version this row's freeze actually records), wandb 0.28.1 and trackio 0.20.2. The path is unreachable, not merely unlucky: litgpt/pretrain.py:156 calls fabric.logger.log_hyperparams(), and WandbLogger.log_hyperparams (wandb.py:435) touches the `experiment` property before any training step runs. Fixing it means patching Lightning, a dependency of the workload, which would forfeit the zero-upstream-lines property this row rests on. The computed metrics are published instead as out/logs/csv/version_0/metrics.csv, which is in the lineage. See issues.md #5.",
   "truncated": true,
   "truncation": {
     "ran": 2048,
-    "full": null,
-    "unit": "training tokens",
-    "note": "Truncated via --train.max_tokens 2048. Unlike an epoch count there is no upstream default to truncate FROM: litgpt's pretrain on a custom TextFiles dataset requires the caller to choose a token budget, so no untruncated recipe is defined by upstream."
-  }
+    "full": 3000000000000,
+    "unit": "tokens",
+    "note": "litgpt DOES define a default token budget: max_tokens=int(3e12) in the pretrain() signature at litgpt/pretrain.py:61, and validate_args() makes max_tokens a required argument, so 3e12 is what `litgpt pretrain` uses when the caller does not override it. It applies to --data TextFiles too: the data module is orthogonal to train.max_tokens, and the loader is wrapped in CycleIterator, so the corpus simply repeats. This row passes --train.max_tokens 2048, a 1.46-billion-fold truncation. NOTE: an earlier version of this row asserted that litgpt defines no default budget for a from-scratch pretrain on custom TextFiles and therefore left the full-run estimate null. That assertion was wrong and is corrected here.",
+    "ranUnitDetail": "2,048 tokens = 16 iterations = 8 optimizer steps at global_batch_size 2"
+  },
+  "truncationNote": "2,048 of litgpt's default 3e12 tokens (16 iterations / 8 optimizer steps). The default is read from litgpt/pretrain.py:61, not guessed.",
+  "rebuild": {
+    "time": "9m44s",
+    "hw": "1× Tesla T4 (g4dn.xlarge)",
+    "costUsd": 0.16,
+    "fixedCostUsd": 0.085,
+    "scalingCostUsd": 3.07e-8,
+    "fullRunEstimateUsd": 92120,
+    "fullRunEstimateBasis": "g4dn.xlarge on-demand, us-east-2, $0.526/h list price. FIXED = 580.2s = $0.085: 156.4s host provisioning, 121.8s environment setup, 112.0s pythia-14m tokenizer download, 2.4s WikiText-2 fetch, 62.1s litdata tokenization, 107.5s of the pretrain step that is model init / torch.compile / final validation rather than token throughput, 0.7s labelling, 17.7s checkpoint upload. VARIABLE = 26.900 ms per iteration, the mean of the seven steady-state iter_time values in metrics.csv (iters 4-16; iter 2 is 112.6 ms because it carries the torch.compile warm-up, which is fixed). At micro_batch_size 1 x max_seq_length 128 that is 128 tokens per iteration = 2.1016e-4 s/token = $3.0707e-8/token. Upstream's default budget is 3e12 tokens (litgpt/pretrain.py:61), i.e. 23,437,500,000 iterations = 630,478,366s = 175,133 GPU-hours = 20.0 YEARS on one T4 = $92,120; plus $0.085 fixed = ~$92,120, the fixed part being rounding error at this scale. This scales ONLY train.max_tokens and holds every other flag at this row's values (micro_batch_size 1, max_seq_length 128, global_batch_size 2, devices 1); raising the block size or the batch would change throughput substantially. The useful reading is not that anyone should spend $92k, but that litgpt's own default budget is nine orders of magnitude beyond what one T4 can serve — the truncation is what makes this row runnable at all. The cold-start half was measured on this row's own certification host, which rebuilt the entire pipeline in 2m30s from a clean image."
+  },
+  "reproduce": {
+    "hash": "3b9c6606967c1008bc75ef5d5c83b8df4e6ea6183967eaee596329e324f47647",
+    "cmd": "roar reproduce 3b9c6606967c1008bc75ef5d5c83b8df4e6ea6183967eaee596329e324f47647 --lineage --run --no-puts"
+  },
+  "patch": {
+    "lines": 298,
+    "url": "https://github.com/Lightning-AI/litgpt/compare/2685705...reproducible-ai:litgpt:fe35987"
+  },
+  "certification": {
+    "tier": 2,
+    "result": "PASS",
+    "date": "2026-08-11",
+    "evidence": "CERT-TIER2.md",
+    "resultCaveat": "Cold rebuild on a freshly launched g4dn.xlarge that had never seen this row: exit 0, Steps run 4/4, all 62 recorded pins present at the recorded versions (0 missing, 0 mismatched; 94 distributions installed, the extra 32 being the transitive closure), and the same val loss 9.737926 / val ppl 16948.362 the capture recorded. The rebuild venv is uv-provisioned at Python 3.12.10 — the recorded interpreter exactly — with include-system-site-packages=false and no dist-packages or /opt/pytorch root anywhere on sys.path, so P0-14 host-package shadowing is ruled out rather than assumed. Two honest caveats. (1) lit_model.pth is not byte-stable: this capture published 168,905,311 B (sha256 6eff054e0e964d76bf9548891fbe65b6f22251e9df4309d8edc04893cdb3f724) and the rebuild produced 168,905,183 B (sha256 a4154cdce0982c02f1ff301eaecce92fd6ecc5c11f4419ca3521aaaf7091721b), a 128-byte spread over 169 MB. The tensors are demonstrably identical — the loss trajectory matches line for line and the final val loss agrees to all 16 recorded digits — so what varies is the pickle/zip container metadata torch.save writes around a full training state. That is generated-artefact byte-drift, which this campaign does not count as a defect; it is recorded with hashes on both sides precisely because rows 004 and 006 hit the same thing with sizes only and could never settle it. (2) The recorded steps invoke `python -m litgpt ...` and this AMI has no `python` on PATH at all, only `python3`; the steps succeed solely because the reproduce venv supplies `python`. That was verified rather than patched around — symlinking python would have manufactured a pass and hidden whether the venv is really being used.",
+    "roarVersion": "0.4.4rc5",
+    "wheelSha256": "ed35ed6bda3b5698ab65a887e7390c2ac073123f6d94bfa27b8282285352219c",
+    "exitCode": 0,
+    "stepsRun": "4/4",
+    "pinsExact": "62/62",
+    "pinsInstalled": 94
+  },
+  "summary": "Truncated reproduction of the litgpt pretrain path: pythia-14m trained from random init for 8 optimizer steps on 2,048 tokens of WikiText-2 through the TextFiles data module. Re-recorded on the published roar 0.4.4rc5 and certified by an independent cold rebuild — exit 0, 4/4 steps, 62/62 pins exact, the same 169 MB checkpoint and the same val loss 9.737926. The training code reproduces exceptionally well: the loss trajectory is bit-identical across independent environments at seed 42, and the only variation anywhere comes from numeric precision. Every obstacle was in packaging. litgpt download raises AttributeError on huggingface_hub >= 1.0 while litgpt's own pin permits it; torchmetrics and litdata are imported unconditionally on the pretrain path but declared only as optional extras; the pinned litdata==0.2.59 drags an unbounded torchvision that hard-pins an exact torch, silently replacing a curated PyTorch; and wandb/mlflow are advertised logger choices that appear in no dependency group. The row carries no experiment link, and that too is a measured result: litgpt's wandb flag exists and was enabled, but Lightning's WandbLogger cannot be satisfied by the module-alias bridge, twice over. No litgpt source file was modified — the 298-line diff is a workflow, .gitignore rules, four .gitkeep files and one additive helper module."
 }
