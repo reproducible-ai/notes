@@ -1,0 +1,69 @@
+{
+  "name": "Depth Anything V2 (metric depth, Hypersim)",
+  "org": "DepthAnything",
+  "type": "vision",
+  "date": "2026-08-11",
+  "status": "reproduced",
+  "statusSub": null,
+  "blocker": null,
+
+  "dagHash": "f81176e64bf814489ec3296286e11c499a48ca28ef52569e10bc2675c0780782",
+  "dagUrl": "https://glaas.ai/dag/f81176e64bf814489ec3296286e11c499a48ca28ef52569e10bc2675c0780782",
+  "bomUrl": "https://glaas.ai/dag/f81176e64bf814489ec3296286e11c499a48ca28ef52569e10bc2675c0780782/audit",
+  "bomScore": 100,
+
+  "reproduce": {
+    "cmd": "roar reproduce f81176e64bf814489ec3296286e11c499a48ca28ef52569e10bc2675c0780782 --lineage --run --no-puts"
+  },
+
+  "upstreamUrl": "https://github.com/DepthAnything/Depth-Anything-V2",
+  "forkUrl": "https://github.com/reproducible-ai/Depth-Anything-V2",
+  "artifactUrl": "https://huggingface.co/reproducible-ai/depth-anything-v2",
+  "notes": "https://github.com/reproducible-ai/notes/tree/main/017-vision-depth-anything-v2",
+  "license": "Apache-2.0",
+  "upstreamCommit": "a561b849ebae10a6f5ef49e26c83cbbcd36c71bf",
+
+  "patch": {
+    "lines": 0,
+    "url": "https://github.com/DepthAnything/Depth-Anything-V2/compare/a561b84...reproducible-ai:Depth-Anything-V2:02dc493"
+  },
+
+  "summary": "Depth Anything V2's own metric-depth trainer (metric_depth/train.py), run unmodified on a slice of the Hypersim indoor split: 64 training frames, 16 held-out validation frames, one epoch, ViT-S encoder, 518 px, batch 4, on a single L40S. Upstream's own dist_train.sh trains ViT-L for 120 epochs on all 59,543 frames across 8 GPUs, so this record is deeply truncated and the published checkpoint is not converged; what it demonstrates is that the recipe runs end to end from published materials and computes upstream's own depth metrics (d1/d2/d3, abs_rel, sq_rel, rmse, rmse_log, log10, silog). Zero lines of upstream Python were changed. Three things had to be worked around, and all three are ecosystem gaps rather than author error: the shipped Hypersim manifests contain absolute paths on the authors' own filesystem and are unusable by anyone else; requirements.txt omits h5py and tensorboard, both of which the trainer needs; and train.py calls np.RankWarning, which NumPy 2.0 removed, so on any current default environment the trainer aborts before its first batch. The training entry point is also distributed-only - it calls setup_distributed() unconditionally - so a single-GPU run means supplying RANK/WORLD_SIZE/LOCAL_RANK/MASTER_ADDR/MASTER_PORT yourself; no upstream flag does it for you.",
+
+  "difficulty": "6/10 — moderate: the trainer itself is clean, but the dataset manifests, the missing requirements, the NumPy-2 break and the distributed-only entry point each have to be solved before the first batch runs",
+  "verified": false,
+
+  "truncated": true,
+  "truncation": {
+    "ran": 1,
+    "full": 120,
+    "unit": "epochs",
+    "note": "120 is read from upstream's own metric_depth/dist_train.sh (epoch=120); train.py's argparse default is 40, which the shipped recipe overrides. This record also truncates the data (64 of 59,543 training frames, 16 of 7,386 validation frames), the encoder (ViT-S rather than dist_train.sh's ViT-L) and the world size (1 GPU rather than 8)."
+  },
+  "truncationNote": "1 epoch of upstream's 120, over 64 of 59,543 Hypersim training frames, ViT-S on one GPU instead of ViT-L on eight. The checkpoint is not converged and is not a substitute for the authors' released weights.",
+
+  "rebuild": {
+    "time": "1m29s",
+    "hw": "1x NVIDIA L40S (g6e.xlarge)",
+    "costUsd": 0.2,
+    "fixedCostUsd": 0.19,
+    "scalingCostUsd": 0.0013,
+    "fullRunEstimateUsd": 135,
+    "fullRunEstimateBasis": "Measured on the recorded run, g6e.xlarge (1x L40S) at $1.861/hr on-demand in us-east-2. FIXED, per run: instance boot + environment setup ~4.0 min, encoder-weight download 4.9 s (99.2 MB), Hypersim slice fetch 40.3 s, first-CUDA-context and kernel warm-up ~110 s on a cold host (measured: the same training step took 204 s on a freshly booted instance and 13 s on the same instance once warm), checkpoint upload 7 s = ~6.2 min = $0.19. VARIABLE: the epoch itself processed 64 training frames (16 iterations at batch 4) plus 16 validation frames in 4.63 s, of which ~2.0 s was one-off cuDNN autotuning on iteration 0, giving ~0.0325 s per frame = $0.0013 for this slice. Scaling that rate to upstream's full split, one epoch is 59,543 train + 7,386 val = 66,929 frames = ~36.3 min, and 120 epochs = ~72.5 GPU-hours = $135 at the same rate on the same instance. Two things that number does NOT include, both stated rather than guessed: (1) acquiring the full Hypersim dataset - this row fetched 19.6 MB by HTTP range request out of two 2.2 GB scene archives, but the full split spans 411 scenes, roughly 900 GB, which no measurement here supports pricing; (2) upstream's actual recipe is ViT-L on 8 GPUs, a materially larger and differently-parallelised job than the ViT-S single-GPU configuration measured here."
+  },
+
+  "experimentUrl": null,
+  "experimentUrlNote": "Upstream ships no experiment-tracker integration at all: grepping the repository for wandb, mlflow, trackio, comet_ml and report_to returns nothing, and train.py logs only TensorBoard scalars via torch.utils.tensorboard.SummaryWriter. TensorBoard is not bridged and does not count. Producing a link would have meant adding logging code to the workload, which forfeits the zero-upstream-lines property, so this row has no experiment link by design. The event file the run did write (metric_depth/exp/hypersim/events.out.tfevents.*, 1,264 bytes) is an output of the recorded training step.",
+
+  "certification": {
+    "tier": 1,
+    "result": null,
+    "resultCaveat": "Not certified. This row is a capture only: the record ran, all four tier-1 gates pass and the AI-BOM scores 100/100, but nothing here executes a cold rebuild. A separate agent performs the tier-2 reproduction; until it reports, no rebuild claim is made. Two things a certifier should expect: the first CUDA context on a freshly booted host costs roughly 110 s that this record's own timing does not show, and the run depends on numpy<2 being installed, without which train.py aborts at line 46."
+  },
+
+  "roarVersion": "0.4.4rc6",
+  "roarWheelSha256": "c7115b748886259b6a089e547404376acf84c3b81b4cbc8dc5610490ebea7199",
+  "tracer": "preload",
+  "playbookVersion": "1.0",
+  "amiId": "ami-0f07f1a0b382b48f7"
+}
