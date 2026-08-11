@@ -13,7 +13,9 @@
   "upstreamCommit": "63a5a63",
   "license": "MIT",
   "dagHash": "0c119a28e8d9d48dc2fa9ec8714a266109bd45dce6b2e70527fa6b2772d5fd3e",
-  "supersededDagHashes": ["88f34e2a34c7f8138b2c2c0e2fc825385c6fb1b66dea969f5b8537772e37a5dc"],
+  "supersededDagHashes": [
+    "88f34e2a34c7f8138b2c2c0e2fc825385c6fb1b66dea969f5b8537772e37a5dc"
+  ],
   "dagUrl": "https://glaas.ai/dag/0c119a28e8d9d48dc2fa9ec8714a266109bd45dce6b2e70527fa6b2772d5fd3e",
   "bomUrl": "https://glaas.ai/dag/0c119a28e8d9d48dc2fa9ec8714a266109bd45dce6b2e70527fa6b2772d5fd3e/audit",
   "bomScore": 100,
@@ -65,5 +67,5 @@
     "url": "https://github.com/yenchenlin/nerf-pytorch/compare/63a5a630c9abd62b0f21c08703d0ac2ea7d4b9dd...reproducible-ai:nerf-pytorch:b7647e3a785c244c56de9ce7afeb9d17012cbc3d"
   },
   "summary": "Truncated reproduction of NeRF fit to the lego scene of the NeRF synthetic dataset: coarse and fine 8-layer 256-wide MLPs with positional encoding and view-dependent radiance, 64 coarse + 128 fine samples per ray, 1,024 rays per step at 400x400, run for 2,000 of upstream's hardcoded 200,000 iterations on one T4 and reaching PSNR 21.2. Not one line of upstream's model, training, config or data-loading code is modified - the iteration count is not exposed as a flag, so it is capped by rebinding the module-level trange that upstream's own loop iterates over, and a per-run check proves the other 28 upstream files are byte-identical by git blob hash. The row's finding is a pip-closure boundary: requirements.txt declares both imageio-ffmpeg and opencv-python, and a freeze cannot tell you that the first ships a statically linked FFmpeg inside its wheel while the second still resolves libGL.so.1 and the X11 and glib stacks against system packages no freeze can express. A second, smaller one: at this truncation and --render_factor 8 the twenty-five 'novel views' the render step writes contain only three distinct images between them.",
-  "verified": false
+  "verified": true
 }
