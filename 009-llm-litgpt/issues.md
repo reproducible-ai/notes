@@ -140,6 +140,60 @@ used only for an `isinstance` check guarding `define_metric`; `getattr(exp,
 removable. Worth noting for anyone assuming the wandb ecosystem is
 alias-compatible: for Lightning it is not.
 
+### Re-verified 2026-08-11, and the exact failure boundary
+
+This row was revisited specifically to try again to produce a public experiment
+link, against a newer bridge. The bridge is still a module alias
+(`sys.modules["wandb"] = trackio`), and it still cannot work. Both failure modes
+were reproduced by direct execution against **lightning 2.6.5** — which is what
+litgpt's own `lightning>=2.6.1` resolves to today — with **wandb 0.28.1** and
+**trackio 0.20.2**:
+
+**(a) Without the real `wandb` distribution installed** — i.e. the recipe exactly
+as it ships — `WandbLogger` dies in its *constructor*, at
+`lightning/pytorch/loggers/wandb.py:312`:
+
+```
+  File ".../lightning/pytorch/loggers/wandb.py", line 312, in __init__
+    raise ModuleNotFoundError(str(_WANDB_AVAILABLE))
+ModuleNotFoundError: Requirement 'wandb>=0.12.10' not met. HINT: Try running `pip install -U 'wandb>=0.12.10'`
+```
+
+`_WANDB_AVAILABLE = RequirementCache("wandb>=0.12.10")` reads **installed
+distribution metadata**. A `sys.modules` entry is not a distribution, so no alias
+of any kind can satisfy it.
+
+**(b) With the real `wandb` distribution installed** to get past (a), the alias
+then loses to the submodule imports one step later, at
+`lightning/pytorch/loggers/wandb.py:390`:
+
+```
+  File ".../lightning/pytorch/loggers/wandb.py", line 390, in experiment
+    from wandb.sdk.lib import RunDisabled
+ModuleNotFoundError: No module named 'wandb.sdk'
+```
+
+`from wandb.sdk.lib import …` is resolved through `sys.modules["wandb"].__path__`,
+which now points at trackio's package directory. Installing real wandb on disk
+does not help: the alias, not the installed package, is what the import machinery
+walks.
+
+**This is unreachable, not merely unlucky.** `litgpt/pretrain.py:156` calls
+`fabric.logger.log_hyperparams(hparams)` whenever `logger_name` is
+`tensorboard`/`wandb`/`mlflow`, and `WandbLogger.log_hyperparams`
+(`wandb.py:435`) is `self.experiment.config.update(...)` — it touches the
+`experiment` property before a single training step runs. `log_metrics`
+(`wandb.py:439`) does the same. There is no flag that reaches the wandb logger
+without going through `experiment`.
+
+**Conclusion.** `--logger_name wandb` is a real, in-tree, flag-only logging path
+in litgpt — the usual excuse ("upstream ships no logging") does *not* apply to
+this row — but it cannot be bridged to a hosted dashboard without patching
+Lightning. That patch is a dependency of the workload, and changing it would
+forfeit the "zero upstream lines changed" property the row rests on. **So this
+row has `experimentUrl: null`, and that is a measured result rather than an
+omission.**
+
 ---
 
 ## 6. `.gitignore` directory-ignores every output directory of the documented workflow

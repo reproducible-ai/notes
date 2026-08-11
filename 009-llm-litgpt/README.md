@@ -7,12 +7,15 @@ lineage re-runs on a machine that has never seen it. A cold
 `roar reproduce --lineage --run --no-puts` on a freshly launched host cloned the
 fork, built an environment from the recorded pins, ran **all four steps (exit 0,
 4/4)** and produced the same 169 MB checkpoint and the same validation loss —
-with all 67 recorded pins present at the recorded versions.
+with **all 62 recorded pins present at the recorded versions**, 0 missing and 0
+mismatched. Full evidence in `CERT-TIER2.md`.
 
 Upstream: [`Lightning-AI/litgpt`](https://github.com/Lightning-AI/litgpt) 0.5.13
 (`2685705`), Apache-2.0, 13.6k stars, actively maintained.
 Fork: [`reproducible-ai/litgpt`](https://github.com/reproducible-ai/litgpt) at
-`c6217ba`. **No litgpt source file was modified.**
+`fe35987`. **No litgpt source file was modified** — the 298-line diff is a
+workflow, `.gitignore` rules, four `.gitkeep` files and one additive helper
+module.
 
 ---
 
@@ -27,7 +30,7 @@ trainer.
 
 The answer: **the training code reproduces very cleanly; the packaging around it
 does not.** Nothing went wrong inside litgpt's model, optimizer or data
-pipeline. At `--seed 42` the loss trajectory was bit-identical across three
+pipeline. At `--seed 42` the loss trajectory was bit-identical across
 independent environments, and the only variation anywhere came from numeric
 precision (fp16 on a T4 versus fp32 on CPU). Every obstacle in `issues.md` — all
 seven — is a packaging, dependency-range or repository-hygiene problem, and
@@ -54,44 +57,93 @@ never tested from an empty environment.
 
 ## What was rebuilt
 
-A truncated pretraining run, on purpose: **pythia-14m, 8 optimizer steps, 2,048
-tokens** of WikiText-2 through litgpt's `TextFiles` data module, the path
-`tutorials/pretrain.md` documents for custom corpora. We claim *reproduce*, not
-*replicate* — the point is that the pipeline can be rebuilt and a metric
-computed, not that a number is matched. litgpt's default `max_tokens` is 3e12,
-nine orders of magnitude more.
+A truncated pretraining run, on purpose: **pythia-14m (14,067,712 parameters), 8
+optimizer steps, 2,048 tokens** of WikiText-2 through litgpt's `TextFiles` data
+module, the path `tutorials/pretrain.md` documents for custom corpora. We claim
+*reproduce*, not *replicate* — the point is that the pipeline can be rebuilt and
+a metric computed, not that a number is matched. It was matched anyway:
 
 ```
-Epoch 1 | iter  2 step 1 | loss train: 11.000
-Epoch 1 | iter 16 step 8 | loss train:  9.914
-Final evaluation | val loss: 9.903 | val ppl: 19998.620
+Epoch 1 | iter  2 step 1 | loss train: 10.979 | iter time: 3194.35 ms
+Epoch 1 | iter 16 step 8 | loss train:  9.884 | iter time:   28.05 ms
+Final evaluation | val loss: 9.738 | val ppl: 16948.362
 ```
+
+The cold rebuild returned `val_loss = 9.737926483154297` — the same digits.
 
 Artifact: `out/final/lit_model.pth` (169 MB — litgpt checkpoints the whole
 training state, so weights plus AdamW moments), published to
 [`reproducible-ai/litgpt`](https://huggingface.co/reproducible-ai/litgpt).
 
-## Logging
+## What a full run would actually cost
 
-litgpt does ship experiment logging, so the question was live. It could not be
-made to reach a public dashboard, and the reason is worth recording rather than
-papering over:
+The truncation here is not a rounding — it is **1.46 billion-fold**, and it is
+worth being precise about why.
 
-- **mlflow** — litgpt's `mlflow` logger is Lightning's `MLFlowLogger`, which
-  writes to a local `mlruns/` store. Nothing in the toolchain available here
-  bridges that to a hosted, publicly viewable dashboard.
-- **wandb** — the usual trick of aliasing a wandb-compatible tracker in as
-  `sys.modules["wandb"]` does not work with Lightning, which performs runtime
-  *submodule* imports (`from wandb.sdk.lib import RunDisabled`) that no
-  module-object alias can satisfy. It fails identically whether the alias is a
-  real tracker or a no-op stub, and it fails at
-  `fabric.logger.log_hyperparams()`, before training starts. See issue #5.
+`litgpt pretrain` has a default token budget, and it is large:
+`max_tokens=int(3e12)` in the `pretrain()` signature at `litgpt/pretrain.py:61`.
+`validate_args()` makes `max_tokens` a *required* argument, so that default is
+what runs when a caller does not override it — including with `--data TextFiles`,
+because the data module is orthogonal to the budget and the loader is wrapped in
+a `CycleIterator` that simply repeats the corpus.
 
-So the run uses litgpt's `csv` logger, which is equally in-tree, needs no extra
-dependency, and writes `out/logs/csv/version_0/metrics.csv` — a plain-text
-artifact carrying the computed metrics, which is in the lineage and readable by
-anyone. There is no experiment-dashboard link for this row, and it would have
-been dishonest to manufacture one.
+Measuring the split rather than scaling the headline:
+
+- **Fixed — 580.2 s, $0.085.** 156.4 s host provisioning, 121.8 s environment
+  setup, 112.0 s tokenizer download, 2.4 s WikiText-2 fetch, 62.1 s litdata
+  tokenization, 107.5 s of the pretrain step that is model construction,
+  `torch.compile` and the final validation pass, 0.7 s labelling, 17.7 s
+  checkpoint upload.
+- **Variable — 26.900 ms per iteration**, the mean of the seven steady-state
+  `iter_time` values in `metrics.csv`. The *first* logged iteration is 112.6 ms
+  because it carries the `torch.compile` warm-up, which is a one-off, not a rate.
+  At `micro_batch_size 1 × max_seq_length 128` that is 128 tokens per iteration,
+  or **$3.07 × 10⁻⁸ per token**.
+
+3e12 tokens is therefore 23.4 billion iterations ≈ **175,133 GPU-hours ≈ 20.0
+years on one T4 ≈ $92,120**. The fixed part is rounding error at that scale.
+
+The number is not advice to spend $92k; it is the honest statement that litgpt's
+own default budget is nine orders of magnitude beyond what a single T4 can serve,
+and that the truncation is what makes this row runnable at all. It holds every
+other flag at this row's values — raising the block size or the batch would
+change throughput substantially.
+
+*(An earlier version of this row left the full-run estimate `null`, asserting
+that litgpt defines no default budget for a from-scratch pretrain on custom
+`TextFiles`. That assertion was wrong; the default is at `pretrain.py:61` and is
+now used.)*
+
+## Logging — the flag exists, and it still cannot reach a dashboard
+
+litgpt ships experiment logging and it is switched on by a flag, so the usual
+excuse ("upstream has no integration") does not apply to this row. It was
+enabled, and it fails — for a reason that lives in Lightning rather than in
+litgpt. The bridge from `wandb` to a hosted dashboard is a module alias
+(`sys.modules["wandb"] = trackio`), and `WandbLogger` defeats an alias twice:
+
+- `lightning/pytorch/loggers/wandb.py:312` gates on
+  `RequirementCache("wandb>=0.12.10")`, which reads **installed distribution
+  metadata**. A `sys.modules` entry is not a distribution, so the constructor
+  raises `Requirement 'wandb>=0.12.10' not met`.
+- Install the real `wandb` to get past that, and it dies one step later at
+  `wandb.py:390` on `from wandb.sdk.lib import RunDisabled` — a **submodule**
+  import, resolved through the aliased package's `__path__`, which now points at
+  trackio: `No module named 'wandb.sdk'`.
+
+Both were reproduced by direct execution against **lightning 2.6.5** — the exact
+version this row's freeze records — with wandb 0.28.1 and trackio 0.20.2. The
+path is unreachable rather than unlucky: `litgpt/pretrain.py:156` calls
+`fabric.logger.log_hyperparams()`, and `WandbLogger.log_hyperparams`
+(`wandb.py:435`) touches the `experiment` property before a single training step
+runs; `log_metrics` does the same.
+
+Making it work means patching Lightning, a *dependency* of the workload, which
+would forfeit the zero-upstream-lines property this row rests on. So
+`experimentUrl` is `null` and stays `null`. The computed metrics are published
+instead as `out/logs/csv/version_0/metrics.csv` — a plain-text artifact, in the
+lineage, readable by anyone. Manufacturing a link to an empty dashboard would
+have been worse than having none. See `issues.md` #5.
 
 ## Files
 
@@ -99,6 +151,7 @@ been dishonest to manufacture one.
 |---|---|
 | `commands.md` | the exact recipe, the bare-clone check, and the cold-rebuild transcript |
 | `issues.md` | all seven obstacles: symptom, root cause, fix, upstream-worthiness |
-| `costs.md` | four cloud attempts, $0.10 total |
+| `CERT-TIER2.md` | the tier-2 certification: exit code, step count, manifest diff, artefact hashes |
+| `costs.md` | every cloud attempt and what it cost |
 | `patches/` | prepared (not submitted) upstream fix for issue #1 |
 | `row.json` | the object published to the /models table |
