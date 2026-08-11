@@ -1,0 +1,82 @@
+{
+  "name": "S4 (structured state-space sequence model)",
+  "org": "state-spaces (Stanford Hazy Research)",
+  "type": "ssm",
+  "date": "2026-08-11",
+  "status": "done",
+  "blocker": null,
+  "license": "Apache-2.0",
+  "difficulty": "7/10 — hard",
+  "difficultyNote": "Runs unmodified, but only after the whole torch stack is pinned back to 2.3.0: an unguarded module-level `import torchtext` in src/dataloaders/lra.py forces it, and torchtext 0.18.0's libtorchtext.so is ABI-incompatible with torch 2.7. numpy, scipy, rich and setuptools each need a ceiling for the same 2024-vintage reasons.",
+
+  "summary": "S4 replaces attention with a learned linear state-space recurrence evaluated as an FFT convolution, so it is the first non-transformer sequence model in this campaign. Upstream's own train.py (Hydra + PyTorch-Lightning) trains a 3-layer, 127,562-parameter model on permuted sequential MNIST — 784-step scalar sequences with the pixel order shuffled, which leaves nothing but long-range dependency — and reaches 94.1% validation accuracy in a single epoch of 1,080 steps. Zero lines of upstream Python were changed; the run is the command from upstream's README plus three Hydra overrides. Captured twice on two different hosts and bit-identical both times.",
+  "notes": "https://github.com/reproducible-ai/notes/tree/main/014-ssm-s4",
+
+  "upstreamUrl": "https://github.com/state-spaces/s4",
+  "forkUrl": "https://github.com/reproducible-ai/s4",
+  "forkCommit": "b0878a68ab8651eef3f69802b305df87cd718c9e",
+  "artifactUrl": "https://huggingface.co/reproducible-ai/s4-smnist",
+
+  "dagHash": "fd445b9abb32632e4b3c6ca4c97a1e8a868233c4abb794d2ed94af1ce2f920b2",
+  "dagUrl": "https://glaas.ai/dag/fd445b9abb32632e4b3c6ca4c97a1e8a868233c4abb794d2ed94af1ce2f920b2",
+  "bomUrl": "https://glaas.ai/dag/fd445b9abb32632e4b3c6ca4c97a1e8a868233c4abb794d2ed94af1ce2f920b2/audit",
+  "bomScore": 100,
+  "supersededDagHashes": [
+    "b8d286bcfa786df8a003d0fcc4aff85ecf6cfe6fa64f5685e56bb178a396cb9f"
+  ],
+
+  "playbookVersion": "1.0",
+  "roarVersion": "0.4.4rc6",
+  "roarWheelSha256": "c7115b748886259b6a089e547404376acf84c3b81b4cbc8dc5610490ebea7199",
+  "tracer": "preload",
+  "amiId": "ami-0f07f1a0b382b48f7",
+
+  "patch": {
+    "lines": 3,
+    "url": "https://github.com/state-spaces/s4/compare/main...reproducible-ai:s4:main"
+  },
+
+  "truncated": true,
+  "truncation": {
+    "ran": 1,
+    "full": 200,
+    "unit": "epochs",
+    "note": "`max_epochs: 200` read from upstream's own configs/trainer/default.yaml, which the mnist pipeline inherits. One epoch is 1,080 optimizer steps at batch 50 over 54,000 training images and already reaches 94.1% validation accuracy; upstream reports ~98% on permuted MNIST at convergence."
+  },
+
+  "rebuild": {
+    "time": "6m01s",
+    "hw": "1× Tesla T4 (g4dn.xlarge)",
+    "costUsd": 0.08,
+    "fixedCostUsd": 0.06,
+    "scalingCostUsd": 0.02,
+    "fullRunEstimateUsd": 3.5,
+    "fullRunEstimateBasis": "The traced train step took 135.7s. Upstream's own Timer callback puts 117.7s of that in the epoch (1,080 steps at batch 50 plus the 6,000-image validation pass); the remaining 17.9s is fixed inside the step (torch import, the 11 MB MNIST download, dataset construction, S4 kernel init). Outside the step, provisioning 2m45s, the pinned-environment install 3m34s and label+publish 4s are also fixed — about 6m40s of fixed cost in total. A full 200-epoch run (configs/trainer/default.yaml) is therefore 200 × 117.7s = 6h32m of training plus that fixed ~6m40s. At the g4dn.xlarge on-demand rate of $0.526/h in us-east-2: 6.54h × $0.526 = $3.44 variable + $0.06 fixed ≈ $3.50. Scaling the row's own $0.08 by 200 would have said $16 — 4.5× too high, because 83% of this run's wall clock does not scale."
+  },
+
+  "metrics": {
+    "val/accuracy": 0.94083,
+    "val/loss": 0.20117,
+    "test/accuracy": 0.9423,
+    "test/loss": 0.18875,
+    "params": 127562
+  },
+
+  "artifactBlake3": null,
+  "artifactNote": "accuracy.ckpt — 1,618,650 bytes, sha256 00a284186647f73d00e90a9e73348a2c37f5c000975a7b4c0f65fd55e44323a1. Byte-identical across two independent captures on two different EC2 instances (upstream sets train.seed: 0 and this config's S4 init is deterministic).",
+
+  "experimentUrl": null,
+  "experimentUrlNote": "Upstream ships WandB support (a `wandb:` block in configs/config.yaml and a CustomWandbLogger in train.py), and it was tested on CPU against the wandb→trackio bridge before any GPU was booked. It cannot work: pytorch_lightning/loggers/wandb.py:35-41 imports the `wandb.sdk.lib` and `wandb.wandb_run` SUBMODULES, which no top-level drop-in replacement provides, so the try-block's `except ModuleNotFoundError` sets `wandb = None` and WandbLogger.__init__ raises at wandb.py:305 before step 0. Upstream also calls wandb.Settings(start_method='fork') at train.py:635 and wandb._attach at train.py:100. Enabling it would require editing train.py, forfeiting the zero-upstream-lines-changed property. Metrics are still computed and captured: pytorch-lightning's CSVLogger writes outputs/run/lightning_logs/version_0/metrics.csv, which is a recorded step output in the lineage.",
+
+  "reproduce": {
+    "hash": "fd445b9abb32632e4b3c6ca4c97a1e8a868233c4abb794d2ed94af1ce2f920b2",
+    "cmd": "roar reproduce fd445b9abb32632e4b3c6ca4c97a1e8a868233c4abb794d2ed94af1ce2f920b2 --lineage --run --no-puts"
+  },
+
+  "verified": false,
+  "certification": {
+    "tier": 1,
+    "result": null,
+    "resultCaveat": "Tier 1 only. All four record gates pass (clean-DAG 13/13, AI-BOM 100/100, all URLs public anonymously, freeze PORTABLE) and the capture exited 0 — but those are completion signals for the RECORD, not evidence of a rebuild. No cold host has rebuilt this row from the published lineage, so `result` is null rather than \"PASS\". Two things a certifier should watch: the recorded freeze is a superset of the import closure (104 pins for a ~25-package import graph), and the NVIDIA driver the cu121 torch build ran against (580.126.09) is not in the record because no dpkg package owns libcuda.so."
+  }
+}
