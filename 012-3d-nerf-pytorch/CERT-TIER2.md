@@ -18,14 +18,14 @@ It did not read the capture agent's working directory.
 | `roar --version` | `roar, version 0.4.4rc6` |
 | Wheel | `roar_cli-0.4.4rc6-cp310-abi3-manylinux_2_34_x86_64.whl` |
 | Wheel sha256 | `c7115b748886259b6a089e547404376acf84c3b81b4cbc8dc5610490ebea7199` (verified on the host before install; the version string alone cannot distinguish builds) |
-| Tracer artefacts | `site-packages/roar/bin/` — 6 files (`libroar_tracer_preload.so`, `roar-proxy`, `roar-tracer`, `roar-tracer-ebpf`, `roar-tracer-preload`, `roard`) — not a P0-10 tracerless wheel |
+| Tracer artefacts | `site-packages/roar/bin/` — 6 files (`libroar_tracer_preload.so`, `roar-proxy`, `roar-tracer`, `roar-tracer-ebpf`, `roar-tracer-preload`, `roard`) — a wheel built without them installs and reports a correct version while containing no tracer at all, so this is checked rather than assumed |
 | Tracer selected | eBPF (capture used preload; instrumentation, not the artifact) |
 | Instance | `i-0ded3145b761f5536`, g4dn.xlarge (1× Tesla T4, driver 580.126.09), us-east-2, `ami-0f07f1a0b382b48f7` |
 | Rebuilt commit | `b7647e3a785c244c56de9ce7afeb9d17012cbc3d` (matches the record) |
 
-Installed from TestPyPI's published rc6 artefact rather than an S3 presigned URL, which
-retires P0-20 for this row: there is no per-target wheel secret in the loop, and the
-digest still pins the build identity.
+Installed from the published rc6 artefact on TestPyPI rather than from a presigned build
+URL, so no per-target secret sits in the loop; the digest above, not the filename or the
+version string, is what pins the build identity.
 
 ## 2. The command, and the exit code read from a file
 
@@ -67,7 +67,7 @@ Training converged on the same trajectory: PSNR **21.31** at iteration 2000, aga
 the capture's **21.2**. (We claim reproduce, not replicate; the point is that the
 metric is *computed* and lands in the same place.)
 
-## 3. P0-14 — roar ran under the recorded interpreter, and nothing resolved from outside the venv
+## 3. roar ran under the recorded interpreter, and nothing resolved from outside the venv
 
 ```
 /root/.local/bin/roar            → #!/root/.local/share/uv/tools/roar-cli/bin/python
@@ -77,14 +77,14 @@ roar-cli's interpreter           → Python 3.12.10
 recorded interpreter (record)    → 3.12.10
 ```
 
-roar was installed with
-`uv tool install --python 3.12.10 --force --with huggingface-hub <wheel>` and symlinked
-to `/usr/local/bin/roar` so the nested `roar run` in each recorded step resolves (the
-exit-127 failure mode). `huggingface_hub 1.27.0` is present (P0-19).
+roar was installed under the **recorded** 3.12.10 interpreter rather than the host's
+3.10.12, so that roar and the traced child share an interpreter and host packages cannot
+shadow recorded pins, and it was placed on `PATH` for the nested `roar run` each recorded
+step makes. `huggingface_hub 1.27.0` was included.
 
-Three stale roar installs and both `roar_inject.pth` files were purged before install
-(P0-7); the removal was run unpiped and the `find` verification sweep afterwards
-returned **empty**, with no `roar` on PATH until the clean install.
+The three stale roar copies on the AMI and both injection `.pth` files were purged before
+installing; the removal was run unpiped and the `find` verification sweep afterwards
+returned **empty**, with no `roar` on `PATH` until the clean install.
 
 Independent evidence that the steps ran against the *recorded* freeze and not the host:
 **`python` does not exist on this AMI** — only `python3` (3.10.12). Every recorded step
@@ -196,20 +196,26 @@ dpkg-query: no packages found matching libgl1 / libglx0 / libglvnd0
 ```
 
 **These files are owned by no dpkg.** They are libglvnd shipped inside the AMI by the
-NVIDIA driver bundle (all three dated 27 Apr, outside apt). The 13 libraries that *were*
-recorded — `libx11-6`, `libxext6`, `libglib2.0-0` and the rest — are all genuinely
-dpkg-owned. So roar's OS layer is dpkg-shaped: it resolves a loaded `.so` to its owning
-package, and when no package owns the file it drops the dependency **silently**, with no
-"unowned file" entry to signal the gap. No amount of care during capture would have put
-`libgl1` in this record, because `libgl1` was never installed on the capture host either.
+NVIDIA driver bundle (all three dated 27 Apr, installed outside apt). The 13 libraries
+that *were* recorded — `libx11-6`, `libxext6`, `libglib2.0-0` and the rest — are all
+genuinely dpkg-owned.
 
-Practical consequence, unchanged: on a bare image without a driver-installed libglvnd,
-`import cv2` fails at import of the training script and the record gives the rebuilder no
-pointer to what is missing. This is the pip-closure boundary (P1-11) one layer down —
-the closure of a *pip* wheel reaches into system libraries a freeze cannot express, and
-the OS record that is supposed to cover that gap can only name things apt knows about.
-Worth a defect: **record unowned `.so` dependencies by path when dpkg resolution fails,
-rather than dropping them.**
+That reframes the caveat. An OS-package record is a list of *packages*, so it can only
+describe the libraries a package manager knows about; a library installed as loose files
+by a driver bundle is invisible to it, and nothing done during capture could have put
+`libgl1` into this record, because `libgl1` was never installed on the capture host
+either. The gap is structural, not an oversight.
+
+The practical consequence is unchanged: on a bare image without a driver-installed
+libglvnd, `import cv2` fails at import of the training script and the record does not
+name what is missing. This is the row's own pip-closure finding one layer further down.
+`opencv-python` is a pip package whose closure reaches out of the wheel into system
+libraries that no freeze can express — and the OS-package list that is meant to cover
+that gap can itself only reach as far as the package manager does. Two different
+inventories, and the dependency falls through the seam between them. Anyone rebuilding
+`opencv-python` workloads on a minimal base image should expect to supply the GL stack
+themselves; a GPU AMI with the NVIDIA driver installed already has it, which is why this
+rebuild never noticed.
 
 ## 7. Caveat 2 — clean-dag 12/13 is a genuine false positive, verified independently
 
@@ -236,17 +242,15 @@ Checked for the ways an AST scan can be fooled — `__import__`, `importlib.impo
 The claim holds: this step's real dependency set is empty, so a 9-package freeze is a
 *complete* record of it, not a truncated one.
 
-The check itself is sound and should not be relaxed — it exists because a LeRobot capture
-recorded 10 packages for a step that needed 74, and it is exactly the kind of tier-2
-killer every other gate misses. It is simply blind to the legitimate case of a
-**stdlib-only step**, where "packages ⊆ roar's closure" is the correct answer rather than
-a symptom. The rebuild settles it empirically: step 1 ran on a cold host, from a
-9-package environment, and exited 0 in 50.1 s.
+The check is worth keeping as it stands. A thin package list on a step that needs a fat
+one is a real way for a record to look complete and still fail a rebuild, and this check
+is the one that catches it. What it cannot see is the legitimate case underneath: a step
+that genuinely depends on nothing, where a thin list is the *correct* answer rather than
+a symptom. Distinguishing the two needs the step's source, not its package count.
 
-Suggested refinement, so the check keeps its teeth without this false positive: when a
-step's packages are a subset of roar's closure, parse the imports of the script named in
-its argv; flag only if that script imports something outside the standard library. The
-DAG already carries the commit and the argv needed to do it.
+The rebuild settles this instance empirically. Step 1 ran on a cold host from that
+9-package environment, downloaded 370,385,516 bytes, matched its pinned digest and exited
+0 in 50.1 s. Nothing was missing from it, because nothing was needed.
 
 ## 8. Guards observed
 
@@ -262,7 +266,7 @@ DAG already carries the commit and the argv needed to do it.
   collection) was expected at ~35 minutes; ×2 → 70, rounded to 75. The run finished
   61 minutes inside the ceiling, so it never needed extending.
 * Privileged scripts were written to a per-agent unique directory, and the wheel digest
-  was re-verified on the host immediately before install (P1-7).
+  was re-verified on the host immediately before install.
 
 ## 9. Cost
 
