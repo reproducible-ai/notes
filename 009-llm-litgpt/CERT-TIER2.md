@@ -178,12 +178,27 @@ line for line (10.979, 10.681, 10.269, 10.465, 9.950, 10.128, 9.872, 9.884).
 
 ## Two caveats, stated rather than smoothed over
 
-**1. `lit_model.pth` is 64 bytes smaller than the capture-era record**
-(168,905,183 B vs 168,905,247 B). The weights are demonstrably unaffected — the
-loss trajectory and the final val loss match to the digit — so this is checkpoint
-metadata, not tensors. Both figures are now on record *with* a sha256, so the
-next run settles it instead of re-arguing it. (This is exactly the reconciliation
-problem that sizes-without-hashes created on rows 004 and 006.)
+**1. `lit_model.pth` is not byte-stable across runs, and three sizes are now on
+record for identical weights:**
+
+| run | bytes | sha256 |
+|---|---|---|
+| this capture (published to HF) | 168,905,311 | `6eff054e0e964d76bf9548891fbe65b6f22251e9df4309d8edc04893cdb3f724` |
+| this cold rebuild | 168,905,183 | `a4154cdce0982c02f1ff301eaecce92fd6ecc5c11f4419ca3521aaaf7091721b` |
+| the 2026-08-07 rebuild of the superseded record | 168,905,247 | *(not recorded — sizes only)* |
+
+A spread of 128 bytes across ~169 MB. **The tensors are demonstrably identical**:
+the loss trajectory matches line for line and the final val loss agrees to all 16
+recorded digits (`9.737926483154297`). What varies is the pickle/zip container
+metadata that `torch.save` writes around them — litgpt checkpoints the whole
+training state, including a hyperparameters mapping carrying `PosixPath` objects.
+
+This is byte-drift in a *generated* artefact, which the campaign's semantic frame
+explicitly does not treat as a defect: we claim **reproduce**, not **replicate**.
+It is recorded rather than waved away because rows 004 and 006 hit exactly this
+and could not settle it — they had recorded sizes with no hashes. Both of this
+row's figures now carry a sha256, so the next run compares hashes instead of
+re-opening the argument.
 
 **2. `python` does not exist on this AMI — only `python3`.** Recorded before the
 run:
