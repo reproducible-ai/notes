@@ -5,9 +5,10 @@ Instance: **g4dn.xlarge** (1× Tesla T4, 4 vCPU Xeon 8259CL), us-east-2, on-dema
 `ec2 describe-instances` (`LaunchTime` → `StateTransitionReason`). Nothing here is
 estimated except where it says so, and where it says so it shows the arithmetic.
 
-## The run that produced the record
+## The run these figures come from
 
-Fork commit `3a7a01cc2d1b`, instance `i-03d77c830864afd02`, DAG `63edfd1d…e377`.
+Fork commit `3a7a01cc2d1b`, instance `i-03d77c830864afd02`, session `63edfd1d…e377` —
+the one run of the five whose lineage came back carrying all of its steps.
 
 | phase | wall-clock | fixed or variable? |
 |---|---|---|
@@ -22,8 +23,8 @@ Fork commit `3a7a01cc2d1b`, instance `i-03d77c830864afd02`, DAG `63edfd1d…e377
 | **total billed** | **19m12s (1,152 s)** | **= $0.168** |
 
 The teardown figure is measured on the next cold instance (`i-08d4edefb6a9b0a8e`:
-completed 18:28:27, terminated 18:30:01) because the instance that produced this record
-was reused for a further job instead of being torn down immediately. Every other number
+completed 18:28:27, terminated 18:30:01) because the instance behind these figures was
+reused for a further job instead of being torn down immediately. Every other number
 is from this run's own log.
 
 ### The three measurements that make the split defensible
@@ -73,11 +74,11 @@ fixed 660 s + (2 epochs × 492 s) = 1,644 s = 27m24s
 ### The one number that varies, and by how much
 
 The lineage publish inside the fixed portion is the least stable component measured this
-session: 48 s on the run that produced this record, and 166 s and 295 s on two other
-executions of the same recipe. Substituting the worst case for the observed one moves
+session: 48 s on the run these figures come from, and 104 s, 166 s and 295 s on three
+other executions of the same recipe. Substituting the worst case for the observed one moves
 the fixed portion from 660 s to 907 s and the untruncated estimate from $0.24 to $0.28 —
 so the estimate is stable to about ±15% against the largest source of variance in it.
-The figures above use the run being published, not the best or the worst.
+The figures above use the run they came from, not the best or the worst.
 
 ## What this does NOT cost out
 
@@ -90,8 +91,11 @@ this row earned.
 
 ## Total spend on the row
 
-Six job launches across two operators produced one publishable record. The billed GPU
-time behind this row, across every attempt by both operators, is **$1.40**; the run that
-produced the published record accounts for **$0.17** of it. `costUsd` reports the
-latter, because a reader asking *"what am I in for if I rebuild this?"* should be quoted
-the cost of the run, not our retry bill.
+Nine job launches across two operators, on six instances, produced **no** publishable
+record. The billed GPU time behind this row is **$1.60** — $0.664 for the first
+operator's three instances and $0.933 for the second's three
+(`i-03d77c830864afd02` 61m03s / $0.535, `i-08d4edefb6a9b0a8e` 23m41s / $0.208,
+`i-0ed829ac4e10c05f0` 21m38s / $0.190). A single clean run of this recipe costs
+**$0.17**, and that is what `rebuild.costUsd` reports: a reader asking *"what am I in
+for if I rebuild this?"* should be quoted the cost of the run, not our retry bill. The
+gap between $0.17 and $1.60 is the finding, and none of it was spent on the model.
