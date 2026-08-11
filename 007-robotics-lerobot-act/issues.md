@@ -63,7 +63,7 @@ contributor docs. Not filed — the campaign does not open upstream issues.
 
 ---
 
-## 2. `WandBLogger` is coupled to wandb's exact API, so no wandb-compatible tracker can substitute
+## 2. `WandBLogger` is coupled to wandb's exact API, so a substitute must shim three call shapes
 
 **Symptom.** Enabling upstream's own experiment logging (`--wandb.enable=true`) under
 any drop-in `wandb` replacement aborts — twice over, at two different points, both on
@@ -108,10 +108,24 @@ print a link, so a purely cosmetic line takes down the run.
 artifact at every save — 207 MB on this row. `--wandb.disable_artifact=true` turns that
 off and is a config flag, not a patch.
 
-**Workaround.** Run with logging off (the default) and compute the held-out metric as
-a separate pipeline step (`repro/evaluate_act.py` → `metrics/metrics.json`). Nothing
-of substance is lost: the number training would have logged is recomputed from the
-saved checkpoint, and it becomes a real artifact rather than a log line.
+**Status, 2026-08-11.** All three couplings are now absorbed by the tracker bridge
+rather than by a patch to LeRobot, so **logging is enabled on this row** with three of
+upstream's own flags and zero `src/` changes:
+`--wandb.enable=true --wandb.project=… --wandb.disable_artifact=true`. The upstream
+finding below is unchanged and still worth reporting — it is what any *other*
+wandb-instrumented project will hit — but it is no longer a blocker here.
+
+One consequence is easy to miss and is the reason this issue is still open in spirit.
+A bridge that must degrade gracefully without credentials will offer a **reduced**
+`Run` object, and `(c)` is precisely the method such a stub omits. Because
+`get_url()` is called **unguarded**, the credential-free path crashes where the
+credentialed one does not — so the same code passes on a machine with a token and
+fails on a machine without one. The `getattr` guard below fixes that asymmetry at the
+source, and is the single most valuable of the three edits for reproducibility.
+
+The held-out metric is still computed by a separate pipeline step
+(`repro/evaluate_act.py` → `metrics/metrics.json`) rather than read from the
+dashboard, so the metric does not depend on the tracker being reachable.
 
 **Upstream-worthy? Yes, and it is small.** Three edits — one of them a single word —
 make `WandBLogger` tracker-agnostic without altering behaviour for wandb users:
