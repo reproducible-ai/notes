@@ -2,116 +2,143 @@
   "name": "nanoGPT-shakespeare-char",
   "org": "karpathy",
   "type": "llm",
-  "date": "2026-08-07",
+  "date": "2026-08-11",
   "verified": true,
   "status": "reproduced",
-  "statusSub": "best val loss 1.4666 vs 1.4697 published",
+  "statusSub": "best val loss 1.4666 vs 1.4697 published; checkpoint byte-identical on cold rebuild",
   "blocker": null,
   "patch": {
     "lines": 0,
     "url": null
   },
   "rebuild": {
-    "time": "4.8 min",
-    "hw": "1\u00d7 NVIDIA L40S (g6e.xlarge)",
-    "costUsd": 0.15
+    "time": "5m45s",
+    "hw": "1× NVIDIA L40S (g6e.xlarge)",
+    "costUsd": 0.39
   },
-  "dagUrl": "https://glaas.ai/dag/72ad9675f624563a018c0e76f81fea418edb268ab19002c404a793721f86fde2",
-  "bomUrl": "https://glaas.ai/dag/72ad9675f624563a018c0e76f81fea418edb268ab19002c404a793721f86fde2/audit",
+  "dagUrl": "https://glaas.ai/dag/19171777431d4ad91f91bd7ab64cbc52b706246f815e4d05b0812761a96808d3",
+  "bomUrl": "https://glaas.ai/dag/19171777431d4ad91f91bd7ab64cbc52b706246f815e4d05b0812761a96808d3/audit",
   "bomScore": 100,
   "playbookVersion": "1.0",
-  "roarVersion": "0.4.4.dev0",
+  "roarVersion": "0.4.4rc5",
   "tracer": "preload",
   "amiId": "ami-0f07f1a0b382b48f7",
-  "difficulty": "2/10 \u2014 easy",
+  "difficulty": "2/10 — easy",
   "reproduce": {
-    "hash": "72ad9675f624563a018c0e76f81fea418edb268ab19002c404a793721f86fde2",
-    "cmd": "roar reproduce 72ad9675f624563a018c0e76f81fea418edb268ab19002c404a793721f86fde2 --lineage --run --no-puts"
+    "hash": "19171777431d4ad91f91bd7ab64cbc52b706246f815e4d05b0812761a96808d3",
+    "cmd": "roar reproduce 19171777431d4ad91f91bd7ab64cbc52b706246f815e4d05b0812761a96808d3 --lineage --run --no-puts"
   },
   "notes": "https://github.com/reproducible-ai/notes/tree/main/002-llm-nanogpt-shakespeare",
-  "artifactBlake3": "f4cc9b6ebb52a7f867596b5cd96329518c0f1709bdf1487cbd387beddb322202",
+  "artifactBlake3": "ad112aa2216c7fdb4988cc1790228f05d9fb6be8259fc71402dd09d5e8d09105",
   "certification": {
     "tier": 2,
     "result": "PASS",
-    "resultCaveat": "Passed DESPITE its record, not because of it: the freeze is unrunnable as a closed set and the rebuild succeeded on transitives plus roar\u2019s own bridge footprint (P0-18d).",
-    "date": "2026-08-08",
+    "resultCaveat": "This time the row passed BECAUSE of its record rather than despite it. The superseded capture recorded 24 pins and was missing tqdm and typing-extensions — two packages `import torch` actually loads — whose only path into that environment was the tracking bridge's own dependency closure. The re-capture records 57 pins with both present, and the cold rebuild installed 57/57 at the exact recorded version. One residual, stated honestly: the freeze records loaded *Python* packages, so torch's dlopen'd CUDA libraries (the nvidia-* wheels) never appear in it — installing the 57 pins alone with --no-deps still dies on `libcudnn.so.9`. That is a native-library gap, not a missing Python dependency, and any resolver installing torch==2.7.0 pulls those wheels automatically, which is why the real rebuild is exact.",
+    "date": "2026-08-11",
     "evidence": "CERT-TIER2.md",
-    "dagHash": "72ad9675f624563a018c0e76f81fea418edb268ab19002c404a793721f86fde2",
+    "dagHash": "19171777431d4ad91f91bd7ab64cbc52b706246f815e4d05b0812761a96808d3",
     "hfRepo": "reproducible-ai/nanogpt",
-    "roarVersion": "0.4.4rc2",
-    "wheelSha256": "3677618d4c42d66143baf42912c8ed932f9706d5511d032bb2898fda6a465471",
-    "wheelFilename": "roar_cli-0.4.4rc2-cp310-abi3-manylinux_2_34_x86_64.whl",
-    "cmd": "roar reproduce 72ad9675f624563a018c0e76f81fea418edb268ab19002c404a793721f86fde2 --lineage --run --no-puts -y --step-timeout 21600",
+    "roarVersion": "0.4.4rc5",
+    "wheelSha256": "ed35ed6bda3b5698ab65a887e7390c2ac073123f6d94bfa27b8282285352219c",
+    "wheelFilename": "roar_cli-0.4.4rc5-cp310-abi3-manylinux_2_34_x86_64.whl",
+    "cmd": "roar reproduce 19171777431d4ad91f91bd7ab64cbc52b706246f815e4d05b0812761a96808d3 --lineage --run --no-puts -y --step-timeout 21600",
     "exitCode": 0,
     "stepsRun": "2/2",
     "stepsNote": "3 jobs in the lineage; the 3rd is the roar put publish step, excluded by --no-puts",
-    "gitCommitCloned": "f4ed2cc871ec4462816cdd1a61ec8083575934ed",
-    "recordedPins": 24,
-    "installedDistributions": 60,
-    "manifestDiff": "24/24 recorded pins present at the exact recorded version - 0 missing, 0 mismatched; 36 extra transitive distributions",
+    "gitCommitCloned": "0f02dbcff2d82b7a81d39b016a127b15475601ee",
+    "recordedPins": 57,
+    "installedDistributions": 87,
+    "manifestDiff": "57/57 recorded pins present at the exact recorded version - 0 missing, 0 mismatched; 30 extra distributions, 24 of them nvidia-*/triton CUDA runtime wheels pulled in as torch's own declared dependencies",
+    "manifestMethod": "uv pip freeze --python <venv>/bin/python (87 lines) AND <venv>/bin/python -c importlib.metadata distribution count (87) - the two agree. `pip freeze` was NOT used: the reproduce venv is uv-provisioned and ships no pip, so it returns EMPTY, which reads identically to 'nothing was installed'.",
     "freezeSufficiency": {
       "closedSet": false,
-      "test": "second venv built from the exported recorded-requirements.txt with --no-deps (exactly 24 pins)",
-      "importTorch": "exit 1 - ModuleNotFoundError: No module named 'typing_extensions'",
-      "recordedStep1": "exit 1 - ModuleNotFoundError: No module named 'idna' (from requests/packages.py)",
-      "recordedStep2": "exit 1 - ModuleNotFoundError: No module named 'typing_extensions'",
-      "control": "same import in the full rebuild venv exits 0",
-      "loadedButUnrecorded": [
-        "tqdm",
-        "typing-extensions"
+      "closedSetKind": "native-library only",
+      "test": "second venv built from the 57 recorded pins with --no-deps, then the recorded commands run against it",
+      "recordedStep1": "exit 0 - `python data/shakespeare_char/prepare.py` runs standalone and prints its four expected dataset statistics (the superseded 24-pin set died here on ModuleNotFoundError: idna)",
+      "shimPath": "exit 0 - roar's wandb->trackio alias installs and `import wandb` resolves to trackio, so the recorded train command's logging path needs nothing the record lacks",
+      "importTorch": "exit 1 - ImportError: libcudnn.so.9: cannot open shared object file",
+      "control": "the same import in the full rebuild venv exits 0 (torch 2.7.0+cu126, cuda True)",
+      "loadedButUnrecorded": [],
+      "unrecordedNativeLibs": [
+        "nvidia-cublas-cu12",
+        "nvidia-cuda-cupti-cu12",
+        "nvidia-cuda-nvrtc-cu12",
+        "nvidia-cuda-runtime-cu12",
+        "nvidia-cudnn-cu12",
+        "nvidia-cufft-cu12",
+        "nvidia-cufile-cu12",
+        "nvidia-curand-cu12",
+        "nvidia-cusolver-cu12",
+        "nvidia-cusparse-cu12",
+        "nvidia-cusparselt-cu12",
+        "nvidia-nccl-cu12",
+        "nvidia-nvjitlink-cu12",
+        "nvidia-nvtx-cu12"
       ],
-      "coveredByLoadBearingPins": {
-        "typing-extensions": "torch==2.7.0",
-        "filelock": "torch==2.7.0",
-        "fsspec": "torch==2.7.0",
-        "jinja2": "torch==2.7.0",
-        "certifi": "requests==2.33.1",
-        "idna": "requests==2.33.1"
-      },
-      "coveredOnlyByTrackingBridge": {
-        "tqdm": "huggingface-hub <- gradio_client==2.5.0 / trackio==0.33.0",
-        "pyyaml": "huggingface-hub <- gradio_client==2.5.0 / trackio==0.33.0",
-        "packaging": "gradio_client==2.5.0 / huggingface-hub",
-        "huggingface-hub": "gradio_client==2.5.0 / trackio==0.33.0"
-      },
-      "note": "tqdm is one of the two packages `import torch` actually loads, and its only path into the environment is the experiment-tracking bridge. Recommend re-capture against a freeze recording the full import closure before this row is cited as evidence that a thin record suffices."
+      "note": "No Python-level import is missing from this freeze any more; the audit's decisive Tier-A set (typing-extensions, tqdm, numpy, torch, requests) is fully present and Tier-B is empty. The remaining gap is structural: a freeze built from loaded Python modules cannot see libraries loaded by dlopen, and torch's CUDA runtime arrives that way. Unlike the superseded record's gap, nothing here depends on the tracking bridge being installed."
     },
     "recordedInterpreter": "3.12.10",
     "rebuildInterpreter": "3.12.10",
-    "venvClosure": "include-system-site-packages=false; no dist-packages or host site-packages on sys.path (host python is 3.10.12 and has no bare `python`, yet the recorded `python ...` steps ran); torch and numpy resolve inside .venv",
+    "venvClosure": "include-system-site-packages=false; sys.path carries no dist-packages, no /opt/pytorch and no /usr/lib/python3 (HOST-SHADOW PATHS: NONE). The host interpreter is 3.10.12 and the AMI has no bare `python` at all, yet both recorded `python ...` steps ran - so the recorded 3.12.10 venv demonstrably supplied the interpreter. torch, numpy, trackio, tqdm and typing_extensions all resolve inside .venv.",
     "outputs": {
       "out-shakespeare-char/ckpt.pt": 128985500,
       "data/shakespeare_char/train.bin": 2007708,
       "data/shakespeare_char/val.bin": 223080,
-      "data/shakespeare_char/meta.pkl": 703
+      "data/shakespeare_char/meta.pkl": 703,
+      "data/shakespeare_char/input.txt": 1115394
     },
-    "ckptSha256": "955dfb202451cc0a47149102f23b67980f55f2b7017897cb024628f4031f336e",
-    "ckptBlake3": "8f8683e8e65f832246b4ffc2a93a90ccc660205628a90a857b82a17b804e5254",
-    "bitIdentical": false,
-    "bitIdenticalNote": "size matches the published 128,985,500 B exactly but the digest differs from the record's f4cc9b6e...: record was produced on an L40S, this rebuild on an A10G. We claim reproduce, not replicate.",
-    "bestValLoss": 1.4735,
-    "bestValLossNote": "at step 1750; record 1.4666 on different hardware. Metric values are out of scope for reproduce.",
+    "outputHashes": {
+      "out-shakespeare-char/ckpt.pt": {
+        "sha256": "d7b9a87df586ed447c55a12bb6d005332a7a40a6212cb9d2f29ef8ad83af4095",
+        "blake3": "ad112aa2216c7fdb4988cc1790228f05d9fb6be8259fc71402dd09d5e8d09105"
+      },
+      "data/shakespeare_char/train.bin": {
+        "sha256": "6ec305602a99ac2802745a134e1f5e33e2231b4855525b00b9aebb730ac2626f",
+        "blake3": "471f608665c93f25230ba0252bf732d7fbac20c998686a9e3d34001e1ab86563"
+      },
+      "data/shakespeare_char/val.bin": {
+        "sha256": "d37d30cc0c8327c270d493299c3dca54135f6d5f1c9ef60cda78076e311204b1",
+        "blake3": "dec1fdaa9dd52da1e03040de93defa255a1f7576784cc8631febd7dc5c26f886"
+      },
+      "data/shakespeare_char/meta.pkl": {
+        "sha256": "6ee5a37533af83b67fcbe6b93705fde9e15e78bafe895f54b2cb2cb32534526c",
+        "blake3": "696dfa9b973c9d83d9b1b0eb681f43be39193f598eb63b0cc0a41eb4326952e4"
+      },
+      "data/shakespeare_char/input.txt": {
+        "sha256": "86c4e6aa9db7c042ec79f339dcb96d42b0075e16b8fc2e86bf0ca57e2dc565ed",
+        "blake3": "5bd8f6749d3cda816828aabf1aebdc595f673de8102e521bbd8369ad4b7917e9"
+      }
+    },
+    "bitIdentical": true,
+    "bitIdenticalNote": "All five artefacts regenerate byte-identically on the cold host: every blake3 matches the capture's recorded artifact hash exactly, ckpt.pt included (ad112aa2...). Capture and rebuild both ran on an L40S. The superseded certification could not settle this - it ran on an A10G and recorded only sizes plus a differing digest.",
+    "bestValLoss": 1.4666,
+    "bestValLossNote": "at step 1750, identical to the capture to four decimals; the full 21-point evaluation curve is bit-identical between capture and rebuild (train.py pins torch.manual_seed(1337)).",
     "iterations": 5000,
     "evalPoints": 21,
     "rebuilds": 1,
-    "instanceType": "g5.xlarge",
-    "instanceId": "i-07cff20bd1931292f",
+    "instanceType": "g6e.xlarge",
+    "instanceId": "i-0b17996d8d937d245",
     "amiId": "ami-0f07f1a0b382b48f7",
-    "watchdogMin": 150,
-    "reproduceWallClockMin": 7.0,
-    "wallClockMin": 22,
-    "costUsd": 0.38,
-    "verifiedFlagNote": "Set true because a cold rebuild objectively passed (exit 0, 2/2). The MMA may wish to reconsider given freezeSufficiency.closedSet=false - the publish decision is the operator's, not the certifier's."
+    "watchdogMin": 60,
+    "watchdogBasis": "reference wall-clock for this row on an L40S is ~6 min of traced compute; the ceiling is set well above 2x to absorb cold-start venv provisioning, and the run finished 45 min inside it.",
+    "reproduceWallClockMin": 3.35,
+    "wallClockMin": 14,
+    "costUsd": 0.43,
+    "hostTerminated": true,
+    "hostTerminatedNote": "terminate-instances issued 03:16:23 UTC and confirmed by describe-instances; campaign-wide orphan sweep clean apart from another agent's live target."
   },
-  "dagHash": "72ad9675f624563a018c0e76f81fea418edb268ab19002c404a793721f86fde2",
+  "dagHash": "19171777431d4ad91f91bd7ab64cbc52b706246f815e4d05b0812761a96808d3",
   "supersededDagHashes": [
+    "72ad9675f624563a018c0e76f81fea418edb268ab19002c404a793721f86fde2",
     "e85f392984e6de72ec32979865b25a3ec5328bf8ae522283e526c73702aa4c58"
   ],
   "upstreamUrl": "https://github.com/karpathy/nanoGPT",
-  "summary": "Ran as published \u2014 zero patches. Two commands, three real dependencies (torch, numpy, requests), 10.65M parameters, 2.5 minutes on one GPU. Best validation loss 1.4666 against the README's quoted 1.4697; and because train.py pins torch.manual_seed(1337), four independent full runs produced identical evaluation curves at all 21 eval points and three emitted a byte-identical 129MB checkpoint (blake3 f4cc9b6e..., verified against the published artifact), so this row is replicated and not merely reproduced. prepare.py's four printed dataset statistics matched the expected values recorded in its own source exactly. The only deviation is --compile=False, a flag the README itself documents, which drops a host-specific compile warm-up with no payoff at this scale. Findings are all documentation-level: the README's install line omits requests \u2014 needed by the very first quick-start command \u2014 while listing four packages this recipe never imports; the corpus is fetched from an unpinned master-branch URL; and prepare.py writes its generated data into the source tree with no way to redirect it, so the data directory is an output directory and must be treated as one or the prepare-to-train chain is lost. Enabling the repo's built-in wandb logging was tried and backed out: the flag makes wandb a hard runtime import, which a rebuild from this row's recorded environment does not satisfy. The one change worth making upstream is small: write the eval history to CSV/JSONL in out_dir unconditionally, so every reproducer gets a durable learning curve with no tracking dependency at all.",
+  "forkUrl": "https://github.com/reproducible-ai/nanoGPT",
+  "artifactUrl": "https://huggingface.co/reproducible-ai/nanogpt",
+  "summary": "Ran as published — zero patches. Two commands, three real dependencies (torch, numpy, requests), 10.65M parameters, under six minutes on one GPU. Best validation loss 1.4666 at iteration 1750 against the README's quoted 1.4697; because train.py pins torch.manual_seed(1337), the 21-point evaluation curve is bit-identical run to run, and the cold rebuild on a fresh host regenerated the 129MB checkpoint byte for byte (blake3 ad112aa2...). prepare.py's four printed dataset statistics matched the expected values recorded in its own source exactly. The only deviation from the published command is --compile=False, a flag the README itself documents, which drops a host-specific compile warm-up with no payoff at this scale. This capture also switches on the repository's own wandb logging (--wandb_log=True), which the shipped config leaves off, so the learning curve is now a published dashboard rather than discarded scrollback — and it corrects the previous record, which had backed that flag out on the belief that it made the recipe un-rebuildable. It does not: the logging path is part of the recorded command, and the cold rebuild ran it to exit 0 with nothing installed beyond the record. Findings are all documentation-level: the README's install line omits requests — needed by the very first quick-start command — while listing four packages this recipe never imports; the corpus is fetched from an unpinned master-branch URL; and prepare.py writes its generated data into the source tree with no way to redirect it, so the data directory is an output directory and must be treated as one or the prepare-to-train chain is lost. The one change worth making upstream is small: write the eval history to CSV/JSONL in out_dir unconditionally, so every reproducer gets a durable learning curve with no tracking dependency at all.",
   "license": "MIT",
-  "experimentUrl": null,
-  "experimentUrlNote": "recipe did not pass nanoGPT --wandb_log; bridge was armed but the workload never called wandb",
+  "experimentUrl": "https://huggingface.co/spaces/reproducible-ai/experiments?project=nanogpt-shakespeare-char",
+  "experimentUrlNote": "Run `shakespeare-char-full-5000` (trackio run id c45863e5af7a4e64899f7a85247581f5). Verified by reading the metrics back out of the remote store, not by an HTTP status: the project's sqlite database was downloaded from the hosted bucket hf://buckets/reproducible-ai/experiments-bucket/trackio/nanogpt-shakespeare-char.db and contains 21 metric rows for that run id, whose train/val losses match the training log line for line. The Space is a Gradio app and returns 200 for any query string, so a status code proves nothing.",
   "truncated": false,
-  "truncationNote": "NOT truncated. The recorded command is `python train.py config/train_shakespeare_char.py --compile=False` -- it overrides only --compile, so upstream's own config ran in full at max_iters=5000. The recorded cost IS the full-run cost."
+  "truncationNote": "NOT truncated. The recorded command is `python train.py config/train_shakespeare_char.py --compile=False --wandb_log=True --wandb_project=... --wandb_run_name=...` -- it overrides only --compile and the three logging keys, so upstream's own config ran in full at max_iters=5000. The recorded cost IS the full-run cost."
 }

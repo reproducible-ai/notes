@@ -161,70 +161,90 @@ an error whenever the shim is removed.
 
 ---
 
-## 6. Turning on the built-in experiment logging makes the recipe harder to rebuild
+## 6. The recipe computes a learning curve and then throws it away
 
-**Symptom.** `train.py` has first-class Weights & Biases support —
-`wandb_log` / `wandb_project` / `wandb_run_name` config keys, a `wandb.init`,
-and a `wandb.log` of iteration, train loss, val loss, learning rate and MFU. The
-`shakespeare_char` config ships it as `wandb_log = False`. So the published
-recipe, run exactly as published, produces **no machine-readable record of the
-metrics it computes** — only stdout, which is thrown away.
+**Symptom.** `train.py` has first-class Weights & Biases support — `wandb_log` /
+`wandb_project` / `wandb_run_name` config keys, a `wandb.init` at `train.py:246`,
+and a `wandb.log` of iteration, train loss, val loss, learning rate and MFU at
+`train.py:267`. The `shakespeare_char` config ships it as `wandb_log = False`. So
+the published recipe, run exactly as published, produces **no machine-readable
+record of the metrics it computes** — only stdout, which is thrown away.
 
 **Root cause.** A sensible default: logging on by default would demand an account
 and an interactive login for the repo's own quick-start. The cost is that the
 recipe's only durable output is the checkpoint; the learning curve that justifies
 it is discarded.
 
-**Impact.** Flipping the flag looks free and is not, because of where the import
-sits (`train.py:246`):
+**Impact.** Flipping the flag is not free, because of where the import sits
+(`train.py:245-246`):
 
 ```python
 if wandb_log and master_process:
     import wandb
 ```
 
-`wandb` is imported **only under the flag**. So `--wandb_log=True` silently
-promotes `wandb` from "not used by this recipe" to a hard runtime dependency —
-turning a three-package closure into a large one, and requiring credentials a
-third-party reproducer does not have.
+`wandb` is imported **only under the flag**. So `--wandb_log=True` promotes
+`wandb` from "not used by this recipe" to a hard runtime dependency — turning a
+three-package closure into a large one, and requiring credentials a third-party
+reproducer does not have.
 
-**What we did, and the two ways I got it wrong first.** This is the most
-transferable thing in these notes, so the full sequence:
+**What this row does.** It switches the flag on:
 
-1. A first check, run in a stripped virtualenv, reported that the logging path
-   was inert — anything wandb-compatible that cannot reach a backend still
-   satisfies `import wandb`, still accepts every `log()` call, and still exits 0.
-   On that basis we captured with logging off. **That conclusion was right for
-   the wrong reason**: the virtualenv was not the environment the real job uses.
-2. Re-checked against the environment the job actually runs in, logging *did*
-   work and produced a live dashboard. So we re-captured with `--wandb_log=True`.
-   That capture passed every completeness check we have.
-3. Then the from-scratch rebuild check — fresh clone, an environment containing
-   only what the run recorded, nothing else — ran the recorded command and got:
+```
+--wandb_log=True --wandb_project=nanogpt-shakespeare-char \
+--wandb_run_name=shakespeare-char-full-5000
+```
 
-   ```
-   File ".../train.py", line 246, in <module>
-       import wandb
-   ModuleNotFoundError: No module named 'wandb'
-   ```
+Three config overrides, no source change. The 21 eval points are now a published
+dashboard instead of scrollback, and the row carries a link to it.
 
-   The logging-enabled capture recorded `trackio` in its environment but never
-   `wandb`, because on that host `wandb` was satisfied by a compatibility alias
-   rather than by an installed package. The run was real; the recipe for
-   repeating it was not self-contained.
+### Correction to the previous version of this note
 
-**Fix applied here.** The published row is the run **with logging at its shipped
-default (off)**, whose recorded command runs against its own recorded
-environment with nothing else present — verified, not assumed. The learning
-curve is preserved in `README.md` instead, where it costs no dependency at all.
+**An earlier revision of this file concluded the opposite — that enabling logging
+made the recipe un-rebuildable — and that conclusion was wrong.** It is worth
+spelling out, because the reasoning error is more transferable than the result.
 
-**The lesson, stated generally.** A record that passes every completeness check
-can still fail to rebuild, and only actually attempting the rebuild tells you
-which. Three checks disagreed here, and the one that settled it was the one that
-ran the real command in a from-scratch environment. It is also the cheapest of
-the three. Run it last, and believe it over the others.
+The earlier check took the recorded environment, ran the recorded *training
+script* against it, and got:
 
-**Upstream-worthy?** Yes, and the fix removes the whole dilemma: write the eval
+```
+File ".../train.py", line 246, in <module>
+    import wandb
+ModuleNotFoundError: No module named 'wandb'
+```
+
+which looked decisive. It was not, because it ran
+
+```sh
+python train.py … --wandb_log=True          # what was tested
+```
+
+when the thing the record actually contains is
+
+```sh
+roar run --wandb-to-trackio -- env TRACKIO_SPACE_ID=… python train.py … --wandb_log=True
+```
+
+The tracker's `--wandb-to-trackio` flag is *part of the recorded command*, not
+scaffolding around it, and it installs a `wandb` alias in the child interpreter
+before `train.py` ever reaches the import. Dropping it from the test dropped a
+recorded component of the command. **A rebuild check has to run the recorded
+command, all of it — trimming what looks like tooling is how a valid record gets
+thrown away.**
+
+The corrected result: a genuine cold rebuild on a host that had never seen this
+row ran the logging-enabled command to **exit 0**, with nothing installed beyond
+the 57 recorded pins. See `CERT-TIER2.md`.
+
+**The boundary that is still real, and is upstream's, not ours.** If you rebuild
+by hand — clone, install the recorded pins, type the command yourself — then
+`--wandb_log=True` *does* need a `wandb` (or a compatible substitute) that the
+recorded pin list does not contain. That is a direct consequence of upstream
+gating the import behind a runtime flag: no static analysis of the repo, and no
+package manifest derived from a non-logging run, can know that `wandb` is needed.
+`commands.md` states this explicitly rather than leaving a reader to discover it.
+
+**Upstream-worthy? Yes, and the fix removes the whole dilemma:** write the eval
 history to a CSV or JSONL in `out_dir` unconditionally, independent of wandb.
 `train.py` already holds every value at the eval step. That gives every
 reproducer a durable learning curve with no account, no credentials and no extra

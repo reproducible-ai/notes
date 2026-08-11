@@ -1,100 +1,102 @@
 # Costs — nanoGPT `shakespeare_char`
 
-All figures are GPU/compute only. Compute target: `g6e.xlarge`
-(1× NVIDIA L40S, 46 GB), `us-east-2`, AMI `ami-0f07f1a0b382b48f7`.
-On-demand list price ≈ **$1.86/hr**.
+All figures are GPU/compute only. Both the capture and the certification ran on
+`g6e.xlarge` (1× NVIDIA L40S, 46 GB), `us-east-2`, AMI `ami-0f07f1a0b382b48f7`.
+On-demand list price ≈ **$1.86/hr**. Costs below are **billed instance lifetime**,
+not metered job time, because that is what the bill says.
 
-## Attempts
+## This record — capture + certification
 
-| # | What it did | Outcome | Metered | Notes |
-|---|---|---|---:|---|
-| 0 | Bare-clone check (CPU, this box) | ✅ passed | $0.00 | prepare + a 2-iter CPU train in an empty venv |
-| 0b | Logging-path preflight (CPU, this box) | ⚠ misleading | $0.00 | ran in an unrepresentative env; right answer, wrong reasoning (issue 6) |
-| 1 | Full pipeline | ❌ setup | $0.00 | tooling install step could not run on this image |
-| 2 | Full pipeline | ❌ publish | $0.09 | prepare + train + label all succeeded; upload step aborted |
-| 3 | Full pipeline | ✅ completed | $0.06 | 2 m 53 s execution end-to-end |
-| 3b | Logging re-verification (CPU) | ✅ informative | $0.00 | showed 0b's reasoning was wrong (issue 6) |
-| 4 | Full pipeline, logging on | ⚠ green but **rejected** | $0.06 | 2 m 54 s; metrics identical to attempt 3 |
-| 4b | Rebuild check of attempt 4 (CPU) | ✅ decisive | $0.00 | its recorded command needs a package its record lacks |
-| 5 | Full pipeline (bookkeeping re-run) | ❌ setup | $0.00 | integrity guard on a tooling download fired; not upstream |
-| 6 | Full pipeline (bookkeeping re-run) | ✅ completed | $0.19 | included instance boot |
-| 7 | Full pipeline | ✅ **published row** | $0.06 | 2 m 51 s; the record's final, coherent state |
-| | **Total metered** | | **$0.46** | |
+| | Instance lifetime | ≈ cost |
+|---|---|---:|
+| Capture (`19171777…`) | 12 m 38 s | **$0.39** |
+| Cold-rebuild certification | 14 m 00 s | **$0.43** |
+| CPU pre-flight on the control box (shim replay, bare clone, torch import audit) | — | $0.00 |
+| **Total** | 26 m 38 s of GPU | **$0.82** |
 
-No failure was caused by the upstream repository. Attempts 1, 2 and 5 died in
-the harness that installs capture tooling onto the machine image. Attempt 2 is
-the expensive kind: it paid for the whole training run and then fell over on the
-last step, which is why attempt 3 asserts that step's prerequisite up front in
-setup instead of discovering it at the end. Attempt 5 is the cheap kind: an
-integrity check on a tooling download failed and the job stopped before the GPU
-did any work, for $0.00. That asymmetry — assert early, fail free — is the single
-most useful habit this row reinforced.
+First attempt on both halves; no retries, no failed launches. Every host was
+terminated explicitly and confirmed `terminated` by `describe-instances` rather
+than left to an idle timer — an identical g6e on this campaign once ran 45 idle
+minutes (~$1.40) because someone trusted the timer.
 
-Attempts 6 and 7 were pure bookkeeping: making the published artifact, the
-recorded commit and the repository HEAD all refer to the same run, after
-attempt 4 had been backed out. No training question was open by then.
+## Where the capture's wall-clock went
 
-Attempt 4 is the interesting one, and it is a **discarded** result. It enabled
-the repo's own metric logging, completed, and passed every completeness check we
-have. A from-scratch rebuild check (4b) then showed its recorded command imports
-a package its recorded environment does not contain, so the row stayed on
-attempt 3. See issue 6.
-
-That $0.06 was not wasted. Attempt 4 is a full independent repetition of attempt
-3, and it returned **bit-identical** train and validation losses at all 21 eval
-points — which is what lets this row claim replication rather than mere
-reproduction. A rejected attempt that produces a second independent measurement
-is a decent outcome for six cents.
-
-## All-in instance cost
-
-Metered job time understates the real burn, because an on-demand target stays
-warm between jobs and has a 15-minute idle timeout. The instance was up from
-16:40 to roughly 18:08 UTC — about **88 minutes**, ≈ **$2.75** of instance
-time — spanning all seven attempts plus idle. Call the honest all-in figure for
-this row **under $3**, against a $10 not-to-exceed budget. Roughly two thirds of
-that was spent on tooling and bookkeeping rather than on training; the training
-itself accounts for about eight minutes of GPU time across four full runs.
-
-## What a clean rebuild costs
-
-This is the number that matters to anyone reading the published row: what does it
-cost to rebuild this model *once*, knowing what we now know?
-
-| Host | Train wall-clock | ≈ cost |
-|---|---|---|
-| 1× L40S (`g6e.xlarge`) | 2 m 30 s | **$0.15** |
-| 1× T4 (`g4dn.xlarge`) | ~68 min (quoted) | ~$0.60 |
-| 1× A100 | ~3 min (upstream README) | ~$0.15 |
-| CPU only | hours — not recommended at full scale | — |
-
-Stage breakdown on the L40S:
+Recorded per stage during the run, because it cannot be reconstructed afterwards:
 
 | Stage | Wall-clock |
 |---|---|
-| prepare (download + tokenize) | 3 s |
-| train (5000 iters) | 2 m 30 s |
-| label + publish | 4 s |
+| provisioning + agent acquire | 2 m 55 s |
+| setup (fetch + verify tracker wheel, purge, isolated install, assertions) | 1 m 18 s |
+| **prepare** (download + tokenize) | **11.7 s** |
+| **train** (5000 iters, 21 evals) | **5 m 33 s** |
+| label | 1 s |
+| publish (129 MB → Hugging Face) | 4 s |
+| lineage export + publish | 2 s |
 
-Sustained ~17 ms/iter at ~22% MFU. The 5000-iteration recipe is genuinely
-small: the corpus is 1.1 MB and the model is 10.65 M parameters. **This is one
-of the cheapest complete train-from-scratch recipes in the campaign** — the
-whole thing costs less than a bus fare, which is exactly what makes it a good
-teaching artifact and a good canary.
+Sustained ~16.9 ms/iter at ~22 % MFU. The traced compute — the part that is
+actually the model — is **5 m 45 s**; everything else is boot, tooling and upload.
+
+## What a clean rebuild costs
+
+This is the number that matters to a reader: what does it cost to rebuild this
+model *once*, knowing what we now know? The certification measured it directly.
+
+| Host | Rebuild wall-clock | ≈ cost |
+|---|---|---:|
+| 1× L40S (`g6e.xlarge`) — **measured** | 3 m 21 s of `roar reproduce` inside a 14 min host | **$0.43** all-in |
+| 1× T4 (`g4dn.xlarge`) | ~68 min train (quoted) | ~$0.60 |
+| 1× A100 | ~3 min (upstream README) | ~$0.15 |
+| CPU only | ~16.8 s/iter measured → ~23 h at full scale — not recommended | — |
+
+The `roar reproduce` figure covers clone, provisioning an 87-package virtualenv,
+`prepare`, and the **full 5000-iteration** train. It is *faster* than the
+capture's own 5 m 45 s for a mundane reason: the capture had a working Hugging
+Face token and streamed metrics to the dashboard during training, while the
+certification host has no credentials and fails over to local buffering
+immediately. Same card, same speed, less waiting on the network.
+
+**This row is not truncated.** The 5000-iteration recipe is genuinely small — a
+1.1 MB corpus and a 10.65 M-parameter model — so the headline cost *is* the
+full-run cost. There is no fixed/variable split to compute and no extrapolation
+to defend. **This is one of the cheapest complete train-from-scratch recipes in
+the campaign**: the whole thing costs less than a bus fare, which is exactly what
+makes it a good teaching artifact and a good canary.
+
+## Historical: what the superseded record cost
+
+The record this one replaces (`72ad9675…`) took seven job launches to land, at
+**$0.46** metered and ≈ $2.75 of instance time. None of those failures were
+caused by nanoGPT — three died in the harness that installs capture tooling, two
+were bookkeeping, and one was a green run that was deliberately discarded. Its
+own `costs.md` is preserved in this file's git history.
+
+Two of those seven are worth carrying forward, because this re-capture was shaped
+by them:
+
+* **Assert early, fail free.** One attempt paid for the entire training run and
+  then fell over on the upload step, because a prerequisite of that step was only
+  discovered at the end. This capture's setup stage asserts every prerequisite —
+  tracker version, tracer binaries, `huggingface_hub`, and `trackio`'s presence in
+  the *workload* interpreter — before a single GPU cycle is spent. Setup cost
+  78 seconds and can only fail for free.
+* **A cheap check is only worth what its environment is worth.** That row's
+  logging pre-flight ran the right check in an unrepresentative environment and
+  returned a confident wrong answer, which cost a capture and a reversal. This
+  time the pre-flight replayed nanoGPT's *exact* `wandb.init` / `wandb.log` call
+  shape through the real tracker shim, on CPU, and then verified the result by
+  downloading the metrics back out of the remote store. Still $0.00. Still done
+  before booking a GPU. Just actually representative.
 
 ## Cost per unit of evidence
 
-Worth stating plainly, in both directions.
+The three $0 CPU checks on the control box are, again, the best value in the row:
 
-The bare-clone check (attempt 0) is the cheapest insurance available: it
-established the real dependency closure and proved the recipe ran end-to-end,
-for free, before a cent of GPU time. Nothing it would have caught went on to
-bite us, which is the point — that is what a passing check looks like.
+| Check | Cost | What it bought |
+|---|---:|---|
+| Replay nanoGPT's `wandb.init`/`log` shape through the shim, with and without a token | $0.00 | proved the logging path works, and that a credential-free host degrades to local buffering instead of crashing — the exact condition every cold rebuild runs under |
+| Bare clone: `prepare.py` on three packages, then the full recorded train command on CPU | $0.00 | proved the recorded command runs from a fresh clone with `PYTHONPATH` unset |
+| `import torch; 'tqdm' in sys.modules` | $0.00 | one line; established that the superseded record's two missing packages are genuinely loaded, which is the entire reason this row was re-captured |
 
-The logging preflight is the honest counter-example. Attempt 0b ran the right
-check in the wrong environment and returned a confident false negative, which
-directly caused a captured run to be made with logging off and then re-run
-(attempt 4) once 3b corrected it. A free check is only worth what its
-environment is worth. Cheap checks first, yes — but a cheap check that does not
-resemble the real thing can cost more than no check at all, because you act on
-it.
+The last one is the cheapest useful measurement in this row's history. It costs a
+single command and it is the difference between "the freeze looks plausible" and
+"the freeze is wrong".
