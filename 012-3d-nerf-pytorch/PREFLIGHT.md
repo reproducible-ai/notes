@@ -169,3 +169,37 @@ So there is no framework logging flag to switch on, and the row publishes
 `experimentUrl: null`. Adding `wandb.init()` to `run_nerf.py` would have
 produced a link at the cost of the one property that makes this row worth
 reading, so it was not done.
+
+---
+
+## 7. What the capture then confirmed, and the one thing it changed
+
+Everything above was written before a GPU was booked. Recorded here so the
+pre-flight can be judged against the run rather than taken on trust.
+
+**Confirmed.** The import closure was complete — all three traced steps ran with
+no `ModuleNotFoundError`. `assert_upstream_unmodified` passed on the run host (28
+upstream files byte-identical, `.gitignore` the one declared exemption).
+`freeze_audit` passed against the 303 distributions actually installed: no
+`+local` pins, no PEP-503 duplicates. `imageio-ffmpeg`'s bundled
+`ffmpeg-linux-x86_64-v7.0.2` resolved and the render step's mp4 was written
+through it.
+
+**The OS-package boundary did not bite, and that is the interesting part.** The
+campaign AMI (`ami-0f07f1a0b382b48f7`) already carried the GL and glib stacks, so
+`import cv2` succeeded, the workflow's conditional `apt-get install libgl1
+libglx0 libglvnd0 libglib2.0-0t64` never fired, and **nothing was installed
+outside the recorded environment.** The boundary is still real: the run's own
+`ldd` output shows `cv2.abi3.so` resolving `libGL.so.1`, `libGLX.so.0` and
+`libGLdispatch.so.0` from `/lib/x86_64-linux-gnu`, and the record's OS-package
+list names every other system library `cv2` loads but not those three. A rebuild
+on a bare image needs them and the record will not say so.
+
+**Changed by the run: section 3's CPU render was not predictive.** That probe
+rendered from a 3-iteration model and produced 25 distinct PNGs. The trained
+model does the opposite — at 2,000 iterations and `--render_factor 8` the 25
+novel views collapse to **3 distinct images**, and an earlier run of the same
+recipe that trained less well collapsed all 25 to **one**. A near-random model
+gives every pose a different answer; a partly-converged one at 50x50 gives most
+of them the same answer. Anything that reasons about this row's outputs by
+counting files rather than by hashing them will be wrong about it.

@@ -1,0 +1,57 @@
+{
+  "name": "NeRF (lego scene)",
+  "org": "yenchenlin",
+  "type": "3d",
+  "date": "2026-08-11",
+  "status": "reproduced",
+  "blocker": null,
+  "notes": "https://github.com/reproducible-ai/notes/tree/main/012-3d-nerf-pytorch",
+  "playbookVersion": "1.0",
+  "roarVersion": "0.4.4rc6",
+  "tracer": "preload",
+  "amiId": "ami-0f07f1a0b382b48f7",
+  "upstreamCommit": "63a5a63",
+  "license": "MIT",
+  "dagHash": "0c119a28e8d9d48dc2fa9ec8714a266109bd45dce6b2e70527fa6b2772d5fd3e",
+  "supersededDagHashes": ["88f34e2a34c7f8138b2c2c0e2fc825385c6fb1b66dea969f5b8537772e37a5dc"],
+  "dagUrl": "https://glaas.ai/dag/0c119a28e8d9d48dc2fa9ec8714a266109bd45dce6b2e70527fa6b2772d5fd3e",
+  "bomUrl": "https://glaas.ai/dag/0c119a28e8d9d48dc2fa9ec8714a266109bd45dce6b2e70527fa6b2772d5fd3e/audit",
+  "bomScore": 100,
+  "upstreamUrl": "https://github.com/yenchenlin/nerf-pytorch",
+  "forkUrl": "https://github.com/reproducible-ai/nerf-pytorch",
+  "artifactUrl": "https://huggingface.co/reproducible-ai/nerf-pytorch-lego",
+  "experimentUrl": null,
+  "experimentUrlNote": "Upstream ships no experiment logging at all, so there was no flag to switch on and adding one would have modified the workload. grep -ri 'wandb|mlflow|comet_ml|neptune' over the whole tree returns nothing. tensorboard>=2.0 is declared in requirements.txt and never imported: the single SummaryWriter line is commented out at run_nerf.py:708 and every tf.contrib.summary call sits inside a triple-quoted block at run_nerf.py:830-870. The only metric this repository produces is PSNR, computed every --i_print iterations at run_nerf.py:768 and written to stdout by tqdm.write at run_nerf.py:829 and nowhere else. TensorBoard would not have counted in any case; a wandb.init() added by us would have forfeited the zero-upstream-lines property that makes this row worth reading.",
+  "difficulty": "5/10 - moderate; the iteration count is not a flag",
+  "truncated": true,
+  "truncation": {
+    "ran": 2000,
+    "full": 200000,
+    "unit": "iterations",
+    "note": "200000 is upstream's own value, read from run_nerf.py:701 ('N_iters = 200000 + 1'), not guessed. It is a local variable inside train() and config_parser() exposes no flag for it, so the truncation is applied by rebinding the module-level trange that upstream's loop iterates over, leaving run_nerf.py byte-identical. --train-iters 2000 is inside the recorded argv, so the lineage states the truncation on its face. At 1% of the schedule the model reaches PSNR 21.2 and is not converged."
+  },
+  "rebuild": {
+    "time": "12m44s",
+    "hw": "1x Tesla T4 (g4dn.xlarge)",
+    "costUsd": 0.11,
+    "fixedCostUsd": 0.02,
+    "scalingCostUsd": 0.0438,
+    "fullRunEstimateUsd": 8.79,
+    "fullRunEstimateBasis": "g4dn.xlarge (1x Tesla T4) at $0.526/hr on-demand, us-east-2. FIXED portion 164 s = $0.02: 38.9 s dataset fetch and extract + 21.9 s novel-view render + ~15 s of data load and model init inside the train step + ~88 s of setup and publish around the traced steps. The render step is fixed, not scaled: it renders once from whatever checkpoint exists, regardless of how long training ran. VARIABLE portion measured at 3.35 it/s over the 2,000 iterations actually run = 0.300 s/iteration = $0.0438 per 1,000 iterations (this is the scalingCostUsd field). Upstream's own N_iters is 200,000, so a full run is 60,000 s = 16.67 h of training plus the fixed 164 s = 16.71 h = $8.79. Cross-check: upstream's README puts a full lego run at roughly 4 h on a 2080 Ti at 100k iterations, and a T4 is roughly 3-4x slower than a 2080 Ti for this workload, which lands in the same place."
+  },
+  "reproduce": {
+    "hash": "0c119a28e8d9d48dc2fa9ec8714a266109bd45dce6b2e70527fa6b2772d5fd3e",
+    "cmd": "roar reproduce 0c119a28e8d9d48dc2fa9ec8714a266109bd45dce6b2e70527fa6b2772d5fd3e --lineage --run --no-puts"
+  },
+  "certification": {
+    "tier": 1,
+    "result": null,
+    "resultCaveat": "Not certified. This row was captured and never cold-rebuilt, and the two are deliberately done by different operators - an author certifying its own capture measures whether the author can rebuild it, which is a weaker claim than the one this project publishes. The tier-1 record is green on the AI-BOM (100/100), on anonymous URL resolution and on freeze portability, and the workload's import closure is fully covered (Tier-A misses zero across 34 pins). Two things a certifier should expect to meet. First, the recorded OS-package list names every system library cv2 loads except the OpenGL trio (libgl1, libglx0, libglvnd0); on an image without them 'import cv2' fails at import of the training script, before any argument is parsed, so they may have to be installed by hand. Second, the DAG's own structural check reports one step - the dataset fetch - as recording only the provenance tool's dependency closure. That step's source imports nothing outside the standard library (argparse, hashlib, os, sys, time, urllib.request, zipfile, pathlib), so there are no workload imports missing from it; the check is reading a genuinely stdlib-only step as a thin freeze."
+  },
+  "patch": {
+    "lines": 1021,
+    "url": "https://github.com/yenchenlin/nerf-pytorch/compare/63a5a630c9abd62b0f21c08703d0ac2ea7d4b9dd...reproducible-ai:nerf-pytorch:b7647e3a785c244c56de9ce7afeb9d17012cbc3d"
+  },
+  "summary": "Truncated reproduction of NeRF fit to the lego scene of the NeRF synthetic dataset: coarse and fine 8-layer 256-wide MLPs with positional encoding and view-dependent radiance, 64 coarse + 128 fine samples per ray, 1,024 rays per step at 400x400, run for 2,000 of upstream's hardcoded 200,000 iterations on one T4 and reaching PSNR 21.2. Not one line of upstream's model, training, config or data-loading code is modified - the iteration count is not exposed as a flag, so it is capped by rebinding the module-level trange that upstream's own loop iterates over, and a per-run check proves the other 28 upstream files are byte-identical by git blob hash. The row's finding is a pip-closure boundary: requirements.txt declares both imageio-ffmpeg and opencv-python, and a freeze cannot tell you that the first ships a statically linked FFmpeg inside its wheel while the second still resolves libGL.so.1 and the X11 and glib stacks against system packages no freeze can express. A second, smaller one: at this truncation and --render_factor 8 the twenty-five 'novel views' the render step writes contain only three distinct images between them.",
+  "verified": false
+}
