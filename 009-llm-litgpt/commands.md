@@ -2,7 +2,7 @@
 
 Upstream: `Lightning-AI/litgpt` 0.5.13 (`2685705`), Apache-2.0.
 Fork: `reproducible-ai/litgpt`, default branch `main`, reproduction commit
-`c6217ba`. **No litgpt source file was modified** — the fork adds only a
+`fe35987`. **No litgpt source file was modified** — the fork adds only a
 workflow, `.gitignore` rules, four `.gitkeep` files and one additive helper
 module (`reproduction/prepare_data.py`).
 
@@ -135,7 +135,7 @@ installed — this recipe needs none of them.
 ## Independent cold rebuild
 
 ```bash
-roar reproduce 314f1eb9acbf26076c12b6893c1efc8e83f1b36f70034a7d8a0ceeb496b51403 \
+roar reproduce 3b9c6606967c1008bc75ef5d5c83b8df4e6ea6183967eaee596329e324f47647 \
      --lineage --run --no-puts
 ```
 
@@ -147,7 +147,22 @@ recorded pins, and ran all four steps:
 Steps run: 4/4          exit code: 0
 ```
 
-It rebuilt `out/final/lit_model.pth` (168,905,247 B) and `metrics.csv` with
-`val loss 9.737926 / val ppl 16948.362` — identical to the capture. All 62
-recorded pins were present in the rebuilt environment at the recorded versions,
-with no missing or mismatched package.
+It rebuilt `out/final/lit_model.pth` (168,905,183 B, sha256
+`a4154cdce0982c02f1ff301eaecce92fd6ecc5c11f4419ca3521aaaf7091721b`) and
+`metrics.csv` with `val loss 9.737926 / val ppl 16948.362` — identical to the
+capture. All **62 recorded pins** were present in the rebuilt environment at the
+recorded versions, with no missing or mismatched package (94 distributions
+installed in total; the extra 32 are the transitive closure). Full evidence,
+including the P0-14 `sys.path` closure and every artefact hash, is in
+`CERT-TIER2.md`.
+
+## A logging flag that was tried and does not work
+
+`--logger_name wandb` is a real, in-tree, flag-only option
+(`litgpt/constants.py:7`). It was enabled and it cannot reach a hosted
+dashboard, because the bridge is a `sys.modules["wandb"]` alias and Lightning's
+`WandbLogger` needs first wandb's *distribution metadata*
+(`lightning/pytorch/loggers/wandb.py:312`) and then wandb's real *submodules*
+(`wandb.py:390`). Reproduced against lightning 2.6.5, the version this row's own
+freeze records. Details and tracebacks in `issues.md` #5; the recipe therefore
+keeps `--logger_name csv`, which writes the metrics this row publishes.
