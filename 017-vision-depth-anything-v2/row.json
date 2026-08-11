@@ -56,9 +56,33 @@
   "experimentUrlNote": "Upstream ships no experiment-tracker integration at all: grepping the repository for wandb, mlflow, trackio, comet_ml and report_to returns nothing, and train.py logs only TensorBoard scalars via torch.utils.tensorboard.SummaryWriter. TensorBoard is not bridged and does not count. Producing a link would have meant adding logging code to the workload, which forfeits the zero-upstream-lines property, so this row has no experiment link by design. The event file the run did write (metric_depth/exp/hypersim/events.out.tfevents.*, 1,264 bytes) is an output of the recorded training step.",
 
   "certification": {
-    "tier": 1,
-    "result": null,
-    "resultCaveat": "Not certified. This row is a capture only: the record ran, all four tier-1 gates pass and the AI-BOM scores 100/100, but nothing here executes a cold rebuild. A separate agent performs the tier-2 reproduction; until it reports, no rebuild claim is made. Two things a certifier should expect: the first CUDA context on a freshly booted host costs roughly 110 s that this record's own timing does not show, and the run depends on numpy<2 being installed, without which train.py aborts at line 46."
+    "tier": 2,
+    "result": "PASS",
+    "date": "2026-08-11",
+    "dagHash": "f81176e64bf814489ec3296286e11c499a48ca28ef52569e10bc2675c0780782",
+    "cmd": "roar reproduce f81176e64bf814489ec3296286e11c499a48ca28ef52569e10bc2675c0780782 --lineage --run --no-puts -y --step-timeout 21600",
+    "exitCode": 0,
+    "stepsRun": "3/3",
+    "stepsNote": "3 run steps; the single roar put step is skipped by --no-puts, as intended.",
+    "roarVersion": "0.4.4rc6",
+    "roarWheelSha256": "c7115b748886259b6a089e547404376acf84c3b81b4cbc8dc5610490ebea7199",
+    "roarWheelSource": "TestPyPI, installed by name+version (roar_cli-0.4.4rc6-cp310-abi3-manylinux_2_34_x86_64.whl); digest verified before install, and the tracer binaries inside the wheel verified byte-identical to those installed",
+    "manifestDiff": "41/41 EXACT against the training step's recorded pins; 53/53 EXACT against the union of all three steps. 81 distributions installed, the 28 extras being the transitive closure (15 nvidia-* CUDA libraries, tensorboard/triton dependencies, jinja2, markupsafe, setuptools). Enumerated twice - uv pip freeze and importlib.metadata - which agree at 81.",
+    "venvResolution": "All packages resolved from /root/reproduce/Depth-Anything-V2/.venv/lib/python3.12/site-packages; no host site-packages on sys.path. Venv interpreter Python 3.12.10, matching the record exactly; no PYTHON VERSION MISMATCH warning. The host had no `python` on PATH at all before the run (exit 127), so the recorded `python train.py` steps could only have run against the rebuilt venv.",
+    "outputs": [
+      {"path": "metric_depth/exp/hypersim/latest.pth", "bytes": 297116466, "recordedBytes": 297116466, "sha256": "4ca513305e8ac4e2c98bd3bca3e5e846f92c7dc89608f2f3067f853f62ed63a2", "note": "size exact; sha256 differs from the published checkpoint (31a126b8ea...) because GPU training is nondeterministic and this ran on different hardware - a replicate question, not a reproduce one"},
+      {"path": "metric_depth/exp/hypersim/events.out.tfevents.*", "bytes": 1264, "recordedBytes": 1264, "sha256": "5fc96e0f740b231fbeea75ec468c17ffea8a71d157e8da59733cb38921620345"},
+      {"path": "checkpoints/depth_anything_v2_vits.pth", "bytes": 99218434, "recordedBytes": 99218434, "sha256": "715fade13be8f229f8a70cc02066f656f2423a59effd0579197bbf57860e1378", "note": "input weights, byte-identical to the upstream Hugging Face LFS oid"}
+    ],
+    "hw": "1x NVIDIA T4 (g4dn.xlarge), us-east-2, AMI ami-0f07f1a0b382b48f7",
+    "instanceId": "i-00060b7f0eb4ab70f",
+    "wallClock": "2m29s",
+    "costUsd": 0.15,
+    "numpyConstraintSelfHealed": true,
+    "coldStartClaim": "NOT REPRODUCED. The record predicts ~110 s of first-CUDA-context and kernel warm-up on a cold host. Measured here: the training step took 51.2 s cold and 40.0 s warm on the same host, a cold-start penalty of ~11 s. The 204 s figure behind the ~110 s estimate looks host-specific and should not be carried as a general fixed cost.",
+    "peakGpuMemoryNote": "Sampled 9,831 MiB peak from nvidia-smi across a full training step, against 5,245 MiB in the record. The record's figure appears to be torch.cuda.max_memory_allocated (live tensors only, excluding the CUDA context and the allocator's reserved blocks). The record's conclusion holds - the row does fit a T4 and this certification ran it on one - but the real headroom on a 16 GB card is ~36%, not ~66%. Size hardware from ~10 GB.",
+    "evidence": "017-vision-depth-anything-v2/CERT-TIER2.md",
+    "certifiedBy": "independent agent; did not capture this row and did not read the capture working directory"
   },
 
   "roarVersion": "0.4.4rc6",

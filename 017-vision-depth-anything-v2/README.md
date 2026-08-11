@@ -100,11 +100,24 @@ One number worth carrying forward for anyone rebuilding: the *same* training ste
 **204 s on a freshly booted host and 13 s on the same host once warm**. Roughly 110 s of any
 cold rebuild is first-CUDA-context and kernel warm-up, not training.
 
-## Not certified
+## Certified — tier 2, cold rebuild: PASS
 
 All four tier-1 gates pass and the AI-BOM scores 100/100, but nothing in tier 1 executes
-anything. A separate agent performs the cold rebuild; until it reports, this row makes no
-rebuild claim.
+anything, so a separate agent — one that did not capture this row and did not see this
+working directory — rebuilt it on a host that had never seen it. Exit **0**,
+**`Steps run: 3/3`**, recorded package set reproduced **41/41 exact** on the training step,
+all three outputs regenerated at the recorded byte sizes, in **2 m 29 s** on a **T4** for
+about **$0.15**. Full evidence, with hashes: [`CERT-TIER2.md`](CERT-TIER2.md).
+
+Two things this page told a certifier to expect. The `numpy<2` constraint **did** self-heal
+from the record — `numpy==1.26.4` installed straight from the recorded manifest and the
+trainer ran past line 46 untouched. The **~110 s cold CUDA warm-up did not reproduce**: the
+same step measured 51.2 s cold and 40.0 s warm on the certification host, a penalty of ~11 s
+rather than ~110 s, so the 204 s figure behind that estimate looks specific to the capture
+host rather than a portable property of a cold GPU. The 5,245 MiB memory figure is also
+narrower than it reads — `nvidia-smi` showed **9,831 MiB** actually resident during a step.
+The row does fit a T4, and the certification proved it by running on one; but size hardware
+from ~10 GB, not 5.2 GB.
 
 ## No experiment link
 
