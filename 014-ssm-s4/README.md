@@ -10,10 +10,12 @@ pass rather than an `O(L²)` attention matrix. This row trains upstream's own
 destroys every local image cue and leaves only long-range dependency. That is the
 task S4 was built to win.
 
-**One epoch reaches 94.1% validation accuracy** on a task where a same-sized LSTM
-needs many epochs to leave the 80s. That is the interesting result here, and it is
-also the reason the row is honest about being truncated: upstream's configured run is
-200 epochs, and 94.1% is one two-hundredth of the way through it.
+**One epoch reaches 94.1% validation accuracy** — 1,080 optimizer steps on a task
+built to have no local structure at all. That is the interesting result here, and it
+is also why the row is explicit about being truncated: upstream's configured run is
+200 epochs, and this is one two-hundredth of it. The repo ships no permuted-MNIST
+reference number of its own (`models/s4/experiments.md` documents LRA and sequential
+CIFAR only), so no convergence target is quoted here.
 
 ## What was actually run
 
@@ -174,7 +176,7 @@ Measured, during the run, not reconstructed afterwards:
 | provisioning (cold instance) | 2m45s | no |
 | `setup` — roar + the pinned torch 2.3 stack + diagnostics | 3m34s | no |
 | **`train` (traced)** | **2m17s** | partly |
-|  └ fixed part of it: imports, MNIST download, dataset build, S4 kernel init | 17.9s | no |
+|  └ fixed part of it: imports, MNIST download, dataset build, S4 kernel init | 18.0s | no |
 |  └ the epoch itself (upstream's own `timer/epoch`) | 117.7s | **yes** |
 | `label` + `publish` | 4s | no |
 
