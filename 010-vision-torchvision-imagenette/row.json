@@ -46,9 +46,12 @@
     "cmd": "roar reproduce 6a5cc35cdb0212b929d80998787902455bd0d7b2fb65a860f4f0db5c92fa630a --lineage --run --no-puts"
   },
   "certification": {
-    "tier": 1,
-    "result": null,
-    "resultCaveat": "No cold rebuild has been attempted against this record, so nothing here is a certified reproduction. Tier 1 is green on all four gates and the recorded package set contains every distribution the recipe is measured to import, but no gate in tier 1 executes the record."
+    "tier": 2,
+    "result": "PASS",
+    "date": "2026-08-11",
+    "evidence": "CERT-TIER2.md",
+    "manifestDiff": "44/44 pins exact \u2014 0 missing, 0 mismatched (70 distributions installed; the 26 extras are the transitive closure)",
+    "resultCaveat": "Certified by two independent cold rebuilds on a fresh g4dn.xlarge, both exit 0 and 3/3 steps (the fourth recorded job is the roar put, excluded by --no-puts by design). The checkpoint regenerates at exactly the published 89,553,609 B but not byte-identically: GPU training here is not bit-deterministic, since cuDNN algorithm selection is unpinned and the reference script exposes no deterministic mode. Held-out top-1 came out 55.29% and 56.03% against the recorded 55.36% \u2014 reproduce, not replicate. The rebuild resolved every package from inside the reproduce venv, with no host package root on sys.path."
   },
   "patch": {
     "lines": 414,
