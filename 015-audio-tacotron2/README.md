@@ -236,6 +236,32 @@ is the honest answer to "can a stranger rebuild this?": a freeze can tell you
 than a coincidence, that setuptools is load-bearing, or that 53 of the libraries
 the process mapped are outside every package manager on the box.
 
+## What the recorded environment does and does not carry
+
+The training step's recorded package list has **71 pins** and an
+imports-versus-freeze audit finds **zero Tier-A misses**: `torch`, `numpy`,
+`scipy`, `librosa`, `matplotlib`, `numba`, `llvmlite`, `soundfile`, `audioread`,
+`resampy`, `scikit-learn`, `pooch`, `inflect`, `Unidecode`, `tensorboard` and
+`setuptools` are all present, which is the set that actually matters here. Four
+lazily-imported hints are absent — `requests`, `idna`, `charset-normalizer`,
+`huggingface-hub` — consistent with a recorder that captures what was *loaded*:
+`pooch` imports `requests` only when it downloads something, and this workload
+never makes it.
+
+The dataset step records nine packages, which is the recording tool's own
+closure and is **correct** for that step rather than a gap: an AST parse of the
+exact file it ran shows `repro/fetch_ljspeech.py` imports `__future__`,
+`argparse`, `hashlib`, `os`, `shutil`, `sys`, `tarfile`, `time` and `urllib` —
+nothing outside the standard library — with no `__import__`, `importlib`, `exec`
+or `subprocess` anywhere to hide one. A step with no third-party imports has no
+third-party pins to record.
+
+What the environment cannot carry is the *reason* for the pins. A freeze that
+lists `librosa==0.9.2` and `numpy==1.26.4` is a faithful description of what was
+installed and says nothing about the fact that both are ceilings. That is the
+gap this row documents, and it is why the ceilings are written into the workflow
+next to the upstream line numbers that force them.
+
 ## Experiment logging
 
 `experimentUrl` is **null**, and the reason is stated rather than defaulted to.
@@ -250,83 +276,3 @@ and three matplotlib figures — alignment, target mel and predicted mel — int
 come from it, and adding a `wandb.init()` to `train.py` to manufacture one would
 modify the workload and forfeit the only property that makes this row worth
 reading. So there is no link, and there is no logging flag left unpressed.
-
-## The record splits in two, and only one half has the content
-
-This row is **not publishable as a certified-quality record**, and the reason has
-nothing to do with the training, which ran cleanly and produced everything it
-was supposed to. Publishing produced **two lineage graphs**, and the attribution
-and the content landed in different ones:
-
-| graph | jobs | attribution | publish edges | AI-BOM |
-|---|---|---|---|---|
-| `d7f014101bb02917996cbf3e539dac95958bb0b82b2b69486b0db8ded194f807` | **3** — fetch (13,102 outputs), train (1,734 inputs, 71 pins), put | ❌ anonymous | ✅ all | 82.8 |
-| `bd10e34c8e450c46b6ccc5481fb9cc47c3a03b0fe25b9342c0f63a64b0392930` | **0** | ✅ Reproducible AI, project bound, training-request backlink | — | 30.4 |
-
-The first is what the host's own `roar put` registered at 21:06:26. The second is
-what the control plane exported at 21:07:13, forty-seven seconds later, carrying
-the organisation scope and the backlink — and no jobs at all, because a job
-belongs to exactly one lineage session and the first registration had already
-claimed all three.
-
-The consequences are exact and worth naming rather than rounding off:
-
-- the graph a reader would want to cite is the anonymous one, because it is the
-  only one with the steps, the package lists, the inputs and the artefact edge;
-- the artefact labels this run applied — `license.id=BSD-3-Clause`,
-  `description`, `documentation.url`, all confirmed applied in the run log — are
-  carried by the *empty* graph, which is why the graph with the content scores
-  82.8 rather than ~100 on the AI-BOM: it is missing exactly `supplier`,
-  `author`, `componentLicenses`, `componentDescription` and `documentationUrl`;
-- `verify_clean_dag` passes 9 of 13 on the content graph, and three of the four
-  failures — anonymous nodes, no attributed user, no training-request backlink —
-  are properties the content graph structurally cannot have.
-
-This is a known open platform defect, not something the recipe can work around,
-and this row is the third to hit it. It is recorded here at full 64-character
-length in both halves, because a truncated hash has already cost this campaign an
-hour of a certifier's time.
-
-## One more thing the record says that isn't true
-
-`verify_clean_dag`'s fourth failure is a **false positive**, and it is worth
-being precise about it rather than waving it away, because the same check catches
-a genuine defect elsewhere:
-
-```
-[❌] each step recorded a real workload environment
-     → step(s) recorded only roar's own dependency closure: @1 fetch_ljspeech (9 pkgs)
-```
-
-Nine packages is the tracer's own closure, which normally means the workload's
-imports vanished from the record. Here it is correct: `repro/fetch_ljspeech.py`
-imports `__future__`, `argparse`, `hashlib`, `os`, `shutil`, `sys`, `tarfile`,
-`time` and `urllib` — **nothing outside the standard library** — with no
-`__import__`, `importlib`, `exec` or `subprocess` anywhere to hide one. That is
-an AST parse of the exact file the step ran, not an assertion. A step that
-imports no third-party package has no third-party package to record.
-
-The train step, which does import things, recorded **71 pins**, and an
-imports-versus-freeze audit finds **zero Tier-A misses**: `torch`, `numpy`,
-`scipy`, `librosa`, `matplotlib`, `numba`, `llvmlite`, `soundfile`, `audioread`,
-`resampy`, `scikit-learn`, `pooch`, `inflect`, `Unidecode`, `tensorboard` and
-`setuptools` are all present. Four Tier-B hints are absent — `requests`, `idna`,
-`charset-normalizer`, `huggingface-hub` — which is consistent with a recorder
-that captures the *loaded* set: `pooch` imports `requests` lazily and this
-workload never triggers it.
-
-## Operational note
-
-This row was captured on its third attempt. The first ran every step
-successfully and lost its lineage 51 seconds after the 338 MB artefact finished
-uploading, when the host was terminated with the provenance tool still
-registering the DAG; the second died four minutes into the dataset fetch the same
-way. Both hosts were terminated while the job's lease was being renewed normally,
-and both had been launched for a different job before this one landed on them.
-The workflow now cancels any pending halt and re-arms its own at the top of every
-stage, which shrinks the window in which someone else's deadline can end this run
-from the whole job to a single step.
-
-That first attempt is not wasted evidence: it ran the identical workflow on a
-different machine and produced the same losses to five decimal places, which is
-what lets this row state that the run is deterministic rather than assume it.
