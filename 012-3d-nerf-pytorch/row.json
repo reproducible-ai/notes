@@ -44,9 +44,21 @@
     "cmd": "roar reproduce 0c119a28e8d9d48dc2fa9ec8714a266109bd45dce6b2e70527fa6b2772d5fd3e --lineage --run --no-puts"
   },
   "certification": {
-    "tier": 1,
-    "result": null,
-    "resultCaveat": "Not certified. This row was captured and never cold-rebuilt, and the two are deliberately done by different operators - an author certifying its own capture measures whether the author can rebuild it, which is a weaker claim than the one this project publishes. The tier-1 record is green on the AI-BOM (100/100), on anonymous URL resolution and on freeze portability, and the workload's import closure is fully covered (Tier-A misses zero across 34 pins). Two things a certifier should expect to meet. First, the recorded OS-package list names every system library cv2 loads except the OpenGL trio (libgl1, libglx0, libglvnd0); on an image without them 'import cv2' fails at import of the training script, before any argument is parsed, so they may have to be installed by hand. Second, the DAG's own structural check reports one step - the dataset fetch - as recording only the provenance tool's dependency closure. That step's source imports nothing outside the standard library (argparse, hashlib, os, sys, time, urllib.request, zipfile, pathlib), so there are no workload imports missing from it; the check is reading a genuinely stdlib-only step as a thin freeze."
+    "tier": 2,
+    "result": "PASS",
+    "date": "2026-08-11",
+    "evidence": "CERT-TIER2.md",
+    "manifestDiff": "34/34 EXACT - no missing, no mismatched pins; 56 packages installed in the reproduce venv (the 22 extras are the transitive closure, 12 of them nvidia-* CUDA wheels). Enumerated twice and required to agree: uv pip freeze = 56 lines, importlib.metadata = 56.",
+    "exitCode": 0,
+    "stepsRun": "3/3",
+    "stepsRunNote": "3/3 not 4/4 is correct: the DAG's fourth job is the roar put, suppressed by --no-puts.",
+    "roarVersion": "0.4.4rc6",
+    "wheelSha256": "c7115b748886259b6a089e547404376acf84c3b81b4cbc8dc5610490ebea7199",
+    "instanceType": "g4dn.xlarge",
+    "wallClock": "12m17s",
+    "costUsd": 0.27,
+    "certifier": "independent - a different agent from the one that captured the row, given only the DAG hash and the row name, working from the published fork, DAG and notes",
+    "caveatsTested": "Both caveats the capture record carries were tested rather than accepted. (1) OpenGL: the rebuild host already had libGL.so.1, libGLX.so.0 and libGLdispatch.so.0, import cv2 succeeded, and NOTHING was installed outside the recorded environment. The independent finding is why they are absent from the record: on this AMI those files are owned by no dpkg - they are libglvnd shipped by the NVIDIA driver bundle outside apt - so roar's dpkg-based OS layer drops them silently. No capture could have recorded them, and on a bare image without a driver-installed libglvnd, import cv2 would still fail with no pointer in the record. (2) clean-dag 12/13: verified independently, not on trust. repro/fetch_example_data.py was fetched from the published fork at b7647e3a78 and AST-parsed; its only imports are __future__, argparse, hashlib, os, pathlib, sys, time, urllib, zipfile - zero non-stdlib, and no __import__, importlib, exec or subprocess to hide one. The check is a genuine false positive on a stdlib-only step, and the rebuild settles it empirically: step 1 ran from that 9-package environment and exited 0 in 50.1s."
   },
   "patch": {
     "lines": 1021,
