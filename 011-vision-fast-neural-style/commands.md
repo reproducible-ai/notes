@@ -4,9 +4,14 @@ The recipe, in the order it runs. Everything below is scoped to
 `fast_neural_style/` inside the `pytorch/examples` monorepo; no sibling example
 directory is read, written or installed.
 
-Fork: `reproducible-ai/examples` @ `5dc5122a27c006fe4b93d889538dabfe94582f53`
+Fork: `reproducible-ai/examples` @ `3a7a01cc2d1b0d91f2c9795152fdbcbf5c944b83` — the
+commit recorded in the published DAG.
 Upstream: `pytorch/examples` @ `6012a427` (the fork point; `fast_neural_style/` is
 unmodified from it).
+Provenance CLI: `roar-cli==0.4.4rc6`, installed by name and version from a public index
+and verified by wheel sha256
+`c7115b748886259b6a089e547404376acf84c3b81b4cbc8dc5610490ebea7199`
+(`roar_cli-0.4.4rc6-cp310-abi3-manylinux_2_34_x86_64.whl`).
 
 ---
 
@@ -58,7 +63,8 @@ print('VGG16_IMAGENET_WEIGHTS_DOWNLOAD_SECONDS %.2f BYTES %d' % (dt, tot))"
 rm -rf /var/tmp/torchhome-probe
 ```
 
-Measured on this run: **4.37 s, 553,433,881 bytes.**
+Measured on this run: **4.10 s, 553,433,881 bytes** (4.10 / 3.75 / 3.85 s
+across three cold hosts, identical byte count each time).
 
 ---
 
@@ -80,7 +86,9 @@ from a manual browser download.
 silently changed size would train for ~8 GPU-minutes and then write a file no later
 step knows the name of. This exits non-zero first.
 
-Measured: 342 MB in 6.3 s, extract 5.8 s, **53 s for the whole traced step**.
+Measured: 342 MB in 6.3 s, extract 5.8 s, **50 s for the whole traced step**
+(20.8 s of it recorded as the job's own duration; the rest is the tracer hashing
+13,396 extracted files).
 Archive sha256 `569b4497c98db6dd29f335d1f109cf315fe127053cedf69010d047f0188e158c` —
 identical to the copy fetched independently on the control host, so the dataset has a
 stable identity.
@@ -127,10 +135,11 @@ There is no `--num_workers` to get wrong: `neural_style.py:49` builds
 `DataLoader(train_dataset, batch_size=args.batch_size)` with no workers argument at
 all, so loading is single-process by construction.
 
-Measured: **9m29s** for 9,469 images / 2,368 batches ≈ **19.4 images/s** on one T4
-(that step wall-clock includes the ~4 s VGG-16 weight download and process startup).
-Running-mean training loss fell from 10,713,272 at the first log line (800 images) to
-3,016,966 at the last one (8,800 images). Note that upstream prints only every
+Measured: **9m12s** for 9,469 images / 2,368 batches ≈ **19.26 images/s** on one T4
+(that step wall-clock includes the ~4 s VGG-16 weight download and process startup;
+see `costs.md` for the fixed/variable split). Running-mean total loss fell from
+10,715,696 at the first log line (800 images) to 3,024,145 at the last one (8,800
+images). Note that upstream prints only every
 `--log-interval` batches and 2,368 is not a multiple of 200, so **there is no
 end-of-epoch loss line** — the last printed value is at 8,800 of 9,469 images.
 
@@ -146,9 +155,12 @@ python fast_neural_style/neural_style/neural_style.py eval \
 
 Upstream's own `eval` subcommand on upstream's own bundled content image, applying
 the model the previous step produced. This is the only evaluation this example ships
-— it renders an image; there is no held-out metric to compute. Measured: **13 s**.
+— it renders an image; there is no held-out metric to compute. Measured: **11 s**.
 
 ## 4. `label`, then `publish` — untraced
+
+Both artifacts are labelled, because both are published and an artifact that reaches the
+record unlabelled is a hole in the AI-BOM:
 
 ```sh
 roar label set artifact fast_neural_style/out-ckpt/ckpt_epoch_0_batch_id_2368.pth \
@@ -157,20 +169,30 @@ roar label set artifact fast_neural_style/out-ckpt/ckpt_epoch_0_batch_id_2368.pt
     description='…TRUNCATED pipeline-viability run: 1 of upstream'"'"'s default 2 epochs, over Imagenette-320 (9,469 images) instead of the README'"'"'s COCO-2014-train (82,783). NOT converged.' \
     documentation.url=https://github.com/pytorch/examples/blob/main/fast_neural_style/README.md
 
-roar put fast_neural_style/out-ckpt/ckpt_epoch_0_batch_id_2368.pth \
-    hf://reproducible-ai/fast-neural-style --public --yes --no-tag \
-    -m "…TRUNCATED pipeline-viability run, NOT converged and not a quality result."
+roar label set artifact fast_neural_style/out-stylized/amber-mosaic.jpg \
+    model.name=fast-neural-style model.version=1 \
+    license.id=BSD-3-Clause license.name='BSD 3-Clause License' \
+    description='Output of the stylize step … the ONLY evaluation fast_neural_style ships …' \
+    documentation.url=https://github.com/pytorch/examples/blob/main/fast_neural_style/README.md
 ```
 
-The publish message is recorded verbatim and permanently, so it states the truncation
-rather than implying a finished model.
+The upload itself is a plain `huggingface_hub.HfApi.upload_file` of the two files to
+`hf://reproducible-ai/fast-neural-style`, run from the provenance CLI's own tool venv so
+that nothing is installed into the workload interpreter and no traced step's recorded
+package set is affected by it. The commit message is recorded verbatim and permanently,
+so it states the truncation rather than implying a finished model.
+
+The run that produced the published DAG did not execute this stage; the files now in the
+Hugging Face repo come from a later execution of the same recipe. `README.md` gives both
+sets of sha256 values so the difference is visible rather than implied.
 
 ---
 
 ## Rebuilding this row
 
 ```
-roar reproduce <dagHash> --lineage --run --no-puts
+roar reproduce 63edfd1d69128bf4032d089ace64aa301c1a44e0b60d48abfe83b619d4e6e377 \
+    --lineage --run --no-puts
 ```
 
 **To run it untruncated**, take `roar reproduce --script`, change `--epochs 1` to
