@@ -17,8 +17,9 @@ second resumed from its working directory. Both sets of attempts are counted.
 | 4 | `1900ef21` | FAILED — checkpoint retention changed | — | — |
 | 5 | `9b7f8a12` | FAILED — trained and published, record not finalised | — | — |
 | | | attempts 1–5, two hosts | ~58 min | ~$0.51 |
-| 6 | `0db6ecb8` | **COMPLETED — the record** | 9 m 34 s | **$0.10** |
-| | | | **~68 min** | **~$0.61** |
+| 6 | `0db6ecb8` | COMPLETED — the superseded record `42b381d9…` | 9 m 34 s | $0.10 |
+| 7 | `f8037549` | **COMPLETED — the current record `af56b02d…`** | 9 m 25 s | **$0.13** |
+| | | | **~78 min** | **~$0.74** |
 
 Attempts 1–5 ran on two hosts whose individual lifetimes (~19 min and ~39 min)
 are known from the campaign ledger rather than from a per-job meter, so their
@@ -26,23 +27,51 @@ cost is an aggregate estimate, not five separate measurements. None of them
 failed inside timm: every one of them trained successfully and several published
 the checkpoint. They failed in the recording layer afterwards.
 
-Attempt 6 is the one that counts and cost **$0.10** for 9 m 34 s of instance
-life — of which only **3 m 47 s** was traced work (fetch 18.3 s, train 166.5 s,
-evaluate 42.2 s). The remaining ~6 minutes is on-demand instance provisioning,
-the dependency install, and the 89.5 MB checkpoint upload. On a five-epoch job
-the overhead costs more than the training does.
+Attempt 7 is the one that counts. It cost **$0.13** for a 15 m 19 s billed
+instance lifetime (9 m 25 s of job wall clock plus the agent's boot and idle
+teardown either side) — of which only **3 m 42 s** was traced work (fetch 17.3 s,
+train 170.6 s, evaluate 33.9 s). The rest is on-demand instance provisioning, the
+dependency install, and the 89.5 MB checkpoint upload. **On a five-epoch job the
+overhead costs three times what the training does**, which is the single most
+important number on this page for anyone estimating a real run — see the
+truncation arithmetic in `row.json`.
 
-The instance was terminated by hand immediately after the job completed and the
-termination was verified.
+Attempt 7 exists only because attempt 6 shipped without an experiment dashboard:
+`--log-wandb` was never passed, so timm never called the tracker. Re-running cost
+$0.13 and produced an otherwise-equivalent record. Cheap — but it was avoidable,
+and the check that would have caught it (does the recorded command contain the
+framework's logging flag?) costs nothing.
+
+## Tier-2 certification
+
+| | |
+|---|---|
+| host | `i-0e16cfff386a839e6`, g4dn.xlarge |
+| wall clock | 12 m 59 s |
+| cost | **$0.11** |
+
+**Row total: ~$0.85** (~$0.74 capture across seven attempts, $0.11
+certification).
+
+Both instances were terminated and both terminations were **verified** with
+`describe-instances` rather than assumed, followed by a campaign-wide sweep for
+orphans.
 
 ## Local (free)
 
 The expensive thinking was done on the local CPU box at zero cloud cost:
 
 - **bare-clone check** — fresh clone, venv with only timm's six declared runtime
-  dependencies, `PYTHONPATH` unset, all three steps on CPU: ~6 min. This is what
-  established that timm's declared dependency set is complete, and it produced a
-  real 1-epoch checkpoint (top-1 77.41) before a single cent was spent.
+  dependencies plus the tracking backend, `PYTHONPATH` unset, all three steps on
+  CPU: ~8 min. This is what established that timm's declared dependency set is
+  complete, and it produced a real 1-epoch checkpoint (top-1 78.60) before a
+  single cent was spent.
+- **call-shape replay** — replaying timm's exact `wandb.init(...)` arguments
+  against the tracking backend on the CPU box, before booking a GPU. It failed
+  with `TypeError: 'NoneType' object is not iterable`, which is how the
+  `--wandb-project` requirement was found. That failure raises *inside* `init()`,
+  before epoch 0 — so on the GPU it would have burned a whole run to learn the
+  same thing. Cost: about two minutes and $0.
 - **output census** — reading the local run's recorded output set to confirm
   that `--save-last-only` leaves one checkpoint file and that no two recorded
   outputs share content: seconds.

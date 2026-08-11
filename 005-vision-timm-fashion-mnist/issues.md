@@ -1,6 +1,6 @@
 # 005 — upstream findings (`huggingface/pytorch-image-models`)
 
-Two findings, both hit while rebuilding a five-epoch ResNet-18 on Fashion-MNIST
+Three findings, all hit while rebuilding a five-epoch ResNet-18 on Fashion-MNIST
 from timm's own `train.py` / `validate.py` at `aa4b585` (1.0.29.dev0).
 
 Per campaign policy **nothing here was reported upstream** — no issues, no pull
@@ -79,6 +79,80 @@ more than a one-line change, so we did not presume.
 
 ---
 
+## #3 — `--log-wandb` degrades to a warning, so a run can train for hours logging nothing
+
+**Severity: sharp edge. The failure is silent by design, and the exit code is 0.**
+
+`--log-wandb` is the single switch gating every wandb call in `train.py`
+(`train.py:397`, `default=False`). Ask for it without the package present and
+timm does not stop:
+
+```python
+try:
+    import wandb
+    has_wandb = True
+except ImportError:
+    has_wandb = False
+...
+if args.log_wandb:
+    if has_wandb:
+        wandb.init(...)
+    else:
+        _logger.warning(
+            "You've requested to log metrics to wandb but package not found. "
+            "Metrics not being logged to wandb, try `pip install wandb`")
+```
+
+Then `utils.update_summary(..., log_wandb=args.log_wandb and has_wandb)` quietly
+resolves to `False` for the rest of the run (`train.py:1190`).
+
+We hit this for real. On a first pass the environment had no importable `wandb`,
+and the run emitted exactly one WARNING line at startup — 4,000 characters
+before the first loss — then trained happily to completion and exited **0** with
+an empty dashboard. Nothing downstream can tell that apart from a successful
+logging run: the checkpoint is fine, `summary.csv` is fine, the exit code is
+fine. The only evidence is one warning scrolled off the top of the log.
+
+The user typed a flag whose entire purpose is "send my metrics somewhere". When
+that is impossible, treating it as advisory converts an explicit request into a
+silent no-op. Nothing else in `train.py`'s argument surface behaves this way —
+an unknown `--model` raises, an unreadable `--data-dir` raises.
+
+**Suggested fix**, matching how the rest of the script treats an unsatisfiable
+request:
+
+```python
+if args.log_wandb and not has_wandb:
+    raise RuntimeError(
+        "--log-wandb requires the wandb package; install it or drop the flag")
+```
+
+**Not patched** — unlike #1 this is a deliberate upstream choice about strictness
+rather than an outright bug, and reasonable maintainers land either way. Recorded
+because the cost is asymmetric: the warning is free to ignore and the lost run is
+not.
+
+### Interop note, not an upstream defect: `--wandb-project` is effectively required
+
+`--wandb-project` defaults to `None` (`train.py:399`) and is forwarded verbatim
+into `wandb.init(project=...)`. Real wandb accepts that and infers a project
+name. **trackio does not** — its `init()` signature declares `project: str` as
+required, so a `None` arrives and dies inside the call:
+
+```
+TypeError: 'NoneType' object is not iterable
+```
+
+That happens at logger construction, before the first batch, i.e. after the
+accelerator is already paid for. Any wandb-compatible backend that does not
+implement wandb's project-inference behaviour will hit it the same way.
+
+Neither project is wrong on its own; the incompatibility only exists at the
+seam. **Pass `--wandb-project` explicitly whenever you pass `--log-wandb`** and
+it cannot arise. This row does.
+
+---
+
 ## Not a defect: three checkpoint names, one blob
 
 Recorded here because it looks like a recording error and is not.
@@ -111,6 +185,14 @@ Worth stating, because it is unusual:
   `train` and `evaluate` to completion with **no `ModuleNotFoundError` and
   nothing added by hand**. Several other rows in this campaign needed
   undeclared packages installed before anything would start.
+
+  Re-verified on the re-capture, which adds one package the six do not cover:
+  an experiment-tracking backend for `--log-wandb`. That is correct — timm
+  declares `wandb` nowhere in `requirements.txt` precisely because logging is
+  opt-in — and installing it changed nothing else: `torch`, `torchvision`,
+  `numpy` and `huggingface_hub` all kept the versions the six declared deps had
+  already resolved to. **No conflict, no downgrade.** Optional integrations that
+  quietly re-resolve the core stack are common; this one does not.
 - **No editable install is required.** `train.py` and `validate.py` run from the
   repository root and import the checked-out `timm/` package directly, so the
   code under test is unambiguous.

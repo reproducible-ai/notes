@@ -2,58 +2,64 @@
   "name": "timm (ResNet-18 / Fashion-MNIST)",
   "org": "Hugging Face",
   "type": "vision",
-  "date": "2026-08-09",
+  "date": "2026-08-11",
   "status": "reproduced",
   "blocker": null,
   "notes": "https://github.com/reproducible-ai/notes/tree/main/005-vision-timm-fashion-mnist",
   "playbookVersion": "1.0",
-  "roarVersion": "0.4.4rc2",
+  "roarVersion": "0.4.4rc5",
   "tracer": "preload",
   "amiId": "ami-0f07f1a0b382b48f7",
   "upstreamCommit": "aa4b585",
   "license": "Apache-2.0",
-  "dagUrl": "https://glaas.ai/dag/42b381d91f299d028c45ff043a71e34e6c9e1122574585f32c3b3d99b31f10c2",
-  "bomUrl": "https://glaas.ai/dag/42b381d91f299d028c45ff043a71e34e6c9e1122574585f32c3b3d99b31f10c2/audit",
+  "dagHash": "af56b02d6c041c931f03ccf643f2e0fee97bbddb0072f26b91a291f142850dfd",
+  "supersededDagHashes": [
+    "42b381d91f299d028c45ff043a71e34e6c9e1122574585f32c3b3d99b31f10c2"
+  ],
+  "dagUrl": "https://glaas.ai/dag/af56b02d6c041c931f03ccf643f2e0fee97bbddb0072f26b91a291f142850dfd",
+  "bomUrl": "https://glaas.ai/dag/af56b02d6c041c931f03ccf643f2e0fee97bbddb0072f26b91a291f142850dfd/audit",
   "bomScore": 100,
-  "artifactUrl": "https://huggingface.co/reproducible-ai/timm-classifier",
-  "experimentUrl": null,
-  "rebuild": {
-    "time": "9m34s",
-    "hw": "1\u00d7 Tesla T4 (g4dn.xlarge)",
-    "costUsd": 0.1,
-    "fixedCostUsd": 0.07,
-    "scalingCostUsd": 0.03,
-    "fullRunEstimateUsd": 1.8,
-    "fullRunEstimateBasis": "Of the 574s the instance was billed, 165.8s was training (5 epochs) and the remainder is fixed (fetch 17.3s + validate 41.5s + instance boot/teardown). Splitting the recorded $0.10 in that proportion gives $0.07 fixed + $0.03 variable, i.e. $0.0058 per epoch. The untruncated 300 epochs therefore cost about $1.80 on the same g4dn.xlarge (T4) at $0.526/h. Per-step durations are from the published DAG; the hourly rate is AWS list price (pricing:GetProducts is denied to this role)."
-  },
-  "reproduce": {
-    "hash": "42b381d91f299d028c45ff043a71e34e6c9e1122574585f32c3b3d99b31f10c2",
-    "cmd": "roar reproduce 42b381d91f299d028c45ff043a71e34e6c9e1122574585f32c3b3d99b31f10c2 --lineage --run --no-puts"
-  },
-  "patch": {
-    "lines": 249,
-    "url": "https://github.com/huggingface/pytorch-image-models/compare/aa4b585...reproducible-ai:pytorch-image-models:81bbe92e07c48e15fff34e2dffb0198549f867b4",
-    "summary": "+247/-2 across 10 files. Only three touch timm source: timm/data/loader.py (+5/-1) fixes a real bug - persistent_workers was forwarded unconditionally to DataLoader, so the documented -j 0 / --workers 0 single-process path raised ValueError before the first batch, in both train.py and validate.py; train.py (+3) and timm/utils/checkpoint_saver.py (+13) add an opt-in --save-last-only that leaves one checkpoint instead of three os.link() hardlinks to the same inode. Zero lines of the model definition, optimizer, scheduler or training loop were changed. The remaining +226 is added material: the treqs workflow, a dataset-fetch script, reproduction/README.md, .gitignore and three .gitkeep files."
-  },
-  "summary": "Truncated reproduction of the timm training path: ResNet-18 (11.2M params) trained from scratch on Fashion-MNIST at 28x28 single-channel for 5 epochs at batch 256 with timm's own train.py, then scored by timm's own validate.py on the 10k held-out split - held-out top-1 85.67 / top-5 99.73 against the exact checkpoint that was published. Not converged, and not offered as a timm result. Tier-1 record is green: clean DAG 13/13, AI-BOM 100/100, all URLs public, 57 portable pins with no local-version (+cu) pins. The standout finding is that timm's declared dependency set is honest - a fresh clone plus exactly the six packages in requirements.txt, with PYTHONPATH unset, ran all three steps to completion on CPU with nothing added by hand, which is the cleanest bare-clone result in the campaign so far. Two upstream defects were hit: create_loader() forwards persistent_workers=True unconditionally, so the documented --workers 0 single-process loading raises ValueError before the first batch (one-expression fix, patch included); and --in-chans 1 leaves mean/std at 3-channel ImageNet defaults, so a grayscale run dies broadcasting [3,28,28] onto [1,28,28] unless --mean/--std are passed explicitly. Separately, CheckpointSaver's three checkpoint names are os.link() hardlinks to one inode - byte-identical by design, so a content-addressed view showing three paths and one hash is timm working correctly, not a recording fault. Training is not bit-reproducible on GPU at --seed 42 alone (cuDNN algorithm selection is unpinned; timm exposes no --deterministic), so we claim reproduce, not replicate.",
-  "dagHash": "42b381d91f299d028c45ff043a71e34e6c9e1122574585f32c3b3d99b31f10c2",
   "upstreamUrl": "https://github.com/huggingface/pytorch-image-models",
   "forkUrl": "https://github.com/reproducible-ai/pytorch-image-models",
-  "certification": {
-    "tier": 2,
-    "result": "PASS",
-    "date": "2026-08-10",
-    "evidence": "CERT-TIER2.md",
-    "manifestDiff": "57/57 pins exact",
-    "resultCaveat": "GPU training is not bit-reproducible at --seed 42 (cuDNN algorithm selection is unpinned); metrics 85.56/99.57 vs recorded 85.67/99.73. Reproduce, not replicate."
-  },
-  "verified": true,
-  "experimentUrlNote": "recipe did not pass timm --log-wandb; bridge armed but the workload never called wandb",
+  "artifactUrl": "https://huggingface.co/reproducible-ai/timm-classifier",
+  "experimentUrl": "https://huggingface.co/spaces/reproducible-ai/experiments?project=resnet18-fashion-mnist",
+  "experimentUrlNote": "Verified by reading the run back out of the dashboard's own API, not by an HTTP status: the Space is a Gradio app that returns 200 for any query string, including projects that do not exist, and the tracking client writes its destination to disk even when the upload fails. The run resolves and carries 5 data points for each of 6 metrics (epoch, train_loss, eval_loss, eval_top1, eval_top5, lr) - one per epoch, timestamps matching the training step's own clock. Those six names are exactly what timm's update_summary() emits, so they could not exist unless timm's logging path really ran.",
+  "difficulty": "3/10 - easy, with one sharp edge",
   "truncated": true,
   "truncation": {
     "ran": 5,
     "full": 300,
     "unit": "epochs",
-    "note": "Five of timm's default 300 epochs. Recipe otherwise unchanged."
-  }
+    "note": "Five of timm's own default 300 epochs, read from train.py:245 ('--epochs', type=int, default=300). The recipe is otherwise unchanged: same argument parser, same create_loader, same CheckpointSaver, same scheduler."
+  },
+  "rebuild": {
+    "time": "9m25s",
+    "hw": "1x Tesla T4 (g4dn.xlarge)",
+    "costUsd": 0.13,
+    "fixedCostUsd": 0.09,
+    "scalingCostUsd": 0.02,
+    "fullRunEstimateUsd": 1.49,
+    "fullRunEstimateBasis": "Measured on the tier-2 certification, which is a genuine cold host and therefore the honest measurement of the fixed half. That instance lived 779s (12m59s) end to end, of which the train step accounted for 159.2s for 5 epochs = 31.84s per epoch; the other 619.8s is fixed cost that does not scale with epochs (EC2 boot, harness bootstrap, git clone, provisioning the 98-package venv from the recorded pins, the 17.6s dataset fetch and the 13.0s evaluate). At the g4dn.xlarge on-demand list price of $0.526/h ($0.0001461/s) that is $0.09 fixed + $0.02 for the 5 epochs actually run. The reader's path to an untruncated run is 'roar reproduce --script', edit out '--epochs 5', and run that - so the full-run cost is the same $0.09 fixed plus 300 x 31.84s x $0.0001461 = $1.40, i.e. about $1.49 and roughly 2h49m on the same T4. Hourly rate is AWS list price; pricing:GetProducts is denied to this role.",
+    "captureCostUsd": 0.13,
+    "certCostUsd": 0.11
+  },
+  "reproduce": {
+    "hash": "af56b02d6c041c931f03ccf643f2e0fee97bbddb0072f26b91a291f142850dfd",
+    "cmd": "roar reproduce af56b02d6c041c931f03ccf643f2e0fee97bbddb0072f26b91a291f142850dfd --lineage --run --no-puts"
+  },
+  "certification": {
+    "tier": 2,
+    "result": "PASS",
+    "date": "2026-08-11",
+    "evidence": "CERT-TIER2.md",
+    "manifestDiff": "67/67 pins exact (0 missing, 0 mismatched; 98 distributions installed, the 31 extras being the transitive closure)",
+    "resultCaveat": "Exit 0, 3/3 steps, and last.pth.tar regenerated at exactly the published 89,506,383 bytes - but with a different sha256, which is the correct outcome rather than a discrepancy: tensor shapes are fixed by the recipe, tensor values are not. GPU training is not bit-reproducible at --seed 42 (cuDNN algorithm selection is unpinned; timm exposes no --deterministic), so held-out top-1 came back 85.47 against the record's 85.30. We claim reproduce, not replicate. One honest gap: the cold rebuild does NOT reproduce the experiment dashboard - without a credential the tracking shim aliases wandb to a silent stub and the run completes untracked, which is correct behaviour for a third party but means the experiment link is evidence about the capture, not about the rebuild."
+  },
+  "patch": {
+    "lines": 271,
+    "url": "https://github.com/huggingface/pytorch-image-models/compare/aa4b585...reproducible-ai:pytorch-image-models:f741a2b0a1a189a4ecb94793fa54deb9912a7c2c",
+    "summary": "+271/-2 across 10 files. Only three touch timm source, and the re-capture that added experiment logging changed none of them - its entire diff is in the workflow file, because enabling logging is a flag rather than a patch. timm/data/loader.py (+5/-1) fixes a real bug: persistent_workers was forwarded unconditionally to DataLoader, so the documented -j 0 / --workers 0 single-process path raised ValueError before the first batch, in both train.py and validate.py. train.py (+3) and timm/utils/checkpoint_saver.py (+13) add an opt-in --save-last-only that leaves one checkpoint instead of three os.link() hardlinks to the same inode. Zero lines of the model definition, optimizer, scheduler or training loop were changed, and zero lines of logging code were added. The remaining +250 is added material: the treqs workflow, a dataset-fetch script, reproduction/README.md, .gitignore and three .gitkeep files."
+  },
+  "summary": "Truncated reproduction of the timm training path: ResNet-18 (11.2M params) trained from scratch on Fashion-MNIST at 28x28 single-channel for 5 of timm's default 300 epochs at batch 256 with timm's own train.py, then scored by timm's own validate.py on the 10k held-out split - held-out top-1 85.30 / top-5 99.65 against the exact checkpoint that was published. Tier-1 is green (clean DAG 13/13, AI-BOM 100/100, all URLs public, 67 portable pins with no local-version +cu pins, imports-vs-freeze Tier-A misses zero) and a cold host certified it at tier 2 on the first attempt: exit 0, 3/3 steps, 67/67 recorded pins present at the recorded version, and last.pth.tar regenerated at exactly the published byte size. This record supersedes an otherwise-equivalent capture that had every gate green and published no experiment dashboard at all, because timm gates every wandb call behind --log-wandb (train.py:397, default False) and nobody passed it; the tracking backend, destination and credential were all in place and the training script simply never called them. That pattern accounted for six of the campaign's first eight missing links, and nothing in the record flagged it. Three upstream findings: create_loader() forwards persistent_workers=True unconditionally, so the documented --workers 0 raises ValueError before the first batch (one-expression fix, patch included); --in-chans 1 leaves mean/std at 3-channel ImageNet defaults, so a grayscale run dies broadcasting [3,28,28] onto [1,28,28] unless --mean/--std are passed explicitly; and --log-wandb degrades to a warning when the tracking package is absent, so a run can train to completion, exit 0, and log nothing, with a single WARNING line as the only evidence. Separately, CheckpointSaver's three checkpoint names are os.link() hardlinks to one inode - byte-identical by design, so a content-addressed view showing three paths and one hash is timm working correctly, not a recording fault. timm's declared dependency set is honest: a fresh clone plus exactly the six packages in requirements.txt ran all three steps on CPU with nothing added by hand, the cleanest bare-clone result in the campaign. Training is not bit-reproducible on GPU at --seed 42 alone (cuDNN algorithm selection is unpinned; timm exposes no --deterministic), so we claim reproduce, not replicate.",
+  "verified": true
 }
