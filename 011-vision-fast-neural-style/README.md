@@ -1,10 +1,26 @@
 # 011 — fast_neural_style (`pytorch/examples`)
 
-**Status: capture in progress. This row is NOT yet published and NOT certified.**
-Pushed early and deliberately incomplete, so the work survives if this operator's
-working directory does not. `row.json`, `costs.md` and the final DAG hash land when
-the capture completes; `issues.md` and `commands.md` below are complete and are the
-substance of the row.
+**Status: BLOCKED at capture. No attributed lineage was ever published, so this row
+has no DAG hash and cannot be certified as it stands.**
+
+The training pipeline is not the problem — it ran correctly on every attempt that was
+allowed to finish, and the trained model is
+[published and public](https://huggingface.co/reproducible-ai/fast-neural-style).
+Three capture attempts on one compute target failed to produce a usable record:
+
+| attempt | outcome |
+|---|---|
+| 1 | Pipeline succeeded end to end. The attributed lineage published with **zero jobs** while its anonymous twin carried them. Also recorded the repository as the literal string `origin` rather than a URL — not clonable, so not rebuildable. |
+| 2 | Host terminated **one second before** the third step began, mid-run. Training lost. |
+| 3 | Pipeline succeeded end to end with the repository URL now recorded correctly. Host terminated **34 seconds into a lineage export that takes 51**, leaving the publication permanently `pending` and the package never uploaded. |
+
+Attempt 1's defect and attempt 3's are independent, and neither is in
+`pytorch/examples`. Per this project's boundary rules the detail lives in the
+operator's private friction record rather than here; what belongs in the public notes
+is the outcome, which is that **the row is held with no hash.**
+
+`issues.md` and `commands.md` are complete and are the substance of this row — the
+upstream findings stand on their own and do not depend on the capture landing.
 
 Fast neural style transfer — Johnson et al., *Perceptual Losses for Real-Time Style
 Transfer and Super-Resolution*, with instance normalisation. A small
