@@ -46,9 +46,27 @@
     "cmd": "roar reproduce 847b359a9f1a0ae3a31a621f9901f57e5387f37610adabc9e7bd24f4ecdae97d --lineage --run --no-puts"
   },
   "certification": {
-    "tier": 1,
-    "result": null,
-    "resultCaveat": "Not certified. This is a capture-only record: a different agent performs the cold rebuild, and certification.result is a finding from that rebuild, never a transcription of this run's exit code. Tier 1 is green on all four gates - clean-DAG 13/13, AI-BOM 100/100 (profile Advanced), all URLs public anonymously, freeze PORTABLE - and imports-vs-freeze reports Tier-A missing ZERO across both training steps, with fsspec the only Tier-B hint (a torch dependency that installs transitively). Two things a certifier should know before starting. First, the recorded torch is 2.3.0 and numpy is 1.26.4, where this AMI family ships torch 2.7.0 and numpy 2.x; those versions are another row's downgrade of the shared interpreter, still resident on a warm on-demand instance, not a choice made here. They are plain, PyPI-resolvable and mutually consistent, so the set should install - but note that torch.__version__ on that host read 2.3.0+cu121 while the distribution metadata read a plain 2.3.0, and it is the distribution version that roar records and a rebuild resolves. Second, the recorded package set contains onnx, onnxruntime, onnxscript, onnx-ir, ml_dtypes, protobuf, pyarrow and google-auth, none of which Kronos imports; they are loaded by the SageMaker-derived base image at interpreter start (onnxruntime announces itself in the training log with a GPU device discovery warning) and by roar's own stack. They are recorded because they were genuinely loaded, and all resolve from PyPI."
+    "tier": 2,
+    "result": "reproduced",
+    "certifiedOn": "2026-08-12",
+    "dagHash": "847b359a9f1a0ae3a31a621f9901f57e5387f37610adabc9e7bd24f4ecdae97d",
+    "roarVersion": "0.4.4rc6",
+    "roarWheelSha256": "c7115b748886259b6a089e547404376acf84c3b81b4cbc8dc5610490ebea7199",
+    "roarWheel": "roar_cli-0.4.4rc6-cp310-abi3-manylinux_2_34_x86_64.whl",
+    "command": "roar reproduce 847b359a9f1a0ae3a31a621f9901f57e5387f37610adabc9e7bd24f4ecdae97d --lineage --run --no-puts -y --step-timeout 21600",
+    "exitCode": 0,
+    "stepsRun": "3/3",
+    "pinDiff": "46/46",
+    "pinDiffExact": true,
+    "installedDistCount": 67,
+    "interpreter": "3.12.10",
+    "instanceType": "g4dn.xlarge",
+    "hw": "1x Tesla T4",
+    "amiId": "ami-0f07f1a0b382b48f7",
+    "wallClock": "66m40s",
+    "costUsd": 0.72,
+    "evidence": "016-timeseries-kronos/certification.md",
+    "result_detail": "Independent cold rebuild by a different agent on a host that had never seen this row, from the published record and notes only. Exit code 0 read from file, Steps run 3/3, and the package manifest diff is EXACT: the union of the recorded pins across the three producing steps is 46 (19 on fetch_pretrained, 45 on each training step), and the reproduce venv satisfied all 46 with zero missing and zero mismatched, enumerated by two agreeing methods (uv pip freeze 67, importlib.metadata 67). The 21 extras are exactly the transitive closure, chiefly the cu121 NVIDIA stack that torch 2.3.0 depends on. The row's stated caveat was tested rather than accepted: torch==2.3.0 and numpy==1.26.4 installed FROM THE RECORD, not from the host, which carries torch 2.7.0 and numpy 2.4.4 under the same AMI; every package the workload imports resolved from inside the reproduce venv and none from outside it. torch 2.3.0 worked on the T4 (torch.cuda.is_available() True, device Tesla T4, torch.version.cuda 12.1, both stages on cuda:0 at full utilisation). Step durations tracked the record within about 1 percent (4.5s / 978.9s / 2892.3s against 4.5 / 984.2 / 2918.0), and the data geometry reproduced exactly at 83,960 training and 8,832 validation windows. Every output file matches the recorded byte size exactly, including both training logs. The DAG's artifactHash is blake3: recomputing it shows all five inputs - both pre-trained checkpoints, both configs and the shipped CSV - are byte-identical to what the capture saw, and only the two trained checkpoints differ, which is expected under reproduce rather than replicate. Predictor validation loss 1.8430 against a recorded 1.8362. No missing dependency, no interpreter aliasing, no substitution of any recorded pin."
   },
   "patch": {
     "lines": 0,
