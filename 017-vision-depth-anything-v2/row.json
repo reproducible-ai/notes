@@ -110,5 +110,109 @@
     ],
     "hw": "1x NVIDIA L40S (g6e.xlarge)",
     "caveats": "The ~110 s cold-CUDA term in the basis above was measured on this row's own L40S host and did NOT reproduce on an independently certified T4 rebuild (~11 s). The fixed portion is therefore an upper bound tied to the capture host, not a portable per-run cost."
-  }
+  },
+  "parameters": [
+    {
+      "name": "--epochs",
+      "published": "120",
+      "used": "1",
+      "reason": "limit capture cost",
+      "restoresFullRun": true,
+      "where": "metric_depth/dist_train.sh"
+    },
+    {
+      "name": "training frames",
+      "published": "59543",
+      "used": "64",
+      "reason": "limit data and training cost",
+      "restoresFullRun": true,
+      "where": "generated Hypersim split"
+    },
+    {
+      "name": "validation frames",
+      "published": "7386",
+      "used": "16",
+      "reason": "limit validation cost",
+      "restoresFullRun": true,
+      "where": "generated Hypersim split"
+    },
+    {
+      "name": "--encoder",
+      "published": "vitl",
+      "used": "vits",
+      "reason": "fit one affordable GPU",
+      "restoresFullRun": true,
+      "where": "metric_depth/dist_train.sh"
+    },
+    {
+      "name": "world size",
+      "published": "8 GPUs",
+      "used": "1 GPU",
+      "reason": "fit campaign compute availability",
+      "restoresFullRun": true,
+      "where": "distributed environment"
+    }
+  ],
+  "issues": [
+    {
+      "severity": "P0",
+      "title": "`np.RankWarning` was removed in NumPy 2.0 — hard failure at line 46",
+      "evidence": "issues.md",
+      "upstreamAction": "warranted"
+    },
+    {
+      "severity": "P0",
+      "title": "The shipped Hypersim split manifests contain absolute paths on the authors' filesystem",
+      "evidence": "issues.md",
+      "upstreamAction": "warranted"
+    },
+    {
+      "severity": "P0",
+      "title": "`metric_depth/requirements.txt` omits two hard dependencies and lists one that is not needed",
+      "evidence": "issues.md",
+      "upstreamAction": "warranted"
+    },
+    {
+      "severity": "P0",
+      "title": "The training entry point is distributed-only, with no single-GPU path",
+      "evidence": "issues.md",
+      "upstreamAction": "warranted"
+    },
+    {
+      "severity": "P2",
+      "title": "`num_workers=4` is hard-coded in both DataLoaders",
+      "evidence": "issues.md",
+      "upstreamAction": "warranted"
+    },
+    {
+      "severity": "P2",
+      "title": "Cold-start cost is invisible in the recipe",
+      "evidence": "issues.md",
+      "upstreamAction": "warranted"
+    }
+  ],
+  "runs": [
+    {
+      "label": "1",
+      "purpose": "capture-operator attempt",
+      "params": "1 | `1d5dbd71` | 20:01:53 → 20:02:56 (63 s) | aborted in environment setup, before any training | $0.04",
+      "outcome": "aborted"
+    },
+    {
+      "label": "2",
+      "purpose": "capture-operator attempt",
+      "params": "2 | `24adfb5a` | 20:05:34 → 20:10:58 (5m24s) | training completed and the checkpoint was written; a bug in my own stage script killed the stage immediately afterwards, so the artifact was never labelled or published | $0.16",
+      "outcome": "ok"
+    },
+    {
+      "label": "3",
+      "purpose": "capture-operator attempt",
+      "params": "3 | `42d36374` | 20:13:03 → 20:14:31 (1m29s) | recorded run — all six stages, artifact published | $0.03",
+      "outcome": "ok"
+    }
+  ],
+  "dataWarnings": [
+    "Capture operator identity and model/harness version are unrecoverable from surviving evidence; operator is intentionally omitted.",
+    "Independent certifier identity and model/harness version are unrecoverable from surviving evidence; certification.certifier is intentionally omitted."
+  ]
 }

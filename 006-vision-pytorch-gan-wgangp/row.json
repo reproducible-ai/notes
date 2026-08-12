@@ -25,7 +25,7 @@
     "costUsd": 0.1,
     "costNote": "Capture cost was lost with the operator's working directory and is deliberately not estimated. The tier-2 certification cost ~$0.10 per the campaign ledger - the cheapest certification in the campaign to date. See costs.md.",
     "fixedCostUsd": 0.07,
-    "scalingCostUsd": 0.01
+    "scalingCostUsd": 0.03
   },
   "reproduce": {
     "hash": "e812e9815b0934fa19a21be4f57c33349a462b5dee108b0fc9692f57b8f04f3a",
@@ -98,5 +98,78 @@
       "set epochs back to 200 (ran 3)"
     ],
     "hw": "1× NVIDIA L40S (g6e.xlarge)"
-  }
+  },
+  "parameters": [
+    {
+      "name": "--n_epochs",
+      "published": "200",
+      "used": "3",
+      "reason": "limit capture cost",
+      "restoresFullRun": true,
+      "where": "implementations/wgan_gp/wgan_gp.py"
+    },
+    {
+      "name": "--seed",
+      "published": "unset",
+      "used": "42",
+      "reason": "make the comparison repeatable",
+      "restoresFullRun": false,
+      "where": "implementations/wgan_gp/wgan_gp.py"
+    }
+  ],
+  "issues": [
+    {
+      "severity": "P0",
+      "title": "No checkpoint is ever written — blocks reproduction outright",
+      "evidence": "issues.md",
+      "upstreamAction": "warranted"
+    },
+    {
+      "severity": "P2",
+      "title": "`nn.BatchNorm1d(out_feat, 0.8)` passes `0.8` as `eps`, not `momentum`",
+      "evidence": "issues.md",
+      "upstreamAction": "warranted"
+    },
+    {
+      "severity": "P2",
+      "title": "`--n_cpu` is dead",
+      "evidence": "issues.md",
+      "upstreamAction": "warranted"
+    },
+    {
+      "severity": "P2",
+      "title": "`--clip_value` is dead in this implementation",
+      "evidence": "issues.md",
+      "upstreamAction": "warranted"
+    },
+    {
+      "severity": "P1",
+      "title": "`requirements.txt` is unpinned and effectively stale",
+      "evidence": "issues.md",
+      "upstreamAction": "warranted"
+    },
+    {
+      "severity": "P2",
+      "title": "`torch.autograd.Variable` is used throughout",
+      "evidence": "issues.md",
+      "upstreamAction": "warranted"
+    },
+    {
+      "severity": "P2",
+      "title": "The repository-level `.gitignore` contains `*.json`",
+      "evidence": "issues.md",
+      "upstreamAction": "warranted"
+    },
+    {
+      "severity": "P2",
+      "title": "The generator is updated using the critic's noise batch",
+      "evidence": "issues.md",
+      "upstreamAction": "warranted"
+    }
+  ],
+  "dataWarnings": [
+    "Capture operator identity and model/harness version are unrecoverable from surviving evidence; operator is intentionally omitted.",
+    "Independent certifier identity and model/harness version are unrecoverable from surviving evidence; certification.certifier is intentionally omitted.",
+    "A complete capture-operator attempt history is unrecoverable; runs is intentionally omitted."
+  ]
 }

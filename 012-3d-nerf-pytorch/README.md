@@ -156,7 +156,7 @@ without one. Moot for a repository that needs a GPU regardless, but it is there.
 
 Tier 1: the record is green on the AI-BOM (100/100), on anonymous URL resolution,
 and on freeze portability, with the workload's import closure fully covered
-(Tier-A misses: zero across 34 pins). **No cold rebuild has certified this row** —
-that is a separate exercise by a different operator, and until it happens the
-certification result stays `null` rather than being inferred from a run that
-exited 0.
+(Tier-A misses: zero across 34 pins). **An independent cold rebuild has now
+certified the row at tier 2:** exit 0, 3/3 executable steps, and 34/34 recorded
+pins present at their exact versions. See `CERT-TIER2.md` for the evidence and
+the remaining OpenGL system-library caveat.

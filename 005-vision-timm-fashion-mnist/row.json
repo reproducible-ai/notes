@@ -36,8 +36,8 @@
     "time": "9m25s",
     "hw": "1x Tesla T4 (g4dn.xlarge)",
     "costUsd": 0.13,
-    "fixedCostUsd": 0.09,
-    "scalingCostUsd": 0.02,
+    "fixedCostUsd": 0.1,
+    "scalingCostUsd": 0.03,
     "captureCostUsd": 0.13,
     "certCostUsd": 0.11
   },
@@ -68,5 +68,115 @@
       "set epochs back to 300 (ran 5)"
     ],
     "hw": "1x Tesla T4 (g4dn.xlarge)"
-  }
+  },
+  "parameters": [
+    {
+      "name": "--epochs",
+      "published": "300",
+      "used": "5",
+      "reason": "limit capture cost",
+      "restoresFullRun": true,
+      "where": "train.py"
+    },
+    {
+      "name": "--dataset",
+      "published": "ImageNet folder",
+      "used": "torch/fashion_mnist",
+      "reason": "use a public low-cost dataset",
+      "restoresFullRun": false,
+      "where": "train.py"
+    },
+    {
+      "name": "--in-chans",
+      "published": "3",
+      "used": "1",
+      "reason": "match grayscale input",
+      "restoresFullRun": false,
+      "where": "train.py"
+    },
+    {
+      "name": "--mean/--std",
+      "published": "ImageNet RGB defaults",
+      "used": "0.2860 / 0.3530",
+      "reason": "avoid invalid three-channel normalization",
+      "restoresFullRun": false,
+      "where": "train.py"
+    },
+    {
+      "name": "--log-wandb",
+      "published": "false",
+      "used": "true",
+      "reason": "exercise upstream logging",
+      "restoresFullRun": false,
+      "where": "train.py"
+    }
+  ],
+  "issues": [
+    {
+      "severity": "P0",
+      "title": "#1 — `--workers 0` / `-j 0` raises before the first batch",
+      "evidence": "issues.md",
+      "upstreamAction": "warranted"
+    },
+    {
+      "severity": "P0",
+      "title": "#2 — `--in-chans 1` keeps the 3-channel mean/std, then crashes",
+      "evidence": "issues.md",
+      "upstreamAction": "warranted"
+    },
+    {
+      "severity": "P2",
+      "title": "#3 — `--log-wandb` degrades to a warning, so a run can train for hours logging nothing",
+      "evidence": "issues.md",
+      "upstreamAction": "warranted"
+    }
+  ],
+  "runs": [
+    {
+      "label": "1",
+      "purpose": "capture-operator attempt",
+      "params": "1 | `2ced85f2` | FAILED — CIFAR-10 recipe, pipeline still being shaped | — | —",
+      "outcome": "failed"
+    },
+    {
+      "label": "2",
+      "purpose": "capture-operator attempt",
+      "params": "2 | `d7a9ef6c` | CANCELLED — superseded before it finished | — | —",
+      "outcome": "aborted"
+    },
+    {
+      "label": "3",
+      "purpose": "capture-operator attempt",
+      "params": "3 | `094063c8` | FAILED — first Fashion-MNIST recipe | — | —",
+      "outcome": "failed"
+    },
+    {
+      "label": "4",
+      "purpose": "capture-operator attempt",
+      "params": "4 | `1900ef21` | FAILED — checkpoint retention changed | — | —",
+      "outcome": "failed"
+    },
+    {
+      "label": "5",
+      "purpose": "capture-operator attempt",
+      "params": "5 | `9b7f8a12` | FAILED — trained and published, record not finalised | — | —",
+      "outcome": "failed"
+    },
+    {
+      "label": "6",
+      "purpose": "capture-operator attempt",
+      "params": "6 | `0db6ecb8` | COMPLETED — the superseded record `42b381d9…` | 9 m 34 s | $0.10",
+      "outcome": "superseded"
+    },
+    {
+      "label": "7",
+      "purpose": "capture-operator attempt",
+      "params": "7 | `f8037549` | COMPLETED — the current record `af56b02d…` | 9 m 25 s | $0.13",
+      "outcome": "ok"
+    }
+  ],
+  "dataWarnings": [
+    "Capture operator identity and model/harness version are unrecoverable from surviving evidence; operator is intentionally omitted.",
+    "Independent certifier identity and model/harness version are unrecoverable from surviving evidence; certification.certifier is intentionally omitted."
+  ]
 }

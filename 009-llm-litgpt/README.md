@@ -100,14 +100,12 @@ Measuring the split rather than scaling the headline:
   At `micro_batch_size 1 × max_seq_length 128` that is 128 tokens per iteration,
   or **$3.07 × 10⁻⁸ per token**.
 
-3e12 tokens is therefore 23.4 billion iterations ≈ **175,133 GPU-hours ≈ 20.0
-years on one T4 ≈ $92,120**. The fixed part is rounding error at that scale.
-
-The number is not advice to spend $92k; it is the honest statement that litgpt's
-own default budget is nine orders of magnitude beyond what a single T4 can serve,
-and that the truncation is what makes this row runnable at all. It holds every
-other flag at this row's values — raising the block size or the batch would
-change throughput substantially.
+The 2,048-token calibration is too short to support a credible forecast for the
+3e12-token default. A previous linear extrapolation produced a $92,120 figure,
+but it held batch size, sequence length, hardware, repeated data and throughput
+constant for roughly twenty years. `row.json` now leaves the estimate empty and
+states the sustained-throughput and hardware measurements a defensible forecast
+would require.
 
 *(An earlier version of this row left the full-run estimate `null`, asserting
 that litgpt defines no default budget for a from-scratch pretrain on custom

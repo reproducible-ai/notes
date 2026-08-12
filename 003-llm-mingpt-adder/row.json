@@ -19,7 +19,7 @@
   },
   "rebuild": {
     "time": "4 min",
-    "hw": "1\u00d7 Tesla T4 (g4dn.xlarge)",
+    "hw": "1× Tesla T4 (g4dn.xlarge)",
     "costUsd": 0.03
   },
   "patch": {
@@ -73,8 +73,62 @@
   "upstreamUrl": "https://github.com/karpathy/minGPT",
   "forkUrl": "https://github.com/reproducible-ai/minGPT",
   "artifactUrl": "https://huggingface.co/reproducible-ai/mingpt",
-  "summary": "Rebuilt with zero changes to upstream source. gpt-nano (0.09M params) trained from scratch to add two 2-digit numbers: 99.2% on the held-out test split in 195s on one T4 \u2014 and 2m22s on 4 CPU cores, so no GPU is needed. No dataset to fetch: AdditionDataset synthesises every problem in-process from a seeded RNG. Two real upstream gaps: setup.py declares only torch but mingpt/utils.py imports numpy, so a clean install per the README fails to import; and the demo has no stopping criterion at all (Trainer.max_iters defaults to None, so it trains forever) and publishes no target accuracy, so max_iters=3000 is the operator's choice, not upstream's.",
+  "summary": "Rebuilt with zero changes to upstream source. gpt-nano (0.09M params) trained from scratch to add two 2-digit numbers: 99.2% on the held-out test split in 195s on one T4 — and 2m22s on 4 CPU cores, so no GPU is needed. No dataset to fetch: AdditionDataset synthesises every problem in-process from a seeded RNG. Two real upstream gaps: setup.py declares only torch but mingpt/utils.py imports numpy, so a clean install per the README fails to import; and the demo has no stopping criterion at all (Trainer.max_iters defaults to None, so it trains forever) and publishes no target accuracy, so max_iters=3000 is the operator's choice, not upstream's.",
   "verified": true,
   "experimentUrl": null,
-  "experimentUrlNote": "recipe did not enable logging; bridge armed but the workload never called wandb"
+  "experimentUrlNote": "recipe did not enable logging; bridge armed but the workload never called wandb",
+  "parameters": [
+    {
+      "name": "trainer.max_iters",
+      "published": "unset",
+      "used": "3000",
+      "reason": "upstream provides no stopping criterion",
+      "restoresFullRun": false,
+      "where": "projects/adder/adder.py"
+    }
+  ],
+  "issues": [
+    {
+      "severity": "P0",
+      "title": "`setup.py` under-declares dependencies — `import mingpt` fails on a clean install",
+      "evidence": "issues.md",
+      "upstreamAction": "warranted"
+    },
+    {
+      "severity": "P1",
+      "title": "The demo has no stopping criterion and no published target metric",
+      "evidence": "issues.md",
+      "upstreamAction": "warranted"
+    },
+    {
+      "severity": "P0",
+      "title": "`mingpt` is not importable without an editable self-install",
+      "evidence": "issues.md",
+      "upstreamAction": "warranted"
+    },
+    {
+      "severity": "P2",
+      "title": "`config.json` is written before the model exists, so it records nulls",
+      "evidence": "issues.md",
+      "upstreamAction": "warranted"
+    }
+  ],
+  "runs": [
+    {
+      "label": "1",
+      "purpose": "capture-operator attempt",
+      "params": "1 | First capture | `reproai-g4dn-plaintorch-a` (g4dn.xlarge, Tesla T4) | 3 min 40 s | $0.00 | FAILED in `setup`, before any training — operator error, see below",
+      "outcome": "failed"
+    },
+    {
+      "label": "2",
+      "purpose": "capture-operator attempt",
+      "params": "2 | Capture | same (agent still warm) | 3 min 58 s | $0.03 | COMPLETED — 99.2 % test, artifact published, all four gates green",
+      "outcome": "ok"
+    }
+  ],
+  "dataWarnings": [
+    "Capture operator identity and model/harness version are unrecoverable from surviving evidence; operator is intentionally omitted.",
+    "Independent certifier identity and model/harness version are unrecoverable from surviving evidence; certification.certifier is intentionally omitted."
+  ]
 }

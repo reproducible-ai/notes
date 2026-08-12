@@ -56,7 +56,7 @@ Metrics, computed by upstream's code at the end of each epoch:
 **Truncated: 1 epoch per stage, against upstream's 30 and 20.** Read from
 upstream's own template, `configs/config_ali09988_candle-5min.yaml`, not guessed.
 The full recipe is about **24.5 hours and $12.9** on the same T4 — see
-`row.json` → `rebuild.fullRunEstimateBasis` for the arithmetic, which is built
+`row.json` → `fullRun.estimateBasis` for the arithmetic, which is built
 from the two measured per-epoch numbers rather than from scaling the total.
 
 ## Zero upstream lines changed

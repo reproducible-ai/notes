@@ -18,7 +18,7 @@
   "license": "MIT",
   "rebuild": {
     "time": "5 min",
-    "hw": "1\u00d7 Tesla T4 (g4dn.xlarge)",
+    "hw": "1× Tesla T4 (g4dn.xlarge)",
     "costUsd": 0.05
   },
   "patch": {
@@ -73,5 +73,73 @@
   "artifactUrl": "https://huggingface.co/reproducible-ai/cleanrl-ppo",
   "summary": "Single-file PPO reproduced at upstream's own default hyperparameters, full 500k timesteps, converged to CartPole-v1's maximum episodic return of 500. Easiest row so far: ppo.py imports nothing from its own repository, so there is no package install to blind a tracer or vanish from a dependency freeze, and the whole dependency set is five distributions that resolve cleanly from PyPI. One real gap, patched in 10 lines: ppo.py as published saves no model at all, only TensorBoard scalars, so there was no artifact to publish. The flag was ported from its own sibling ppo_continuous_action.py, which already has it. Also worth noting: GitHub's licence API reports 'Other' for this repository because ~290 lines of third-party attribution follow the MIT text in LICENSE; the project is MIT.",
   "verified": true,
-  "experimentUrl": "https://huggingface.co/spaces/reproducible-ai/experiments?project=cleanrl-ppo-cartpole"
+  "experimentUrl": "https://huggingface.co/spaces/reproducible-ai/experiments?project=cleanrl-ppo-cartpole",
+  "parameters": [
+    {
+      "name": "save_model",
+      "published": "false / unavailable",
+      "used": "true",
+      "reason": "produce a persistent model artifact",
+      "restoresFullRun": false,
+      "where": "cleanrl/ppo.py"
+    }
+  ],
+  "issues": [
+    {
+      "severity": "P0",
+      "title": "`ppo.py` saves no model at all",
+      "evidence": "issues.md",
+      "upstreamAction": "warranted"
+    },
+    {
+      "severity": "P2",
+      "title": "The output directory name embeds a wall-clock timestamp",
+      "evidence": "issues.md",
+      "upstreamAction": "warranted"
+    },
+    {
+      "severity": "P0",
+      "title": "`.gitignore` dir-ignores `runs`, so the output dir cannot survive a clean checkout",
+      "evidence": "issues.md",
+      "upstreamAction": "warranted"
+    },
+    {
+      "severity": "P2",
+      "title": "GitHub reports the licence as \"Other\"; the project is MIT",
+      "evidence": "issues.md",
+      "upstreamAction": "warranted"
+    }
+  ],
+  "dataWarnings": [
+    "Capture operator identity and model/harness version are unrecoverable from surviving evidence; operator is intentionally omitted.",
+    "Independent certifier identity and model/harness version are unrecoverable from surviving evidence; certification.certifier is intentionally omitted."
+  ],
+  "runs": [
+    {
+      "label": "local-probe",
+      "purpose": "validate the recipe and dependency closure",
+      "params": "CPU, full 500000 timesteps",
+      "durationSec": 300,
+      "costUsd": 0,
+      "outcome": "ok"
+    },
+    {
+      "label": "capture-1",
+      "purpose": "first lineage capture",
+      "params": "500000 timesteps, T4",
+      "durationSec": 338,
+      "costUsd": 0.05,
+      "outcome": "failed",
+      "note": "Training completed, but harness configuration marked the job failed and left lineage unpublished."
+    },
+    {
+      "label": "capture-2",
+      "purpose": "recorded capture",
+      "params": "500000 timesteps, T4",
+      "durationSec": 315,
+      "costUsd": 0.05,
+      "outcome": "ok",
+      "dagHash": "58df327f1e02faf0d64efb8f07daac7c9eca70d3713d008bc8587fea780617be"
+    }
+  ]
 }

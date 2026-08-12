@@ -80,5 +80,113 @@
       "set epochs back to 30 (ran 1)"
     ],
     "hw": "1x Tesla T4 (g4dn.xlarge)"
-  }
+  },
+  "parameters": [
+    {
+      "name": "tokenizer_epochs",
+      "published": "30",
+      "used": "1",
+      "reason": "limit capture cost",
+      "restoresFullRun": true,
+      "where": "finetune_csv config"
+    },
+    {
+      "name": "basemodel_epochs",
+      "published": "20",
+      "used": "1",
+      "reason": "limit capture cost",
+      "restoresFullRun": true,
+      "where": "finetune_csv config"
+    },
+    {
+      "name": "num_workers",
+      "published": "6",
+      "used": "0",
+      "reason": "keep imports in the traced process",
+      "restoresFullRun": false,
+      "where": "finetune_csv config"
+    },
+    {
+      "name": "predictor checkpoint",
+      "published": "Kronos-base",
+      "used": "Kronos-small",
+      "reason": "follow the README quick-start and fit a T4",
+      "restoresFullRun": false,
+      "where": "finetune_csv config"
+    }
+  ],
+  "issues": [
+    {
+      "severity": "P0",
+      "title": "🔴 `finetune_csv/`'s \"Method 2\" entry points both crash before the first batch",
+      "evidence": "issues.md",
+      "upstreamAction": "warranted"
+    },
+    {
+      "severity": "P0",
+      "title": "🟠 `requirements.txt` does not declare PyYAML",
+      "evidence": "issues.md",
+      "upstreamAction": "warranted"
+    },
+    {
+      "severity": "P0",
+      "title": "🟠 The template config cannot run anywhere as shipped",
+      "evidence": "issues.md",
+      "upstreamAction": "warranted"
+    },
+    {
+      "severity": "P0",
+      "title": "🟠 The README quickstart reads a CSV that is not in the repository",
+      "evidence": "issues.md",
+      "upstreamAction": "warranted"
+    },
+    {
+      "severity": "P2",
+      "title": "🟡 The working directory is load-bearing and undocumented",
+      "evidence": "issues.md",
+      "upstreamAction": "warranted"
+    },
+    {
+      "severity": "P2",
+      "title": "🟡 `use_comet` is dead config in `finetune_csv/`",
+      "evidence": "issues.md",
+      "upstreamAction": "warranted"
+    }
+  ],
+  "runs": [
+    {
+      "label": "1",
+      "purpose": "capture-operator attempt",
+      "params": "1 | setup failed — `uv: command not found` | ~4m | ~$0.04",
+      "outcome": "failed"
+    },
+    {
+      "label": "2",
+      "purpose": "capture-operator attempt",
+      "params": "2 | setup ok, `finetune_tokenizer` failed — `NameError: name 'safetensors' is not defined` | ~8m | ~$0.07",
+      "outcome": "failed"
+    },
+    {
+      "label": "3",
+      "purpose": "capture-operator attempt",
+      "params": "3 | ran through setup + fetch + 400 tokenizer steps, then the host disappeared mid-stage | ~20m | ~$0.18",
+      "outcome": "ok"
+    },
+    {
+      "label": "4",
+      "purpose": "capture-operator attempt",
+      "params": "4 | cancelled by me mid-tokenizer on a suspected non-portable torch pin (a false positive: `torch.__version__` said `2.3.0+cu121`, the distribution metadata said a plain `2.3.0`) | ~31m of a shared host | ~$0.27",
+      "outcome": "aborted"
+    },
+    {
+      "label": "5",
+      "purpose": "capture-operator attempt",
+      "params": "5 | COMPLETED — DAG `847b359a…` | 65m32s | $0.57",
+      "outcome": "ok"
+    }
+  ],
+  "dataWarnings": [
+    "Capture operator identity and model/harness version are unrecoverable from surviving evidence; operator is intentionally omitted.",
+    "Independent certifier identity and model/harness version are unrecoverable from surviving evidence; certification.certifier is intentionally omitted."
+  ]
 }
