@@ -40,9 +40,6 @@
     "costUsd": 0.2,
     "fixedCostUsd": 0.19,
     "scalingCostUsd": 0.0013,
-    "fullRunEstimateUsd": 135,
-    "fullRunEstimateBasis": "Measured on the recorded run, g6e.xlarge (1x L40S) at $1.861/hr on-demand in us-east-2. FIXED, per run: instance boot + environment setup ~4.0 min, encoder-weight download 4.9 s (99.2 MB), Hypersim slice fetch 40.3 s, first-CUDA-context and kernel warm-up, measured here at ~110 s on a cold L40S (the same training step took 204 s on a freshly booted instance and 13 s once warm). NOTE: this figure is HOST-SPECIFIC and does not generalise -- an independent cold rebuild on a T4 measured only ~11 s of cold-start penalty (51.2 s cold vs 40.0 s warm). Treat the fixed cost on other hardware as materially lower, checkpoint upload 7 s = ~6.2 min = $0.19. VARIABLE: the epoch itself processed 64 training frames (16 iterations at batch 4) plus 16 validation frames in 4.63 s, of which ~2.0 s was one-off cuDNN autotuning on iteration 0, giving ~0.0325 s per frame = $0.0013 for this slice. Scaling that rate to upstream's full split, one epoch is 59,543 train + 7,386 val = 66,929 frames = ~36.3 min, and 120 epochs = ~72.5 GPU-hours = $135 at the same rate on the same instance. Two things that number does NOT include, both stated rather than guessed: (1) acquiring the full Hypersim dataset - this row fetched 19.6 MB by HTTP range request out of two 2.2 GB scene archives, but the full split spans 411 scenes, roughly 900 GB, which no measurement here supports pricing; (2) upstream's actual recipe is ViT-L on 8 GPUs, a materially larger and differently-parallelised job than the ViT-S single-GPU configuration measured here.",
-    "fullRunEstimateCaveat": "The ~110 s cold-CUDA term in the basis above was measured on this row's own L40S host and did NOT reproduce on an independently certified T4 rebuild (~11 s). The fixed portion is therefore an upper bound tied to the capture host, not a portable per-run cost.",
     "peakGpuMemory": {
       "recordedMiB": 5245,
       "measures": "torch.cuda.max_memory_allocated() -- live tensors only; EXCLUDES the CUDA context and allocator reserve",
@@ -103,5 +100,15 @@
   "roarWheelSha256": "c7115b748886259b6a089e547404376acf84c3b81b4cbc8dc5610490ebea7199",
   "tracer": "preload",
   "playbookVersion": "1.0",
-  "amiId": "ami-0f07f1a0b382b48f7"
+  "amiId": "ami-0f07f1a0b382b48f7",
+  "fullRun": {
+    "estimateUsd": 135,
+    "estimateBasis": "Measured on the recorded run, g6e.xlarge (1x L40S) at $1.861/hr on-demand in us-east-2. FIXED, per run: instance boot + environment setup ~4.0 min, encoder-weight download 4.9 s (99.2 MB), Hypersim slice fetch 40.3 s, first-CUDA-context and kernel warm-up, measured here at ~110 s on a cold L40S (the same training step took 204 s on a freshly booted instance and 13 s once warm). NOTE: this figure is HOST-SPECIFIC and does not generalise -- an independent cold rebuild on a T4 measured only ~11 s of cold-start penalty (51.2 s cold vs 40.0 s warm). Treat the fixed cost on other hardware as materially lower, checkpoint upload 7 s = ~6.2 min = $0.19. VARIABLE: the epoch itself processed 64 training frames (16 iterations at batch 4) plus 16 validation frames in 4.63 s, of which ~2.0 s was one-off cuDNN autotuning on iteration 0, giving ~0.0325 s per frame = $0.0013 for this slice. Scaling that rate to upstream's full split, one epoch is 59,543 train + 7,386 val = 66,929 frames = ~36.3 min, and 120 epochs = ~72.5 GPU-hours = $135 at the same rate on the same instance. Two things that number does NOT include, both stated rather than guessed: (1) acquiring the full Hypersim dataset - this row fetched 19.6 MB by HTTP range request out of two 2.2 GB scene archives, but the full split spans 411 scenes, roughly 900 GB, which no measurement here supports pricing; (2) upstream's actual recipe is ViT-L on 8 GPUs, a materially larger and differently-parallelised job than the ViT-S single-GPU configuration measured here.",
+    "confidence": "moderate",
+    "changes": [
+      "set epochs back to 120 (ran 1)"
+    ],
+    "hw": "1x NVIDIA L40S (g6e.xlarge)",
+    "caveats": "The ~110 s cold-CUDA term in the basis above was measured on this row's own L40S host and did NOT reproduce on an independently certified T4 rebuild (~11 s). The fixed portion is therefore an upper bound tied to the capture host, not a portable per-run cost."
+  }
 }

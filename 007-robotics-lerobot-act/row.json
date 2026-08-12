@@ -16,9 +16,7 @@
     "hw": "1× NVIDIA L40S (g6e.xlarge)",
     "costUsd": 0.57,
     "fixedCostUsd": 0.08,
-    "scalingCostUsd": 0.0004188,
-    "fullRunEstimateUsd": 41.96,
-    "fullRunEstimateBasis": "Every term below was measured on this row — nothing is extrapolated from a headline figure. Hardware: 1x NVIDIA L40S (g6e.xlarge, us-east-2), $1.861/h on-demand. FIXED = 155.8s: cold start 44s (git clone + venv + install of all 98 recorded pins, measured by this row's own cold rebuild on a fresh host, not estimated) + fetch_dataset 4.5s + train-step overhead 24.3s (imports, dataset and policy construction, checkpoint save, tracker flush — this INCLUDES the ResNet-18 ImageNet backbone download, measured separately at 0.34s / 46,830,571 B, so it is counted rather than excluded) + evaluate 83.0s. That is 0.0433h = $0.08. VARIABLE has two terms, both measured, and identical on the capture host and the rebuild host: (1) the optimizer loop at step_s 0.264 s/step (LeRobot's own instrumentation: data_s 0.229 + updt_s 0.035), so 100,000 steps = 26,400s; (2) the held-out eval pass at 82s, which --eval_steps=150 triggers floor(100000/150) = 666 times = 54,612s. TOTAL 81,168s = 22h32m = $41.96, i.e. $0.0004188 per step ($0.0001365 optimizer + $0.0002822 amortised eval). IMPORTANT: the eval term is the larger of the two and it is a property of THIS recipe, not of LeRobot. Upstream's own default is eval_steps=0 (TrainPipelineConfig, src/lerobot/configs/train.py) — no held-out passes at all; --eval_steps=150 was added here so that a 300-step run would still compute a metric. Restoring that upstream default and running the same 100,000 steps costs 26,556s = 7h23m = $13.73. Both numbers are published because the reader's path is `roar reproduce --script` followed by an edit: changing only --steps=300 to 100000 gives $41.96; also restoring --eval_steps to its upstream default gives $13.73."
+    "scalingCostUsd": 0.0004188
   },
   "dagUrl": "https://glaas.ai/dag/27064dbb01d6fa6e241329f93deff5e224eba4400482790adaabf52955be91fb",
   "bomUrl": "https://glaas.ai/dag/27064dbb01d6fa6e241329f93deff5e224eba4400482790adaabf52955be91fb/audit",
@@ -111,5 +109,14 @@
   "difficulty": "7/10 — hard",
   "truncationNote": "300 of LeRobot's own default 100,000 training steps (0.3%), batch 8, seed 1000. Reproduce, not replicate — a pipeline-viability run, not a converged policy; the published weights are not a quality result. Running the recorded recipe out to 100,000 steps is ~22h32m and ~$41.96 on the same instance; most of that is the held-out eval cadence this recipe adds, and restoring upstream's own --eval_steps default of 0 brings it to ~7h23m and ~$13.73.",
   "attributedDagHash": "27064dbb01d6fa6e241329f93deff5e224eba4400482790adaabf52955be91fb",
-  "anonymousDagHash": "f6203101b391dab61b673c3186cf3d766111a72c65f9c186580b25d621a1b293"
+  "anonymousDagHash": "f6203101b391dab61b673c3186cf3d766111a72c65f9c186580b25d621a1b293",
+  "fullRun": {
+    "estimateUsd": 41.96,
+    "estimateBasis": "Every term below was measured on this row — nothing is extrapolated from a headline figure. Hardware: 1x NVIDIA L40S (g6e.xlarge, us-east-2), $1.861/h on-demand. FIXED = 155.8s: cold start 44s (git clone + venv + install of all 98 recorded pins, measured by this row's own cold rebuild on a fresh host, not estimated) + fetch_dataset 4.5s + train-step overhead 24.3s (imports, dataset and policy construction, checkpoint save, tracker flush — this INCLUDES the ResNet-18 ImageNet backbone download, measured separately at 0.34s / 46,830,571 B, so it is counted rather than excluded) + evaluate 83.0s. That is 0.0433h = $0.08. VARIABLE has two terms, both measured, and identical on the capture host and the rebuild host: (1) the optimizer loop at step_s 0.264 s/step (LeRobot's own instrumentation: data_s 0.229 + updt_s 0.035), so 100,000 steps = 26,400s; (2) the held-out eval pass at 82s, which --eval_steps=150 triggers floor(100000/150) = 666 times = 54,612s. TOTAL 81,168s = 22h32m = $41.96, i.e. $0.0004188 per step ($0.0001365 optimizer + $0.0002822 amortised eval). IMPORTANT: the eval term is the larger of the two and it is a property of THIS recipe, not of LeRobot. Upstream's own default is eval_steps=0 (TrainPipelineConfig, src/lerobot/configs/train.py) — no held-out passes at all; --eval_steps=150 was added here so that a 300-step run would still compute a metric. Restoring that upstream default and running the same 100,000 steps costs 26,556s = 7h23m = $13.73. Both numbers are published because the reader's path is `roar reproduce --script` followed by an edit: changing only --steps=300 to 100000 gives $41.96; also restoring --eval_steps to its upstream default gives $13.73.",
+    "confidence": "high",
+    "changes": [
+      "set steps back to 100000 (ran 300)"
+    ],
+    "hw": "1× NVIDIA L40S (g6e.xlarge)"
+  }
 }

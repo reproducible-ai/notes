@@ -5,7 +5,7 @@
   "date": "2026-08-10",
   "status": "reproduced",
   "blocker": null,
-  "difficulty": "4/10 \u2014 moderate",
+  "difficulty": "4/10 — moderate",
   "notes": "https://github.com/reproducible-ai/notes/tree/main/010-vision-torchvision-imagenette",
   "playbookVersion": "1.0",
   "roarVersion": "0.4.4rc2",
@@ -25,7 +25,7 @@
   "experimentUrl": null,
   "experimentUrlNote": "upstream torchvision `references/classification` ships no experiment-logging integration (no wandb/mlflow/tensorboard); adding one would modify the workload",
   "truncated": true,
-  "truncationNote": "4 of the 90 epochs in upstream's documented ResNet recipe, and on Imagenette \u2014 a 10-class, 9,469-image ImageNet subset \u2014 rather than ImageNet-1k.",
+  "truncationNote": "4 of the 90 epochs in upstream's documented ResNet recipe, and on Imagenette — a 10-class, 9,469-image ImageNet subset — rather than ImageNet-1k.",
   "truncation": {
     "ran": 4,
     "full": 90,
@@ -37,9 +37,7 @@
     "hw": "1x Tesla T4 (g4dn.xlarge)",
     "costUsd": 0.18,
     "fixedCostUsd": 0.13,
-    "scalingCostUsd": 0.05,
-    "fullRunEstimateUsd": 1.27,
-    "fullRunEstimateBasis": "Of the 1205s the instance was billed, 340.7s was training (4 epochs) and the remainder is fixed (fetch 151.9s + evaluate 23.7s + instance boot/teardown). Splitting the recorded $0.18 in that proportion gives $0.13 fixed + $0.05 variable, i.e. $0.0127 per epoch. The untruncated 90 epochs therefore cost about $1.27 on the same g4dn.xlarge (T4) at $0.526/h. Per-step durations are from the published DAG; the hourly rate is AWS list price (pricing:GetProducts is denied to this role)."
+    "scalingCostUsd": 0.05
   },
   "reproduce": {
     "hash": "6a5cc35cdb0212b929d80998787902455bd0d7b2fb65a860f4f0db5c92fa630a",
@@ -50,18 +48,27 @@
     "result": "PASS",
     "date": "2026-08-11",
     "evidence": "CERT-TIER2.md",
-    "manifestDiff": "44/44 pins exact \u2014 0 missing, 0 mismatched (70 distributions installed; the 26 extras are the transitive closure)",
-    "resultCaveat": "Certified by two independent cold rebuilds on a fresh g4dn.xlarge, both exit 0 and 3/3 steps (the fourth recorded job is the roar put, excluded by --no-puts by design). The checkpoint regenerates at exactly the published 89,553,609 B but not byte-identically: GPU training here is not bit-deterministic, since cuDNN algorithm selection is unpinned and the reference script exposes no deterministic mode. Held-out top-1 came out 55.29% and 56.03% against the recorded 55.36% \u2014 reproduce, not replicate. The rebuild resolved every package from inside the reproduce venv, with no host package root on sys.path."
+    "manifestDiff": "44/44 pins exact — 0 missing, 0 mismatched (70 distributions installed; the 26 extras are the transitive closure)",
+    "resultCaveat": "Certified by two independent cold rebuilds on a fresh g4dn.xlarge, both exit 0 and 3/3 steps (the fourth recorded job is the roar put, excluded by --no-puts by design). The checkpoint regenerates at exactly the published 89,553,609 B but not byte-identically: GPU training here is not bit-deterministic, since cuDNN algorithm selection is unpinned and the reference script exposes no deterministic mode. Held-out top-1 came out 55.29% and 56.03% against the recorded 55.36% — reproduce, not replicate. The rebuild resolved every package from inside the reproduce venv, with no host package root on sys.path."
   },
   "patch": {
     "lines": 414,
     "url": "https://github.com/pytorch/vision/compare/34572106ad1f0ea95793e379751f8bb0cfeeac1c...reproducible-ai:vision:032ac1b7583ea3db1e21cadbd5156580a9e48c07"
   },
-  "summary": "Truncated reproduction of the torchvision references/classification recipe: resnet18 trained from scratch for 4 epochs (592 optimizer steps) on Imagenette, a 10-class ImageNet subset, reaching top-1 55.36% / top-5 93.10% on the held-out split against the exact checkpoint that was published. No upstream file was modified: the fork adds 414 lines and deletes none \u2014 a workflow, gitignore rules, two additive scripts beside train.py and one document \u2014 so the code path under test is upstream's own. Tier-1 record is green: clean DAG 13/13, AI-BOM 100/100, all artifact URLs public, and a portable freeze with no local-version (+cu) pins and no duplicate PEP-503 spellings. The recorded environment is 44 pins and contains every distribution the recipe is measured to load, including torch, torchvision, numpy, pillow, typing-extensions and tqdm; it is a superset rather than a minimum, and a fresh clone was shown to run the whole pipeline against only 13 of them. Accuracy climbed 31.98 -> 39.85 -> 46.57 -> 55.36 across the four epochs; the run is deliberately truncated, is not converged, and is not an ImageNet number. Six upstream findings, two of them bugs that break documented flags: train.py pickles the run's argparse.Namespace into every checkpoint but reloads with weights_only=True, so --resume and --test-only --resume cannot read a checkpoint train.py itself just wrote on PyTorch >= 2.6 (a prepared patch is included, verified against a real checkpoint, not submitted); and CosineAnnealingLR is built with an unguarded T_max = epochs - lr_warmup_epochs, so --epochs 1 with the README's own --lr-warmup-epochs 1 cannot start, which is exactly the command a newcomer reaches for first. The script also writes two 89 MB checkpoints per epoch with no flag to ask for fewer, the repository root shadows the installed torchvision so the reference scripts must be invoked by path rather than as -m modules, and a stale egg-info makes importlib.metadata report a version published to no index.",
+  "summary": "Truncated reproduction of the torchvision references/classification recipe: resnet18 trained from scratch for 4 epochs (592 optimizer steps) on Imagenette, a 10-class ImageNet subset, reaching top-1 55.36% / top-5 93.10% on the held-out split against the exact checkpoint that was published. No upstream file was modified: the fork adds 414 lines and deletes none — a workflow, gitignore rules, two additive scripts beside train.py and one document — so the code path under test is upstream's own. Tier-1 record is green: clean DAG 13/13, AI-BOM 100/100, all artifact URLs public, and a portable freeze with no local-version (+cu) pins and no duplicate PEP-503 spellings. The recorded environment is 44 pins and contains every distribution the recipe is measured to load, including torch, torchvision, numpy, pillow, typing-extensions and tqdm; it is a superset rather than a minimum, and a fresh clone was shown to run the whole pipeline against only 13 of them. Accuracy climbed 31.98 -> 39.85 -> 46.57 -> 55.36 across the four epochs; the run is deliberately truncated, is not converged, and is not an ImageNet number. Six upstream findings, two of them bugs that break documented flags: train.py pickles the run's argparse.Namespace into every checkpoint but reloads with weights_only=True, so --resume and --test-only --resume cannot read a checkpoint train.py itself just wrote on PyTorch >= 2.6 (a prepared patch is included, verified against a real checkpoint, not submitted); and CosineAnnealingLR is built with an unguarded T_max = epochs - lr_warmup_epochs, so --epochs 1 with the README's own --lr-warmup-epochs 1 cannot start, which is exactly the command a newcomer reaches for first. The script also writes two 89 MB checkpoints per epoch with no flag to ask for fewer, the repository root shadows the installed torchvision so the reference scripts must be invoked by path rather than as -m modules, and a stale egg-info makes importlib.metadata report a version published to no index.",
   "supersededDagHashes": [
     "4a67bb177a77a98a37d64a05a3951fb66f48c556c155d03e33977d44068bff8c",
     "add909952780e9a9764560ad8f91d63533007094425fc5c4ee73c62be2c3a64d",
     "ed219627ea749ea98f64a9922e275afca8fa7c53060bb5983e582393f2137961"
   ],
-  "verified": true
+  "verified": true,
+  "fullRun": {
+    "estimateUsd": 1.27,
+    "estimateBasis": "Of the 1205s the instance was billed, 340.7s was training (4 epochs) and the remainder is fixed (fetch 151.9s + evaluate 23.7s + instance boot/teardown). Splitting the recorded $0.18 in that proportion gives $0.13 fixed + $0.05 variable, i.e. $0.0127 per epoch. The untruncated 90 epochs therefore cost about $1.27 on the same g4dn.xlarge (T4) at $0.526/h. Per-step durations are from the published DAG; the hourly rate is AWS list price (pricing:GetProducts is denied to this role).",
+    "confidence": "moderate",
+    "changes": [
+      "set epochs back to 90 (ran 4)"
+    ],
+    "hw": "1x Tesla T4 (g4dn.xlarge)"
+  }
 }

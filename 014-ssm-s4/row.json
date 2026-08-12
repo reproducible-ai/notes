@@ -42,9 +42,7 @@
     "hw": "1× Tesla T4 (g4dn.xlarge)",
     "costUsd": 0.08,
     "fixedCostUsd": 0.06,
-    "scalingCostUsd": 0.02,
-    "fullRunEstimateUsd": 3.5,
-    "fullRunEstimateBasis": "The traced train step took 135.7s. Upstream's own Timer callback puts 117.7s of that in the epoch (1,080 steps at batch 50 plus the 6,000-image validation pass); the remaining 18.0s is fixed inside the step (torch import, the 11 MB MNIST download, dataset construction, S4 kernel init). Outside the step, provisioning 2m45s, the pinned-environment install 3m34s and label+publish 4s are also fixed — about 6m40s of fixed cost in total. A full 200-epoch run (configs/trainer/default.yaml) is therefore 200 × 117.7s = 6h32m of training plus that fixed ~6m40s. At the g4dn.xlarge on-demand rate of $0.526/h in us-east-2: 6.54h × $0.526 = $3.44 variable + $0.06 fixed ≈ $3.50. Scaling the row's own $0.08 by 200 would have said $16 — 4.5× too high, because 83% of this run's wall clock does not scale."
+    "scalingCostUsd": 0.02
   },
   "metrics": {
     "val/accuracy": 0.94083,
@@ -164,5 +162,14 @@
     "costUsd": 0.21,
     "evidence": "014-ssm-s4/CERT-TIER2.md",
     "certifiedBy": "independent agent; did not capture this row and did not read the capture working directory"
+  },
+  "fullRun": {
+    "estimateUsd": 3.5,
+    "estimateBasis": "The traced train step took 135.7s. Upstream's own Timer callback puts 117.7s of that in the epoch (1,080 steps at batch 50 plus the 6,000-image validation pass); the remaining 18.0s is fixed inside the step (torch import, the 11 MB MNIST download, dataset construction, S4 kernel init). Outside the step, provisioning 2m45s, the pinned-environment install 3m34s and label+publish 4s are also fixed — about 6m40s of fixed cost in total. A full 200-epoch run (configs/trainer/default.yaml) is therefore 200 × 117.7s = 6h32m of training plus that fixed ~6m40s. At the g4dn.xlarge on-demand rate of $0.526/h in us-east-2: 6.54h × $0.526 = $3.44 variable + $0.06 fixed ≈ $3.50. Scaling the row's own $0.08 by 200 would have said $16 — 4.5× too high, because 83% of this run's wall clock does not scale.",
+    "confidence": "moderate",
+    "changes": [
+      "set epochs back to 200 (ran 1)"
+    ],
+    "hw": "1× Tesla T4 (g4dn.xlarge)"
   }
 }

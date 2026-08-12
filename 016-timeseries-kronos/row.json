@@ -37,9 +37,7 @@
     "hw": "1x Tesla T4 (g4dn.xlarge)",
     "costUsd": 0.57,
     "fixedCostUsd": 0.01,
-    "scalingCostUsd": 0.56,
-    "fullRunEstimateUsd": 12.9,
-    "fullRunEstimateBasis": "Measured per stage by roar, not inferred from the total. fetch_pretrained 4.5s; finetune_tokenizer 984.2s for its 1 epoch; finetune_predictor 2918.0s for its 1 epoch; 3906.7s of traced work inside a 3932s job. Because each stage loads its model once and then runs 2,623 optimizer steps at batch 32 plus a 276-batch validation pass, essentially the whole of each stage is per-epoch cost: 2,623 x 0.358s + validation = ~980s per tokenizer epoch, and 2,623 x 1.077s + validation = ~2,913s per predictor epoch. Upstream's full recipe is 30 tokenizer epochs + 20 predictor epochs = 30 x 980 + 20 x 2,913 = 29,400 + 58,260 = 87,660s = 24.35h. At the g4dn.xlarge on-demand list price of $0.526/h ($0.0001461/s) that is $12.81 of training, plus fixed cost, so about $12.9 and roughly 24.5 hours on the same T4. The fixed half is the weak part of this arithmetic and is stated as such: the fixed portion measured on this run is only ~26s, because the on-demand target handed the job a WARM instance on which roar and upstream's requirements were already installed from an earlier attempt. A genuinely cold host must also boot (174s from provider-accept to agent-acquired, observed on the first attempt of this row), clone, install upstream's requirements and install roar - call it 6 minutes, which is $0.05. That guess is immaterial to the estimate: 6 minutes is 0.4% of a 24.5-hour run, so the full-run figure is dominated by the two per-epoch numbers, which are measured. Hourly rate is AWS list price; pricing:GetProducts and ce:GetCostAndUsage are both denied to this role."
+    "scalingCostUsd": 0.56
   },
   "reproduce": {
     "hash": "847b359a9f1a0ae3a31a621f9901f57e5387f37610adabc9e7bd24f4ecdae97d",
@@ -73,5 +71,14 @@
     "url": null,
     "summary": "Zero lines of upstream source are changed in the fork. Two files are added: finetune_csv/configs/config_repro_kronos-small_1epoch.yaml, derived from upstream's own template with the /xxxx/ placeholder paths made relative and the epoch counts truncated, and repro/fetch_pretrained.py, a five-line huggingface_hub.snapshot_download call pinned to the two model revisions upstream's own regression test pins. A real one-word-per-site fix for the UnboundLocalError that makes finetune_csv/finetune_tokenizer.py and finetune_csv/finetune_base_model.py unrunnable is included as patches/0001-fix-unboundlocalerror-os-in-finetune_csv-entrypoints.patch and is deliberately NOT applied: this row routes around the bug by using upstream's recommended train_sequential.py instead, which keeps the zero-upstream-lines property intact. The patch was not submitted upstream; campaign policy forbids external contact."
   },
-  "verified": true
+  "verified": true,
+  "fullRun": {
+    "estimateUsd": 12.9,
+    "estimateBasis": "Measured per stage by roar, not inferred from the total. fetch_pretrained 4.5s; finetune_tokenizer 984.2s for its 1 epoch; finetune_predictor 2918.0s for its 1 epoch; 3906.7s of traced work inside a 3932s job. Because each stage loads its model once and then runs 2,623 optimizer steps at batch 32 plus a 276-batch validation pass, essentially the whole of each stage is per-epoch cost: 2,623 x 0.358s + validation = ~980s per tokenizer epoch, and 2,623 x 1.077s + validation = ~2,913s per predictor epoch. Upstream's full recipe is 30 tokenizer epochs + 20 predictor epochs = 30 x 980 + 20 x 2,913 = 29,400 + 58,260 = 87,660s = 24.35h. At the g4dn.xlarge on-demand list price of $0.526/h ($0.0001461/s) that is $12.81 of training, plus fixed cost, so about $12.9 and roughly 24.5 hours on the same T4. The fixed half is the weak part of this arithmetic and is stated as such: the fixed portion measured on this run is only ~26s, because the on-demand target handed the job a WARM instance on which roar and upstream's requirements were already installed from an earlier attempt. A genuinely cold host must also boot (174s from provider-accept to agent-acquired, observed on the first attempt of this row), clone, install upstream's requirements and install roar - call it 6 minutes, which is $0.05. That guess is immaterial to the estimate: 6 minutes is 0.4% of a 24.5-hour run, so the full-run figure is dominated by the two per-epoch numbers, which are measured. Hourly rate is AWS list price; pricing:GetProducts and ce:GetCostAndUsage are both denied to this role.",
+    "confidence": "moderate",
+    "changes": [
+      "set epochs back to 30 (ran 1)"
+    ],
+    "hw": "1x Tesla T4 (g4dn.xlarge)"
+  }
 }

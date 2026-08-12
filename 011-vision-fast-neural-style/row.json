@@ -6,29 +6,23 @@
   "status": "blocked",
   "statusSub": "capture blocked — the pipeline runs, the attributed record does not carry it",
   "blocker": "Eight job launches across two operators. The training pipeline succeeded on six of them and its outputs are published and public; no launch produced an attributed lineage record that carries the run's steps AND satisfies the publish-precondition check at the same time. One record does carry its three traced steps and scores 97.5/100 on the AI-BOM (63edfd1d69128bf4032d089ace64aa301c1a44e0b60d48abfe83b619d4e6e377) but was produced by a run whose upload stage did not execute, so it records no artifact destination and the precondition check blocks it. Every other record came back with its session present, correctly attributed and carrying zero steps. The causes are in the recording layer, not in pytorch/examples, and are documented in the operator's private notes per this project's boundary rules. The model, the recipe and the artifacts are all real and all published; the row is held because the record is not.",
-
   "summary": "Fast neural style transfer (Johnson et al., perceptual losses + instance normalisation): a small convolutional TransformerNet trained to apply one fixed artistic style in a single forward pass, supervised by a frozen VGG-16 supplying a content loss on relu2_2 and a Gram-matrix style loss across four layers. Selected as the cleanest candidate available — three declared dependencies, torch.save only, no OS-package edge, no copy or link anywhere in the subdirectory — to test whether a simple workload yields a simple record. It does not. The model trained correctly six times across two operators, and the trained checkpoint and the stylised image it renders are published and public. No attributed DAG that both carries the run's steps and passes the publish gate was ever produced, so the row is held with no hash.",
-
   "upstreamUrl": "https://github.com/pytorch/examples",
   "forkUrl": "https://github.com/reproducible-ai/examples",
   "upstreamCommit": "32ab2fe40f06201748c77789583b14e754155011",
   "artifactUrl": "https://huggingface.co/reproducible-ai/fast-neural-style",
   "notes": "https://github.com/reproducible-ai/notes/tree/main/011-vision-fast-neural-style",
   "license": "BSD-3-Clause",
-
   "dagHash": null,
   "dagUrl": null,
   "bomUrl": null,
   "bomScore": null,
-
   "verified": false,
   "difficulty": "6/10 — trivial to run, hard to record",
-
   "patch": {
     "lines": 0,
     "url": null
   },
-
   "truncated": true,
   "truncationNote": "1 of upstream's default 2 epochs, over Imagenette-320 (9,469 images) rather than the README's COCO-2014-train (82,783). Not converged.",
   "truncation": {
@@ -37,20 +31,15 @@
     "unit": "epochs",
     "note": "upstream's default is --epochs 2 (neural_style/neural_style.py:196), read from the parser default, not guessed. The dataset is truncated on a second, independent axis: upstream's README trains on COCO 2014 train (82,783 images / 13 GB, a manual browser download with no fetch script); this row substitutes Imagenette-320 (9,469 images / 342 MB, one public tarball, sha256 569b4497c98db6dd29f335d1f109cf315fe127053cedf69010d047f0188e158c). That substitution is a scale decision, not a semantic one — the objective is a VGG-16 perceptual loss plus a Gram-matrix style term and depends on no COCO annotation, category or photograph, only on a varied corpus of natural images."
   },
-
   "rebuild": {
     "time": "19m12s",
     "hw": "1× Tesla T4 (g4dn.xlarge)",
     "costUsd": 0.17,
     "fixedCostUsd": 0.0964,
-    "scalingCostUsd": 0.0719,
-    "fullRunEstimateUsd": 0.24,
-    "fullRunEstimateBasis": "g4dn.xlarge on-demand us-east-2 at $0.526/hr ($0.00014611/s). Fixed portion 660 s = $0.0964: instance boot 144 s, setup 202 s (provenance-CLI install, wheel sha256 verification, environment gates), dataset fetch 50 s, stylize 11 s, label 1 s, lineage export + publish 97 s, teardown 94 s, plus 60 s of startup and shutdown inside the train step — of which the VGG-16 ImageNet weight download is 4.10 s / 553,433,881 bytes, measured directly into a throwaway TORCH_HOME rather than assumed (4.10 / 3.75 / 3.85 s across three cold hosts). Variable portion 492 s/epoch = $0.0719, from a measured 19.26 images/s (8,669 images in 450 s between the first log line and the model save) over 9,469 images. Untruncated = 660 + 2×492 = 1,644 s = 27m24s = $0.240. The least stable component is the lineage publish: 48 s on the run these figures come from, and 104 s / 166 s / 295 s on three others of the same recipe; substituting the worst case moves the untruncated estimate to $0.28, so the number is good to about ±15%. Not costed out: upstream's own COCO-2014 recipe would be ~4,298 s/epoch at the same throughput (~2.4 h, ~$1.35 for 2 epochs) plus an untimed 13 GB manual download."
+    "scalingCostUsd": 0.0719
   },
-
   "experimentUrl": null,
   "experimentUrlNote": "upstream examples/fast_neural_style ships no experiment-logging integration — grepped the whole subdirectory for wandb, mlflow, trackio, tensorboard, SummaryWriter, comet, neptune and report_to: zero hits. There is no flag to enable. The metrics bridge only intercepts a wandb import the workload actually performs, so against this workload it is a guaranteed no-op; it was removed from the workflow rather than left in, so the record does not imply a logging path that does not exist. Adding wandb.init() to neural_style.py would have produced a link and forfeited the zero-upstream-lines property that makes the row evidence. There is also nothing to log: the example computes no held-out metric, and its only evaluation renders an image.",
-
   "certification": {
     "tier": 1,
     "result": null,
@@ -59,10 +48,18 @@
     "resultCaveat": "Not certified, and not certifiable as it stands: no attributed DAG both carries the run's steps and passes the publish-precondition check, so there is no hash a cold rebuild can start from. This operator performed the capture only — certification is done by a different agent so that what is measured is whether a stranger can rebuild from published materials, not whether the author can. result stays null until a cold rebuild produces an actual finding; it is never transcribed from an exit code.",
     "candidateDagHash": "63edfd1d69128bf4032d089ace64aa301c1a44e0b60d48abfe83b619d4e6e377"
   },
-
   "roarVersion": "0.4.4rc6",
   "roarWheelSha256": "c7115b748886259b6a089e547404376acf84c3b81b4cbc8dc5610490ebea7199",
   "playbookVersion": "1.0",
   "tracer": "preload",
-  "amiId": null
+  "amiId": null,
+  "fullRun": {
+    "estimateUsd": 0.24,
+    "estimateBasis": "g4dn.xlarge on-demand us-east-2 at $0.526/hr ($0.00014611/s). Fixed portion 660 s = $0.0964: instance boot 144 s, setup 202 s (provenance-CLI install, wheel sha256 verification, environment gates), dataset fetch 50 s, stylize 11 s, label 1 s, lineage export + publish 97 s, teardown 94 s, plus 60 s of startup and shutdown inside the train step — of which the VGG-16 ImageNet weight download is 4.10 s / 553,433,881 bytes, measured directly into a throwaway TORCH_HOME rather than assumed (4.10 / 3.75 / 3.85 s across three cold hosts). Variable portion 492 s/epoch = $0.0719, from a measured 19.26 images/s (8,669 images in 450 s between the first log line and the model save) over 9,469 images. Untruncated = 660 + 2×492 = 1,644 s = 27m24s = $0.240. The least stable component is the lineage publish: 48 s on the run these figures come from, and 104 s / 166 s / 295 s on three others of the same recipe; substituting the worst case moves the untruncated estimate to $0.28, so the number is good to about ±15%. Not costed out: upstream's own COCO-2014 recipe would be ~4,298 s/epoch at the same throughput (~2.4 h, ~$1.35 for 2 epochs) plus an untimed 13 GB manual download.",
+    "confidence": "moderate",
+    "changes": [
+      "set epochs back to 2 (ran 1)"
+    ],
+    "hw": "1× Tesla T4 (g4dn.xlarge)"
+  }
 }
