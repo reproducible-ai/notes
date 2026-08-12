@@ -1,0 +1,59 @@
+{
+  "name": "Kronos (Kronos-small / HK 09988 5-min K-lines)",
+  "org": "Tsinghua University / shiyu-coder",
+  "type": "time-series",
+  "date": "2026-08-12",
+  "status": "reproduced",
+  "blocker": null,
+  "notes": "https://github.com/reproducible-ai/notes/tree/main/016-timeseries-kronos",
+  "summary": "The campaign's first time-series row, and its first financial one. Kronos is a decoder-only foundation model for K-line (candlestick) sequences, pre-trained across 45 exchanges; this row runs its published bring-your-own-CSV fine-tuning recipe end to end on a single T4. Both stages are upstream's own train_sequential.py invoked exactly as finetune_csv/README.md documents: stage 1 adapts Kronos-Tokenizer-base (3,958,042 params) to the data and writes a new tokenizer, stage 2 adapts Kronos-small (24,741,376 params) on the tokens that new tokenizer produces. The data is the 93,912-row 5-minute K-line series for Alibaba HK 09988 that ships inside the repository, split 0.9/0.1 by upstream's own config ratios into 83,960 training and 8,832 validation windows of 512 lookback + 48 predict. Truncated to 1 epoch per stage against upstream defaults of 30 and 20; validation loss is computed by upstream's code at the end of each epoch and both checkpoints are written by upstream's save_pretrained. Zero lines of upstream source are modified - the only additions are a config file derived from upstream's own template with the /xxxx/ placeholder paths made relative, and a five-line weight-download script. Five upstream findings, one of them serious: finetune_csv's documented 'Method 2' entry points, finetune_tokenizer.py and finetune_base_model.py, both die with UnboundLocalError before the first batch because main() re-imports os inside an else branch and makes it function-local while os.makedirs() is called earlier. Both are unrunnable as shipped; the fix is one word per site and is included as a patch that is deliberately NOT applied to the fork. Also: requirements.txt omits PyYAML although config_loader.py imports it; the README quickstart reads ./data/XSHG_5min_600977.csv, which is not in the repository; the working directory is load-bearing and undocumented, because every entry point does sys.path.append('../') to reach the model package; and use_comet is dead config in the CSV pipeline, read into the config dict but never used to construct a logger. The honest caveat on this record is not about Kronos. The compute target reuses on-demand instances warm between jobs, and the host handed to this row still carried another row's downgrade of the shared interpreter, so the freeze records torch 2.3.0 and numpy 1.26.4 where this AMI family ships 2.7.0 and numpy 2.x. The set is self-consistent, portable and Tier-A complete, so the row rebuilds - but it rebuilds against another row's leftovers, not against the image.",
+  "playbookVersion": "1.0",
+  "roarVersion": "0.4.4rc6",
+  "roarWheelSha256": "c7115b748886259b6a089e547404376acf84c3b81b4cbc8dc5610490ebea7199",
+  "tracer": "preload",
+  "amiId": "ami-0f07f1a0b382b48f7",
+  "upstreamCommit": "67b630e",
+  "forkCommit": "a6ba0bd",
+  "license": "MIT",
+  "dagHash": "847b359a9f1a0ae3a31a621f9901f57e5387f37610adabc9e7bd24f4ecdae97d",
+  "dagUrl": "https://glaas.ai/dag/847b359a9f1a0ae3a31a621f9901f57e5387f37610adabc9e7bd24f4ecdae97d",
+  "bomUrl": "https://glaas.ai/dag/847b359a9f1a0ae3a31a621f9901f57e5387f37610adabc9e7bd24f4ecdae97d/audit",
+  "bomScore": 100,
+  "upstreamUrl": "https://github.com/shiyu-coder/Kronos",
+  "forkUrl": "https://github.com/reproducible-ai/Kronos",
+  "artifactUrl": "https://huggingface.co/reproducible-ai/kronos",
+  "experimentUrl": null,
+  "experimentUrlNote": "Upstream ships no wandb-compatible experiment logging, so there is nothing to switch on and adding any would modify the workload. Verified rather than assumed: a grep for wandb, mlflow, trackio, tensorboard, neptune and report_to across every file in the repository returns no hit outside our own workflow file. The only logging integration Kronos has is Comet, and it is wired exclusively into the OTHER pipeline - finetune/train_predictor.py:12,200 and finetune/train_tokenizer.py:15,238 - which trains from Qlib data this row does not use. In the CSV pipeline that this row does run, config_loader.py:165 reads experiment.use_comet and forwards it through get_tokenizer_config() and get_basemodel_config(), but nothing under finetune_csv/ imports comet_ml or constructs a logger, so the flag is dead config: setting it true changes nothing. Comet is not bridged by the wandb-to-trackio shim in any case, and would require an API key and workspace on a training host. Consequently --wandb-to-trackio and TRACKIO_SPACE_ID were REMOVED from the run stages rather than left in as scaffolding: with no wandb call to intercept the bridge cannot forward anything, and its import attempt alone has previously been enough to attribute trackio and gradio_client into a recorded freeze.",
+  "difficulty": "6/10 - the recipe is real and runs, but two of the three documented entry points are broken",
+  "truncated": true,
+  "truncation": {
+    "ran": 1,
+    "full": 30,
+    "unit": "epochs",
+    "note": "Both stages ran 1 epoch. Upstream's own template config, finetune_csv/configs/config_ali09988_candle-5min.yaml, sets tokenizer_epochs: 30 and basemodel_epochs: 20, so the full recipe is 30 tokenizer epochs followed by 20 predictor epochs; the single number above is the tokenizer's. Nothing else is truncated - the data split is upstream's own 0.9/0.1, all 83,960 training windows are seen in that epoch at upstream's batch_size 32, and the lookback 512 / predict 48 / clip 5.0 geometry is untouched. The two config values that differ for reasons other than truncation are num_workers 6 -> 0, so that the traced process performs its own imports and the recorded package set describes the training process rather than a loader subprocess, and the pretrained predictor, which is Kronos-small rather than the template's Kronos-base: Kronos-small is the checkpoint upstream's README quickstart and tests/test_kronos_regression.py both use, it shares the 512-token context of Kronos-Tokenizer-base, and Kronos-base would not have fit the budget for this row."
+  },
+  "rebuild": {
+    "time": "65m32s",
+    "hw": "1x Tesla T4 (g4dn.xlarge)",
+    "costUsd": 0.57,
+    "fixedCostUsd": 0.01,
+    "scalingCostUsd": 0.56,
+    "fullRunEstimateUsd": 12.9,
+    "fullRunEstimateBasis": "Measured per stage by roar, not inferred from the total. fetch_pretrained 4.5s; finetune_tokenizer 984.2s for its 1 epoch; finetune_predictor 2918.0s for its 1 epoch; 3906.7s of traced work inside a 3932s job. Because each stage loads its model once and then runs 2,623 optimizer steps at batch 32 plus a 276-batch validation pass, essentially the whole of each stage is per-epoch cost: 2,623 x 0.358s + validation = ~980s per tokenizer epoch, and 2,623 x 1.077s + validation = ~2,913s per predictor epoch. Upstream's full recipe is 30 tokenizer epochs + 20 predictor epochs = 30 x 980 + 20 x 2,913 = 29,400 + 58,260 = 87,660s = 24.35h. At the g4dn.xlarge on-demand list price of $0.526/h ($0.0001461/s) that is $12.81 of training, plus fixed cost, so about $12.9 and roughly 24.5 hours on the same T4. The fixed half is the weak part of this arithmetic and is stated as such: the fixed portion measured on this run is only ~26s, because the on-demand target handed the job a WARM instance on which roar and upstream's requirements were already installed from an earlier attempt. A genuinely cold host must also boot (174s from provider-accept to agent-acquired, observed on the first attempt of this row), clone, install upstream's requirements and install roar - call it 6 minutes, which is $0.05. That guess is immaterial to the estimate: 6 minutes is 0.4% of a 24.5-hour run, so the full-run figure is dominated by the two per-epoch numbers, which are measured. Hourly rate is AWS list price; pricing:GetProducts and ce:GetCostAndUsage are both denied to this role."
+  },
+  "reproduce": {
+    "hash": "847b359a9f1a0ae3a31a621f9901f57e5387f37610adabc9e7bd24f4ecdae97d",
+    "cmd": "roar reproduce 847b359a9f1a0ae3a31a621f9901f57e5387f37610adabc9e7bd24f4ecdae97d --lineage --run --no-puts"
+  },
+  "certification": {
+    "tier": 1,
+    "result": null,
+    "resultCaveat": "Not certified. This is a capture-only record: a different agent performs the cold rebuild, and certification.result is a finding from that rebuild, never a transcription of this run's exit code. Tier 1 is green on all four gates - clean-DAG 13/13, AI-BOM 100/100 (profile Advanced), all URLs public anonymously, freeze PORTABLE - and imports-vs-freeze reports Tier-A missing ZERO across both training steps, with fsspec the only Tier-B hint (a torch dependency that installs transitively). Two things a certifier should know before starting. First, the recorded torch is 2.3.0 and numpy is 1.26.4, where this AMI family ships torch 2.7.0 and numpy 2.x; those versions are another row's downgrade of the shared interpreter, still resident on a warm on-demand instance, not a choice made here. They are plain, PyPI-resolvable and mutually consistent, so the set should install - but note that torch.__version__ on that host read 2.3.0+cu121 while the distribution metadata read a plain 2.3.0, and it is the distribution version that roar records and a rebuild resolves. Second, the recorded package set contains onnx, onnxruntime, onnxscript, onnx-ir, ml_dtypes, protobuf, pyarrow and google-auth, none of which Kronos imports; they are loaded by the SageMaker-derived base image at interpreter start (onnxruntime announces itself in the training log with a GPU device discovery warning) and by roar's own stack. They are recorded because they were genuinely loaded, and all resolve from PyPI."
+  },
+  "patch": {
+    "lines": 0,
+    "url": null,
+    "summary": "Zero lines of upstream source are changed in the fork. Two files are added: finetune_csv/configs/config_repro_kronos-small_1epoch.yaml, derived from upstream's own template with the /xxxx/ placeholder paths made relative and the epoch counts truncated, and repro/fetch_pretrained.py, a five-line huggingface_hub.snapshot_download call pinned to the two model revisions upstream's own regression test pins. A real one-word-per-site fix for the UnboundLocalError that makes finetune_csv/finetune_tokenizer.py and finetune_csv/finetune_base_model.py unrunnable is included as patches/0001-fix-unboundlocalerror-os-in-finetune_csv-entrypoints.patch and is deliberately NOT applied: this row routes around the bug by using upstream's recommended train_sequential.py instead, which keeps the zero-upstream-lines property intact. The patch was not submitted upstream; campaign policy forbids external contact."
+  },
+  "verified": false
+}
