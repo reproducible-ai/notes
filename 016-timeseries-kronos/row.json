@@ -47,7 +47,7 @@
   },
   "certification": {
     "tier": 2,
-    "result": "reproduced",
+    "result": "PASS",
     "certifiedOn": "2026-08-12",
     "dagHash": "847b359a9f1a0ae3a31a621f9901f57e5387f37610adabc9e7bd24f4ecdae97d",
     "roarVersion": "0.4.4rc6",
@@ -73,5 +73,5 @@
     "url": null,
     "summary": "Zero lines of upstream source are changed in the fork. Two files are added: finetune_csv/configs/config_repro_kronos-small_1epoch.yaml, derived from upstream's own template with the /xxxx/ placeholder paths made relative and the epoch counts truncated, and repro/fetch_pretrained.py, a five-line huggingface_hub.snapshot_download call pinned to the two model revisions upstream's own regression test pins. A real one-word-per-site fix for the UnboundLocalError that makes finetune_csv/finetune_tokenizer.py and finetune_csv/finetune_base_model.py unrunnable is included as patches/0001-fix-unboundlocalerror-os-in-finetune_csv-entrypoints.patch and is deliberately NOT applied: this row routes around the bug by using upstream's recommended train_sequential.py instead, which keeps the zero-upstream-lines property intact. The patch was not submitted upstream; campaign policy forbids external contact."
   },
-  "verified": false
+  "verified": true
 }
