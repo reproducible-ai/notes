@@ -87,6 +87,9 @@ Of the 107.5 s pretrain stage, **0.43 s is actual token throughput** — 16 iter
 validation pass. That is the whole reason a full-run estimate cannot be produced by
 multiplying the headline: 99.93 % of this run is fixed cost.
 
-At litgpt's default `max_tokens` of 3e12 (`litgpt/pretrain.py:61`) the variable part
-becomes 23.4 billion iterations ≈ 175,133 GPU-hours ≈ **20.0 years on one T4 ≈
-$92,120**. See `row.json` → `rebuild.fullRunEstimateBasis` for the arithmetic.
+At litgpt's default `max_tokens` of 3e12 (`litgpt/pretrain.py:61`), a direct linear
+extrapolation produces 23.4 billion iterations and roughly $92,120 on one T4. That
+arithmetic is reproducible but is not a defensible forecast: the calibration is
+compile-dominated and too short to establish sustained throughput or a full-scale
+hardware plan. See `row.json` → `fullRun.estimateBasis` for why the estimate is now
+intentionally empty.

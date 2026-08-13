@@ -51,4 +51,4 @@ and is 0.4% of a full 24.5-hour run, so it does not move the estimate.
 
 ## Full-run estimate
 
-(see `row.json` -> `rebuild.fullRunEstimateBasis`)
+(see `row.json` -> `fullRun.estimateBasis`)

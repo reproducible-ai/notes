@@ -70,5 +70,116 @@
       "set epochs back to 90 (ran 4)"
     ],
     "hw": "1x Tesla T4 (g4dn.xlarge)"
-  }
+  },
+  "parameters": [
+    {
+      "name": "--epochs",
+      "published": "90",
+      "used": "4",
+      "reason": "limit capture cost",
+      "restoresFullRun": true,
+      "where": "references/classification/train.py"
+    },
+    {
+      "name": "dataset",
+      "published": "ImageNet-1k",
+      "used": "Imagenette",
+      "reason": "use a public low-cost subset",
+      "restoresFullRun": false,
+      "where": "data path"
+    },
+    {
+      "name": "--model",
+      "published": "resnet50",
+      "used": "resnet18",
+      "reason": "fit the single-T4 budget",
+      "restoresFullRun": false,
+      "where": "references/classification/train.py"
+    },
+    {
+      "name": "--workers",
+      "published": "16",
+      "used": "0",
+      "reason": "keep loading in the traced process",
+      "restoresFullRun": false,
+      "where": "references/classification/train.py"
+    }
+  ],
+  "issues": [
+    {
+      "severity": "P0",
+      "title": "`--resume` cannot read a checkpoint `train.py` itself wrote (PyTorch ≥ 2.6)",
+      "evidence": "issues.md",
+      "upstreamAction": "warranted"
+    },
+    {
+      "severity": "P0",
+      "title": "`--epochs 1` with the default warmup is unrunnable",
+      "evidence": "issues.md",
+      "upstreamAction": "warranted"
+    },
+    {
+      "severity": "P2",
+      "title": "Every epoch writes two 89 MB checkpoints, and there is no way off",
+      "evidence": "issues.md",
+      "upstreamAction": "warranted"
+    },
+    {
+      "severity": "P0",
+      "title": "The repository root shadows the installed `torchvision`",
+      "evidence": "issues.md",
+      "upstreamAction": "warranted"
+    },
+    {
+      "severity": "P0",
+      "title": "A stale `*.egg-info` reports a version that was never published",
+      "evidence": "issues.md",
+      "upstreamAction": "warranted"
+    },
+    {
+      "severity": "P2",
+      "title": "Deprecated `torch.cuda.amp.autocast` (cosmetic)",
+      "evidence": "issues.md",
+      "upstreamAction": "warranted"
+    }
+  ],
+  "dataWarnings": [
+    "Capture operator identity and model/harness version are unrecoverable from surviving evidence; operator is intentionally omitted.",
+    "Independent certifier identity and model/harness version are unrecoverable from surviving evidence; certification.certifier is intentionally omitted.",
+    "Recipe iterations 1 and 2 survive only as an aggregate and therefore cannot be represented as one runs entry per attempt."
+  ],
+  "runs": [
+    {
+      "label": "recipe-iteration-1-2",
+      "purpose": "shape the recipe before first capture",
+      "params": "two attempts; individual timing unavailable",
+      "costUsd": 0.6,
+      "outcome": "superseded"
+    },
+    {
+      "label": "capture-3",
+      "purpose": "first lineage capture",
+      "params": "four epochs, L40S",
+      "durationSec": 1049,
+      "costUsd": 0.54,
+      "outcome": "superseded"
+    },
+    {
+      "label": "capture-4",
+      "purpose": "second lineage capture",
+      "params": "four epochs, T4",
+      "durationSec": 1509,
+      "costUsd": 0.22,
+      "outcome": "superseded"
+    },
+    {
+      "label": "capture-5",
+      "purpose": "record the complete current lineage",
+      "params": "four epochs, T4",
+      "durationSec": 1205,
+      "costUsd": 0.18,
+      "outcome": "ok",
+      "dagHash": "6a5cc35cdb0212b929d80998787902455bd0d7b2fb65a860f4f0db5c92fa630a"
+    }
+  ]
 }

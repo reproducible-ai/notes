@@ -1,6 +1,8 @@
 # Depth Anything V2 — metric depth on Hypersim
 
-**Verdict: reproduced, heavily truncated, not certified.** Upstream's own metric-depth
+Supplemental independent evidence: [2026-08-13 spot check](SPOT-CHECK-2026-08-13.md).
+
+**Verdict: reproduced and independently certified, heavily truncated.** Upstream's own metric-depth
 trainer runs end to end from published materials with **zero lines of upstream Python
 changed**, and it computes upstream's own depth metrics on held-out frames. Everything that
 had to be solved before the first batch was an ecosystem gap — a dataset that cannot be

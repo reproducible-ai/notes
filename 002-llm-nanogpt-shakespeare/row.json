@@ -140,5 +140,85 @@
   "experimentUrl": "https://huggingface.co/spaces/reproducible-ai/experiments?project=nanogpt-shakespeare-char",
   "experimentUrlNote": "Run `shakespeare-char-full-5000` (trackio run id c45863e5af7a4e64899f7a85247581f5). Verified by reading the metrics back out of the remote store, not by an HTTP status: the project's sqlite database was downloaded from the hosted bucket hf://buckets/reproducible-ai/experiments-bucket/trackio/nanogpt-shakespeare-char.db and contains 21 metric rows for that run id, whose train/val losses match the training log line for line. The Space is a Gradio app and returns 200 for any query string, so a status code proves nothing.",
   "truncated": false,
-  "truncationNote": "NOT truncated. The recorded command is `python train.py config/train_shakespeare_char.py --compile=False --wandb_log=True --wandb_project=... --wandb_run_name=...` -- it overrides only --compile and the three logging keys, so upstream's own config ran in full at max_iters=5000. The recorded cost IS the full-run cost."
+  "truncationNote": "NOT truncated. The recorded command is `python train.py config/train_shakespeare_char.py --compile=False --wandb_log=True --wandb_project=... --wandb_run_name=...` -- it overrides only --compile and the three logging keys, so upstream's own config ran in full at max_iters=5000. The recorded cost IS the full-run cost.",
+  "parameters": [
+    {
+      "name": "--compile",
+      "published": "true",
+      "used": "false",
+      "reason": "avoid host-specific compilation warm-up",
+      "restoresFullRun": false,
+      "where": "train.py"
+    },
+    {
+      "name": "--wandb_log",
+      "published": "false",
+      "used": "true",
+      "reason": "publish the learning curve through upstream logging",
+      "restoresFullRun": false,
+      "where": "train.py"
+    }
+  ],
+  "issues": [
+    {
+      "severity": "P2",
+      "title": "The install line is a superset of what the recipe needs",
+      "evidence": "issues.md",
+      "upstreamAction": "warranted"
+    },
+    {
+      "severity": "P2",
+      "title": "`prepare.py` writes its outputs into the source tree",
+      "evidence": "issues.md",
+      "upstreamAction": "warranted"
+    },
+    {
+      "severity": "P1",
+      "title": "The corpus download is unpinned and conditional",
+      "evidence": "issues.md",
+      "upstreamAction": "warranted"
+    },
+    {
+      "severity": "P2",
+      "title": "`torch.compile` is on by default with no documented GPU opt-out",
+      "evidence": "issues.md",
+      "upstreamAction": "warranted"
+    },
+    {
+      "severity": "P2",
+      "title": "Minor: a deprecated torch API warns on every run",
+      "evidence": "issues.md",
+      "upstreamAction": "warranted"
+    },
+    {
+      "severity": "P2",
+      "title": "The recipe computes a learning curve and then throws it away",
+      "evidence": "issues.md",
+      "upstreamAction": "warranted"
+    }
+  ],
+  "dataWarnings": [
+    "Capture operator identity and model/harness version are unrecoverable from surviving evidence; operator is intentionally omitted.",
+    "Independent certifier identity and model/harness version are unrecoverable from surviving evidence; certification.certifier is intentionally omitted.",
+    "Seven superseded launches survive only as an aggregate and therefore cannot be represented as one runs entry per attempt."
+  ],
+  "runs": [
+    {
+      "label": "superseded-capture-series",
+      "purpose": "produce the superseded record",
+      "params": "full 5000 iterations; seven launches recorded only in aggregate",
+      "costUsd": 0.46,
+      "outcome": "superseded",
+      "note": "The surviving evidence does not preserve trustworthy fields for each of the seven launches."
+    },
+    {
+      "label": "current-capture",
+      "purpose": "record the complete published-build lineage",
+      "params": "full 5000 iterations, L40S",
+      "durationSec": 758,
+      "costUsd": 0.39,
+      "outcome": "ok",
+      "dagHash": "19171777431d4ad91f91bd7ab64cbc52b706246f815e4d05b0812761a96808d3"
+    }
+  ]
 }

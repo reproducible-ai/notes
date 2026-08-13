@@ -171,5 +171,54 @@
       "set epochs back to 200 (ran 1)"
     ],
     "hw": "1× Tesla T4 (g4dn.xlarge)"
-  }
+  },
+  "parameters": [
+    {
+      "name": "trainer.max_epochs",
+      "published": "200",
+      "used": "1",
+      "reason": "limit capture cost",
+      "restoresFullRun": true,
+      "where": "Hydra override"
+    },
+    {
+      "name": "pipeline",
+      "published": "repository-dependent",
+      "used": "mnist",
+      "reason": "select the sequential-MNIST pipeline",
+      "restoresFullRun": false,
+      "where": "Hydra override"
+    },
+    {
+      "name": "dataset.permute",
+      "published": "false",
+      "used": "true",
+      "reason": "run permuted sequential MNIST",
+      "restoresFullRun": false,
+      "where": "Hydra override"
+    }
+  ],
+  "dataWarnings": [
+    "Capture operator identity and model/harness version are unrecoverable from surviving evidence; operator is intentionally omitted.",
+    "Independent certifier identity and model/harness version are unrecoverable from surviving evidence; certification.certifier is intentionally omitted.",
+    "A complete capture-operator attempt history is unrecoverable; runs is intentionally omitted."
+  ],
+  "issues": [
+    {
+      "severity": "P0",
+      "title": "The historical dependency set requires compatibility pinning on a current host",
+      "detail": "Running the published training path on the campaign substrate requires an explicitly reconstructed compatible package set.",
+      "evidence": "README.md",
+      "fix": "publish a current locked environment",
+      "upstreamAction": "warranted"
+    },
+    {
+      "severity": "P1",
+      "title": "The repository has no experiment integration usable without changing the workload",
+      "detail": "The selected training path emits local Lightning metrics but exposes no compatible credential-free experiment integration.",
+      "evidence": "README.md",
+      "fix": "document a credential-free logger path",
+      "upstreamAction": "none"
+    }
+  ]
 }

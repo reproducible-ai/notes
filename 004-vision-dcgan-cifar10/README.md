@@ -153,7 +153,7 @@ untruncated recipe would land near 11 hours; the real figure is closer to **67 m
 42m30s of training plus the same 24m57s download. That is a factor-of-ten error, and it comes
 entirely from treating a fixed cost as a variable one.
 
-This is why `row.json` carries `fixedCostUsd`, `scalingCostUsd` and `fullRunEstimateBasis`
+This is why `row.json` carries `rebuild.fixedCostUsd`, `rebuild.scalingCostUsd` and `fullRun.estimateBasis`
 separately rather than a single number: the fixed/variable split differs on every row, and only
 someone who watched the run knows which portion scales.
 

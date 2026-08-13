@@ -61,5 +61,94 @@
       "set epochs back to 2 (ran 1)"
     ],
     "hw": "1× Tesla T4 (g4dn.xlarge)"
-  }
+  },
+  "parameters": [
+    {
+      "name": "--epochs",
+      "published": "2",
+      "used": "1",
+      "reason": "limit capture cost",
+      "restoresFullRun": true,
+      "where": "neural_style/neural_style.py"
+    },
+    {
+      "name": "training dataset",
+      "published": "COCO 2014 train (82783 images)",
+      "used": "Imagenette-320 (9469 images)",
+      "reason": "replace a 13 GB manual download with a public low-cost corpus",
+      "restoresFullRun": true,
+      "where": "dataset path"
+    },
+    {
+      "name": "--checkpoint-interval",
+      "published": "2000",
+      "used": "2368",
+      "reason": "write one checkpoint at the end of the shortened epoch",
+      "restoresFullRun": true,
+      "where": "neural_style/neural_style.py"
+    }
+  ],
+  "issues": [
+    {
+      "severity": "P1",
+      "title": "The final model filename contains wall-clock time",
+      "evidence": "neural_style/neural_style.py",
+      "fix": "accept a stable explicit output path",
+      "upstreamAction": "warranted"
+    },
+    {
+      "severity": "P0",
+      "title": "requirements.txt omits Pillow",
+      "evidence": "requirements.txt; neural_style imports",
+      "fix": "declare Pillow",
+      "upstreamAction": "warranted"
+    },
+    {
+      "severity": "P0",
+      "title": "--style-size and --content-scale break on Pillow 10+",
+      "evidence": "neural_style image resize path",
+      "fix": "use integer resize dimensions compatible with current Pillow",
+      "upstreamAction": "warranted"
+    },
+    {
+      "severity": "P0",
+      "title": "neural_style cannot be imported as a package",
+      "evidence": "neural_style package imports",
+      "fix": "use package-relative imports",
+      "upstreamAction": "warranted"
+    },
+    {
+      "severity": "P2",
+      "title": "The training DataLoader does not shuffle",
+      "evidence": "neural_style/neural_style.py",
+      "fix": "enable shuffle for the training loader",
+      "upstreamAction": "warranted"
+    },
+    {
+      "severity": "P1",
+      "title": "The recipe provides no experiment logging or quantitative evaluation",
+      "evidence": "neural_style training path",
+      "fix": "publish a quantitative evaluation path",
+      "upstreamAction": "warranted"
+    },
+    {
+      "severity": "P2",
+      "title": "The documented dataset requires a 13 GB manual browser download",
+      "evidence": "fast_neural_style README",
+      "fix": "provide a scripted immutable fetch path",
+      "upstreamAction": "warranted"
+    },
+    {
+      "severity": "P0",
+      "title": "The repository gitignore swallows the row output paths",
+      "evidence": ".gitignore",
+      "fix": "narrow output ignore rules",
+      "upstreamAction": "warranted"
+    }
+  ],
+  "dataWarnings": [
+    "Capture operator identities and model/harness versions for both operators are unrecoverable from surviving evidence; operator is intentionally omitted.",
+    "Nine capture launches are known in aggregate, but reliable per-attempt fields are unrecoverable; runs is intentionally omitted.",
+    "No independent certification has occurred, so certification.certifier is not applicable."
+  ]
 }

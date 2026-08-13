@@ -1,5 +1,7 @@
 # 008 — diffusers `examples/unconditional_image_generation` (DDPM)
 
+Supplemental independent evidence: [2026-08-13 spot check](SPOT-CHECK-2026-08-13.md).
+
 **Verdict: reproduced** (truncated). Playbook v1.0.
 
 A DDPM `UNet2DModel` was trained from scratch with the upstream example script,

@@ -37,7 +37,7 @@
     "hw": "1x Tesla T4 (g4dn.xlarge)",
     "costUsd": 0.11,
     "fixedCostUsd": 0.02,
-    "scalingCostUsd": 0.0438
+    "scalingCostUsd": 0.09
   },
   "reproduce": {
     "hash": "0c119a28e8d9d48dc2fa9ec8714a266109bd45dce6b2e70527fa6b2772d5fd3e",
@@ -74,5 +74,46 @@
       "set iterations back to 200000 (ran 2000)"
     ],
     "hw": "1x Tesla T4 (g4dn.xlarge)"
-  }
+  },
+  "parameters": [
+    {
+      "name": "N_iters",
+      "published": "200000",
+      "used": "2000",
+      "reason": "limit capture cost",
+      "restoresFullRun": true,
+      "where": "repro/train_truncated.py"
+    },
+    {
+      "name": "--render_factor",
+      "published": "0",
+      "used": "8",
+      "reason": "reduce render validation cost",
+      "restoresFullRun": true,
+      "where": "run_nerf.py"
+    }
+  ],
+  "dataWarnings": [
+    "Capture operator identity and model/harness version are unrecoverable from surviving evidence; operator is intentionally omitted.",
+    "Independent certifier identity and model/harness version are unrecoverable from surviving evidence; certification.certifier is intentionally omitted.",
+    "A complete capture-operator attempt history is unrecoverable; runs is intentionally omitted."
+  ],
+  "issues": [
+    {
+      "severity": "P0",
+      "title": "The package record cannot express OpenGL runtime libraries",
+      "detail": "opencv-python imports libGL and related system libraries that are supplied outside both pip and the captured package-manager inventory.",
+      "evidence": "README.md · CERT-TIER2.md",
+      "fix": "document the OS libraries or use a headless OpenCV build",
+      "upstreamAction": "warranted"
+    },
+    {
+      "severity": "P1",
+      "title": "Twenty-five rendered views contain only three distinct images at this truncation",
+      "detail": "The render step writes 25 paths, but content hashing finds only three unique images.",
+      "evidence": "README.md · render output hashes",
+      "fix": "train longer or disclose the duplicate output set",
+      "upstreamAction": "none"
+    }
+  ]
 }
