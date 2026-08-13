@@ -1,5 +1,7 @@
 # 003 · minGPT — `projects/adder`
 
+Supplemental independent evidence: [2026-08-13 spot check](SPOT-CHECK-2026-08-13.md).
+
 **Verdict: REPRODUCED.** Difficulty: **easy (2/10)** — the easiest kind of row there is.
 
 `karpathy/minGPT`'s `projects/adder` demo rebuilds from its published materials with

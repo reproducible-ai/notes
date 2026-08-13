@@ -145,7 +145,8 @@
   ],
   "dataWarnings": [
     "Capture operator identity and model/harness version are unrecoverable from surviving evidence; operator is intentionally omitted.",
-    "Independent certifier identity and model/harness version are unrecoverable from surviving evidence; certification.certifier is intentionally omitted."
+    "Independent certifier identity and model/harness version are unrecoverable from surviving evidence; certification.certifier is intentionally omitted.",
+    "Recipe iterations 1 and 2 survive only as an aggregate and therefore cannot be represented as one runs entry per attempt."
   ],
   "runs": [
     {

@@ -172,11 +172,13 @@
       "label": "7",
       "purpose": "capture-operator attempt",
       "params": "7 | `f8037549` | COMPLETED — the current record `af56b02d…` | 9 m 25 s | $0.13",
-      "outcome": "ok"
+      "outcome": "ok",
+      "dagHash": "af56b02d6c041c931f03ccf643f2e0fee97bbddb0072f26b91a291f142850dfd"
     }
   ],
   "dataWarnings": [
     "Capture operator identity and model/harness version are unrecoverable from surviving evidence; operator is intentionally omitted.",
-    "Independent certifier identity and model/harness version are unrecoverable from surviving evidence; certification.certifier is intentionally omitted."
+    "Independent certifier identity and model/harness version are unrecoverable from surviving evidence; certification.certifier is intentionally omitted.",
+    "The retained run log covers the seven cloud attempts but does not structure local bare-clone and call-shape rehearsals as separate runs."
   ]
 }

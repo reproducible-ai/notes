@@ -202,10 +202,21 @@
       "purpose": "capture-operator attempt",
       "params": "7 | `a1fd4795` | COMPLETED — capture superseded by #8 | 8 m 51 s | $0.06",
       "outcome": "superseded"
+    },
+    {
+      "label": "8",
+      "purpose": "record the final capture on a published provenance build",
+      "params": "tokens=2048, T4",
+      "durationSec": 584,
+      "costUsd": 0.16,
+      "outcome": "ok",
+      "dagHash": "3b9c6606967c1008bc75ef5d5c83b8df4e6ea6183967eaee596329e324f47647",
+      "note": "Job a6284f05; final capture and the record independently certified by this row."
     }
   ],
   "dataWarnings": [
     "Capture operator identity and model/harness version are unrecoverable from surviving evidence; operator is intentionally omitted.",
-    "Independent certifier identity and model/harness version are unrecoverable from surviving evidence; certification.certifier is intentionally omitted."
+    "Independent certifier identity and model/harness version are unrecoverable from surviving evidence; certification.certifier is intentionally omitted.",
+    "The retained run log covers the eight cloud captures but does not structure the local bare-clone and five instrumented calibration runs separately."
   ]
 }

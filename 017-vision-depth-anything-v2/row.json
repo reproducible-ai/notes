@@ -202,13 +202,14 @@
       "label": "2",
       "purpose": "capture-operator attempt",
       "params": "2 | `24adfb5a` | 20:05:34 → 20:10:58 (5m24s) | training completed and the checkpoint was written; a bug in my own stage script killed the stage immediately afterwards, so the artifact was never labelled or published | $0.16",
-      "outcome": "ok"
+      "outcome": "failed"
     },
     {
       "label": "3",
       "purpose": "capture-operator attempt",
       "params": "3 | `42d36374` | 20:13:03 → 20:14:31 (1m29s) | recorded run — all six stages, artifact published | $0.03",
-      "outcome": "ok"
+      "outcome": "ok",
+      "dagHash": "f81176e64bf814489ec3296286e11c499a48ca28ef52569e10bc2675c0780782"
     }
   ],
   "dataWarnings": [

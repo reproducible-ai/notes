@@ -170,7 +170,7 @@
       "label": "3",
       "purpose": "capture-operator attempt",
       "params": "3 | ran through setup + fetch + 400 tokenizer steps, then the host disappeared mid-stage | ~20m | ~$0.18",
-      "outcome": "ok"
+      "outcome": "aborted"
     },
     {
       "label": "4",
@@ -182,7 +182,8 @@
       "label": "5",
       "purpose": "capture-operator attempt",
       "params": "5 | COMPLETED — DAG `847b359a…` | 65m32s | $0.57",
-      "outcome": "ok"
+      "outcome": "ok",
+      "dagHash": "847b359a9f1a0ae3a31a621f9901f57e5387f37610adabc9e7bd24f4ecdae97d"
     }
   ],
   "dataWarnings": [

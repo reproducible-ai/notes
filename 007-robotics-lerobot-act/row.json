@@ -198,7 +198,8 @@
       "label": "4",
       "purpose": "capture-operator attempt",
       "params": "4 | Full workflow, re-captured 2026-08-08 on a newer capture toolchain | completed, first attempt | 6 min 1 s traced (12 min 18 s wall including provisioning) | Same recipe, same host class, same upstream base. Recorded environment grew 57 → 80 pins; see `README.md`.",
-      "outcome": "ok"
+      "outcome": "ok",
+      "dagHash": "27064dbb01d6fa6e241329f93deff5e224eba4400482790adaabf52955be91fb"
     }
   ],
   "dataWarnings": [

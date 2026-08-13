@@ -199,7 +199,8 @@
   ],
   "dataWarnings": [
     "Capture operator identity and model/harness version are unrecoverable from surviving evidence; operator is intentionally omitted.",
-    "Independent certifier identity and model/harness version are unrecoverable from surviving evidence; certification.certifier is intentionally omitted."
+    "Independent certifier identity and model/harness version are unrecoverable from surviving evidence; certification.certifier is intentionally omitted.",
+    "Seven superseded launches survive only as an aggregate and therefore cannot be represented as one runs entry per attempt."
   ],
   "runs": [
     {

@@ -1,5 +1,7 @@
 # Depth Anything V2 — metric depth on Hypersim
 
+Supplemental independent evidence: [2026-08-13 spot check](SPOT-CHECK-2026-08-13.md).
+
 **Verdict: reproduced and independently certified, heavily truncated.** Upstream's own metric-depth
 trainer runs end to end from published materials with **zero lines of upstream Python
 changed**, and it computes upstream's own depth metrics on held-out frames. Everything that

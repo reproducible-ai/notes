@@ -124,11 +124,13 @@
       "label": "2",
       "purpose": "capture-operator attempt",
       "params": "2 | Capture | same (agent still warm) | 3 min 58 s | $0.03 | COMPLETED — 99.2 % test, artifact published, all four gates green",
-      "outcome": "ok"
+      "outcome": "ok",
+      "dagHash": "c2ffb3ef71e1f4dafd87e0fc95ef172addb0e4f9b7ebc490360dbf572d60d0cc"
     }
   ],
   "dataWarnings": [
     "Capture operator identity and model/harness version are unrecoverable from surviving evidence; operator is intentionally omitted.",
-    "Independent certifier identity and model/harness version are unrecoverable from surviving evidence; certification.certifier is intentionally omitted."
+    "Independent certifier identity and model/harness version are unrecoverable from surviving evidence; certification.certifier is intentionally omitted.",
+    "The retained run log covers cloud captures but does not structure the local bare-clone and calibration work as separate runs."
   ]
 }
