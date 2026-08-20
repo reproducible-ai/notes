@@ -1,0 +1,235 @@
+{
+  "name": "pix2pix (CycleGAN/pix2pix, CMP Facades labels->photo)",
+  "org": "junyanz",
+  "type": "vision",
+  "date": "2026-08-14",
+  "status": "reproduced",
+  "statusSub": null,
+  "blocker": null,
+  "dagHash": "14df351c56d65be8181299f225e5c266f35e6aded43dc8068b5f0e2e76ac622b",
+  "dagUrl": "https://glaas.ai/dag/14df351c56d65be8181299f225e5c266f35e6aded43dc8068b5f0e2e76ac622b",
+  "bomUrl": "https://glaas.ai/dag/14df351c56d65be8181299f225e5c266f35e6aded43dc8068b5f0e2e76ac622b/audit",
+  "bomScore": 100,
+  "reproduce": {
+    "cmd": "roar reproduce 14df351c56d65be8181299f225e5c266f35e6aded43dc8068b5f0e2e76ac622b --lineage --run --no-puts"
+  },
+  "upstreamUrl": "https://github.com/junyanz/pytorch-CycleGAN-and-pix2pix",
+  "forkUrl": "https://github.com/reproducible-ai/pytorch-CycleGAN-and-pix2pix",
+  "artifactUrl": "https://huggingface.co/reproducible-ai/pix2pix-facades",
+  "notes": "https://github.com/reproducible-ai/notes/tree/main/022-vision-pix2pix-facades",
+  "license": "BSD-2-Clause AND BSD-3-Clause",
+  "upstreamCommit": "2a7afba2895d52556dd5dfe07e8555ef657ced6f",
+  "patch": {
+    "lines": 0,
+    "url": "https://github.com/junyanz/pytorch-CycleGAN-and-pix2pix/compare/2a7afba...reproducible-ai:pytorch-CycleGAN-and-pix2pix:750f61d"
+  },
+  "summary": "Upstream's own top-level train.py, run unmodified on upstream's own CMP Facades dataset fetched by upstream's own download script, producing a pix2pix conditional GAN (UNet-256 generator, 54.414 M parameters; 70x70 PatchGAN discriminator, 2.769 M) that translates architectural labels to photographs. The published recipe is 200 epochs (n_epochs 100 + n_epochs_decay 100); this record runs 2 of them - one at constant learning rate and one under the linear decay schedule, so both branches of the scheduler execute - over the complete 400-image training split, which is not subsampled. 800 iterations at batch size 1, 256x256 crops, on a single Tesla T4, in 67.5 s of traced training. The checkpoint is therefore nowhere near converged and is not a substitute for the authors' released weights; what the record demonstrates is that the published command runs end to end from published materials and computes upstream's own adversarial and L1 losses (G_GAN, G_L1, D_real, D_fake, eight logged points). Zero lines of upstream Python were changed - the fork adds only a workflow file, .gitignore rules and directory placeholders. This is one of the cleanest rows in the campaign on the upstream side: no missing dependencies, no broken imports, no absolute paths, no distributed-only entry point. The two things a reader should know are that the dataset is served over plain HTTP with no published checksum, so its integrity cannot be verified; and that at upstream's default save_epoch_freq of 5, any run shorter than five epochs completes successfully and silently writes no checkpoint at all.",
+  "difficulty": "3/10 — easy: the published pix2pix command runs unmodified against the published dataset, and the only trap is that a short trial run must lower --save_epoch_freq or it produces no checkpoint while reporting success",
+  "verified": false,
+  "truncated": true,
+  "truncation": {
+    "ran": 2,
+    "full": 200,
+    "unit": "epochs",
+    "note": "200 is read from upstream's own options/train_options.py, which defaults n_epochs=100 and n_epochs_decay=100; train.py iterates range(epoch_count, n_epochs + n_epochs_decay + 1). The run performed 1 constant-learning-rate epoch and 1 decay epoch so that both scheduler branches execute. The dataset is NOT truncated: all 400 images of the CMP Facades training split were used, as published."
+  },
+  "truncationNote": "2 epochs of upstream's 200, over the complete 400-image Facades training split. The checkpoint is not converged and is not a substitute for the authors' released weights.",
+  "rebuild": {
+    "time": "3m28s",
+    "hw": "1x Tesla T4 (g4dn.xlarge)",
+    "costUsd": 0.07,
+    "fixedCostUsd": 0.067,
+    "scalingCostUsd": 0.0073,
+    "peakGpuMemory": {
+      "recordedMiB": 9157,
+      "measures": "nvidia-smi at 1 Hz, sampled from the stage shell alongside the recorded command (69 samples) -- whole-device usage, which INCLUDES the CUDA context and the allocator's reserved blocks",
+      "note": "This is the nvidia-smi number, not torch.cuda.max_memory_allocated(), which counts live tensors only and typically reads about half as much. The two are not interchangeable and the method is stated because the number is otherwise unusable for sizing. On a 16 GB T4 this leaves roughly 40% headroom, so the T4 at $0.526/hr is the correct instance for this workload; an L40S would have been a 3.5x overpay. Measuring max_memory_allocated() would have required editing train.py, which would forfeit the zero-upstream-lines property, so only the nvidia-smi figure exists for this row."
+    }
+  },
+  "experimentUrl": null,
+  "experimentUrlNote": "Upstream DOES ship experiment logging - options/base_options.py:57 defines --use_wandb, and util/visualizer.py calls wandb.init() - so this row is not a 'no logging integration' case and the flag was deliberately left at its published default of off. The reason is that util/visualizer.py:70 calls self.wandb_run._label(repo='CycleGAN-and-pix2pix'), a private, undocumented wandb API, on the object returned by wandb.init(). No wandb-compatible substitute implements _label, so enabling the flag under any bridge raises AttributeError: '_Run' object has no attribute '_label' and ends the run - verified by replaying upstream's exact call shape on CPU before any GPU time was booked. Separately, util/visualizer.py:7 imports wandb unconditionally at module import time, so aliasing wandb to a substitute would cause the recorded dependency set to name the substitute in place of the wandb this repo genuinely requires, trading a link for a false dependency record. The run therefore used upstream's own default path with a real wandb 0.21.1 installed, which is what the freeze correctly records. Producing a link would have required either patching upstream or misrecording the dependencies.",
+  "certification": {
+    "tier": 1,
+    "result": null,
+    "resultCaveat": "No cold rebuild has been attempted. This row is a Tier-1 reproducible record only: all four tier-1 gates pass (clean-dag 14/14, AI-BOM 100/100 Advanced, all URLs public, freeze PORTABLE) and the recorded run executed to exit 0, but none of that executes the record on a fresh host. Tier-1 completion signals are not a certification result. A reader should also know that the recorded dependency set is THIN before attempting certification: see issues[] entry 'Recorded dependency set omits two packages the workload loads'. The rebuild is expected to succeed anyway, because both omissions are transitive dependencies of packages that ARE recorded and the resolver will supply them - which means a green rebuild would demonstrate that the set resolves, not that it is complete."
+  },
+  "operator": {
+    "agent": "CRA",
+    "agentVersion": "1.0",
+    "model": "claude-opus-5[1m]",
+    "harness": "Claude Code",
+    "harnessVersion": "2.1.232",
+    "note": "Capture only. This operator did not certify the row; a separate agent performs the cold rebuild, per the campaign's capture/certification split."
+  },
+  "agentSteps": [
+    {
+      "phase": "capture",
+      "attempt": "3/3",
+      "date": "2026-08-14",
+      "agent": "CRA",
+      "model": "claude-opus-5[1m]",
+      "harness": "Claude Code",
+      "harnessVersion": "2.1.232",
+      "evidence": "TReqs training request e1415063-d569-419b-ad72-2fc6719f6f51, job 34e71a9d-d9e3-46d8-ae80-c38e889dcb36"
+    }
+  ],
+  "roarVersion": "0.4.4rc7",
+  "roarWheelSha256": "7f5321965766eb27462b2931b7961eaf48742109a74f5aa5194a4ba9492f988a",
+  "roarWheelSource": "TestPyPI public wheel URL (roar_cli-0.4.4rc7-cp310-abi3-manylinux_2_34_x86_64.whl); the digest is verified with sha256sum -c in the setup stage before the wheel is installed",
+  "tracer": "preload",
+  "playbookVersion": "1.0",
+  "amiId": "ami-09cef8fe45c3452f3",
+  "artifacts": [
+    {
+      "path": "latest_net_G.pth",
+      "bytes": 217727886,
+      "sha256": "dba5bcb7c9e7079b9e23390035f0173876b1d7be4f310f57347449c9beee8358",
+      "note": "UNet-256 generator, 54.414 M parameters. Truncated training; not converged."
+    },
+    {
+      "path": "latest_net_D.pth",
+      "bytes": 11089494,
+      "sha256": "899ebe4a71cfd561c03907ddbf447707423d7e2b03444a5a088b12d6573b5a50",
+      "note": "70x70 PatchGAN discriminator, 2.769 M parameters. Published alongside the generator so a reader can resume training rather than only run inference."
+    }
+  ],
+  "fullRun": {
+    "estimateUsd": 0.71,
+    "estimateBasis": "Measured on this run, g4dn.xlarge (1x Tesla T4) at $0.526/hr on-demand in us-east-2. VARIABLE: upstream's own per-epoch timer reported 28 s for epoch 1 and 22 s for epoch 2 over the complete 400-image training split; epoch 1 carries one-off CUDA context creation and cuDNN autotuning, so 22 s is the steady-state per-epoch cost and the steady-state per-iteration cost is 22/400 = 0.055 s. A full 200-epoch run is therefore 28 + 199 x 22 = 4,406 s = 1.224 h. FIXED, per run and independent of epoch count: the traced dataset fetch took 13.3 s (30.2 MB over HTTP plus untar), the environment build took roughly 105 s (uv tool install of roar, then 51 packages into an isolated venv, of which 43.4 s was dependency resolution and download), and artifact labelling plus the 229 MB upload took the remainder of the 207.6 s job window after subtracting the 50 s of epoch compute, i.e. 157.6 s; add a 300 s allowance for instance boot and agent registration, which was NOT measured on this run because the host was pre-warmed. Fixed total 457.6 s = 0.127 h. Combined 1.351 h x $0.526 = $0.71. The estimate assumes a reader reverts save_epoch_freq to the published 5, which reduces checkpoint I/O relative to this run rather than increasing it, and it does not change with n_epochs_decay because a decay epoch costs the same as a constant-LR epoch.",
+    "confidence": "moderate",
+    "changes": [
+      "set n_epochs back to 100 (ran 1)",
+      "set n_epochs_decay back to 100 (ran 1)",
+      "set save_epoch_freq back to 5 (ran 1)"
+    ],
+    "hw": "1x Tesla T4 (g4dn.xlarge)",
+    "caveats": "The steady-state per-epoch figure rests on a single measured steady-state epoch (22 s); only two epochs were run. The 300 s boot allowance in the fixed portion is carried from campaign experience and was not measured here, because the compute host was already warm when this job was queued. Both are stated rather than hidden; a reader who wants a tighter number should measure boot on their own account."
+  },
+  "parameters": [
+    {
+      "name": "--n_epochs",
+      "published": "100",
+      "used": "1",
+      "reason": "limit capture cost",
+      "restoresFullRun": true,
+      "where": "options/train_options.py"
+    },
+    {
+      "name": "--n_epochs_decay",
+      "published": "100",
+      "used": "1",
+      "reason": "limit capture cost while still executing the linear learning-rate decay branch of the scheduler",
+      "restoresFullRun": true,
+      "where": "options/train_options.py"
+    },
+    {
+      "name": "--save_epoch_freq",
+      "published": "5",
+      "used": "1",
+      "reason": "at the published default a two-epoch run writes no checkpoint at all and exits successfully, so there would be nothing to publish",
+      "restoresFullRun": true,
+      "where": "options/train_options.py"
+    },
+    {
+      "name": "--num_threads",
+      "published": "4",
+      "used": "0",
+      "reason": "keep data loading in-process so the recorded dependency set reflects the workload rather than a worker subprocess closure",
+      "restoresFullRun": false,
+      "where": "options/base_options.py"
+    },
+    {
+      "name": "numpy",
+      "published": "1.24.3",
+      "used": "1.26.4",
+      "reason": "upstream's environment.yml is internally consistent - it pins numpy 1.24.3 alongside python 3.11 - but this row's interpreter is CPython 3.12, for which numpy 1.24.3 publishes no wheel. 1.26.4 is the nearest release with cp312 wheels. This is an environment choice, not an upstream defect",
+      "restoresFullRun": false,
+      "where": "environment.yml"
+    }
+  ],
+  "issues": [
+    {
+      "severity": "P1",
+      "title": "The Facades dataset is fetched over plain HTTP with no published checksum, so its integrity cannot be verified",
+      "detail": "datasets/download_pix2pix_dataset.sh fetches http://efrosgans.eecs.berkeley.edu/pix2pix/datasets/facades.tar.gz over unencrypted HTTP and publishes no hash anywhere in the repository. A reproducer has no way to confirm they received the same 400 training images the authors used, and the transfer is open to interception. The archive is a single third-party host with no mirror, so the recipe also stops working entirely if that host goes away.",
+      "evidence": "datasets/download_pix2pix_dataset.sh; docs/datasets.md line 8",
+      "fix": "Publish a sha256 for each dataset archive and verify it in the download script; serve over HTTPS.",
+      "upstreamAction": "warranted"
+    },
+    {
+      "severity": "P2",
+      "title": "At the default --save_epoch_freq, a run shorter than five epochs writes no checkpoint and still reports success",
+      "detail": "train.py saves only when epoch % opt.save_epoch_freq == 0, and save_latest_freq is 5000 iterations, which a short run never reaches. With the published default of 5, a one- to four-epoch trial - the obvious first thing anyone does with an unfamiliar trainer - runs to completion, prints End of epoch, exits 0, and leaves the checkpoint directory empty. Nothing warns.",
+      "evidence": "train.py epoch-end save block; options/train_options.py --save_epoch_freq default 5, --save_latest_freq default 5000",
+      "fix": "Always write a final checkpoint when the last epoch completes, regardless of save_epoch_freq.",
+      "upstreamAction": "warranted"
+    },
+    {
+      "severity": "P2",
+      "title": "util/visualizer.py calls a private wandb API, so --use_wandb works only against the real wandb package",
+      "detail": "util/visualizer.py:70 calls self.wandb_run._label(repo='CycleGAN-and-pix2pix') on the object returned by wandb.init(). _label is undocumented wandb internals with no stability guarantee, so the flag is fragile against wandb's own releases and unusable against any wandb-compatible substitute, which raises AttributeError: '_Run' object has no attribute '_label' and ends the run. Verified by replaying upstream's exact call shape. Compounding it, util/visualizer.py:7 imports wandb unconditionally at module import time, so wandb is a hard import-time dependency of training even when --use_wandb is not passed.",
+      "evidence": "util/visualizer.py:7 and util/visualizer.py:69-70; options/base_options.py:57",
+      "fix": "Drop the _label call, or guard it with hasattr; move the wandb import inside the use_wandb branch.",
+      "upstreamAction": "warranted"
+    },
+    {
+      "severity": "P2",
+      "title": "No requirements.txt — the only dependency manifest is a conda environment.yml",
+      "detail": "The repository ships environment.yml (conda, pinning python 3.11, pytorch 2.4.0, pytorch-cuda 12.1) and no pip manifest. Anyone building with pip, uv or a container base image must translate it by hand, and the conda-only pytorch-cuda pin has no pip equivalent. The translation is not difficult here, but it is unstated work that every non-conda reproducer repeats.",
+      "evidence": "environment.yml; absence of requirements.txt at the repository root",
+      "fix": "Ship a requirements.txt alongside environment.yml.",
+      "upstreamAction": "warranted"
+    },
+    {
+      "severity": "P2",
+      "title": "The dataset download script combines wget -N with -O, which are mutually incompatible",
+      "detail": "datasets/download_pix2pix_dataset.sh runs wget -N $URL -O $TAR_FILE. wget's -N timestamping does nothing when combined with -O and wget emits a warning to that effect, so the intended resume/skip-if-current behaviour never happens and the full archive is re-downloaded every time.",
+      "evidence": "datasets/download_pix2pix_dataset.sh, wget line",
+      "fix": "Drop -N, or drop -O and let wget name the file.",
+      "upstreamAction": "warranted"
+    },
+    {
+      "severity": "P2",
+      "title": "Recorded dependency set omits two packages the workload loads",
+      "detail": "The train step recorded 25 pins where 51 distributions were installed. Two of the omissions are packages the workload demonstrably loads: typing-extensions, which torch 2.4.0 declares as a hard runtime requirement (typing-extensions>=4.8.0) and imports during import torch; and tqdm. Both are transitive dependencies of packages that ARE recorded, so the set remains jointly solvable and a rebuild will very likely succeed by having the resolver supply them - which means a green rebuild would prove the set resolves, not that it is complete. Recorded as a property of this row's record rather than an upstream defect; the absence of scikit-image, by contrast, is correct, because the colorization model that imports it is never loaded by this recipe.",
+      "evidence": "imports_vs_freeze_audit against DAG 14df351c...; the 25 recorded pins are listed in commands.md",
+      "fix": "None available to the operator; recorded so a certifier is not surprised.",
+      "upstreamAction": "none"
+    }
+  ],
+  "runs": [
+    {
+      "label": "bare-clone",
+      "purpose": "pre-spend dependency check: fresh clone, scratch venv with only the seven declared pins, PYTHONPATH unset, both recorded commands executed on CPU",
+      "params": "$0, no GPU. fetch_dataset 12.7 s and the full 400/106/100 train/test/val split materialised; train exit 0 with the dataset capped to 2 pairs so it would finish on CPU. No ModuleNotFoundError. The local-version audit via importlib.metadata returned [], and the worktree stayed clean under the outputs.",
+      "outcome": "ok",
+      "durationSec": 90,
+      "costUsd": 0
+    },
+    {
+      "label": "1",
+      "purpose": "capture attempt",
+      "params": "job 32ca6bbd-ecb3-4dda-b1f7-1804b25a0ab7, 18:18Z, ended in the setup stage after 2.4 s with no captured output; superseded",
+      "outcome": "failed",
+      "durationSec": 2,
+      "costUsd": 0
+    },
+    {
+      "label": "2",
+      "purpose": "capture attempt, setup stage instrumented to record image preflight facts",
+      "params": "job 5b0da84b-3854-4a9f-a237-c6ca473ea536, 18:24Z, ended in the setup stage after 1.5 s with no captured output; superseded",
+      "outcome": "failed",
+      "durationSec": 2,
+      "costUsd": 0
+    },
+    {
+      "label": "3",
+      "purpose": "recorded run — all five stages, both artifacts published, lineage published",
+      "params": "job 34e71a9d-d9e3-46d8-ae80-c38e889dcb36, 18:59:41Z to 19:03:09Z (207.6 s). fetch_dataset 13.3 s traced, train 67.5 s traced, peak GPU memory 9,157 MiB by nvidia-smi 1 Hz sampling.",
+      "outcome": "ok",
+      "durationSec": 208,
+      "costUsd": 0.07,
+      "dagHash": "14df351c56d65be8181299f225e5c266f35e6aded43dc8068b5f0e2e76ac622b"
+    }
+  ]
+}
