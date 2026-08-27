@@ -1,5 +1,10 @@
 {
-  "name": "Depth Anything V2 (metric depth, Hypersim)",
+  "name": "Depth Anything V2",
+  "dataset": "Hypersim (indoor split)",
+  "tags": [
+    "metric-depth",
+    "fine-tune"
+  ],
   "org": "DepthAnything",
   "type": "vision",
   "date": "2026-08-11",
@@ -209,7 +214,8 @@
       "purpose": "capture-operator attempt",
       "params": "3 | `42d36374` | 20:13:03 → 20:14:31 (1m29s) | recorded run — all six stages, artifact published | $0.03",
       "outcome": "ok",
-      "dagHash": "f81176e64bf814489ec3296286e11c499a48ca28ef52569e10bc2675c0780782"
+      "dagHash": "f81176e64bf814489ec3296286e11c499a48ca28ef52569e10bc2675c0780782",
+      "dataset": "Hypersim (indoor split)"
     }
   ],
   "dataWarnings": [

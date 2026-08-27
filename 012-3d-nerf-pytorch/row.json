@@ -1,5 +1,10 @@
 {
-  "name": "NeRF (lego scene)",
+  "name": "NeRF",
+  "dataset": "NeRF synthetic (lego)",
+  "tags": [
+    "novel-view-synthesis",
+    "from-scratch"
+  ],
   "org": "yenchenlin",
   "type": "3d",
   "date": "2026-08-11",

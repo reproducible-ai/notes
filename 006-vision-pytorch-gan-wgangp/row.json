@@ -1,5 +1,10 @@
 {
-  "name": "WGAN-GP (MNIST)",
+  "name": "WGAN-GP",
+  "dataset": "MNIST",
+  "tags": [
+    "unconditional-generation",
+    "from-scratch"
+  ],
   "org": "Erik Linder-Norén",
   "type": "vision",
   "date": "2026-08-06",

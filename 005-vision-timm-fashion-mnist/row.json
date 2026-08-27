@@ -1,5 +1,10 @@
 {
-  "name": "timm (ResNet-18 / Fashion-MNIST)",
+  "name": "ResNet-18",
+  "dataset": "Fashion-MNIST",
+  "tags": [
+    "classification",
+    "from-scratch"
+  ],
   "org": "Hugging Face",
   "type": "vision",
   "date": "2026-08-11",
@@ -173,7 +178,8 @@
       "purpose": "capture-operator attempt",
       "params": "7 | `f8037549` | COMPLETED — the current record `af56b02d…` | 9 m 25 s | $0.13",
       "outcome": "ok",
-      "dagHash": "af56b02d6c041c931f03ccf643f2e0fee97bbddb0072f26b91a291f142850dfd"
+      "dagHash": "af56b02d6c041c931f03ccf643f2e0fee97bbddb0072f26b91a291f142850dfd",
+      "dataset": "Fashion-MNIST"
     }
   ],
   "dataWarnings": [

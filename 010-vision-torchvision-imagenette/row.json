@@ -1,5 +1,10 @@
 {
-  "name": "torchvision (classification)",
+  "name": "ResNet-18",
+  "dataset": "Imagenette",
+  "tags": [
+    "classification",
+    "from-scratch"
+  ],
   "org": "PyTorch",
   "type": "vision",
   "date": "2026-08-10",
@@ -179,7 +184,8 @@
       "durationSec": 1205,
       "costUsd": 0.18,
       "outcome": "ok",
-      "dagHash": "6a5cc35cdb0212b929d80998787902455bd0d7b2fb65a860f4f0db5c92fa630a"
+      "dagHash": "6a5cc35cdb0212b929d80998787902455bd0d7b2fb65a860f4f0db5c92fa630a",
+      "dataset": "Imagenette"
     }
   ]
 }

@@ -1,5 +1,10 @@
 {
-  "name": "DCGAN (CIFAR-10)",
+  "name": "DCGAN",
+  "dataset": "CIFAR-10",
+  "tags": [
+    "unconditional-generation",
+    "from-scratch"
+  ],
   "org": "PyTorch",
   "type": "vision",
   "date": "2026-08-06",
