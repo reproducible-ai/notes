@@ -1,5 +1,6 @@
 {
   "name": "pix2pix",
+  "slug": "pix2pix-facades",
   "dataset": "CMP Facades (labels→photo)",
   "tags": [
     "image-translation",

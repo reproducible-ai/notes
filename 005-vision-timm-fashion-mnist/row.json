@@ -1,5 +1,6 @@
 {
   "name": "ResNet-18",
+  "slug": "timm-resnet-18-fashion-mnist",
   "dataset": "Fashion-MNIST",
   "tags": [
     "classification",

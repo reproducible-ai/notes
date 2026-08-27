@@ -1,5 +1,6 @@
 {
   "name": "ResNet-18",
+  "slug": "torchvision-classification",
   "dataset": "Imagenette",
   "tags": [
     "classification",

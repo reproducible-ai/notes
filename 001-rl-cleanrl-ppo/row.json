@@ -1,5 +1,6 @@
 {
   "name": "PPO",
+  "slug": "cleanrl-ppo-cartpole-v1",
   "dataset": "CartPole-v1",
   "tags": [
     "from-scratch"

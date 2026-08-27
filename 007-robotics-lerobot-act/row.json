@@ -1,5 +1,6 @@
 {
   "name": "ACT",
+  "slug": "lerobot-act-pusht-image",
   "dataset": "lerobot/pusht_image",
   "tags": [
     "imitation-learning",

@@ -1,5 +1,6 @@
 {
   "name": "nanoGPT",
+  "slug": "nanogpt-shakespeare-char",
   "dataset": "shakespeare-char",
   "tags": [
     "pretrain"

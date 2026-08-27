@@ -1,5 +1,6 @@
 {
   "name": "NeRF",
+  "slug": "nerf-lego-scene",
   "dataset": "NeRF synthetic (lego)",
   "tags": [
     "novel-view-synthesis",

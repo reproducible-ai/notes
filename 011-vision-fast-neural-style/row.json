@@ -1,5 +1,6 @@
 {
   "name": "fast-neural-style",
+  "slug": "fast-neural-style",
   "dataset": null,
   "tags": [
     "style-transfer"

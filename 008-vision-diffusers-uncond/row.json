@@ -1,5 +1,6 @@
 {
   "name": "DDPM",
+  "slug": "diffusers-unconditional-ddpm",
   "dataset": "huggan/pokemon",
   "tags": [
     "unconditional-generation",
