@@ -1,5 +1,9 @@
 {
-  "name": "litgpt (pretrain)",
+  "name": "pythia-14m",
+  "dataset": "WikiText-2",
+  "tags": [
+    "pretrain"
+  ],
   "org": "Lightning AI",
   "type": "llm",
   "date": "2026-08-11",
@@ -211,7 +215,8 @@
       "costUsd": 0.16,
       "outcome": "ok",
       "dagHash": "3b9c6606967c1008bc75ef5d5c83b8df4e6ea6183967eaee596329e324f47647",
-      "note": "Job a6284f05; final capture and the record independently certified by this row."
+      "note": "Job a6284f05; final capture and the record independently certified by this row.",
+      "dataset": "WikiText-2"
     }
   ],
   "dataWarnings": [

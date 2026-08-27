@@ -1,5 +1,9 @@
 {
-  "name": "nanoGPT-shakespeare-char",
+  "name": "nanoGPT",
+  "dataset": "shakespeare-char",
+  "tags": [
+    "pretrain"
+  ],
   "org": "karpathy",
   "type": "llm",
   "date": "2026-08-11",
@@ -218,7 +222,8 @@
       "durationSec": 758,
       "costUsd": 0.39,
       "outcome": "ok",
-      "dagHash": "19171777431d4ad91f91bd7ab64cbc52b706246f815e4d05b0812761a96808d3"
+      "dagHash": "19171777431d4ad91f91bd7ab64cbc52b706246f815e4d05b0812761a96808d3",
+      "dataset": "shakespeare-char"
     }
   ]
 }

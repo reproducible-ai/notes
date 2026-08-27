@@ -1,5 +1,10 @@
 {
-  "name": "Kronos (Kronos-small / HK 09988 5-min K-lines)",
+  "name": "Kronos-small",
+  "dataset": "HK 09988 5-min K-lines",
+  "tags": [
+    "forecasting",
+    "fine-tune"
+  ],
   "org": "Tsinghua University / shiyu-coder",
   "type": "time-series",
   "date": "2026-08-12",
@@ -183,7 +188,8 @@
       "purpose": "capture-operator attempt",
       "params": "5 | COMPLETED — DAG `847b359a…` | 65m32s | $0.57",
       "outcome": "ok",
-      "dagHash": "847b359a9f1a0ae3a31a621f9901f57e5387f37610adabc9e7bd24f4ecdae97d"
+      "dagHash": "847b359a9f1a0ae3a31a621f9901f57e5387f37610adabc9e7bd24f4ecdae97d",
+      "dataset": "HK 09988 5-min K-lines"
     }
   ],
   "dataWarnings": [

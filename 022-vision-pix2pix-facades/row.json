@@ -1,5 +1,10 @@
 {
-  "name": "pix2pix (CycleGAN/pix2pix, CMP Facades labels->photo)",
+  "name": "pix2pix",
+  "dataset": "CMP Facades (labels→photo)",
+  "tags": [
+    "image-translation",
+    "from-scratch"
+  ],
   "org": "junyanz",
   "type": "vision",
   "date": "2026-08-14",
@@ -229,7 +234,8 @@
       "outcome": "ok",
       "durationSec": 208,
       "costUsd": 0.07,
-      "dagHash": "14df351c56d65be8181299f225e5c266f35e6aded43dc8068b5f0e2e76ac622b"
+      "dagHash": "14df351c56d65be8181299f225e5c266f35e6aded43dc8068b5f0e2e76ac622b",
+      "dataset": "CMP Facades (labels→photo)"
     }
   ]
 }

@@ -1,5 +1,10 @@
 {
-  "name": "S4 (structured state-space sequence model)",
+  "name": "S4",
+  "dataset": "permuted sequential MNIST",
+  "tags": [
+    "sequence-modeling",
+    "from-scratch"
+  ],
   "org": "state-spaces (Stanford Hazy Research)",
   "type": "ssm",
   "date": "2026-08-11",

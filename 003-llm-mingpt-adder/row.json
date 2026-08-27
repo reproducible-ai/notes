@@ -1,5 +1,9 @@
 {
-  "name": "minGPT adder",
+  "name": "minGPT",
+  "dataset": "two-digit addition (synthetic)",
+  "tags": [
+    "from-scratch"
+  ],
   "org": "karpathy",
   "type": "llm",
   "date": "2026-08-07",
@@ -125,7 +129,8 @@
       "purpose": "capture-operator attempt",
       "params": "2 | Capture | same (agent still warm) | 3 min 58 s | $0.03 | COMPLETED — 99.2 % test, artifact published, all four gates green",
       "outcome": "ok",
-      "dagHash": "c2ffb3ef71e1f4dafd87e0fc95ef172addb0e4f9b7ebc490360dbf572d60d0cc"
+      "dagHash": "c2ffb3ef71e1f4dafd87e0fc95ef172addb0e4f9b7ebc490360dbf572d60d0cc",
+      "dataset": "two-digit addition (synthetic)"
     }
   ],
   "dataWarnings": [
