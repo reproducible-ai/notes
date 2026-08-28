@@ -26,7 +26,7 @@
   "roarVersion": "0.4.5",
   "playbookVersion": "1.0",
   "tracer": "preload",
-  "amiId": "ami-0a9b6486d0f932ffe",
+  "amiId": "ami-0543bb81ee9303074",
   "reproduce": {
     "hash": "acc9448d8d05c85402418424a7f9aa3da9bd539755554ba8442d95092d1bdad7",
     "cmd": "roar reproduce acc9448d8d05c85402418424a7f9aa3da9bd539755554ba8442d95092d1bdad7 --lineage --run --no-puts"
