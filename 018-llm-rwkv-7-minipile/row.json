@@ -1,0 +1,129 @@
+{
+  "name": "RWKV-7",
+  "slug": "rwkv-7-minipile",
+  "org": "BlinkDL",
+  "type": "llm",
+  "dataset": null,
+  "dataWarnings": [
+    "MiniPile was downloaded and its 1,498,226,207-token binidx index was opened successfully, but training never began because an upstream CUDA extension did not compile for the L40S GPU."
+  ],
+  "tags": ["pretrain", "sequence-modeling"],
+  "date": "2026-08-28",
+  "status": "blocked",
+  "statusSub": "upstream CUDA kernel does not compile for sm_89",
+  "blocker": "RWKV-v7/train_temp/cuda/rwkv7_cmix_bf16_v5.cu calls atomicAdd(float2*, float2), which nvcc rejects when compiling the published training path for an NVIDIA L40S (sm_89).",
+  "dagHash": null,
+  "dagUrl": null,
+  "bomUrl": null,
+  "bomScore": null,
+  "upstreamUrl": "https://github.com/BlinkDL/RWKV-LM",
+  "forkUrl": "https://github.com/reproducible-ai/RWKV-LM/tree/capture/018-rwkv-7-minipile",
+  "artifactUrl": null,
+  "patch": {"lines": 0, "url": null},
+  "notes": "https://github.com/reproducible-ai/notes/tree/main/018-llm-rwkv-7-minipile",
+  "license": "Apache-2.0",
+  "summary": "Blocked before training: the current published RWKV-7 MiniPile entry point reaches a CUDA kernel that does not compile for the L40S GPU's sm_89 architecture.",
+  "verified": false,
+  "difficulty": "blocked — upstream CUDA architecture incompatibility",
+  "upstreamCommit": "658042ca30222715c1d3ab662a3c556824dc6618",
+  "truncated": false,
+  "rebuild": {
+    "time": "4m57s",
+    "hw": "1× NVIDIA L40S",
+    "costUsd": 0.13
+  },
+  "parameters": [
+    {
+      "name": "my_exit_tokens",
+      "published": "1498226207",
+      "used": "16384",
+      "reason": "two-step campaign budget",
+      "restoresFullRun": true,
+      "where": "RWKV-v7/train_temp/train.py --my_exit_tokens"
+    }
+  ],
+  "runs": [
+    {
+      "label": "historical-setup-1",
+      "purpose": "prior capture attempt",
+      "params": "training not reached",
+      "durationSec": 4,
+      "costUsd": 0.0,
+      "outcome": "failed",
+      "note": "Job 39e3b221-5abb-4dc9-a042-796533dbf57e ended before training and published no lineage."
+    },
+    {
+      "label": "historical-setup-2",
+      "purpose": "prior capture attempt",
+      "params": "training not reached",
+      "durationSec": 3,
+      "costUsd": 0.0,
+      "outcome": "failed",
+      "note": "Job 4eae035c-04f5-4b86-b31c-9b6ee7b1d4d8 ended before training and published no lineage."
+    },
+    {
+      "label": "historical-setup-3",
+      "purpose": "prior capture attempt",
+      "params": "training not reached",
+      "durationSec": 4,
+      "costUsd": 0.0,
+      "outcome": "failed",
+      "note": "Job 0e64a36a-1ab1-45c4-aa11-9e73a584d896 ended before training and published no lineage."
+    },
+    {
+      "label": "capacity-attempt",
+      "purpose": "launch the current capture recipe",
+      "params": "L12-D768, ctx=512, bf16, two-step limit",
+      "costUsd": 0.0,
+      "outcome": "aborted",
+      "note": "Job b51bbd6d-24df-4f18-8e5e-dd1680cf5556 never acquired a worker, was cancelled without starting, and published no lineage."
+    },
+    {
+      "label": "capture",
+      "purpose": "record the bounded MiniPile training path",
+      "params": "L12-D768, ctx=512, bf16, DeepSpeed stage 2, my_exit_tokens=16384",
+      "durationSec": 297,
+      "costUsd": 0.13,
+      "outcome": "failed",
+      "note": "Job 8e57011b-c4e7-425b-97ae-84bca48a57c8 downloaded MiniPile, then failed while compiling rwkv7_cmix_bf16_v5 for sm_89; training and publication were not reached."
+    }
+  ],
+  "issues": [
+    {
+      "severity": "P0",
+      "title": "The current CUDA channel-mix kernel does not compile for sm_89",
+      "detail": "The published one-GPU MiniPile path imports rwkv7_cmix_bf16_v5 during initialization. On an NVIDIA L40S, nvcc targets sm_89 and rejects atomicAdd(reinterpret_cast<float2*>(ptr), make_float2(...)) because that vector overload is unavailable for this architecture. Initialization stops before a model or loss can be produced.",
+      "evidence": "RWKV-v7/train_temp/cuda/rwkv7_cmix_bf16_v5.cu:20-22",
+      "fix": "provide an sm_89-compatible accumulation implementation, such as architecture-gated scalar float atomics",
+      "upstreamAction": "warranted"
+    }
+  ],
+  "experimentUrl": null,
+  "experimentUrlNote": "The upstream WandB path was enabled and the hosted bridge initialized, but the CUDA compilation failure occurred before the first training batch and before wandb.init(), so no metric-bearing run exists.",
+  "playbookVersion": "1.0",
+  "tracer": "preload",
+  "operator": {
+    "agent": "CRA",
+    "agentVersion": "1.0",
+    "model": "gpt-5.6-sol",
+    "harness": "Codex",
+    "harnessVersion": "unavailable"
+  },
+  "agentSteps": [
+    {
+      "phase": "capture",
+      "attempt": "1/1",
+      "date": "2026-08-28",
+      "agent": "CRA",
+      "model": "gpt-5.6-sol",
+      "harness": "Codex",
+      "harnessVersion": "unavailable",
+      "evidence": "TReqs jobs b51bbd6d-24df-4f18-8e5e-dd1680cf5556 and 8e57011b-c4e7-425b-97ae-84bca48a57c8"
+    }
+  ],
+  "certification": {
+    "tier": 1,
+    "result": null,
+    "resultCaveat": "No DAG was published because the upstream CUDA extension failed before training; the row is blocked and is not a Reproducible record or a Certified reproduction."
+  }
+}
