@@ -1,0 +1,126 @@
+{
+  "name": "Distil-Whisper",
+  "slug": "distil-whisper",
+  "org": "Hugging Face",
+  "type": "audio",
+  "dataset": "hf-internal-testing/librispeech_asr_dummy (clean validation; 2 train samples, 1 evaluation sample)",
+  "tags": ["fine-tune", "sequence-modeling"],
+  "date": "2026-08-28",
+  "status": "progress",
+  "statusSub": "Tier-1 record gate 13/14",
+  "blocker": "No verified hosted experiment URL was produced, and the import/freeze audit found wandb absent from the recorded package freeze.",
+  "summary": "A one-step teacher-student Distil-Whisper rebuild completed training and evaluation on a public LibriSpeech fixture and published an attributed model artifact. This is a pipeline proof only, not a convergence or model-quality claim.",
+  "license": "MIT",
+  "repoUrl": "https://github.com/huggingface/distil-whisper",
+  "forkUrl": "https://github.com/reproducible-ai/distil-whisper",
+  "artifactUrl": "https://huggingface.co/reproducible-ai/distil-whisper/resolve/main/model.safetensors",
+  "notesUrl": "https://github.com/reproducible-ai/notes/tree/main/013-audio-distil-whisper",
+  "upstreamCommit": "cc96130f6e4cc74cab4545f3c6e7e5c204ced871",
+  "dagHash": "acc9448d8d05c85402418424a7f9aa3da9bd539755554ba8442d95092d1bdad7",
+  "dagUrl": "https://glaas.ai/dag/acc9448d8d05c85402418424a7f9aa3da9bd539755554ba8442d95092d1bdad7",
+  "bomUrl": "https://glaas.ai/dag/acc9448d8d05c85402418424a7f9aa3da9bd539755554ba8442d95092d1bdad7/audit",
+  "bomScore": 100,
+  "experimentUrl": null,
+  "verified": false,
+  "difficulty": "moderate",
+  "roarVersion": "0.4.5",
+  "playbookVersion": "1.0",
+  "tracer": "preload",
+  "amiId": "ami-0a9b6486d0f932ffe",
+  "reproduce": {
+    "hash": "acc9448d8d05c85402418424a7f9aa3da9bd539755554ba8442d95092d1bdad7",
+    "cmd": "roar reproduce acc9448d8d05c85402418424a7f9aa3da9bd539755554ba8442d95092d1bdad7 --lineage --run --no-puts"
+  },
+  "rebuild": {
+    "time": "4m18s",
+    "hw": "1× Tesla T4",
+    "costUsd": 0.06,
+    "fixedCostUsd": 0.05,
+    "scalingCostUsd": 0.01
+  },
+  "truncated": true,
+  "truncation": {
+    "ran": 1,
+    "full": 50000,
+    "unit": "optimizer steps",
+    "note": "One optimizer step was run against upstream's recommendation of at least 50,000 steps for convergence. This checks the training and evaluation path only; it makes no convergence or model-quality claim."
+  },
+  "parameters": [
+    {"name": "teacher_model_name_or_path", "published": "openai/whisper-large-v3", "used": "openai/whisper-tiny.en", "reason": "fit the bounded pipeline proof", "restoresFullRun": true, "where": "training/run_distillation.py --teacher_model_name_or_path"},
+    {"name": "encoder_layers", "published": "32", "used": "4", "reason": "fit the bounded pipeline proof", "restoresFullRun": true, "where": "training/create_student_model.py --encoder_layers"},
+    {"name": "decoder_layers", "published": "2", "used": "1", "reason": "fit the bounded pipeline proof", "restoresFullRun": true, "where": "training/create_student_model.py --decoder_layers"},
+    {"name": "train_dataset_name", "published": "mozilla-foundation/common_voice_13_0", "used": "hf-internal-testing/librispeech_asr_dummy", "reason": "use a small public fixture", "restoresFullRun": true, "where": "training/run_distillation.py --train_dataset_name"},
+    {"name": "train_dataset_config_name", "published": "hi", "used": "clean", "reason": "match the selected fixture", "restoresFullRun": true, "where": "training/run_distillation.py --train_dataset_config_name"},
+    {"name": "train_split_name", "published": "train+validation", "used": "validation", "reason": "match the selected fixture", "restoresFullRun": true, "where": "training/run_distillation.py --train_split_name"},
+    {"name": "use_pseudo_labels", "published": "true", "used": "false", "reason": "use upstream's documented transcript alternative", "restoresFullRun": false, "where": "training/run_distillation.py --use_pseudo_labels"},
+    {"name": "max_train_samples", "published": "all", "used": "2", "reason": "bound the pipeline proof", "restoresFullRun": true, "where": "training/run_distillation.py --max_train_samples"},
+    {"name": "max_eval_samples", "published": "all", "used": "1", "reason": "bound evaluation", "restoresFullRun": true, "where": "training/run_distillation.py --max_eval_samples"},
+    {"name": "max_steps", "published": "at least 50000", "used": "1", "reason": "per-row budget cap", "restoresFullRun": true, "where": "training/run_distillation.py --max_steps"},
+    {"name": "per_device_train_batch_size", "published": "32", "used": "1", "reason": "match the two-sample proof", "restoresFullRun": true, "where": "training/run_distillation.py --per_device_train_batch_size"},
+    {"name": "per_device_eval_batch_size", "published": "32", "used": "1", "reason": "match the one-sample evaluation", "restoresFullRun": true, "where": "training/run_distillation.py --per_device_eval_batch_size"},
+    {"name": "dataloader_num_workers", "published": "8", "used": "0", "reason": "keep the bounded input path single-process", "restoresFullRun": false, "where": "training/run_distillation.py --dataloader_num_workers"},
+    {"name": "preprocessing_num_workers", "published": "8", "used": "1", "reason": "match the small fixture", "restoresFullRun": false, "where": "training/run_distillation.py --preprocessing_num_workers"},
+    {"name": "dtype", "published": "bfloat16", "used": "float32", "reason": "exercise the small model without mixed precision", "restoresFullRun": false, "where": "training/run_distillation.py --dtype"}
+  ],
+  "runs": [
+    {
+      "label": "capture-1",
+      "purpose": "recorded rebuild attempt",
+      "params": "max_steps=1, 2 train samples, 1× T4",
+      "dataset": "hf-internal-testing/librispeech_asr_dummy",
+      "durationSec": 144,
+      "costUsd": 0.05,
+      "outcome": "aborted",
+      "note": "Cancelled after environment validation found an incompatible interpreter before distillation completed."
+    },
+    {
+      "label": "capture-2",
+      "purpose": "recorded rebuild and artifact publication",
+      "params": "max_steps=1, 2 train samples, 1 eval sample, 1× T4",
+      "dataset": "hf-internal-testing/librispeech_asr_dummy",
+      "durationSec": 258,
+      "costUsd": 0.06,
+      "outcome": "ok",
+      "note": "Training, evaluation, artifact upload, and attributed lineage publication completed.",
+      "dagHash": "acc9448d8d05c85402418424a7f9aa3da9bd539755554ba8442d95092d1bdad7"
+    }
+  ],
+  "fullRun": {
+    "estimateUsd": null,
+    "estimateBasis": "The recorded run used a tiny teacher, two training samples, and one optimizer step. Upstream recommends at least 50,000 steps for convergence and describes training at a much larger data scale, so one fixture step does not support a defensible cost extrapolation.",
+    "confidence": "low",
+    "durationEstimate": null,
+    "command": null,
+    "changes": [
+      "restore openai/whisper-large-v3 as the teacher",
+      "restore the published 32-encoder/2-decoder-layer student",
+      "restore the published training and evaluation corpora and full sample counts",
+      "run at least 50,000 optimizer steps with the published batch settings"
+    ],
+    "caveats": "Data loading, model size, sequence lengths, batching, and distributed topology all differ materially from this fixture run."
+  },
+  "issues": [],
+  "dataWarnings": [
+    "Tier-1 record validation reached 13/14 checks because no verified hosted experiment URL was produced.",
+    "The import-versus-freeze audit found wandb absent from the 62-package recorded freeze even though the training command imports it.",
+    "No independent cold certification has been run."
+  ],
+  "operator": {
+    "agent": "CRA",
+    "agentVersion": "1.0",
+    "model": "gpt-5.6-sol",
+    "harness": "Codex",
+    "harnessVersion": "unavailable",
+    "note": "Fresh clean-room operator working from upstream public materials."
+  },
+  "agentSteps": [
+    {"phase": "capture", "attempt": "1/2", "date": "2026-08-28", "agent": "CRA", "model": "gpt-5.6-sol", "harness": "Codex", "harnessVersion": "unavailable", "evidence": "TReqs TR 2ede9eb7-e49a-491a-a50f-73b03e596828; job 5f0e10ee-604a-48ef-8eb0-b65a9e642062"},
+    {"phase": "capture", "attempt": "2/2", "date": "2026-08-28", "agent": "CRA", "model": "gpt-5.6-sol", "harness": "Codex", "harnessVersion": "unavailable", "evidence": "TReqs TR 707b7677-8520-440e-97cc-d8df5362e243; job 373b5078-8cd4-467e-9614-7d7454458664"},
+    {"phase": "qa", "attempt": "1/1", "date": "2026-08-28", "agent": "CRA", "model": "gpt-5.6-sol", "harness": "Codex", "harnessVersion": "unavailable", "evidence": "gate_row.py against acc9448d8d05c85402418424a7f9aa3da9bd539755554ba8442d95092d1bdad7"}
+  ],
+  "certification": {
+    "tier": 1,
+    "result": null,
+    "resultCaveat": "The record gate reached 13/14; no verified hosted experiment URL was produced. Tier-2 cold certification was not run."
+  }
+}
