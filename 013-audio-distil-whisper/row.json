@@ -11,10 +11,10 @@
   "blocker": "No verified hosted experiment URL was produced, and the import/freeze audit found wandb absent from the recorded package freeze.",
   "summary": "A one-step teacher-student Distil-Whisper rebuild completed training and evaluation on a public LibriSpeech fixture and published an attributed model artifact. This is a pipeline proof only, not a convergence or model-quality claim.",
   "license": "MIT",
-  "repoUrl": "https://github.com/huggingface/distil-whisper",
+  "upstreamUrl": "https://github.com/huggingface/distil-whisper",
   "forkUrl": "https://github.com/reproducible-ai/distil-whisper",
   "artifactUrl": "https://huggingface.co/reproducible-ai/distil-whisper/resolve/main/model.safetensors",
-  "notesUrl": "https://github.com/reproducible-ai/notes/tree/main/013-audio-distil-whisper",
+  "notes": "https://github.com/reproducible-ai/notes/tree/main/013-audio-distil-whisper",
   "upstreamCommit": "cc96130f6e4cc74cab4545f3c6e7e5c204ced871",
   "dagHash": "acc9448d8d05c85402418424a7f9aa3da9bd539755554ba8442d95092d1bdad7",
   "dagUrl": "https://glaas.ai/dag/acc9448d8d05c85402418424a7f9aa3da9bd539755554ba8442d95092d1bdad7",
@@ -22,7 +22,7 @@
   "bomScore": 100,
   "experimentUrl": null,
   "verified": false,
-  "difficulty": "moderate",
+  "difficulty": "5/10 — moderate",
   "roarVersion": "0.4.5",
   "playbookVersion": "1.0",
   "tracer": "preload",
@@ -116,7 +116,7 @@
   "agentSteps": [
     {"phase": "capture", "attempt": "1/2", "date": "2026-08-28", "agent": "CRA", "model": "gpt-5.6-sol", "harness": "Codex", "harnessVersion": "unavailable", "evidence": "TReqs TR 2ede9eb7-e49a-491a-a50f-73b03e596828; job 5f0e10ee-604a-48ef-8eb0-b65a9e642062"},
     {"phase": "capture", "attempt": "2/2", "date": "2026-08-28", "agent": "CRA", "model": "gpt-5.6-sol", "harness": "Codex", "harnessVersion": "unavailable", "evidence": "TReqs TR 707b7677-8520-440e-97cc-d8df5362e243; job 373b5078-8cd4-467e-9614-7d7454458664"},
-    {"phase": "qa", "attempt": "1/1", "date": "2026-08-28", "agent": "CRA", "model": "gpt-5.6-sol", "harness": "Codex", "harnessVersion": "unavailable", "evidence": "gate_row.py against acc9448d8d05c85402418424a7f9aa3da9bd539755554ba8442d95092d1bdad7"}
+    {"phase": "tier1-qa", "attempt": "1/1", "date": "2026-08-28", "agent": "CRA", "model": "gpt-5.6-sol", "harness": "Codex", "harnessVersion": "unavailable", "evidence": "gate_row.py against acc9448d8d05c85402418424a7f9aa3da9bd539755554ba8442d95092d1bdad7"}
   ],
   "certification": {
     "tier": 1,
