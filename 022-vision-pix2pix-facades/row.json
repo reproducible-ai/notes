@@ -63,9 +63,6 @@
     "exitCode": 1,
     "stepsRun": "1/2",
     "stepsNote": "The dataset-fetch step reported success after 20 TCP connection timeouts but produced no dataset. Training then failed before its first sample was loaded.",
-    "roarVersion": "0.4.5",
-    "roarWheelSha256": "8dcc24d1ee03cb33922af815844ab3e750b3d5429267ed03e59ea1996f90c63a",
-    "roarWheelSource": "PyPI Linux x86_64 wheel; digest verified before comparison, and all six tracer binaries inside the wheel were byte-identical to the installed copies",
     "manifestDiff": "25/25 EXACT against the union of both recorded steps; 48 distributions installed. uv pip freeze and importlib.metadata independently agreed at 48. No recorded pin was missing or mismatched.",
     "venvResolution": "The executed interpreter was the rebuilt venv's Python 3.12.10. Its sys.path contained the venv site-packages and no host site-packages. Before the run, the host had no python command, and the workload interpreter could not import roar.",
     "outputs": [
@@ -79,8 +76,7 @@
       }
     ],
     "blocker": "The published Facades archive endpoint accepted no TCP connection and returned zero bytes across 20 attempts. The empty dataset caused training to raise: ValueError: num_samples should be a positive integer value, but got num_samples=0",
-    "hw": "1x NVIDIA T4 (g4dn.xlarge), us-east-2, AMI ami-0543bb81ee9303074",
-    "instanceId": "i-0b6a6da478c421d6d",
+    "hw": "1x NVIDIA T4 (g4dn.xlarge), us-east-2",
     "wallClock": "48m39s",
     "costUsd": 0.43,
     "evidence": "CERT-TIER2.md",
@@ -113,7 +109,7 @@
       "model": "unavailable (not supplied) 2026-08-28",
       "harness": "Codex",
       "harnessVersion": "unavailable",
-      "evidence": "CERT-TIER2.md; cold host i-0b6a6da478c421d6d"
+      "evidence": "CERT-TIER2.md"
     }
   ],
   "dataWarnings": [

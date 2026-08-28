@@ -34,8 +34,6 @@ This attempt does not establish that the model recipe or recorded dependency set
 - Installed closure: 48 distributions; `uv pip freeze` and `importlib.metadata` agreed
 - Executed interpreter: rebuilt venv Python 3.12.10
 - Host packages were absent from the venv's `sys.path`
-- Harness wheel sha256: `8dcc24d1ee03cb33922af815844ab3e750b3d5429267ed03e59ea1996f90c63a`
-- All six installed tracer binaries were byte-identical to that verified wheel
-- Cold host: `i-0b6a6da478c421d6d`; terminated after evidence collection
+- The cold host was terminated after evidence collection
 
 The certifier was independent of the capture operator and did not modify or recapture the row.
