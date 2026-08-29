@@ -1,0 +1,72 @@
+{
+  "name": "GloVe",
+  "slug": "glove",
+  "dataset": "text8",
+  "tags": ["from-scratch", "sequence-modeling"],
+  "org": "stanfordnlp",
+  "type": "llm",
+  "date": "2026-08-29",
+  "status": "blocked",
+  "statusSub": "capture complete — Tier 1 blocked at 13/14 Clean-DAG checks",
+  "blocker": "The published evaluation.txt is public but does not trace to a producing job output in the lineage graph. The record therefore fails the strict Clean-DAG gate and is not eligible for Tier 2.",
+  "dagHash": "985fa6373bc89da84a2e989589f7249d227cca5a9c7a152aee4364d947ff64f2",
+  "dagUrl": "https://glaas.ai/dag/985fa6373bc89da84a2e989589f7249d227cca5a9c7a152aee4364d947ff64f2",
+  "bomUrl": "https://glaas.ai/dag/985fa6373bc89da84a2e989589f7249d227cca5a9c7a152aee4364d947ff64f2/audit",
+  "bomScore": 100,
+  "reproduce": {"cmd": "roar reproduce 985fa6373bc89da84a2e989589f7249d227cca5a9c7a152aee4364d947ff64f2 --lineage --run --no-puts"},
+  "upstreamUrl": "https://github.com/stanfordnlp/GloVe",
+  "forkUrl": "https://github.com/reproducible-ai/GloVe",
+  "artifactUrl": "https://huggingface.co/reproducible-ai/glove",
+  "notes": "https://github.com/reproducible-ai/notes/tree/main/020-glove",
+  "license": "Apache-2.0",
+  "upstreamCommit": "52f7dbc512be3f72e9c11e7cbb19dfdfa4651e9c",
+  "patch": {"lines": 0, "url": "https://github.com/stanfordnlp/GloVe/compare/52f7dbc...reproducible-ai:GloVe:e0ec96a"},
+  "summary": "Upstream GloVe trained from scratch on the complete text8 demo recipe: vocabulary construction, co-occurrence generation, shuffle, 15 training iterations and the supplied word-analogy evaluation. The successful recorded run completed all eleven workflow tasks in 3h07m08s and reported 22.82% total analogy accuracy. The model bundle and evaluation are public. AI-BOM is 100/100 and public URL checks pass, but the strict Clean-DAG gate blocks the row because the separately published evaluation file is not connected to a producing job output in the graph.",
+  "difficulty": "7/10 — the published demo runs without source changes, but its three C compute stages take about three hours and the resulting record misses one strict lineage edge",
+  "verified": false,
+  "truncated": false,
+  "rebuild": {"time": "3h07m08s", "hw": "1x Tesla T4 (g4dn.xlarge)", "costUsd": 1.67},
+  "experimentUrl": null,
+  "experimentUrlNote": "The upstream demo has no experiment-logging integration; there is no logging flag to enable.",
+  "certification": {
+    "tier": 1,
+    "result": null,
+    "date": "2026-08-29",
+    "evidence": "gate_row: Clean-DAG 13/14, AI-BOM 100/100, all public URLs resolvable",
+    "resultCaveat": "Tier 1 is blocked because evaluation.txt does not trace to a producing job output. Tier 2 was not attempted. This capture operator did not certify the row."
+  },
+  "operator": {
+    "agent": "CRA",
+    "agentVersion": "1.0",
+    "model": "unavailable/not supplied 2026-08-29",
+    "harness": "Codex",
+    "harnessVersion": "unavailable",
+    "note": "Capture only; exact configured model identity was not supplied and was not inferred."
+  },
+  "agentSteps": [{
+    "phase": "capture",
+    "attempt": "3/3",
+    "date": "2026-08-29",
+    "agent": "/root/capture_row_020_retry",
+    "model": "unavailable/not supplied 2026-08-29",
+    "harness": "Codex",
+    "harnessVersion": "unavailable",
+    "evidence": "TReqs training request 1876d6c2-4e15-4823-9216-f0de3d4f9c6e, job aa0ad5d4-8fec-438a-b747-24a23776db23"
+  }],
+  "dataWarnings": ["The capture operator's exact configured model and harness version were not supplied; they are recorded as unavailable rather than inferred."],
+  "parameters": [],
+  "issues": [{
+    "severity": "P1",
+    "title": "The demo does not set the random seeds exposed by the training binaries",
+    "detail": "Repeated complete runs produce different analogy accuracy because demo.sh invokes shuffle and glove without their seed flags.",
+    "evidence": "demo.sh; src/shuffle.c; src/glove.c",
+    "fix": "Set and document fixed seeds in the published demo.",
+    "upstreamAction": "warranted"
+  }],
+  "runs": [
+    {"label": "bare-clone", "purpose": "pre-spend clean-environment validation", "params": "full text8 demo, 15 iterations, CPU", "dataset": "text8", "durationSec": 11100, "costUsd": 0, "outcome": "ok", "note": "Exit 0; 22.68% total analogy accuracy."},
+    {"label": "retry-1", "purpose": "recorded capture", "params": "full text8 demo, 15 iterations, 1x T4", "dataset": "text8", "durationSec": 828, "costUsd": 0.15, "outcome": "aborted", "note": "Stopped during co-occurrence generation at the original time limit; no lineage hash."},
+    {"label": "retry-2", "purpose": "recorded capture", "params": "full text8 demo, 15 iterations, 1x T4", "dataset": "text8", "durationSec": 11230, "costUsd": 1.67, "outcome": "failed", "note": "Training and evaluation completed; the publication stage had no retained evaluation input, so no lineage hash was produced."},
+    {"label": "retry-3", "purpose": "recorded capture with retained publication inputs", "params": "full text8 demo, 15 iterations, 1x T4", "dataset": "text8", "durationSec": 11228, "costUsd": 1.67, "outcome": "ok", "dagHash": "985fa6373bc89da84a2e989589f7249d227cca5a9c7a152aee4364d947ff64f2", "note": "All eleven tasks exited 0; 22.82% total analogy accuracy. Tier 1 later blocked at 13/14 Clean-DAG checks."}
+  ]
+}
