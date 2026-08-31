@@ -21,7 +21,7 @@
   "supersededDagHashes": ["d0cec674cc57a4aa611a603ba4946dd6108bd962ebc418363ca21a8c0016bd7a"],
   "dagUrl": "https://glaas.ai/dag/bd03ccc719095e91b2e622dc7964d2f74909783b4930b95d1833177cbaa87775",
   "bomUrl": "https://glaas.ai/dag/bd03ccc719095e91b2e622dc7964d2f74909783b4930b95d1833177cbaa87775/audit",
-  "notes": "https://github.com/reproducible-ai/notes/tree/records/019-flagembedding/019-text-flagembedding-bge",
+  "notes": "https://github.com/reproducible-ai/notes/tree/main/019-text-flagembedding-bge",
   "experimentUrl": null,
   "experimentUrlNote": "The selected upstream fine-tune recipe explicitly disables external reporting with WANDB_MODE=disabled, and the recorded invocation follows that path with --report_to none; adding a separate logger would change the captured workload.",
   "difficulty": "3/10 — straightforward checkpoint fine-tune",
@@ -74,14 +74,14 @@
   "issues": [],
   "operator": {
     "agent": "CRA",
-    "model": "gpt-5-2026-08-31",
+    "model": "unavailable/not supplied 2026-08-31",
     "harness": "Codex",
     "harnessVersion": "0.147.0"
   },
   "agentSteps": [
     {"phase": "capture", "attempt": "1/2", "date": "2026-08-24", "agent": "row019-cra", "model": "gpt-5-2026-08-24", "harness": "Codex", "harnessVersion": "0.147.0", "evidence": "TReqs job a30cac28-fda8-4996-90b4-18759ab6b331"},
-    {"phase": "capture", "attempt": "2/2", "date": "2026-08-31", "agent": "/root/capture_row_019_retry", "model": "gpt-5-2026-08-31", "harness": "Codex", "harnessVersion": "0.147.0", "evidence": "TReqs job 3659767e-a008-448c-8749-eea61ac42b8d"},
-    {"phase": "qa", "attempt": "1/1", "date": "2026-08-31", "agent": "/root/capture_row_019_retry", "model": "gpt-5-2026-08-31", "harness": "Codex", "harnessVersion": "0.147.0", "evidence": "gate_row and imports_vs_freeze_audit on the attributed DAG"},
+    {"phase": "capture", "attempt": "2/2", "date": "2026-08-31", "agent": "/root/capture_row_019_retry", "model": "unavailable/not supplied 2026-08-31", "harness": "Codex", "harnessVersion": "0.147.0", "evidence": "TReqs job 3659767e-a008-448c-8749-eea61ac42b8d"},
+    {"phase": "tier1-qa", "attempt": "1/1", "date": "2026-08-31", "agent": "/root/capture_row_019_retry", "model": "unavailable/not supplied 2026-08-31", "harness": "Codex", "harnessVersion": "0.147.0", "evidence": "gate_row and imports_vs_freeze_audit on the attributed DAG"},
     {"phase": "certification", "attempt": "1/1", "date": "2026-08-31", "agent": "/root/certify_row_019", "model": "unavailable-2026-08-31 (not supplied at launch)", "harness": "Codex", "harnessVersion": "0.147.0", "evidence": "019-text-flagembedding-bge/CERT-TIER2.md"}
   ],
   "certification": {
