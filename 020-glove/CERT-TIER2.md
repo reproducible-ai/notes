@@ -25,6 +25,6 @@ The certifier verified roar-cli 0.4.5 from its sha256-identified PyPI wheel (`8d
 
 As positive controls, the archive passed an integrity read and contains the two vector files, evaluation, and vocabulary. The rebuilt evaluation computed 22.58% total analogy accuracy. Metric equality is not part of the reproduction claim.
 
-Certification ran on one NVIDIA Tesla T4 (`g4dn.xlarge`) in `us-east-2`. The valid reproduction took approximately ten minutes. Combined certification compute, including a discarded preliminary invocation and evidence collection, is estimated at $0.70. The preliminary invocation was not used for any certification conclusion.
+Certification ran on one NVIDIA Tesla T4 (`g4dn.xlarge`) in `us-east-2`. The valid reproduction took approximately ten minutes. Combined certification compute, including a discarded preliminary invocation and evidence collection, is estimated at $0.75. The preliminary invocation was not used for any certification conclusion.
 
 Certifier identity: `/root/certify_row_020`; exact configured model and harness version were not supplied and are recorded as unavailable rather than inferred. Harness: Codex.

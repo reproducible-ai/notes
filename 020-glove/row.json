@@ -53,7 +53,7 @@
     "instanceId": "i-0073c692ee2e4cf3d",
     "hw": "1x NVIDIA Tesla T4, us-east-2, AMI ami-0543bb81ee9303074",
     "runWallClock": "approximately 10m",
-    "costUsdEstimate": 0.70,
+    "costUsdEstimate": 0.75,
     "costNote": "Approximate combined host cost including a discarded preliminary invocation and evidence collection; no conclusion was drawn from the preliminary invocation.",
     "evidence": "020-glove/CERT-TIER2.md",
     "certifiedBy": "independent cold agent; did not capture the row and used only the DAG hash, row name, published DAG, public fork and public notes",
