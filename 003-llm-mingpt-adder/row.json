@@ -1,5 +1,6 @@
 {
   "name": "minGPT",
+  "slug": "mingpt-adder",
   "dataset": "two-digit addition (synthetic)",
   "tags": [
     "from-scratch"

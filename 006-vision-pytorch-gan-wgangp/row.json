@@ -1,5 +1,6 @@
 {
   "name": "WGAN-GP",
+  "slug": "wgan-gp-mnist",
   "dataset": "MNIST",
   "tags": [
     "unconditional-generation",

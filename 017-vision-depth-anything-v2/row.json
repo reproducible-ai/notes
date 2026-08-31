@@ -1,5 +1,6 @@
 {
   "name": "Depth Anything V2",
+  "slug": "depth-anything-v2-metric-depth-hypersim",
   "dataset": "Hypersim (indoor split)",
   "tags": [
     "metric-depth",

@@ -2,30 +2,42 @@
   "name": "GloVe",
   "slug": "glove",
   "dataset": "text8",
-  "tags": ["from-scratch", "sequence-modeling"],
+  "tags": [
+    "from-scratch",
+    "sequence-modeling"
+  ],
   "org": "stanfordnlp",
   "type": "llm",
   "date": "2026-08-29",
-  "status": "certified",
-  "statusSub": "Tier 2 passed — independent cold reproduction exited 0 with 8/8 steps",
+  "status": "reproduced",
+  "statusSub": "Tier 2 passed \u2014 independent cold reproduction exited 0 with 8/8 steps",
   "blocker": null,
   "dagHash": "5d5c04ca31854eb2678552dcf24f96e39d77449513643e7e0a2e3ee4f6399673",
   "dagUrl": "https://glaas.ai/dag/5d5c04ca31854eb2678552dcf24f96e39d77449513643e7e0a2e3ee4f6399673",
   "bomUrl": "https://glaas.ai/dag/5d5c04ca31854eb2678552dcf24f96e39d77449513643e7e0a2e3ee4f6399673/audit",
   "bomScore": 100,
-  "reproduce": {"cmd": "roar reproduce 5d5c04ca31854eb2678552dcf24f96e39d77449513643e7e0a2e3ee4f6399673 --lineage --run --no-puts"},
+  "reproduce": {
+    "cmd": "roar reproduce 5d5c04ca31854eb2678552dcf24f96e39d77449513643e7e0a2e3ee4f6399673 --lineage --run --no-puts"
+  },
   "upstreamUrl": "https://github.com/stanfordnlp/GloVe",
   "forkUrl": "https://github.com/reproducible-ai/GloVe",
   "artifactUrl": "https://huggingface.co/reproducible-ai/glove",
   "notes": "https://github.com/reproducible-ai/notes/tree/main/020-glove",
   "license": "Apache-2.0",
   "upstreamCommit": "52f7dbc512be3f72e9c11e7cbb19dfdfa4651e9c",
-  "patch": {"lines": 0, "url": "https://github.com/stanfordnlp/GloVe/compare/52f7dbc...reproducible-ai:GloVe:e0ec96a"},
+  "patch": {
+    "lines": 0,
+    "url": "https://github.com/stanfordnlp/GloVe/compare/52f7dbc...reproducible-ai:GloVe:e0ec96a"
+  },
   "summary": "Upstream GloVe trained from scratch on the complete text8 demo recipe: vocabulary construction, co-occurrence generation, shuffle, 15 training iterations and the supplied word-analogy evaluation. The recorded run completed all eleven workflow tasks in 3h07m53s and reported 22.99% total analogy accuracy. The model bundle and evaluation are public. Strict Clean-DAG verification passes 14/14, AI-BOM is 100/100, public URL checks pass, and the dependency freeze is portable. Independent Tier-2 certification passed: the cold rebuild exited 0, ran 8/8 executable steps and regenerated the recorded outputs.",
-  "difficulty": "7/10 — the published demo runs without source changes, but its three C compute stages make capture take about three hours and several full attempts were needed; the final record is clean and independently certified",
+  "difficulty": "7/10 \u2014 the published demo runs without source changes, but its three C compute stages make capture take about three hours and several full attempts were needed; the final record is clean and independently certified",
   "verified": true,
   "truncated": false,
-  "rebuild": {"time": "3h07m53s", "hw": "1x Tesla T4 (g4dn.xlarge)", "costUsd": 1.70},
+  "rebuild": {
+    "time": "3h07m53s",
+    "hw": "1x Tesla T4 (g4dn.xlarge)",
+    "costUsd": 1.7
+  },
   "experimentUrl": null,
   "experimentUrlNote": "The upstream demo has no experiment-logging integration; there is no logging flag to enable.",
   "certification": {
@@ -43,10 +55,26 @@
     "manifestDiff": "1/1 EXACT against the union of all recorded run-step pins: numpy==1.26.4, with 0 missing and 0 mismatched. uv pip freeze and importlib.metadata independently agreed at one installed distribution.",
     "venvResolution": "The rebuilt venv used Python 3.12.10. PATH resolved python and python3 to the row-local .venv, sys.executable reported that venv, and numpy loaded from its site-packages. The host had no python command before reproduction and the substrate Python could not import roar.",
     "outputs": [
-      {"path": "outputs/evaluation.txt", "bytes": 923, "sha256": "7056d3779f0287777148198489eb94ec876f9ec8b7a1b743dc99b7c88be10371"},
-      {"path": "outputs/glove-text8.tar.gz", "bytes": 70171487, "sha256": "063e238a37c9a3455fe53551c27dd9487b0f38b379ef3de4623bcf75a8431e0f"},
-      {"path": "outputs/vectors.bin", "bytes": 58172640, "sha256": "88a57a548426eabee8361053f5e41b1725e926f06dbbf4ac7726e269f8845934"},
-      {"path": "outputs/vectors.txt", "bytes": 34421413, "sha256": "74dc56430fb7466107dd8b995c9a3ba5b7485efbfc29118f639946c82f5c67f4"}
+      {
+        "path": "outputs/evaluation.txt",
+        "bytes": 923,
+        "sha256": "7056d3779f0287777148198489eb94ec876f9ec8b7a1b743dc99b7c88be10371"
+      },
+      {
+        "path": "outputs/glove-text8.tar.gz",
+        "bytes": 70171487,
+        "sha256": "063e238a37c9a3455fe53551c27dd9487b0f38b379ef3de4623bcf75a8431e0f"
+      },
+      {
+        "path": "outputs/vectors.bin",
+        "bytes": 58172640,
+        "sha256": "88a57a548426eabee8361053f5e41b1725e926f06dbbf4ac7726e269f8845934"
+      },
+      {
+        "path": "outputs/vectors.txt",
+        "bytes": 34421413,
+        "sha256": "74dc56430fb7466107dd8b995c9a3ba5b7485efbfc29118f639946c82f5c67f4"
+      }
     ],
     "positiveControls": "The log contains eight independent success records and Steps run: 8/8; the archive passed tar integrity and contains vectors.bin, vectors.txt, evaluation.txt and vocab.txt; evaluation regenerated 22.58% total analogy accuracy.",
     "instanceType": "g4dn.xlarge",
@@ -72,40 +100,94 @@
     "harnessVersion": "unavailable",
     "note": "Capture only; exact configured model identity was not supplied and was not inferred."
   },
-  "agentSteps": [{
-    "phase": "capture",
-    "attempt": "4/4",
-    "date": "2026-08-29",
-    "agent": "/root/capture_row_020_retry",
-    "model": "unavailable/not supplied 2026-08-29",
-    "harness": "Codex",
-    "harnessVersion": "unavailable",
-    "evidence": "TReqs training request a22d5d47-8327-4c81-afab-a2499f7931e5, job 62b06ed6-1105-4134-b84a-324316eb6e86"
-  }, {
-    "phase": "certification",
-    "attempt": "valid cold run",
-    "date": "2026-08-31",
-    "agent": "/root/certify_row_020",
-    "model": "unavailable/not supplied 2026-08-31",
-    "harness": "Codex",
-    "harnessVersion": "unavailable",
-    "evidence": "CERT-TIER2.md; literal exit 0; Steps run: 8/8"
-  }],
-  "dataWarnings": ["The capture operator and certifier exact configured model and harness versions were not supplied; they are recorded as unavailable rather than inferred."],
+  "agentSteps": [
+    {
+      "phase": "capture",
+      "attempt": "4/4",
+      "date": "2026-08-29",
+      "agent": "/root/capture_row_020_retry",
+      "model": "unavailable/not supplied 2026-08-29",
+      "harness": "Codex",
+      "harnessVersion": "unavailable",
+      "evidence": "TReqs training request a22d5d47-8327-4c81-afab-a2499f7931e5, job 62b06ed6-1105-4134-b84a-324316eb6e86"
+    },
+    {
+      "phase": "certification",
+      "attempt": "valid cold run",
+      "date": "2026-08-31",
+      "agent": "/root/certify_row_020",
+      "model": "unavailable/not supplied 2026-08-31",
+      "harness": "Codex",
+      "harnessVersion": "unavailable",
+      "evidence": "CERT-TIER2.md; literal exit 0; Steps run: 8/8"
+    }
+  ],
+  "dataWarnings": [
+    "The capture operator and certifier exact configured model and harness versions were not supplied; they are recorded as unavailable rather than inferred."
+  ],
   "parameters": [],
-  "issues": [{
-    "severity": "P1",
-    "title": "The demo does not set the random seeds exposed by the training binaries",
-    "detail": "Repeated complete runs produce different analogy accuracy because demo.sh invokes shuffle and glove without their seed flags.",
-    "evidence": "demo.sh; src/shuffle.c; src/glove.c",
-    "fix": "Set and document fixed seeds in the published demo.",
-    "upstreamAction": "warranted"
-  }],
+  "issues": [
+    {
+      "severity": "P1",
+      "title": "The demo does not set the random seeds exposed by the training binaries",
+      "detail": "Repeated complete runs produce different analogy accuracy because demo.sh invokes shuffle and glove without their seed flags.",
+      "evidence": "demo.sh; src/shuffle.c; src/glove.c",
+      "fix": "Set and document fixed seeds in the published demo.",
+      "upstreamAction": "warranted"
+    }
+  ],
   "runs": [
-    {"label": "bare-clone", "purpose": "pre-spend clean-environment validation", "params": "full text8 demo, 15 iterations, CPU", "dataset": "text8", "durationSec": 11100, "costUsd": 0, "outcome": "ok", "note": "Exit 0; 22.68% total analogy accuracy."},
-    {"label": "retry-1", "purpose": "recorded capture", "params": "full text8 demo, 15 iterations, 1x T4", "dataset": "text8", "durationSec": 828, "costUsd": 0.15, "outcome": "aborted", "note": "Stopped during co-occurrence generation at the original time limit; no lineage hash."},
-    {"label": "retry-2", "purpose": "recorded capture", "params": "full text8 demo, 15 iterations, 1x T4", "dataset": "text8", "durationSec": 11230, "costUsd": 1.67, "outcome": "failed", "note": "Training and evaluation completed; the publication stage had no retained evaluation input, so no lineage hash was produced."},
-    {"label": "retry-3", "purpose": "recorded capture with retained publication inputs", "params": "full text8 demo, 15 iterations, 1x T4", "dataset": "text8", "durationSec": 11228, "costUsd": 1.67, "outcome": "ok", "dagHash": "985fa6373bc89da84a2e989589f7249d227cca5a9c7a152aee4364d947ff64f2", "note": "All eleven tasks exited 0; 22.82% total analogy accuracy. Tier 1 later blocked at 13/14 Clean-DAG checks."}
-    ,{"label": "retry-4", "purpose": "recorded capture with direct material-file writer", "params": "full text8 demo, 15 iterations, 1x T4", "dataset": "text8", "durationSec": 11273, "costUsd": 1.70, "outcome": "ok", "dagHash": "5d5c04ca31854eb2678552dcf24f96e39d77449513643e7e0a2e3ee4f6399673", "note": "All eleven tasks exited 0; 22.99% total analogy accuracy. The evaluation job records evaluation.txt as its output; Tier 1 passes all gates. Job estimate was $1.65; the target meter was $1.70 for 192 instance-minutes including provisioning/finalization."}
+    {
+      "label": "bare-clone",
+      "purpose": "pre-spend clean-environment validation",
+      "params": "full text8 demo, 15 iterations, CPU",
+      "dataset": "text8",
+      "durationSec": 11100,
+      "costUsd": 0,
+      "outcome": "ok",
+      "note": "Exit 0; 22.68% total analogy accuracy."
+    },
+    {
+      "label": "retry-1",
+      "purpose": "recorded capture",
+      "params": "full text8 demo, 15 iterations, 1x T4",
+      "dataset": "text8",
+      "durationSec": 828,
+      "costUsd": 0.15,
+      "outcome": "aborted",
+      "note": "Stopped during co-occurrence generation at the original time limit; no lineage hash."
+    },
+    {
+      "label": "retry-2",
+      "purpose": "recorded capture",
+      "params": "full text8 demo, 15 iterations, 1x T4",
+      "dataset": "text8",
+      "durationSec": 11230,
+      "costUsd": 1.67,
+      "outcome": "failed",
+      "note": "Training and evaluation completed; the publication stage had no retained evaluation input, so no lineage hash was produced."
+    },
+    {
+      "label": "retry-3",
+      "purpose": "recorded capture with retained publication inputs",
+      "params": "full text8 demo, 15 iterations, 1x T4",
+      "dataset": "text8",
+      "durationSec": 11228,
+      "costUsd": 1.67,
+      "outcome": "ok",
+      "dagHash": "985fa6373bc89da84a2e989589f7249d227cca5a9c7a152aee4364d947ff64f2",
+      "note": "All eleven tasks exited 0; 22.82% total analogy accuracy. Tier 1 later blocked at 13/14 Clean-DAG checks."
+    },
+    {
+      "label": "retry-4",
+      "purpose": "recorded capture with direct material-file writer",
+      "params": "full text8 demo, 15 iterations, 1x T4",
+      "dataset": "text8",
+      "durationSec": 11273,
+      "costUsd": 1.7,
+      "outcome": "ok",
+      "dagHash": "5d5c04ca31854eb2678552dcf24f96e39d77449513643e7e0a2e3ee4f6399673",
+      "note": "All eleven tasks exited 0; 22.99% total analogy accuracy. The evaluation job records evaluation.txt as its output; Tier 1 passes all gates. Job estimate was $1.65; the target meter was $1.70 for 192 instance-minutes including provisioning/finalization."
+    }
   ]
 }

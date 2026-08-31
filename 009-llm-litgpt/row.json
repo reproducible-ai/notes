@@ -1,5 +1,6 @@
 {
   "name": "pythia-14m",
+  "slug": "litgpt-pretrain",
   "dataset": "WikiText-2",
   "tags": [
     "pretrain"

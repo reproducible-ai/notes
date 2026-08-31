@@ -1,5 +1,6 @@
 {
   "name": "DCGAN",
+  "slug": "dcgan-cifar-10",
   "dataset": "CIFAR-10",
   "tags": [
     "unconditional-generation",

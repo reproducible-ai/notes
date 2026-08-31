@@ -1,5 +1,6 @@
 {
   "name": "S4",
+  "slug": "s4-structured-state-space-sequence-model",
   "dataset": "permuted sequential MNIST",
   "tags": [
     "sequence-modeling",
