@@ -20,6 +20,6 @@ Because the checkpoint, dataset, parallelism, sequence lengths and training dura
 
 The attributed public lineage contains two jobs and twenty artifacts. Strict Clean-DAG verification passes 14/14, including the training-request backlink. The AI-BOM scores 100/100, all recorded URLs resolve anonymously, the dependency freeze is portable, and an imports-versus-freeze audit reports no decisive missing packages.
 
-This is a Tier-1 record only. No independent cold rebuild has certified it yet.
+This record also passed an independent cold Tier-2 rebuild: the exact lineage command exited 0 with `Steps run: 1/1`, regenerated the 17,547,912-byte checkpoint byte-for-byte, and matched all 53 recorded package pins. See `CERT-TIER2.md` for the evidence.
 
 No experiment URL is claimed. The selected upstream fine-tune recipe explicitly disables external reporting with `WANDB_MODE=disabled`, and the recorded invocation follows that path with `--report_to none`. Adding a new logging integration would change the workload.
