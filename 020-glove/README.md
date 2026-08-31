@@ -4,7 +4,7 @@ This row runs Stanford NLP's published GloVe `demo.sh` recipe end to end on the 
 
 The final recorded job ran for 3h07m53s on one Tesla T4 and reported 22.99% total analogy accuracy. Its model bundle and evaluation are public at Hugging Face. The lineage record passes strict Clean-DAG verification 14/14, has an AI-BOM score of 100/100, has a portable dependency freeze, and every public URL resolves.
 
-The evaluation job itself records `evaluation.txt` as an output; this positive control distinguishes the final record from the preceding one, where the file existed but lacked that producing edge. Tier 1 inspects the record and executes nothing. Independent Tier-2 certification is pending and is required before this row can be called reproduced.
+The evaluation job itself records `evaluation.txt` as an output; this positive control distinguishes the final record from the preceding one, where the file existed but lacked that producing edge. An independent cold agent subsequently rebuilt all eight executable steps: the command exited 0, reported 8/8, reproduced the model bundle and evaluation, and matched the recorded package union exactly. See [CERT-TIER2.md](CERT-TIER2.md).
 
 The upstream demo also does not set the seed options implemented by its shuffle and training binaries. Complete executions consequently report different analogy scores; this row makes no metric-equivalence claim.
 
