@@ -55,9 +55,32 @@
   "experimentUrl": null,
   "experimentUrlNote": "Upstream DOES ship experiment logging - options/base_options.py:57 defines --use_wandb, and util/visualizer.py calls wandb.init() - so this row is not a 'no logging integration' case and the flag was deliberately left at its published default of off. The reason is that util/visualizer.py:70 calls self.wandb_run._label(repo='CycleGAN-and-pix2pix'), a private, undocumented wandb API, on the object returned by wandb.init(). No wandb-compatible substitute implements _label, so enabling the flag under any bridge raises AttributeError: '_Run' object has no attribute '_label' and ends the run - verified by replaying upstream's exact call shape on CPU before any GPU time was booked. Separately, util/visualizer.py:7 imports wandb unconditionally at module import time, so aliasing wandb to a substitute would cause the recorded dependency set to name the substitute in place of the wandb this repo genuinely requires, trading a link for a false dependency record. The run therefore used upstream's own default path with a real wandb 0.21.1 installed, which is what the freeze correctly records. Producing a link would have required either patching upstream or misrecording the dependencies.",
   "certification": {
-    "tier": 1,
-    "result": null,
-    "resultCaveat": "No cold rebuild has been attempted. This row is a Tier-1 reproducible record only: all four tier-1 gates pass (clean-dag 14/14, AI-BOM 100/100 Advanced, all URLs public, freeze PORTABLE) and the recorded run executed to exit 0, but none of that executes the record on a fresh host. Tier-1 completion signals are not a certification result. A reader should also know that the recorded dependency set is THIN before attempting certification: see issues[] entry 'Recorded dependency set omits two packages the workload loads'. The rebuild is expected to succeed anyway, because both omissions are transitive dependencies of packages that ARE recorded and the resolver will supply them - which means a green rebuild would demonstrate that the set resolves, not that it is complete."
+    "tier": 2,
+    "result": "FAIL",
+    "date": "2026-08-28",
+    "dagHash": "14df351c56d65be8181299f225e5c266f35e6aded43dc8068b5f0e2e76ac622b",
+    "cmd": "roar reproduce 14df351c56d65be8181299f225e5c266f35e6aded43dc8068b5f0e2e76ac622b --lineage --run --no-puts -y --step-timeout 21600",
+    "exitCode": 1,
+    "stepsRun": "1/2",
+    "stepsNote": "The dataset-fetch step reported success after 20 TCP connection timeouts but produced no dataset. Training then failed before its first sample was loaded.",
+    "manifestDiff": "25/25 EXACT against the union of both recorded steps; 48 distributions installed. uv pip freeze and importlib.metadata independently agreed at 48. No recorded pin was missing or mismatched.",
+    "venvResolution": "The executed interpreter was the rebuilt venv's Python 3.12.10. Its sys.path contained the venv site-packages and no host site-packages. Before the run, the host had no python command, and the workload interpreter could not import roar.",
+    "outputs": [
+      {
+        "path": "checkpoints/facades_pix2pix/latest_net_G.pth",
+        "produced": false
+      },
+      {
+        "path": "checkpoints/facades_pix2pix/latest_net_D.pth",
+        "produced": false
+      }
+    ],
+    "blocker": "The published Facades archive endpoint accepted no TCP connection and returned zero bytes across 20 attempts. The empty dataset caused training to raise: ValueError: num_samples should be a positive integer value, but got num_samples=0",
+    "hw": "1x NVIDIA T4 (g4dn.xlarge), us-east-2",
+    "wallClock": "48m39s",
+    "costUsd": 0.43,
+    "evidence": "CERT-TIER2.md",
+    "certifiedBy": "independent cold certification agent; did not capture or modify this row"
   },
   "operator": {
     "agent": "CRA",
@@ -77,7 +100,20 @@
       "harness": "Claude Code",
       "harnessVersion": "2.1.232",
       "evidence": "TReqs training request e1415063-d569-419b-ad72-2fc6719f6f51, job 34e71a9d-d9e3-46d8-ae80-c38e889dcb36"
+    },
+    {
+      "phase": "certification",
+      "attempt": "1/1",
+      "date": "2026-08-28",
+      "agent": "cold certifier /root/certify_row_022",
+      "model": "unavailable (not supplied) 2026-08-28",
+      "harness": "Codex",
+      "harnessVersion": "unavailable",
+      "evidence": "CERT-TIER2.md"
     }
+  ],
+  "dataWarnings": [
+    "The independent certifier's exact configured model and harness version were not supplied; agentSteps records them as unavailable rather than inferring them."
   ],
   "roarVersion": "0.4.4rc7",
   "roarWheelSha256": "7f5321965766eb27462b2931b7961eaf48742109a74f5aa5194a4ba9492f988a",
@@ -237,6 +273,17 @@
       "costUsd": 0.07,
       "dagHash": "14df351c56d65be8181299f225e5c266f35e6aded43dc8068b5f0e2e76ac622b",
       "dataset": "CMP Facades (labels→photo)"
+    },
+    {
+      "label": "certification-1",
+      "purpose": "independent cold tier-2 rebuild",
+      "params": "g4dn.xlarge; exact published lineage; no puts; recorded package pins",
+      "outcome": "failed",
+      "durationSec": 2919,
+      "costUsd": 0.43,
+      "dagHash": "14df351c56d65be8181299f225e5c266f35e6aded43dc8068b5f0e2e76ac622b",
+      "dataset": "CMP Facades (labels→photo)",
+      "note": "The published dataset endpoint returned no bytes across 20 connection attempts; training then found an empty dataset. Exit 1; Steps run: 1/2; no model checkpoints produced."
     }
   ]
 }
