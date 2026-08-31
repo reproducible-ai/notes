@@ -21,8 +21,8 @@
   "license": "Apache-2.0",
   "upstreamCommit": "52f7dbc512be3f72e9c11e7cbb19dfdfa4651e9c",
   "patch": {"lines": 0, "url": "https://github.com/stanfordnlp/GloVe/compare/52f7dbc...reproducible-ai:GloVe:e0ec96a"},
-  "summary": "Upstream GloVe trained from scratch on the complete text8 demo recipe: vocabulary construction, co-occurrence generation, shuffle, 15 training iterations and the supplied word-analogy evaluation. The recorded run completed all eleven workflow tasks in 3h07m53s and reported 22.99% total analogy accuracy. The model bundle and evaluation are public. Strict Clean-DAG verification passes 14/14, AI-BOM is 100/100, public URL checks pass, and the dependency freeze is portable. Independent Tier-2 certification remains pending.",
-  "difficulty": "7/10 — the published demo runs without source changes, but its three C compute stages take about three hours and the resulting record misses one strict lineage edge",
+  "summary": "Upstream GloVe trained from scratch on the complete text8 demo recipe: vocabulary construction, co-occurrence generation, shuffle, 15 training iterations and the supplied word-analogy evaluation. The recorded run completed all eleven workflow tasks in 3h07m53s and reported 22.99% total analogy accuracy. The model bundle and evaluation are public. Strict Clean-DAG verification passes 14/14, AI-BOM is 100/100, public URL checks pass, and the dependency freeze is portable. Independent Tier-2 certification passed: the cold rebuild exited 0, ran 8/8 executable steps and regenerated the recorded outputs.",
+  "difficulty": "7/10 — the published demo runs without source changes, but its three C compute stages make capture take about three hours and several full attempts were needed; the final record is clean and independently certified",
   "verified": true,
   "truncated": false,
   "rebuild": {"time": "3h07m53s", "hw": "1x Tesla T4 (g4dn.xlarge)", "costUsd": 1.70},
@@ -74,13 +74,13 @@
   },
   "agentSteps": [{
     "phase": "capture",
-    "attempt": "3/3",
+    "attempt": "4/4",
     "date": "2026-08-29",
     "agent": "/root/capture_row_020_retry",
     "model": "unavailable/not supplied 2026-08-29",
     "harness": "Codex",
     "harnessVersion": "unavailable",
-    "evidence": "TReqs training request 1876d6c2-4e15-4823-9216-f0de3d4f9c6e, job aa0ad5d4-8fec-438a-b747-24a23776db23"
+    "evidence": "TReqs training request a22d5d47-8327-4c81-afab-a2499f7931e5, job 62b06ed6-1105-4134-b84a-324316eb6e86"
   }, {
     "phase": "certification",
     "attempt": "valid cold run",
