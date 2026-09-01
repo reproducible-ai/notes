@@ -1,5 +1,56 @@
 # Commands — 011 fast_neural_style
 
+## Current-stack retry — 2026-09-01
+
+Fork: `reproducible-ai/examples` at full commit
+`4902d7199692c8707edb54759cfc1d627ce94225`, based on upstream
+`acc295dc7b90714f1bf47f06004fc19a7fe235c4`. That is the commit behind the
+Tier-1 record.
+
+The isolated Python environment contains exact plain-PyPI distributions:
+`numpy==2.2.6`, `pillow==11.3.0`, `torch==2.7.0`, and
+`torchvision==0.22.0`. The three recorded workload commands are:
+
+```sh
+sh -c 'set -eu; mkdir -p fast_neural_style/out-data; curl -fL \
+  -o fast_neural_style/out-data/imagenette2-320.tgz \
+  https://s3.amazonaws.com/fast-ai-imageclas/imagenette2-320.tgz; \
+  echo "569b4497c98db6dd29f335d1f109cf315fe127053cedf69010d047f0188e158c  fast_neural_style/out-data/imagenette2-320.tgz" | sha256sum -c -; \
+  tar -xzf fast_neural_style/out-data/imagenette2-320.tgz -C fast_neural_style/out-data'
+
+env -C fast_neural_style python neural_style/neural_style.py train \
+  --dataset out-data/imagenette2-320/train \
+  --style-image images/style-images/mosaic.jpg \
+  --save-model-dir out-model --checkpoint-model-dir out-ckpt \
+  --epochs 1 --batch-size 4 --checkpoint-interval 2368 --accel
+
+env -C fast_neural_style python neural_style/neural_style.py eval \
+  --content-image images/content-images/amber.jpg \
+  --model out-ckpt/ckpt_epoch_0_batch_id_2368.pth \
+  --output-image out-stylized/amber-mosaic.jpg --accel
+```
+
+The checkpoint and stylized JPEG are named together in one publish operation. No
+pipeline sink creates either file; the training and evaluation processes write them
+directly.
+
+The follow-up at commit `4902d7199692c8707edb54759cfc1d627ce94225`
+replaced only the first recorded command with direct shell tools:
+
+```sh
+sh -c 'set -eu; mkdir -p fast_neural_style/out-data; \
+  curl -fL -o fast_neural_style/out-data/imagenette2-320.tgz \
+    https://s3.amazonaws.com/fast-ai-imageclas/imagenette2-320.tgz; \
+  echo "569b4497c98db6dd29f335d1f109cf315fe127053cedf69010d047f0188e158c  fast_neural_style/out-data/imagenette2-320.tgz" | sha256sum -c -; \
+  tar -xzf fast_neural_style/out-data/imagenette2-320.tgz \
+    -C fast_neural_style/out-data'
+```
+
+The first execution of that follow-up completed the workload and uploaded both artifacts
+but produced no lineage hash. An immutable retry produced the Tier-1 record.
+
+## August capture recipe
+
 The recipe, in the order it runs. Everything below is scoped to
 `fast_neural_style/` inside the `pytorch/examples` monorepo; no sibling example
 directory is read, written or installed.

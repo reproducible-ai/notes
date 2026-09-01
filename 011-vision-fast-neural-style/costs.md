@@ -5,6 +5,36 @@ Instance: **g4dn.xlarge** (1× Tesla T4, 4 vCPU Xeon 8259CL), us-east-2, on-dema
 `ec2 describe-instances` (`LaunchTime` → `StateTransitionReason`). Nothing here is
 estimated except where it says so, and where it says so it shows the arithmetic.
 
+## Current-stack retry — 2026-09-01
+
+The exclusive T4 target accrued **$0.29** over 32 metered minutes across two
+attempts. The first stopped in setup before downloading data or running the workload
+($0.04). The corrected attempt completed in 23m15s and accounts for approximately
+$0.21 of job execution plus the target's idle-to-shutdown tail.
+
+| phase | duration |
+|---|---:|
+| setup | 1m25s |
+| fetch and record Imagenette-320 | 41.7s |
+| train one epoch | 10m52s |
+| stylize | 8.9s |
+| label | 1.1s |
+| publish both artifacts | 8m19s |
+| native finalization | 1m47s |
+
+For the completed attempt, `rebuild.costUsd` is $0.21. The measured training phase is
+the scalable portion ($0.095 at $0.526/hour); boot, setup, fetch, stylize, publication,
+and finalization form the fixed portion ($0.115). The two components sum to the observed
+completed-attempt cost.
+
+The direct-shell remediation later added **$0.23** over 26 metered minutes. Its
+workload completed but it produced no lineage hash. An immutable retry added **$0.26**
+over its full 29-minute target lifecycle and produced the Tier-1 record. The
+authoritative job closed while the meter was $0.23; the automatic idle-shutdown tail
+added $0.03. Total current-stack campaign spend for this row is therefore **$0.78**:
+$0.29 for the first target lifecycle, $0.23 for the first shell-fetch lifecycle, and
+$0.26 for its immutable retry.
+
 ## The run these figures come from
 
 Fork commit `3a7a01cc2d1b`, instance `i-03d77c830864afd02`, session `63edfd1d…e377` —
