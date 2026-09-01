@@ -50,12 +50,49 @@
   "experimentUrl": null,
   "experimentUrlNote": "upstream examples/fast_neural_style ships no experiment-logging integration — grepped the whole subdirectory for wandb, mlflow, trackio, tensorboard, SummaryWriter, comet, neptune and report_to: zero hits. There is no flag to enable. The metrics bridge only intercepts a wandb import the workload actually performs, so against this workload it is a guaranteed no-op; it was removed from the workflow rather than left in, so the record does not imply a logging path that does not exist. Adding wandb.init() to neural_style.py would have produced a link and forfeited the zero-upstream-lines property that makes the row evidence. There is also nothing to log: the example computes no held-out metric, and its only evaluation renders an image.",
   "certification": {
-    "tier": 1,
-    "result": null,
-    "date": null,
-    "evidence": null,
-    "resultCaveat": "Tier 1 passed: strict Clean-DAG 14/14, AI-BOM 100/100, all DAG URLs public, and portable freeze. This capture operator did not attempt Tier 2; certification is assigned to a different cold agent.",
-    "candidateDagHash": "0bc12b45d58b9d1657f3d39f770ae43659612cfdabc55be6e138af3358924d01"
+    "tier": 2,
+    "result": "PASS",
+    "date": "2026-09-01",
+    "dagHash": "0bc12b45d58b9d1657f3d39f770ae43659612cfdabc55be6e138af3358924d01",
+    "cmd": "roar reproduce 0bc12b45d58b9d1657f3d39f770ae43659612cfdabc55be6e138af3358924d01 --lineage --run --no-puts -y --step-timeout 21600",
+    "exitCode": 0,
+    "stepsRun": "3/3",
+    "roarVersion": "0.4.5",
+    "roarWheelSha256": "8dcc24d1ee03cb33922af815844ab3e750b3d5429267ed03e59ea1996f90c63a",
+    "roarWheelSource": "PyPI x86_64 wheel; digest verified before installation and all six installed tracer binaries matched the wheel byte-for-byte",
+    "manifestDiff": "10/10 recorded union pins exact; 28 distributions installed. uv pip freeze enumerated all 28 and importlib.metadata independently confirmed 28 distributions.",
+    "venvResolution": "The steps used /tmp/cert-011-v045/reproduce/examples/.venv/bin/python at Python 3.12.10. Before reproduction the host had no python executable on PATH, only /usr/bin/python3 at Python 3.10.12. CUDA was available in the rebuilt venv.",
+    "outputs": [
+      {
+        "path": "fast_neural_style/out-ckpt/ckpt_epoch_0_batch_id_2368.pth",
+        "bytes": 6739701,
+        "sha256": "a41b6b1b5f86c87d83e7088da1c3b19d1523ac038339becbf464d3de71789108"
+      },
+      {
+        "path": "fast_neural_style/out-model/epoch_1_2026-09-01_17-46-02_100000.0_10000000000.0.model",
+        "bytes": 6741397,
+        "sha256": "3e159add916234937777e4ae3e1841ce95e11b0e9c4254b41475aac7e77e54af"
+      },
+      {
+        "path": "fast_neural_style/out-stylized/amber-mosaic.jpg",
+        "bytes": 373663,
+        "sha256": "8ca5d31b64a450549d53adb08a86e12cca1da75c485a10167c17fba2cfae3e62"
+      }
+    ],
+    "hw": "1x NVIDIA Tesla T4 (g4dn.xlarge), us-east-2, AMI ami-0f07f1a0b382b48f7",
+    "instanceId": "i-09f24827a2d3a1d20",
+    "instanceName": "cert-row011-fast-neural-style",
+    "wallClock": "approximately 11m for the valid reproduce; approximately 32m host lifetime including bootstrap, one invalidated apparatus attempt, retry, and evidence collection",
+    "costUsd": 0.28,
+    "logSha256": "4490b650ecfd5ace5b69a90c1f833c19faabd97396246c3e600908fe52cc41ae",
+    "evidence": "011-vision-fast-neural-style/CERT-TIER2.md",
+    "certifier": {
+      "agent": "/root/certify_row_011",
+      "model": "unavailable-2026-09-01 (not supplied at launch)",
+      "harness": "Codex",
+      "harnessVersion": "0.147.0"
+    },
+    "certifiedBy": "independent cold agent; did not capture this row and used only the DAG hash, row name, and public evidence"
   },
   "roarVersion": "0.4.5",
   "roarWheelSha256": null,
@@ -128,6 +165,16 @@
       "harness": "Codex",
       "harnessVersion": "0.147.0",
       "evidence": "gate_row.py against 0bc12b45d58b9d1657f3d39f770ae43659612cfdabc55be6e138af3358924d01"
+    },
+    {
+      "phase": "certification",
+      "attempt": "1/1",
+      "date": "2026-09-01",
+      "agent": "/root/certify_row_011",
+      "model": "unavailable-2026-09-01 (not supplied at launch)",
+      "harness": "Codex",
+      "harnessVersion": "0.147.0",
+      "evidence": "011-vision-fast-neural-style/CERT-TIER2.md"
     }
   ],
   "fullRun": {

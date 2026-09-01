@@ -1,10 +1,11 @@
 # 011 — fast_neural_style (`pytorch/examples`)
 
-**Status: Tier 1 PASS; awaiting independent Tier 2.** A current-stack retry completed
+**Status: Certified reproduction (Tier 2 PASS).** A current-stack retry completed
 the whole pipeline and published an attributed, backlinked four-job record with both
 outputs. The strict Clean-DAG check is 14/14, the AI-BOM is 100/100, every DAG URL is
-public, and the freeze is portable. Tier 2 has not been attempted by this capture
-operator.
+public, and the freeze is portable. A separate cold agent then rebuilt the three-step
+pipeline from this record with exit code 0 and regenerated the checkpoint, final model,
+and stylized image; see `CERT-TIER2.md`.
 
 The successful graph uses direct shell tools for dataset preparation. An otherwise
 identical first attempt reached the workload and artifact uploads but received no
@@ -220,7 +221,8 @@ problem were all found, before a single cent of GPU time was spent.
 
 ## Certification
 
-**Not yet certified.** No cold rebuild has been attempted. The Tier-1 record hash is
-`0bc12b45d58b9d1657f3d39f770ae43659612cfdabc55be6e138af3358924d01`. This operator
-performed capture and Tier-1 QA only; certification remains assigned to a different
-cold agent.
+An independent cold agent rebuilt record
+`0bc12b45d58b9d1657f3d39f770ae43659612cfdabc55be6e138af3358924d01`
+on a fresh Tesla T4 host. The required command exited 0 with literal `Steps run: 3/3`,
+the recorded dependency union was exact, and all three material outputs were regenerated.
+Full evidence, including output hashes and harness identity, is in `CERT-TIER2.md`.
