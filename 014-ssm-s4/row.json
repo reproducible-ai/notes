@@ -12,9 +12,9 @@
   "status": "reproduced",
   "blocker": null,
   "license": "Apache-2.0",
-  "difficulty": "7/10 — hard",
+  "difficulty": "7/10 \u2014 hard",
   "difficultyNote": "Runs unmodified, but only after the whole torch stack is pinned back to 2.3.0: an unguarded module-level `import torchtext` in src/dataloaders/lra.py forces it, and torchtext 0.18.0's libtorchtext.so is ABI-incompatible with torch 2.7. numpy, scipy, rich and setuptools each need a ceiling for the same 2024-vintage reasons.",
-  "summary": "S4 replaces attention with a learned linear state-space recurrence evaluated as an FFT convolution, so it is the first non-transformer sequence model in this campaign. Upstream's own train.py (Hydra + PyTorch-Lightning) trains a 3-layer, 127,562-parameter model on permuted sequential MNIST — 784-step scalar sequences with the pixel order shuffled, which leaves nothing but long-range dependency — and reaches 94.1% validation accuracy in a single epoch of 1,080 steps. Zero lines of upstream Python were changed; the run is the command from upstream's README plus three Hydra overrides. Captured twice on two different hosts and bit-identical both times.",
+  "summary": "S4 replaces attention with a learned linear state-space recurrence evaluated as an FFT convolution, so it is the first non-transformer sequence model in this campaign. Upstream's own train.py (Hydra + PyTorch-Lightning) trains a 3-layer, 127,562-parameter model on permuted sequential MNIST \u2014 784-step scalar sequences with the pixel order shuffled, which leaves nothing but long-range dependency \u2014 and reaches 94.1% validation accuracy in a single epoch of 1,080 steps. Zero lines of upstream Python were changed; the run is the command from upstream's README plus three Hydra overrides. Captured twice on two different hosts and bit-identical both times.",
   "notes": "https://github.com/reproducible-ai/notes/tree/main/014-ssm-s4",
   "upstreamUrl": "https://github.com/state-spaces/s4",
   "forkUrl": "https://github.com/reproducible-ai/s4",
@@ -45,7 +45,7 @@
   },
   "rebuild": {
     "time": "6m01s",
-    "hw": "1× Tesla T4 (g4dn.xlarge)",
+    "hw": "1\u00d7 Tesla T4 (g4dn.xlarge)",
     "costUsd": 0.08,
     "fixedCostUsd": 0.06,
     "scalingCostUsd": 0.02
@@ -58,12 +58,28 @@
     "params": 127562
   },
   "artifactBlake3": null,
-  "artifactNote": "accuracy.ckpt — 1,618,650 bytes, sha256 00a284186647f73d00e90a9e73348a2c37f5c000975a7b4c0f65fd55e44323a1. Byte-identical across two independent captures on two different EC2 instances (upstream sets train.seed: 0 and this config's S4 init is deterministic).",
+  "artifactNote": "accuracy.ckpt \u2014 1,618,650 bytes, sha256 00a284186647f73d00e90a9e73348a2c37f5c000975a7b4c0f65fd55e44323a1. Byte-identical across two independent captures on two different EC2 instances (upstream sets train.seed: 0 and this config's S4 init is deterministic).",
   "experimentUrl": null,
-  "experimentUrlNote": "Upstream ships WandB support (a `wandb:` block in configs/config.yaml and a CustomWandbLogger in train.py), and it was tested on CPU against the wandb→trackio bridge before any GPU was booked. It cannot work: pytorch_lightning/loggers/wandb.py:35-41 imports the `wandb.sdk.lib` and `wandb.wandb_run` SUBMODULES, which no top-level drop-in replacement provides, so the try-block's `except ModuleNotFoundError` sets `wandb = None` and WandbLogger.__init__ raises at wandb.py:305 before step 0. Upstream also calls wandb.Settings(start_method='fork') at train.py:635 and wandb._attach at train.py:100. Enabling it would require editing train.py, forfeiting the zero-upstream-lines-changed property. Metrics are still computed and captured: pytorch-lightning's CSVLogger writes outputs/run/lightning_logs/version_0/metrics.csv, which is a recorded step output in the lineage.",
+  "experimentUrlNote": "Upstream ships WandB support (a `wandb:` block in configs/config.yaml and a CustomWandbLogger in train.py), and it was tested on CPU against the wandb\u2192trackio bridge before any GPU was booked. It cannot work: pytorch_lightning/loggers/wandb.py:35-41 imports the `wandb.sdk.lib` and `wandb.wandb_run` SUBMODULES, which no top-level drop-in replacement provides, so the try-block's `except ModuleNotFoundError` sets `wandb = None` and WandbLogger.__init__ raises at wandb.py:305 before step 0. Upstream also calls wandb.Settings(start_method='fork') at train.py:635 and wandb._attach at train.py:100. Enabling it would require editing train.py, forfeiting the zero-upstream-lines-changed property. Metrics are still computed and captured: pytorch-lightning's CSVLogger writes outputs/run/lightning_logs/version_0/metrics.csv, which is a recorded step output in the lineage.",
   "reproduce": {
     "hash": "fd445b9abb32632e4b3c6ca4c97a1e8a868233c4abb794d2ed94af1ce2f920b2",
-    "cmd": "roar reproduce fd445b9abb32632e4b3c6ca4c97a1e8a868233c4abb794d2ed94af1ce2f920b2 --lineage --run --no-puts"
+    "cmd": "roar reproduce fd445b9abb32632e4b3c6ca4c97a1e8a868233c4abb794d2ed94af1ce2f920b2 --lineage --run --no-puts",
+    "script": {
+      "roarVersion": "0.4.5",
+      "generated": "2026-09-01",
+      "variants": [
+        {
+          "file": "reproduce-no-puts.sh",
+          "command": "roar reproduce fd445b9abb32632e4b3c6ca4c97a1e8a868233c4abb794d2ed94af1ce2f920b2 --lineage --script --no-puts",
+          "puts": false
+        },
+        {
+          "file": "reproduce.sh",
+          "command": "roar reproduce fd445b9abb32632e4b3c6ca4c97a1e8a868233c4abb794d2ed94af1ce2f920b2 --lineage --script",
+          "puts": true
+        }
+      ]
+    }
   },
   "verified": true,
   "certification": {
@@ -78,7 +94,7 @@
     "roarVersion": "0.4.4rc6",
     "roarWheelSha256": "c7115b748886259b6a089e547404376acf84c3b81b4cbc8dc5610490ebea7199",
     "roarWheelSource": "TestPyPI, installed by name+version (roar_cli-0.4.4rc6-cp310-abi3-manylinux_2_34_x86_64.whl) under the recorded interpreter; digest verified before install, and all six tracer artefacts inside the wheel verified byte-identical to those installed under site-packages/roar/bin/.",
-    "manifestDiff": "104/104 EXACT against the training step's recorded pins — nothing missing, nothing mismatched. 134 distributions installed, the 30 extras being the transitive closure (12 nvidia-* CUDA libraries, jinja2/markupsafe/networkx for torch, contourpy/fonttools for matplotlib, grpcio/markdown/werkzeug/tensorboard-data-server for tensorboard, cffi/pycparser, pyasn1(+modules), hf-xet, flatbuffers, markdown-it-py/mdurl, sentry-sdk). Enumerated twice — uv pip freeze and importlib.metadata — which agree at 134. (pip freeze is unusable: the venv is uv-provisioned and ships no pip.)",
+    "manifestDiff": "104/104 EXACT against the training step's recorded pins \u2014 nothing missing, nothing mismatched. 134 distributions installed, the 30 extras being the transitive closure (12 nvidia-* CUDA libraries, jinja2/markupsafe/networkx for torch, contourpy/fonttools for matplotlib, grpcio/markdown/werkzeug/tensorboard-data-server for tensorboard, cffi/pycparser, pyasn1(+modules), hf-xet, flatbuffers, markdown-it-py/mdurl, sentry-sdk). Enumerated twice \u2014 uv pip freeze and importlib.metadata \u2014 which agree at 134. (pip freeze is unusable: the venv is uv-provisioned and ships no pip.)",
     "torchPinSelfHealed": true,
     "torchPinNote": "The record's torch==2.3.0 / torchtext==0.18.0 / torchvision==0.18.0 / torchaudio==2.3.0 pins installed from the lineage and ran, on an AMI that ships torch 2.7. torch reported 2.3.0+cu121 from inside the rebuilt venv, torch.cuda.is_available() was True and the device was a Tesla T4. No host torch was picked up.",
     "freezeSupersetNote": "The 104-pin freeze is a superset of the ~25-package import closure. All nine packages this row never imports (librosa 0.9.2, soundfile 0.14.0, audioread 3.1.0, resampy 0.4.3, numba 0.65.1, llvmlite 0.47.0, tensorboard 2.21.0, boto3 1.42.96, paramiko 4.0.0) installed cleanly at the exact recorded versions and caused no solve failure. One of them is load-bearing: tensorboard being importable is what makes PyTorch-Lightning select TensorBoardLogger over CSVLogger, so trimming it would change which metrics artefact the run emits.",
@@ -89,7 +105,7 @@
         "bytes": 1618650,
         "recordedBytes": 1618650,
         "sha256": "00a284186647f73d00e90a9e73348a2c37f5c000975a7b4c0f65fd55e44323a1",
-        "note": "byte-identical to both captures — a third independent host, same 1,618,650 bytes and same sha256"
+        "note": "byte-identical to both captures \u2014 a third independent host, same 1,618,650 bytes and same sha256"
       },
       {
         "path": "outputs/run/checkpoints/last.ckpt",
@@ -160,8 +176,8 @@
       "test/loss": 0.18875,
       "note": "read back out of the regenerated TensorBoard event file; identical to the record to five decimal places"
     },
-    "metricsCsvCorrection": "The `experimentUrlNote` above and the README both say PyTorch-Lightning's CSVLogger writes outputs/run/lightning_logs/version_0/metrics.csv and that this file is a recorded step output. It is not. The recorded output list contains events.out.tfevents.* and no CSV, and the rebuild produced only the event file. With experimentUrl null that sentence is the record's only pointer to the metrics, and it names a file that does not exist. The metrics themselves are all present — 17 scalar series including val/accuracy, test/accuracy, timer/epoch, train/loss and the four gradient norms — in TensorBoard's binary format instead.",
-    "fixedCostNote": "The record attributes 3m34s to the pinned-environment install as a fixed cost. On the certification host the 104 pins resolved in 1.82s and the whole roar reproduce — clone, venv, 134 packages and the full traced training step — finished in 3m39s end to end. The row's fixed-cost estimate, and hence the $3.50 full-run figure, is conservative.",
+    "metricsCsvCorrection": "The `experimentUrlNote` above and the README both say PyTorch-Lightning's CSVLogger writes outputs/run/lightning_logs/version_0/metrics.csv and that this file is a recorded step output. It is not. The recorded output list contains events.out.tfevents.* and no CSV, and the rebuild produced only the event file. With experimentUrl null that sentence is the record's only pointer to the metrics, and it names a file that does not exist. The metrics themselves are all present \u2014 17 scalar series including val/accuracy, test/accuracy, timer/epoch, train/loss and the four gradient norms \u2014 in TensorBoard's binary format instead.",
+    "fixedCostNote": "The record attributes 3m34s to the pinned-environment install as a fixed cost. On the certification host the 104 pins resolved in 1.82s and the whole roar reproduce \u2014 clone, venv, 134 packages and the full traced training step \u2014 finished in 3m39s end to end. The row's fixed-cost estimate, and hence the $3.50 full-run figure, is conservative.",
     "hw": "1x NVIDIA Tesla T4 (g4dn.xlarge), us-east-2, AMI ami-0f07f1a0b382b48f7, driver 580.126.09",
     "instanceId": "i-0f68f7fe6ffd635a4",
     "wallClock": "3m39s",
@@ -171,12 +187,12 @@
   },
   "fullRun": {
     "estimateUsd": 3.5,
-    "estimateBasis": "The traced train step took 135.7s. Upstream's own Timer callback puts 117.7s of that in the epoch (1,080 steps at batch 50 plus the 6,000-image validation pass); the remaining 18.0s is fixed inside the step (torch import, the 11 MB MNIST download, dataset construction, S4 kernel init). Outside the step, provisioning 2m45s, the pinned-environment install 3m34s and label+publish 4s are also fixed — about 6m40s of fixed cost in total. A full 200-epoch run (configs/trainer/default.yaml) is therefore 200 × 117.7s = 6h32m of training plus that fixed ~6m40s. At the g4dn.xlarge on-demand rate of $0.526/h in us-east-2: 6.54h × $0.526 = $3.44 variable + $0.06 fixed ≈ $3.50. Scaling the row's own $0.08 by 200 would have said $16 — 4.5× too high, because 83% of this run's wall clock does not scale.",
+    "estimateBasis": "The traced train step took 135.7s. Upstream's own Timer callback puts 117.7s of that in the epoch (1,080 steps at batch 50 plus the 6,000-image validation pass); the remaining 18.0s is fixed inside the step (torch import, the 11 MB MNIST download, dataset construction, S4 kernel init). Outside the step, provisioning 2m45s, the pinned-environment install 3m34s and label+publish 4s are also fixed \u2014 about 6m40s of fixed cost in total. A full 200-epoch run (configs/trainer/default.yaml) is therefore 200 \u00d7 117.7s = 6h32m of training plus that fixed ~6m40s. At the g4dn.xlarge on-demand rate of $0.526/h in us-east-2: 6.54h \u00d7 $0.526 = $3.44 variable + $0.06 fixed \u2248 $3.50. Scaling the row's own $0.08 by 200 would have said $16 \u2014 4.5\u00d7 too high, because 83% of this run's wall clock does not scale.",
     "confidence": "moderate",
     "changes": [
       "set epochs back to 200 (ran 1)"
     ],
-    "hw": "1× Tesla T4 (g4dn.xlarge)"
+    "hw": "1\u00d7 Tesla T4 (g4dn.xlarge)"
   },
   "parameters": [
     {

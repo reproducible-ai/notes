@@ -47,7 +47,23 @@
   },
   "reproduce": {
     "hash": "847b359a9f1a0ae3a31a621f9901f57e5387f37610adabc9e7bd24f4ecdae97d",
-    "cmd": "roar reproduce 847b359a9f1a0ae3a31a621f9901f57e5387f37610adabc9e7bd24f4ecdae97d --lineage --run --no-puts"
+    "cmd": "roar reproduce 847b359a9f1a0ae3a31a621f9901f57e5387f37610adabc9e7bd24f4ecdae97d --lineage --run --no-puts",
+    "script": {
+      "roarVersion": "0.4.5",
+      "generated": "2026-09-01",
+      "variants": [
+        {
+          "file": "reproduce-no-puts.sh",
+          "command": "roar reproduce 847b359a9f1a0ae3a31a621f9901f57e5387f37610adabc9e7bd24f4ecdae97d --lineage --script --no-puts",
+          "puts": false
+        },
+        {
+          "file": "reproduce.sh",
+          "command": "roar reproduce 847b359a9f1a0ae3a31a621f9901f57e5387f37610adabc9e7bd24f4ecdae97d --lineage --script",
+          "puts": true
+        }
+      ]
+    }
   },
   "certification": {
     "tier": 2,
@@ -124,37 +140,37 @@
   "issues": [
     {
       "severity": "P0",
-      "title": "🔴 `finetune_csv/`'s \"Method 2\" entry points both crash before the first batch",
+      "title": "\ud83d\udd34 `finetune_csv/`'s \"Method 2\" entry points both crash before the first batch",
       "evidence": "issues.md",
       "upstreamAction": "warranted"
     },
     {
       "severity": "P0",
-      "title": "🟠 `requirements.txt` does not declare PyYAML",
+      "title": "\ud83d\udfe0 `requirements.txt` does not declare PyYAML",
       "evidence": "issues.md",
       "upstreamAction": "warranted"
     },
     {
       "severity": "P0",
-      "title": "🟠 The template config cannot run anywhere as shipped",
+      "title": "\ud83d\udfe0 The template config cannot run anywhere as shipped",
       "evidence": "issues.md",
       "upstreamAction": "warranted"
     },
     {
       "severity": "P0",
-      "title": "🟠 The README quickstart reads a CSV that is not in the repository",
+      "title": "\ud83d\udfe0 The README quickstart reads a CSV that is not in the repository",
       "evidence": "issues.md",
       "upstreamAction": "warranted"
     },
     {
       "severity": "P2",
-      "title": "🟡 The working directory is load-bearing and undocumented",
+      "title": "\ud83d\udfe1 The working directory is load-bearing and undocumented",
       "evidence": "issues.md",
       "upstreamAction": "warranted"
     },
     {
       "severity": "P2",
-      "title": "🟡 `use_comet` is dead config in `finetune_csv/`",
+      "title": "\ud83d\udfe1 `use_comet` is dead config in `finetune_csv/`",
       "evidence": "issues.md",
       "upstreamAction": "warranted"
     }
@@ -163,13 +179,13 @@
     {
       "label": "1",
       "purpose": "capture-operator attempt",
-      "params": "1 | setup failed — `uv: command not found` | ~4m | ~$0.04",
+      "params": "1 | setup failed \u2014 `uv: command not found` | ~4m | ~$0.04",
       "outcome": "failed"
     },
     {
       "label": "2",
       "purpose": "capture-operator attempt",
-      "params": "2 | setup ok, `finetune_tokenizer` failed — `NameError: name 'safetensors' is not defined` | ~8m | ~$0.07",
+      "params": "2 | setup ok, `finetune_tokenizer` failed \u2014 `NameError: name 'safetensors' is not defined` | ~8m | ~$0.07",
       "outcome": "failed"
     },
     {
@@ -187,7 +203,7 @@
     {
       "label": "5",
       "purpose": "capture-operator attempt",
-      "params": "5 | COMPLETED — DAG `847b359a…` | 65m32s | $0.57",
+      "params": "5 | COMPLETED \u2014 DAG `847b359a\u2026` | 65m32s | $0.57",
       "outcome": "ok",
       "dagHash": "847b359a9f1a0ae3a31a621f9901f57e5387f37610adabc9e7bd24f4ecdae97d",
       "dataset": "HK 09988 5-min K-lines"

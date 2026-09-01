@@ -21,14 +21,30 @@
   "bomScore": 100,
   "rebuild": {
     "time": "10m05s",
-    "hw": "1× Tesla T4 (g4dn.xlarge)",
+    "hw": "1\u00d7 Tesla T4 (g4dn.xlarge)",
     "costUsd": 0.06,
     "fixedCostUsd": null,
     "scalingCostUsd": null
   },
   "reproduce": {
     "hash": "c7e6843763c25d8036ff22e48ba43a12d0dd0051d016f1f1e0090a88a3e99453",
-    "cmd": "roar reproduce c7e6843763c25d8036ff22e48ba43a12d0dd0051d016f1f1e0090a88a3e99453 --lineage --run --no-puts"
+    "cmd": "roar reproduce c7e6843763c25d8036ff22e48ba43a12d0dd0051d016f1f1e0090a88a3e99453 --lineage --run --no-puts",
+    "script": {
+      "roarVersion": "0.4.5",
+      "generated": "2026-09-01",
+      "variants": [
+        {
+          "file": "reproduce-no-puts.sh",
+          "command": "roar reproduce c7e6843763c25d8036ff22e48ba43a12d0dd0051d016f1f1e0090a88a3e99453 --lineage --script --no-puts",
+          "puts": false
+        },
+        {
+          "file": "reproduce.sh",
+          "command": "roar reproduce c7e6843763c25d8036ff22e48ba43a12d0dd0051d016f1f1e0090a88a3e99453 --lineage --script",
+          "puts": true
+        }
+      ]
+    }
   },
   "patch": {
     "lines": 130,
@@ -63,12 +79,12 @@
   },
   "fullRun": {
     "estimateUsd": null,
-    "estimateBasis": "NOT ESTIMATED. This row recorded a single 10m05s wall-clock with no fixed/variable split — the dataset download, model setup and training time were never separated. Scaling 10m05s by 100 would assume the entire run is variable, which is false for every other row measured here (004 was 94% fixed). No defensible estimate can be produced from the surviving evidence; it needs a re-capture that records per-step timings.",
+    "estimateBasis": "NOT ESTIMATED. This row recorded a single 10m05s wall-clock with no fixed/variable split \u2014 the dataset download, model setup and training time were never separated. Scaling 10m05s by 100 would assume the entire run is variable, which is false for every other row measured here (004 was 94% fixed). No defensible estimate can be produced from the surviving evidence; it needs a re-capture that records per-step timings.",
     "confidence": "low",
     "changes": [
       "set epochs back to 100 (ran 1)"
     ],
-    "hw": "1× Tesla T4 (g4dn.xlarge)"
+    "hw": "1\u00d7 Tesla T4 (g4dn.xlarge)"
   },
   "parameters": [
     {

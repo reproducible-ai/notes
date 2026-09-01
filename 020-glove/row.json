@@ -17,7 +17,24 @@
   "bomUrl": "https://glaas.ai/dag/5d5c04ca31854eb2678552dcf24f96e39d77449513643e7e0a2e3ee4f6399673/audit",
   "bomScore": 100,
   "reproduce": {
-    "cmd": "roar reproduce 5d5c04ca31854eb2678552dcf24f96e39d77449513643e7e0a2e3ee4f6399673 --lineage --run --no-puts"
+    "cmd": "roar reproduce 5d5c04ca31854eb2678552dcf24f96e39d77449513643e7e0a2e3ee4f6399673 --lineage --run --no-puts",
+    "hash": "5d5c04ca31854eb2678552dcf24f96e39d77449513643e7e0a2e3ee4f6399673",
+    "script": {
+      "roarVersion": "0.4.5",
+      "generated": "2026-09-01",
+      "variants": [
+        {
+          "file": "reproduce-no-puts.sh",
+          "command": "roar reproduce 5d5c04ca31854eb2678552dcf24f96e39d77449513643e7e0a2e3ee4f6399673 --lineage --script --no-puts",
+          "puts": false
+        },
+        {
+          "file": "reproduce.sh",
+          "command": "roar reproduce 5d5c04ca31854eb2678552dcf24f96e39d77449513643e7e0a2e3ee4f6399673 --lineage --script",
+          "puts": true
+        }
+      ]
+    }
   },
   "upstreamUrl": "https://github.com/stanfordnlp/GloVe",
   "forkUrl": "https://github.com/reproducible-ai/GloVe",

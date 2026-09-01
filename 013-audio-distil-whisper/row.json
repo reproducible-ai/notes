@@ -4,7 +4,10 @@
   "org": "Hugging Face",
   "type": "audio",
   "dataset": "hf-internal-testing/librispeech_asr_dummy (clean validation; 2 train samples, 1 evaluation sample)",
-  "tags": ["fine-tune", "sequence-modeling"],
+  "tags": [
+    "fine-tune",
+    "sequence-modeling"
+  ],
   "date": "2026-08-28",
   "status": "progress",
   "statusSub": "Tier-1 record gate 13/14",
@@ -22,18 +25,34 @@
   "bomScore": 100,
   "experimentUrl": null,
   "verified": false,
-  "difficulty": "5/10 — moderate",
+  "difficulty": "5/10 \u2014 moderate",
   "roarVersion": "0.4.5",
   "playbookVersion": "1.0",
   "tracer": "preload",
   "amiId": "ami-0543bb81ee9303074",
   "reproduce": {
     "hash": "acc9448d8d05c85402418424a7f9aa3da9bd539755554ba8442d95092d1bdad7",
-    "cmd": "roar reproduce acc9448d8d05c85402418424a7f9aa3da9bd539755554ba8442d95092d1bdad7 --lineage --run --no-puts"
+    "cmd": "roar reproduce acc9448d8d05c85402418424a7f9aa3da9bd539755554ba8442d95092d1bdad7 --lineage --run --no-puts",
+    "script": {
+      "roarVersion": "0.4.5",
+      "generated": "2026-09-01",
+      "variants": [
+        {
+          "file": "reproduce-no-puts.sh",
+          "command": "roar reproduce acc9448d8d05c85402418424a7f9aa3da9bd539755554ba8442d95092d1bdad7 --lineage --script --no-puts",
+          "puts": false
+        },
+        {
+          "file": "reproduce.sh",
+          "command": "roar reproduce acc9448d8d05c85402418424a7f9aa3da9bd539755554ba8442d95092d1bdad7 --lineage --script",
+          "puts": true
+        }
+      ]
+    }
   },
   "rebuild": {
     "time": "4m18s",
-    "hw": "1× Tesla T4",
+    "hw": "1\u00d7 Tesla T4",
     "costUsd": 0.06,
     "fixedCostUsd": 0.05,
     "scalingCostUsd": 0.01
@@ -46,27 +65,132 @@
     "note": "One optimizer step was run against upstream's recommendation of at least 50,000 steps for convergence. This checks the training and evaluation path only; it makes no convergence or model-quality claim."
   },
   "parameters": [
-    {"name": "teacher_model_name_or_path", "published": "openai/whisper-large-v3", "used": "openai/whisper-tiny.en", "reason": "fit the bounded pipeline proof", "restoresFullRun": true, "where": "training/run_distillation.py --teacher_model_name_or_path"},
-    {"name": "encoder_layers", "published": "32", "used": "4", "reason": "fit the bounded pipeline proof", "restoresFullRun": true, "where": "training/create_student_model.py --encoder_layers"},
-    {"name": "decoder_layers", "published": "2", "used": "1", "reason": "fit the bounded pipeline proof", "restoresFullRun": true, "where": "training/create_student_model.py --decoder_layers"},
-    {"name": "train_dataset_name", "published": "mozilla-foundation/common_voice_13_0", "used": "hf-internal-testing/librispeech_asr_dummy", "reason": "use a small public fixture", "restoresFullRun": true, "where": "training/run_distillation.py --train_dataset_name"},
-    {"name": "train_dataset_config_name", "published": "hi", "used": "clean", "reason": "match the selected fixture", "restoresFullRun": true, "where": "training/run_distillation.py --train_dataset_config_name"},
-    {"name": "train_split_name", "published": "train+validation", "used": "validation", "reason": "match the selected fixture", "restoresFullRun": true, "where": "training/run_distillation.py --train_split_name"},
-    {"name": "use_pseudo_labels", "published": "true", "used": "false", "reason": "use upstream's documented transcript alternative", "restoresFullRun": false, "where": "training/run_distillation.py --use_pseudo_labels"},
-    {"name": "max_train_samples", "published": "all", "used": "2", "reason": "bound the pipeline proof", "restoresFullRun": true, "where": "training/run_distillation.py --max_train_samples"},
-    {"name": "max_eval_samples", "published": "all", "used": "1", "reason": "bound evaluation", "restoresFullRun": true, "where": "training/run_distillation.py --max_eval_samples"},
-    {"name": "max_steps", "published": "at least 50000", "used": "1", "reason": "per-row budget cap", "restoresFullRun": true, "where": "training/run_distillation.py --max_steps"},
-    {"name": "per_device_train_batch_size", "published": "32", "used": "1", "reason": "match the two-sample proof", "restoresFullRun": true, "where": "training/run_distillation.py --per_device_train_batch_size"},
-    {"name": "per_device_eval_batch_size", "published": "32", "used": "1", "reason": "match the one-sample evaluation", "restoresFullRun": true, "where": "training/run_distillation.py --per_device_eval_batch_size"},
-    {"name": "dataloader_num_workers", "published": "8", "used": "0", "reason": "keep the bounded input path single-process", "restoresFullRun": false, "where": "training/run_distillation.py --dataloader_num_workers"},
-    {"name": "preprocessing_num_workers", "published": "8", "used": "1", "reason": "match the small fixture", "restoresFullRun": false, "where": "training/run_distillation.py --preprocessing_num_workers"},
-    {"name": "dtype", "published": "bfloat16", "used": "float32", "reason": "exercise the small model without mixed precision", "restoresFullRun": false, "where": "training/run_distillation.py --dtype"}
+    {
+      "name": "teacher_model_name_or_path",
+      "published": "openai/whisper-large-v3",
+      "used": "openai/whisper-tiny.en",
+      "reason": "fit the bounded pipeline proof",
+      "restoresFullRun": true,
+      "where": "training/run_distillation.py --teacher_model_name_or_path"
+    },
+    {
+      "name": "encoder_layers",
+      "published": "32",
+      "used": "4",
+      "reason": "fit the bounded pipeline proof",
+      "restoresFullRun": true,
+      "where": "training/create_student_model.py --encoder_layers"
+    },
+    {
+      "name": "decoder_layers",
+      "published": "2",
+      "used": "1",
+      "reason": "fit the bounded pipeline proof",
+      "restoresFullRun": true,
+      "where": "training/create_student_model.py --decoder_layers"
+    },
+    {
+      "name": "train_dataset_name",
+      "published": "mozilla-foundation/common_voice_13_0",
+      "used": "hf-internal-testing/librispeech_asr_dummy",
+      "reason": "use a small public fixture",
+      "restoresFullRun": true,
+      "where": "training/run_distillation.py --train_dataset_name"
+    },
+    {
+      "name": "train_dataset_config_name",
+      "published": "hi",
+      "used": "clean",
+      "reason": "match the selected fixture",
+      "restoresFullRun": true,
+      "where": "training/run_distillation.py --train_dataset_config_name"
+    },
+    {
+      "name": "train_split_name",
+      "published": "train+validation",
+      "used": "validation",
+      "reason": "match the selected fixture",
+      "restoresFullRun": true,
+      "where": "training/run_distillation.py --train_split_name"
+    },
+    {
+      "name": "use_pseudo_labels",
+      "published": "true",
+      "used": "false",
+      "reason": "use upstream's documented transcript alternative",
+      "restoresFullRun": false,
+      "where": "training/run_distillation.py --use_pseudo_labels"
+    },
+    {
+      "name": "max_train_samples",
+      "published": "all",
+      "used": "2",
+      "reason": "bound the pipeline proof",
+      "restoresFullRun": true,
+      "where": "training/run_distillation.py --max_train_samples"
+    },
+    {
+      "name": "max_eval_samples",
+      "published": "all",
+      "used": "1",
+      "reason": "bound evaluation",
+      "restoresFullRun": true,
+      "where": "training/run_distillation.py --max_eval_samples"
+    },
+    {
+      "name": "max_steps",
+      "published": "at least 50000",
+      "used": "1",
+      "reason": "per-row budget cap",
+      "restoresFullRun": true,
+      "where": "training/run_distillation.py --max_steps"
+    },
+    {
+      "name": "per_device_train_batch_size",
+      "published": "32",
+      "used": "1",
+      "reason": "match the two-sample proof",
+      "restoresFullRun": true,
+      "where": "training/run_distillation.py --per_device_train_batch_size"
+    },
+    {
+      "name": "per_device_eval_batch_size",
+      "published": "32",
+      "used": "1",
+      "reason": "match the one-sample evaluation",
+      "restoresFullRun": true,
+      "where": "training/run_distillation.py --per_device_eval_batch_size"
+    },
+    {
+      "name": "dataloader_num_workers",
+      "published": "8",
+      "used": "0",
+      "reason": "keep the bounded input path single-process",
+      "restoresFullRun": false,
+      "where": "training/run_distillation.py --dataloader_num_workers"
+    },
+    {
+      "name": "preprocessing_num_workers",
+      "published": "8",
+      "used": "1",
+      "reason": "match the small fixture",
+      "restoresFullRun": false,
+      "where": "training/run_distillation.py --preprocessing_num_workers"
+    },
+    {
+      "name": "dtype",
+      "published": "bfloat16",
+      "used": "float32",
+      "reason": "exercise the small model without mixed precision",
+      "restoresFullRun": false,
+      "where": "training/run_distillation.py --dtype"
+    }
   ],
   "runs": [
     {
       "label": "capture-1",
       "purpose": "recorded rebuild attempt",
-      "params": "max_steps=1, 2 train samples, 1× T4",
+      "params": "max_steps=1, 2 train samples, 1\u00d7 T4",
       "dataset": "hf-internal-testing/librispeech_asr_dummy",
       "durationSec": 144,
       "costUsd": 0.05,
@@ -76,7 +200,7 @@
     {
       "label": "capture-2",
       "purpose": "recorded rebuild and artifact publication",
-      "params": "max_steps=1, 2 train samples, 1 eval sample, 1× T4",
+      "params": "max_steps=1, 2 train samples, 1 eval sample, 1\u00d7 T4",
       "dataset": "hf-internal-testing/librispeech_asr_dummy",
       "durationSec": 258,
       "costUsd": 0.06,
@@ -114,9 +238,36 @@
     "note": "Fresh clean-room operator working from upstream public materials."
   },
   "agentSteps": [
-    {"phase": "capture", "attempt": "1/2", "date": "2026-08-28", "agent": "CRA", "model": "gpt-5.6-sol", "harness": "Codex", "harnessVersion": "unavailable", "evidence": "TReqs TR 2ede9eb7-e49a-491a-a50f-73b03e596828; job 5f0e10ee-604a-48ef-8eb0-b65a9e642062"},
-    {"phase": "capture", "attempt": "2/2", "date": "2026-08-28", "agent": "CRA", "model": "gpt-5.6-sol", "harness": "Codex", "harnessVersion": "unavailable", "evidence": "TReqs TR 707b7677-8520-440e-97cc-d8df5362e243; job 373b5078-8cd4-467e-9614-7d7454458664"},
-    {"phase": "tier1-qa", "attempt": "1/1", "date": "2026-08-28", "agent": "CRA", "model": "gpt-5.6-sol", "harness": "Codex", "harnessVersion": "unavailable", "evidence": "gate_row.py against acc9448d8d05c85402418424a7f9aa3da9bd539755554ba8442d95092d1bdad7"}
+    {
+      "phase": "capture",
+      "attempt": "1/2",
+      "date": "2026-08-28",
+      "agent": "CRA",
+      "model": "gpt-5.6-sol",
+      "harness": "Codex",
+      "harnessVersion": "unavailable",
+      "evidence": "TReqs TR 2ede9eb7-e49a-491a-a50f-73b03e596828; job 5f0e10ee-604a-48ef-8eb0-b65a9e642062"
+    },
+    {
+      "phase": "capture",
+      "attempt": "2/2",
+      "date": "2026-08-28",
+      "agent": "CRA",
+      "model": "gpt-5.6-sol",
+      "harness": "Codex",
+      "harnessVersion": "unavailable",
+      "evidence": "TReqs TR 707b7677-8520-440e-97cc-d8df5362e243; job 373b5078-8cd4-467e-9614-7d7454458664"
+    },
+    {
+      "phase": "tier1-qa",
+      "attempt": "1/1",
+      "date": "2026-08-28",
+      "agent": "CRA",
+      "model": "gpt-5.6-sol",
+      "harness": "Codex",
+      "harnessVersion": "unavailable",
+      "evidence": "gate_row.py against acc9448d8d05c85402418424a7f9aa3da9bd539755554ba8442d95092d1bdad7"
+    }
   ],
   "certification": {
     "tier": 1,

@@ -6,7 +6,7 @@
     "unconditional-generation",
     "from-scratch"
   ],
-  "org": "Erik Linder-Norén",
+  "org": "Erik Linder-Nor\u00e9n",
   "type": "vision",
   "date": "2026-08-06",
   "status": "reproduced",
@@ -27,7 +27,7 @@
   "license": "MIT",
   "rebuild": {
     "time": "3m22s",
-    "hw": "1× NVIDIA L40S (g6e.xlarge)",
+    "hw": "1\u00d7 NVIDIA L40S (g6e.xlarge)",
     "costUsd": 0.1,
     "costNote": "Capture cost was lost with the operator's working directory and is deliberately not estimated. The tier-2 certification cost ~$0.10 per the campaign ledger - the cheapest certification in the campaign to date. See costs.md.",
     "fixedCostUsd": 0.07,
@@ -35,7 +35,23 @@
   },
   "reproduce": {
     "hash": "e812e9815b0934fa19a21be4f57c33349a462b5dee108b0fc9692f57b8f04f3a",
-    "cmd": "roar reproduce e812e9815b0934fa19a21be4f57c33349a462b5dee108b0fc9692f57b8f04f3a --lineage --run --no-puts"
+    "cmd": "roar reproduce e812e9815b0934fa19a21be4f57c33349a462b5dee108b0fc9692f57b8f04f3a --lineage --run --no-puts",
+    "script": {
+      "roarVersion": "0.4.5",
+      "generated": "2026-09-01",
+      "variants": [
+        {
+          "file": "reproduce-no-puts.sh",
+          "command": "roar reproduce e812e9815b0934fa19a21be4f57c33349a462b5dee108b0fc9692f57b8f04f3a --lineage --script --no-puts",
+          "puts": false
+        },
+        {
+          "file": "reproduce.sh",
+          "command": "roar reproduce e812e9815b0934fa19a21be4f57c33349a462b5dee108b0fc9692f57b8f04f3a --lineage --script",
+          "puts": true
+        }
+      ]
+    }
   },
   "patch": {
     "lines": 493,
@@ -98,12 +114,12 @@
   },
   "fullRun": {
     "estimateUsd": 2.34,
-    "estimateBasis": "Of the 3m22s traced run, 2m06s was the MNIST download and 6.6s the evaluation — both fixed. 1m06s covered 3 epochs, so ≈22s per epoch. 200 epochs ≈ 73m20s training + 2m13s fixed ≈ 75m33s on the same g6e.xlarge at $1.861/h. Excludes instance boot and provisioning, which this row records as uncaptured.",
+    "estimateBasis": "Of the 3m22s traced run, 2m06s was the MNIST download and 6.6s the evaluation \u2014 both fixed. 1m06s covered 3 epochs, so \u224822s per epoch. 200 epochs \u2248 73m20s training + 2m13s fixed \u2248 75m33s on the same g6e.xlarge at $1.861/h. Excludes instance boot and provisioning, which this row records as uncaptured.",
     "confidence": "moderate",
     "changes": [
       "set epochs back to 200 (ran 3)"
     ],
-    "hw": "1× NVIDIA L40S (g6e.xlarge)"
+    "hw": "1\u00d7 NVIDIA L40S (g6e.xlarge)"
   },
   "parameters": [
     {
@@ -126,7 +142,7 @@
   "issues": [
     {
       "severity": "P0",
-      "title": "No checkpoint is ever written — blocks reproduction outright",
+      "title": "No checkpoint is ever written \u2014 blocks reproduction outright",
       "evidence": "issues.md",
       "upstreamAction": "warranted"
     },

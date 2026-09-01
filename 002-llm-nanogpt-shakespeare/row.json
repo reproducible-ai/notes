@@ -18,7 +18,7 @@
   },
   "rebuild": {
     "time": "5m45s",
-    "hw": "1× NVIDIA L40S (g6e.xlarge)",
+    "hw": "1\u00d7 NVIDIA L40S (g6e.xlarge)",
     "costUsd": 0.39
   },
   "dagUrl": "https://glaas.ai/dag/19171777431d4ad91f91bd7ab64cbc52b706246f815e4d05b0812761a96808d3",
@@ -28,17 +28,33 @@
   "roarVersion": "0.4.4rc5",
   "tracer": "preload",
   "amiId": "ami-0f07f1a0b382b48f7",
-  "difficulty": "2/10 — easy",
+  "difficulty": "2/10 \u2014 easy",
   "reproduce": {
     "hash": "19171777431d4ad91f91bd7ab64cbc52b706246f815e4d05b0812761a96808d3",
-    "cmd": "roar reproduce 19171777431d4ad91f91bd7ab64cbc52b706246f815e4d05b0812761a96808d3 --lineage --run --no-puts"
+    "cmd": "roar reproduce 19171777431d4ad91f91bd7ab64cbc52b706246f815e4d05b0812761a96808d3 --lineage --run --no-puts",
+    "script": {
+      "roarVersion": "0.4.5",
+      "generated": "2026-09-01",
+      "variants": [
+        {
+          "file": "reproduce-no-puts.sh",
+          "command": "roar reproduce 19171777431d4ad91f91bd7ab64cbc52b706246f815e4d05b0812761a96808d3 --lineage --script --no-puts",
+          "puts": false
+        },
+        {
+          "file": "reproduce.sh",
+          "command": "roar reproduce 19171777431d4ad91f91bd7ab64cbc52b706246f815e4d05b0812761a96808d3 --lineage --script",
+          "puts": true
+        }
+      ]
+    }
   },
   "notes": "https://github.com/reproducible-ai/notes/tree/main/002-llm-nanogpt-shakespeare",
   "artifactBlake3": "ad112aa2216c7fdb4988cc1790228f05d9fb6be8259fc71402dd09d5e8d09105",
   "certification": {
     "tier": 2,
     "result": "PASS",
-    "resultCaveat": "This time the row passed BECAUSE of its record rather than despite it. The superseded capture recorded 24 pins and was missing tqdm and typing-extensions — two packages `import torch` actually loads — whose only path into that environment was the tracking bridge's own dependency closure. The re-capture records 57 pins with both present, and the cold rebuild installed 57/57 at the exact recorded version. One residual, stated honestly: the freeze records loaded *Python* packages, so torch's dlopen'd CUDA libraries (the nvidia-* wheels) never appear in it — installing the 57 pins alone with --no-deps still dies on `libcudnn.so.9`. That is a native-library gap, not a missing Python dependency, and any resolver installing torch==2.7.0 pulls those wheels automatically, which is why the real rebuild is exact.",
+    "resultCaveat": "This time the row passed BECAUSE of its record rather than despite it. The superseded capture recorded 24 pins and was missing tqdm and typing-extensions \u2014 two packages `import torch` actually loads \u2014 whose only path into that environment was the tracking bridge's own dependency closure. The re-capture records 57 pins with both present, and the cold rebuild installed 57/57 at the exact recorded version. One residual, stated honestly: the freeze records loaded *Python* packages, so torch's dlopen'd CUDA libraries (the nvidia-* wheels) never appear in it \u2014 installing the 57 pins alone with --no-deps still dies on `libcudnn.so.9`. That is a native-library gap, not a missing Python dependency, and any resolver installing torch==2.7.0 pulls those wheels automatically, which is why the real rebuild is exact.",
     "date": "2026-08-11",
     "evidence": "CERT-TIER2.md",
     "dagHash": "19171777431d4ad91f91bd7ab64cbc52b706246f815e4d05b0812761a96808d3",
@@ -140,7 +156,7 @@
   "upstreamUrl": "https://github.com/karpathy/nanoGPT",
   "forkUrl": "https://github.com/reproducible-ai/nanoGPT",
   "artifactUrl": "https://huggingface.co/reproducible-ai/nanogpt",
-  "summary": "Ran as published — zero patches. Two commands, three real dependencies (torch, numpy, requests), 10.65M parameters, under six minutes on one GPU. Best validation loss 1.4666 at iteration 1750 against the README's quoted 1.4697; because train.py pins torch.manual_seed(1337), the 21-point evaluation curve is bit-identical run to run, and the cold rebuild on a fresh host regenerated the 129MB checkpoint byte for byte (blake3 ad112aa2...). prepare.py's four printed dataset statistics matched the expected values recorded in its own source exactly. The only deviation from the published command is --compile=False, a flag the README itself documents, which drops a host-specific compile warm-up with no payoff at this scale. This capture also switches on the repository's own wandb logging (--wandb_log=True), which the shipped config leaves off, so the learning curve is now a published dashboard rather than discarded scrollback — and it corrects the previous record, which had backed that flag out on the belief that it made the recipe un-rebuildable. It does not: the logging path is part of the recorded command, and the cold rebuild ran it to exit 0 with nothing installed beyond the record. Findings are all documentation-level: the README's install line omits requests — needed by the very first quick-start command — while listing four packages this recipe never imports; the corpus is fetched from an unpinned master-branch URL; and prepare.py writes its generated data into the source tree with no way to redirect it, so the data directory is an output directory and must be treated as one or the prepare-to-train chain is lost. The one change worth making upstream is small: write the eval history to CSV/JSONL in out_dir unconditionally, so every reproducer gets a durable learning curve with no tracking dependency at all.",
+  "summary": "Ran as published \u2014 zero patches. Two commands, three real dependencies (torch, numpy, requests), 10.65M parameters, under six minutes on one GPU. Best validation loss 1.4666 at iteration 1750 against the README's quoted 1.4697; because train.py pins torch.manual_seed(1337), the 21-point evaluation curve is bit-identical run to run, and the cold rebuild on a fresh host regenerated the 129MB checkpoint byte for byte (blake3 ad112aa2...). prepare.py's four printed dataset statistics matched the expected values recorded in its own source exactly. The only deviation from the published command is --compile=False, a flag the README itself documents, which drops a host-specific compile warm-up with no payoff at this scale. This capture also switches on the repository's own wandb logging (--wandb_log=True), which the shipped config leaves off, so the learning curve is now a published dashboard rather than discarded scrollback \u2014 and it corrects the previous record, which had backed that flag out on the belief that it made the recipe un-rebuildable. It does not: the logging path is part of the recorded command, and the cold rebuild ran it to exit 0 with nothing installed beyond the record. Findings are all documentation-level: the README's install line omits requests \u2014 needed by the very first quick-start command \u2014 while listing four packages this recipe never imports; the corpus is fetched from an unpinned master-branch URL; and prepare.py writes its generated data into the source tree with no way to redirect it, so the data directory is an output directory and must be treated as one or the prepare-to-train chain is lost. The one change worth making upstream is small: write the eval history to CSV/JSONL in out_dir unconditionally, so every reproducer gets a durable learning curve with no tracking dependency at all.",
   "license": "MIT",
   "experimentUrl": "https://huggingface.co/spaces/reproducible-ai/experiments?project=nanogpt-shakespeare-char",
   "experimentUrlNote": "Run `shakespeare-char-full-5000` (trackio run id c45863e5af7a4e64899f7a85247581f5). Verified by reading the metrics back out of the remote store, not by an HTTP status: the project's sqlite database was downloaded from the hosted bucket hf://buckets/reproducible-ai/experiments-bucket/trackio/nanogpt-shakespeare-char.db and contains 21 metric rows for that run id, whose train/val losses match the training log line for line. The Space is a Gradio app and returns 200 for any query string, so a status code proves nothing.",

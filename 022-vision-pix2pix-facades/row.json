@@ -1,7 +1,7 @@
 {
   "name": "pix2pix",
   "slug": "pix2pix-facades",
-  "dataset": "CMP Facades (labels→photo)",
+  "dataset": "CMP Facades (labels\u2192photo)",
   "tags": [
     "image-translation",
     "from-scratch"
@@ -17,7 +17,24 @@
   "bomUrl": "https://glaas.ai/dag/14df351c56d65be8181299f225e5c266f35e6aded43dc8068b5f0e2e76ac622b/audit",
   "bomScore": 100,
   "reproduce": {
-    "cmd": "roar reproduce 14df351c56d65be8181299f225e5c266f35e6aded43dc8068b5f0e2e76ac622b --lineage --run --no-puts"
+    "cmd": "roar reproduce 14df351c56d65be8181299f225e5c266f35e6aded43dc8068b5f0e2e76ac622b --lineage --run --no-puts",
+    "hash": "14df351c56d65be8181299f225e5c266f35e6aded43dc8068b5f0e2e76ac622b",
+    "script": {
+      "roarVersion": "0.4.5",
+      "generated": "2026-09-01",
+      "variants": [
+        {
+          "file": "reproduce-no-puts.sh",
+          "command": "roar reproduce 14df351c56d65be8181299f225e5c266f35e6aded43dc8068b5f0e2e76ac622b --lineage --script --no-puts",
+          "puts": false
+        },
+        {
+          "file": "reproduce.sh",
+          "command": "roar reproduce 14df351c56d65be8181299f225e5c266f35e6aded43dc8068b5f0e2e76ac622b --lineage --script",
+          "puts": true
+        }
+      ]
+    }
   },
   "upstreamUrl": "https://github.com/junyanz/pytorch-CycleGAN-and-pix2pix",
   "forkUrl": "https://github.com/reproducible-ai/pytorch-CycleGAN-and-pix2pix",
@@ -30,7 +47,7 @@
     "url": "https://github.com/junyanz/pytorch-CycleGAN-and-pix2pix/compare/2a7afba...reproducible-ai:pytorch-CycleGAN-and-pix2pix:750f61d"
   },
   "summary": "Upstream's own top-level train.py, run unmodified on upstream's own CMP Facades dataset fetched by upstream's own download script, producing a pix2pix conditional GAN (UNet-256 generator, 54.414 M parameters; 70x70 PatchGAN discriminator, 2.769 M) that translates architectural labels to photographs. The published recipe is 200 epochs (n_epochs 100 + n_epochs_decay 100); this record runs 2 of them - one at constant learning rate and one under the linear decay schedule, so both branches of the scheduler execute - over the complete 400-image training split, which is not subsampled. 800 iterations at batch size 1, 256x256 crops, on a single Tesla T4, in 67.5 s of traced training. The checkpoint is therefore nowhere near converged and is not a substitute for the authors' released weights; what the record demonstrates is that the published command runs end to end from published materials and computes upstream's own adversarial and L1 losses (G_GAN, G_L1, D_real, D_fake, eight logged points). Zero lines of upstream Python were changed - the fork adds only a workflow file, .gitignore rules and directory placeholders. This is one of the cleanest rows in the campaign on the upstream side: no missing dependencies, no broken imports, no absolute paths, no distributed-only entry point. The two things a reader should know are that the dataset is served over plain HTTP with no published checksum, so its integrity cannot be verified; and that at upstream's default save_epoch_freq of 5, any run shorter than five epochs completes successfully and silently writes no checkpoint at all.",
-  "difficulty": "3/10 — easy: the published pix2pix command runs unmodified against the published dataset, and the only trap is that a short trial run must lower --save_epoch_freq or it produces no checkpoint while reporting success",
+  "difficulty": "3/10 \u2014 easy: the published pix2pix command runs unmodified against the published dataset, and the only trap is that a short trial run must lower --save_epoch_freq or it produces no checkpoint while reporting success",
   "verified": false,
   "truncated": true,
   "truncation": {
@@ -216,7 +233,7 @@
     },
     {
       "severity": "P2",
-      "title": "No requirements.txt — the only dependency manifest is a conda environment.yml",
+      "title": "No requirements.txt \u2014 the only dependency manifest is a conda environment.yml",
       "detail": "The repository ships environment.yml (conda, pinning python 3.11, pytorch 2.4.0, pytorch-cuda 12.1) and no pip manifest. Anyone building with pip, uv or a container base image must translate it by hand, and the conda-only pytorch-cuda pin has no pip equivalent. The translation is not difficult here, but it is unstated work that every non-conda reproducer repeats.",
       "evidence": "environment.yml; absence of requirements.txt at the repository root",
       "fix": "Ship a requirements.txt alongside environment.yml.",
@@ -266,13 +283,13 @@
     },
     {
       "label": "3",
-      "purpose": "recorded run — all five stages, both artifacts published, lineage published",
+      "purpose": "recorded run \u2014 all five stages, both artifacts published, lineage published",
       "params": "job 34e71a9d-d9e3-46d8-ae80-c38e889dcb36, 18:59:41Z to 19:03:09Z (207.6 s). fetch_dataset 13.3 s traced, train 67.5 s traced, peak GPU memory 9,157 MiB by nvidia-smi 1 Hz sampling.",
       "outcome": "ok",
       "durationSec": 208,
       "costUsd": 0.07,
       "dagHash": "14df351c56d65be8181299f225e5c266f35e6aded43dc8068b5f0e2e76ac622b",
-      "dataset": "CMP Facades (labels→photo)"
+      "dataset": "CMP Facades (labels\u2192photo)"
     },
     {
       "label": "certification-1",
@@ -282,7 +299,7 @@
       "durationSec": 2919,
       "costUsd": 0.43,
       "dagHash": "14df351c56d65be8181299f225e5c266f35e6aded43dc8068b5f0e2e76ac622b",
-      "dataset": "CMP Facades (labels→photo)",
+      "dataset": "CMP Facades (labels\u2192photo)",
       "note": "The published dataset endpoint returned no bytes across 20 connection attempts; training then found an empty dataset. Exit 1; Steps run: 1/2; no model checkpoints produced."
     }
   ]

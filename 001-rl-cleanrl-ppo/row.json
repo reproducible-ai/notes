@@ -23,7 +23,7 @@
   "license": "MIT",
   "rebuild": {
     "time": "5 min",
-    "hw": "1× Tesla T4 (g4dn.xlarge)",
+    "hw": "1\u00d7 Tesla T4 (g4dn.xlarge)",
     "costUsd": 0.05
   },
   "patch": {
@@ -33,7 +33,23 @@
   },
   "reproduce": {
     "hash": "58df327f1e02faf0d64efb8f07daac7c9eca70d3713d008bc8587fea780617be",
-    "cmd": "roar reproduce 58df327f1e02faf0d64efb8f07daac7c9eca70d3713d008bc8587fea780617be --lineage --run --no-puts"
+    "cmd": "roar reproduce 58df327f1e02faf0d64efb8f07daac7c9eca70d3713d008bc8587fea780617be --lineage --run --no-puts",
+    "script": {
+      "roarVersion": "0.4.5",
+      "generated": "2026-09-01",
+      "variants": [
+        {
+          "file": "reproduce-no-puts.sh",
+          "command": "roar reproduce 58df327f1e02faf0d64efb8f07daac7c9eca70d3713d008bc8587fea780617be --lineage --script --no-puts",
+          "puts": false
+        },
+        {
+          "file": "reproduce.sh",
+          "command": "roar reproduce 58df327f1e02faf0d64efb8f07daac7c9eca70d3713d008bc8587fea780617be --lineage --script",
+          "puts": true
+        }
+      ]
+    }
   },
   "difficulty": "2/10",
   "difficultyNote": "2/10. Nothing was worked around and nothing was found by trial and error. The single-file design removes almost every failure mode this campaign measures: no editable install, no dataset, no credentials, no unresolvable pins. The only real work was noticing that ppo.py never saves a model.",

@@ -20,11 +20,27 @@
   "bomUrl": "https://glaas.ai/dag/c2ffb3ef71e1f4dafd87e0fc95ef172addb0e4f9b7ebc490360dbf572d60d0cc/audit",
   "reproduce": {
     "hash": "c2ffb3ef71e1f4dafd87e0fc95ef172addb0e4f9b7ebc490360dbf572d60d0cc",
-    "cmd": "roar reproduce c2ffb3ef71e1f4dafd87e0fc95ef172addb0e4f9b7ebc490360dbf572d60d0cc --lineage --run --no-puts"
+    "cmd": "roar reproduce c2ffb3ef71e1f4dafd87e0fc95ef172addb0e4f9b7ebc490360dbf572d60d0cc --lineage --run --no-puts",
+    "script": {
+      "roarVersion": "0.4.5",
+      "generated": "2026-09-01",
+      "variants": [
+        {
+          "file": "reproduce-no-puts.sh",
+          "command": "roar reproduce c2ffb3ef71e1f4dafd87e0fc95ef172addb0e4f9b7ebc490360dbf572d60d0cc --lineage --script --no-puts",
+          "puts": false
+        },
+        {
+          "file": "reproduce.sh",
+          "command": "roar reproduce c2ffb3ef71e1f4dafd87e0fc95ef172addb0e4f9b7ebc490360dbf572d60d0cc --lineage --script",
+          "puts": true
+        }
+      ]
+    }
   },
   "rebuild": {
     "time": "4 min",
-    "hw": "1× Tesla T4 (g4dn.xlarge)",
+    "hw": "1\u00d7 Tesla T4 (g4dn.xlarge)",
     "costUsd": 0.03
   },
   "patch": {
@@ -78,7 +94,7 @@
   "upstreamUrl": "https://github.com/karpathy/minGPT",
   "forkUrl": "https://github.com/reproducible-ai/minGPT",
   "artifactUrl": "https://huggingface.co/reproducible-ai/mingpt",
-  "summary": "Rebuilt with zero changes to upstream source. gpt-nano (0.09M params) trained from scratch to add two 2-digit numbers: 99.2% on the held-out test split in 195s on one T4 — and 2m22s on 4 CPU cores, so no GPU is needed. No dataset to fetch: AdditionDataset synthesises every problem in-process from a seeded RNG. Two real upstream gaps: setup.py declares only torch but mingpt/utils.py imports numpy, so a clean install per the README fails to import; and the demo has no stopping criterion at all (Trainer.max_iters defaults to None, so it trains forever) and publishes no target accuracy, so max_iters=3000 is the operator's choice, not upstream's.",
+  "summary": "Rebuilt with zero changes to upstream source. gpt-nano (0.09M params) trained from scratch to add two 2-digit numbers: 99.2% on the held-out test split in 195s on one T4 \u2014 and 2m22s on 4 CPU cores, so no GPU is needed. No dataset to fetch: AdditionDataset synthesises every problem in-process from a seeded RNG. Two real upstream gaps: setup.py declares only torch but mingpt/utils.py imports numpy, so a clean install per the README fails to import; and the demo has no stopping criterion at all (Trainer.max_iters defaults to None, so it trains forever) and publishes no target accuracy, so max_iters=3000 is the operator's choice, not upstream's.",
   "verified": true,
   "experimentUrl": null,
   "experimentUrlNote": "recipe did not enable logging; bridge armed but the workload never called wandb",
@@ -95,7 +111,7 @@
   "issues": [
     {
       "severity": "P0",
-      "title": "`setup.py` under-declares dependencies — `import mingpt` fails on a clean install",
+      "title": "`setup.py` under-declares dependencies \u2014 `import mingpt` fails on a clean install",
       "evidence": "issues.md",
       "upstreamAction": "warranted"
     },
@@ -122,13 +138,13 @@
     {
       "label": "1",
       "purpose": "capture-operator attempt",
-      "params": "1 | First capture | `reproai-g4dn-plaintorch-a` (g4dn.xlarge, Tesla T4) | 3 min 40 s | $0.00 | FAILED in `setup`, before any training — operator error, see below",
+      "params": "1 | First capture | `reproai-g4dn-plaintorch-a` (g4dn.xlarge, Tesla T4) | 3 min 40 s | $0.00 | FAILED in `setup`, before any training \u2014 operator error, see below",
       "outcome": "failed"
     },
     {
       "label": "2",
       "purpose": "capture-operator attempt",
-      "params": "2 | Capture | same (agent still warm) | 3 min 58 s | $0.03 | COMPLETED — 99.2 % test, artifact published, all four gates green",
+      "params": "2 | Capture | same (agent still warm) | 3 min 58 s | $0.03 | COMPLETED \u2014 99.2 % test, artifact published, all four gates green",
       "outcome": "ok",
       "dagHash": "c2ffb3ef71e1f4dafd87e0fc95ef172addb0e4f9b7ebc490360dbf572d60d0cc",
       "dataset": "two-digit addition (synthetic)"

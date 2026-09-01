@@ -17,7 +17,24 @@
   "bomUrl": "https://glaas.ai/dag/f81176e64bf814489ec3296286e11c499a48ca28ef52569e10bc2675c0780782/audit",
   "bomScore": 100,
   "reproduce": {
-    "cmd": "roar reproduce f81176e64bf814489ec3296286e11c499a48ca28ef52569e10bc2675c0780782 --lineage --run --no-puts"
+    "cmd": "roar reproduce f81176e64bf814489ec3296286e11c499a48ca28ef52569e10bc2675c0780782 --lineage --run --no-puts",
+    "hash": "f81176e64bf814489ec3296286e11c499a48ca28ef52569e10bc2675c0780782",
+    "script": {
+      "roarVersion": "0.4.5",
+      "generated": "2026-09-01",
+      "variants": [
+        {
+          "file": "reproduce-no-puts.sh",
+          "command": "roar reproduce f81176e64bf814489ec3296286e11c499a48ca28ef52569e10bc2675c0780782 --lineage --script --no-puts",
+          "puts": false
+        },
+        {
+          "file": "reproduce.sh",
+          "command": "roar reproduce f81176e64bf814489ec3296286e11c499a48ca28ef52569e10bc2675c0780782 --lineage --script",
+          "puts": true
+        }
+      ]
+    }
   },
   "upstreamUrl": "https://github.com/DepthAnything/Depth-Anything-V2",
   "forkUrl": "https://github.com/reproducible-ai/Depth-Anything-V2",
@@ -30,7 +47,7 @@
     "url": "https://github.com/DepthAnything/Depth-Anything-V2/compare/a561b84...reproducible-ai:Depth-Anything-V2:02dc493"
   },
   "summary": "Depth Anything V2's own metric-depth trainer (metric_depth/train.py), run unmodified on a slice of the Hypersim indoor split: 64 training frames, 16 held-out validation frames, one epoch, ViT-S encoder, 518 px, batch 4, on a single L40S. Upstream's own dist_train.sh trains ViT-L for 120 epochs on all 59,543 frames across 8 GPUs, so this record is deeply truncated and the published checkpoint is not converged; what it demonstrates is that the recipe runs end to end from published materials and computes upstream's own depth metrics (d1/d2/d3, abs_rel, sq_rel, rmse, rmse_log, log10, silog). Zero lines of upstream Python were changed. Three things had to be worked around, and all three are ecosystem gaps rather than author error: the shipped Hypersim manifests contain absolute paths on the authors' own filesystem and are unusable by anyone else; requirements.txt omits h5py and tensorboard, both of which the trainer needs; and train.py calls np.RankWarning, which NumPy 2.0 removed, so on any current default environment the trainer aborts before its first batch. The training entry point is also distributed-only - it calls setup_distributed() unconditionally - so a single-GPU run means supplying RANK/WORLD_SIZE/LOCAL_RANK/MASTER_ADDR/MASTER_PORT yourself; no upstream flag does it for you.",
-  "difficulty": "6/10 — moderate: the trainer itself is clean, but the dataset manifests, the missing requirements, the NumPy-2 break and the distributed-only entry point each have to be solved before the first batch runs",
+  "difficulty": "6/10 \u2014 moderate: the trainer itself is clean, but the dataset manifests, the missing requirements, the NumPy-2 break and the distributed-only entry point each have to be solved before the first batch runs",
   "verified": true,
   "truncated": true,
   "truncation": {
@@ -162,7 +179,7 @@
   "issues": [
     {
       "severity": "P0",
-      "title": "`np.RankWarning` was removed in NumPy 2.0 — hard failure at line 46",
+      "title": "`np.RankWarning` was removed in NumPy 2.0 \u2014 hard failure at line 46",
       "evidence": "issues.md",
       "upstreamAction": "warranted"
     },
@@ -201,19 +218,19 @@
     {
       "label": "1",
       "purpose": "capture-operator attempt",
-      "params": "1 | `1d5dbd71` | 20:01:53 → 20:02:56 (63 s) | aborted in environment setup, before any training | $0.04",
+      "params": "1 | `1d5dbd71` | 20:01:53 \u2192 20:02:56 (63 s) | aborted in environment setup, before any training | $0.04",
       "outcome": "aborted"
     },
     {
       "label": "2",
       "purpose": "capture-operator attempt",
-      "params": "2 | `24adfb5a` | 20:05:34 → 20:10:58 (5m24s) | training completed and the checkpoint was written; a bug in my own stage script killed the stage immediately afterwards, so the artifact was never labelled or published | $0.16",
+      "params": "2 | `24adfb5a` | 20:05:34 \u2192 20:10:58 (5m24s) | training completed and the checkpoint was written; a bug in my own stage script killed the stage immediately afterwards, so the artifact was never labelled or published | $0.16",
       "outcome": "failed"
     },
     {
       "label": "3",
       "purpose": "capture-operator attempt",
-      "params": "3 | `42d36374` | 20:13:03 → 20:14:31 (1m29s) | recorded run — all six stages, artifact published | $0.03",
+      "params": "3 | `42d36374` | 20:13:03 \u2192 20:14:31 (1m29s) | recorded run \u2014 all six stages, artifact published | $0.03",
       "outcome": "ok",
       "dagHash": "f81176e64bf814489ec3296286e11c499a48ca28ef52569e10bc2675c0780782",
       "dataset": "Hypersim (indoor split)"

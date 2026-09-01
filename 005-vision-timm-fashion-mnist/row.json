@@ -49,7 +49,23 @@
   },
   "reproduce": {
     "hash": "af56b02d6c041c931f03ccf643f2e0fee97bbddb0072f26b91a291f142850dfd",
-    "cmd": "roar reproduce af56b02d6c041c931f03ccf643f2e0fee97bbddb0072f26b91a291f142850dfd --lineage --run --no-puts"
+    "cmd": "roar reproduce af56b02d6c041c931f03ccf643f2e0fee97bbddb0072f26b91a291f142850dfd --lineage --run --no-puts",
+    "script": {
+      "roarVersion": "0.4.5",
+      "generated": "2026-09-01",
+      "variants": [
+        {
+          "file": "reproduce-no-puts.sh",
+          "command": "roar reproduce af56b02d6c041c931f03ccf643f2e0fee97bbddb0072f26b91a291f142850dfd --lineage --script --no-puts",
+          "puts": false
+        },
+        {
+          "file": "reproduce.sh",
+          "command": "roar reproduce af56b02d6c041c931f03ccf643f2e0fee97bbddb0072f26b91a291f142850dfd --lineage --script",
+          "puts": true
+        }
+      ]
+    }
   },
   "certification": {
     "tier": 2,
@@ -120,19 +136,19 @@
   "issues": [
     {
       "severity": "P0",
-      "title": "#1 — `--workers 0` / `-j 0` raises before the first batch",
+      "title": "#1 \u2014 `--workers 0` / `-j 0` raises before the first batch",
       "evidence": "issues.md",
       "upstreamAction": "warranted"
     },
     {
       "severity": "P0",
-      "title": "#2 — `--in-chans 1` keeps the 3-channel mean/std, then crashes",
+      "title": "#2 \u2014 `--in-chans 1` keeps the 3-channel mean/std, then crashes",
       "evidence": "issues.md",
       "upstreamAction": "warranted"
     },
     {
       "severity": "P2",
-      "title": "#3 — `--log-wandb` degrades to a warning, so a run can train for hours logging nothing",
+      "title": "#3 \u2014 `--log-wandb` degrades to a warning, so a run can train for hours logging nothing",
       "evidence": "issues.md",
       "upstreamAction": "warranted"
     }
@@ -141,43 +157,43 @@
     {
       "label": "1",
       "purpose": "capture-operator attempt",
-      "params": "1 | `2ced85f2` | FAILED — CIFAR-10 recipe, pipeline still being shaped | — | —",
+      "params": "1 | `2ced85f2` | FAILED \u2014 CIFAR-10 recipe, pipeline still being shaped | \u2014 | \u2014",
       "outcome": "failed"
     },
     {
       "label": "2",
       "purpose": "capture-operator attempt",
-      "params": "2 | `d7a9ef6c` | CANCELLED — superseded before it finished | — | —",
+      "params": "2 | `d7a9ef6c` | CANCELLED \u2014 superseded before it finished | \u2014 | \u2014",
       "outcome": "aborted"
     },
     {
       "label": "3",
       "purpose": "capture-operator attempt",
-      "params": "3 | `094063c8` | FAILED — first Fashion-MNIST recipe | — | —",
+      "params": "3 | `094063c8` | FAILED \u2014 first Fashion-MNIST recipe | \u2014 | \u2014",
       "outcome": "failed"
     },
     {
       "label": "4",
       "purpose": "capture-operator attempt",
-      "params": "4 | `1900ef21` | FAILED — checkpoint retention changed | — | —",
+      "params": "4 | `1900ef21` | FAILED \u2014 checkpoint retention changed | \u2014 | \u2014",
       "outcome": "failed"
     },
     {
       "label": "5",
       "purpose": "capture-operator attempt",
-      "params": "5 | `9b7f8a12` | FAILED — trained and published, record not finalised | — | —",
+      "params": "5 | `9b7f8a12` | FAILED \u2014 trained and published, record not finalised | \u2014 | \u2014",
       "outcome": "failed"
     },
     {
       "label": "6",
       "purpose": "capture-operator attempt",
-      "params": "6 | `0db6ecb8` | COMPLETED — the superseded record `42b381d9…` | 9 m 34 s | $0.10",
+      "params": "6 | `0db6ecb8` | COMPLETED \u2014 the superseded record `42b381d9\u2026` | 9 m 34 s | $0.10",
       "outcome": "superseded"
     },
     {
       "label": "7",
       "purpose": "capture-operator attempt",
-      "params": "7 | `f8037549` | COMPLETED — the current record `af56b02d…` | 9 m 25 s | $0.13",
+      "params": "7 | `f8037549` | COMPLETED \u2014 the current record `af56b02d\u2026` | 9 m 25 s | $0.13",
       "outcome": "ok",
       "dagHash": "af56b02d6c041c931f03ccf643f2e0fee97bbddb0072f26b91a291f142850dfd",
       "dataset": "Fashion-MNIST"

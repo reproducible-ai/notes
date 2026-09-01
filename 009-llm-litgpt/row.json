@@ -11,7 +11,7 @@
   "status": "reproduced",
   "blocker": null,
   "verified": true,
-  "difficulty": "5/10 — moderate: the training code reproduces bit-identically, but four dependency-range defects block a from-scratch install before a single token is trained",
+  "difficulty": "5/10 \u2014 moderate: the training code reproduces bit-identically, but four dependency-range defects block a from-scratch install before a single token is trained",
   "notes": "https://github.com/reproducible-ai/notes/tree/main/009-llm-litgpt",
   "playbookVersion": "1.0",
   "roarVersion": "0.4.4rc5",
@@ -30,7 +30,7 @@
   "bomScore": 100,
   "artifactUrl": "https://huggingface.co/reproducible-ai/litgpt",
   "experimentUrl": null,
-  "experimentUrlNote": "No public experiment dashboard, and this is a measured result rather than an omission. litgpt DOES ship a flag-only wandb integration (`--logger_name wandb`, one of the five choices in litgpt/constants.py:7), so the usual excuse does not apply — it was enabled and it cannot work. The wandb->trackio bridge is a module alias (sys.modules['wandb'] = trackio), and Lightning's WandbLogger defeats an alias twice over: (1) lightning/pytorch/loggers/wandb.py:312 gates on RequirementCache('wandb>=0.12.10'), which reads installed DISTRIBUTION METADATA that no sys.modules entry can supply, so WandbLogger dies in its constructor with \"Requirement 'wandb>=0.12.10' not met\"; (2) installing real wandb to get past that, it then dies at lightning/pytorch/loggers/wandb.py:390 on `from wandb.sdk.lib import RunDisabled` — a SUBMODULE import resolved through the aliased package's __path__, which now points at trackio — with \"No module named 'wandb.sdk'\". Both were reproduced by direct execution against lightning 2.6.5 (the version this row's freeze actually records), wandb 0.28.1 and trackio 0.20.2. The path is unreachable, not merely unlucky: litgpt/pretrain.py:156 calls fabric.logger.log_hyperparams(), and WandbLogger.log_hyperparams (wandb.py:435) touches the `experiment` property before any training step runs. Fixing it means patching Lightning, a dependency of the workload, which would forfeit the zero-upstream-lines property this row rests on. The computed metrics are published instead as out/logs/csv/version_0/metrics.csv, which is in the lineage. See issues.md #5.",
+  "experimentUrlNote": "No public experiment dashboard, and this is a measured result rather than an omission. litgpt DOES ship a flag-only wandb integration (`--logger_name wandb`, one of the five choices in litgpt/constants.py:7), so the usual excuse does not apply \u2014 it was enabled and it cannot work. The wandb->trackio bridge is a module alias (sys.modules['wandb'] = trackio), and Lightning's WandbLogger defeats an alias twice over: (1) lightning/pytorch/loggers/wandb.py:312 gates on RequirementCache('wandb>=0.12.10'), which reads installed DISTRIBUTION METADATA that no sys.modules entry can supply, so WandbLogger dies in its constructor with \"Requirement 'wandb>=0.12.10' not met\"; (2) installing real wandb to get past that, it then dies at lightning/pytorch/loggers/wandb.py:390 on `from wandb.sdk.lib import RunDisabled` \u2014 a SUBMODULE import resolved through the aliased package's __path__, which now points at trackio \u2014 with \"No module named 'wandb.sdk'\". Both were reproduced by direct execution against lightning 2.6.5 (the version this row's freeze actually records), wandb 0.28.1 and trackio 0.20.2. The path is unreachable, not merely unlucky: litgpt/pretrain.py:156 calls fabric.logger.log_hyperparams(), and WandbLogger.log_hyperparams (wandb.py:435) touches the `experiment` property before any training step runs. Fixing it means patching Lightning, a dependency of the workload, which would forfeit the zero-upstream-lines property this row rests on. The computed metrics are published instead as out/logs/csv/version_0/metrics.csv, which is in the lineage. See issues.md #5.",
   "truncated": true,
   "truncation": {
     "ran": 2048,
@@ -42,14 +42,30 @@
   "truncationNote": "2,048 of litgpt's default 3e12 tokens (16 iterations / 8 optimizer steps). The default is read from litgpt/pretrain.py:61, not guessed.",
   "rebuild": {
     "time": "9m44s",
-    "hw": "1× Tesla T4 (g4dn.xlarge)",
+    "hw": "1\u00d7 Tesla T4 (g4dn.xlarge)",
     "costUsd": 0.16,
     "fixedCostUsd": 0.1599,
     "scalingCostUsd": 0.0001
   },
   "reproduce": {
     "hash": "3b9c6606967c1008bc75ef5d5c83b8df4e6ea6183967eaee596329e324f47647",
-    "cmd": "roar reproduce 3b9c6606967c1008bc75ef5d5c83b8df4e6ea6183967eaee596329e324f47647 --lineage --run --no-puts"
+    "cmd": "roar reproduce 3b9c6606967c1008bc75ef5d5c83b8df4e6ea6183967eaee596329e324f47647 --lineage --run --no-puts",
+    "script": {
+      "roarVersion": "0.4.5",
+      "generated": "2026-09-01",
+      "variants": [
+        {
+          "file": "reproduce-no-puts.sh",
+          "command": "roar reproduce 3b9c6606967c1008bc75ef5d5c83b8df4e6ea6183967eaee596329e324f47647 --lineage --script --no-puts",
+          "puts": false
+        },
+        {
+          "file": "reproduce.sh",
+          "command": "roar reproduce 3b9c6606967c1008bc75ef5d5c83b8df4e6ea6183967eaee596329e324f47647 --lineage --script",
+          "puts": true
+        }
+      ]
+    }
   },
   "patch": {
     "lines": 298,
@@ -60,7 +76,7 @@
     "result": "PASS",
     "date": "2026-08-11",
     "evidence": "CERT-TIER2.md",
-    "resultCaveat": "Cold rebuild on a freshly launched g4dn.xlarge that had never seen this row: exit 0, Steps run 4/4, all 62 recorded pins present at the recorded versions (0 missing, 0 mismatched; 94 distributions installed, the extra 32 being the transitive closure), and the same val loss 9.737926 / val ppl 16948.362 the capture recorded. The rebuild venv is uv-provisioned at Python 3.12.10 — the recorded interpreter exactly — with include-system-site-packages=false and no dist-packages or /opt/pytorch root anywhere on sys.path, so P0-14 host-package shadowing is ruled out rather than assumed. Two honest caveats. (1) lit_model.pth is not byte-stable: this capture published 168,905,311 B (sha256 6eff054e0e964d76bf9548891fbe65b6f22251e9df4309d8edc04893cdb3f724) and the rebuild produced 168,905,183 B (sha256 a4154cdce0982c02f1ff301eaecce92fd6ecc5c11f4419ca3521aaaf7091721b), a 128-byte spread over 169 MB. The tensors are demonstrably identical — the loss trajectory matches line for line and the final val loss agrees to all 16 recorded digits — so what varies is the pickle/zip container metadata torch.save writes around a full training state. That is generated-artefact byte-drift, which this campaign does not count as a defect; it is recorded with hashes on both sides precisely because rows 004 and 006 hit the same thing with sizes only and could never settle it. (2) The recorded steps invoke `python -m litgpt ...` and this AMI has no `python` on PATH at all, only `python3`; the steps succeed solely because the reproduce venv supplies `python`. That was verified rather than patched around — symlinking python would have manufactured a pass and hidden whether the venv is really being used.",
+    "resultCaveat": "Cold rebuild on a freshly launched g4dn.xlarge that had never seen this row: exit 0, Steps run 4/4, all 62 recorded pins present at the recorded versions (0 missing, 0 mismatched; 94 distributions installed, the extra 32 being the transitive closure), and the same val loss 9.737926 / val ppl 16948.362 the capture recorded. The rebuild venv is uv-provisioned at Python 3.12.10 \u2014 the recorded interpreter exactly \u2014 with include-system-site-packages=false and no dist-packages or /opt/pytorch root anywhere on sys.path, so P0-14 host-package shadowing is ruled out rather than assumed. Two honest caveats. (1) lit_model.pth is not byte-stable: this capture published 168,905,311 B (sha256 6eff054e0e964d76bf9548891fbe65b6f22251e9df4309d8edc04893cdb3f724) and the rebuild produced 168,905,183 B (sha256 a4154cdce0982c02f1ff301eaecce92fd6ecc5c11f4419ca3521aaaf7091721b), a 128-byte spread over 169 MB. The tensors are demonstrably identical \u2014 the loss trajectory matches line for line and the final val loss agrees to all 16 recorded digits \u2014 so what varies is the pickle/zip container metadata torch.save writes around a full training state. That is generated-artefact byte-drift, which this campaign does not count as a defect; it is recorded with hashes on both sides precisely because rows 004 and 006 hit the same thing with sizes only and could never settle it. (2) The recorded steps invoke `python -m litgpt ...` and this AMI has no `python` on PATH at all, only `python3`; the steps succeed solely because the reproduce venv supplies `python`. That was verified rather than patched around \u2014 symlinking python would have manufactured a pass and hidden whether the venv is really being used.",
     "roarVersion": "0.4.4rc5",
     "wheelSha256": "ed35ed6bda3b5698ab65a887e7390c2ac073123f6d94bfa27b8282285352219c",
     "exitCode": 0,
@@ -68,15 +84,15 @@
     "pinsExact": "62/62",
     "pinsInstalled": 94
   },
-  "summary": "Truncated reproduction of the litgpt pretrain path: pythia-14m trained from random init for 8 optimizer steps on 2,048 tokens of WikiText-2 through the TextFiles data module. Re-recorded on the published roar 0.4.4rc5 and certified by an independent cold rebuild — exit 0, 4/4 steps, 62/62 pins exact, the same 169 MB checkpoint and the same val loss 9.737926. The training code reproduces exceptionally well: the loss trajectory is bit-identical across independent environments at seed 42, and the only variation anywhere comes from numeric precision. Every obstacle was in packaging. litgpt download raises AttributeError on huggingface_hub >= 1.0 while litgpt's own pin permits it; torchmetrics and litdata are imported unconditionally on the pretrain path but declared only as optional extras; the pinned litdata==0.2.59 drags an unbounded torchvision that hard-pins an exact torch, silently replacing a curated PyTorch; and wandb/mlflow are advertised logger choices that appear in no dependency group. The row carries no experiment link, and that too is a measured result: litgpt's wandb flag exists and was enabled, but Lightning's WandbLogger cannot be satisfied by the module-alias bridge, twice over. No litgpt source file was modified — the 298-line diff is a workflow, .gitignore rules, four .gitkeep files and one additive helper module.",
+  "summary": "Truncated reproduction of the litgpt pretrain path: pythia-14m trained from random init for 8 optimizer steps on 2,048 tokens of WikiText-2 through the TextFiles data module. Re-recorded on the published roar 0.4.4rc5 and certified by an independent cold rebuild \u2014 exit 0, 4/4 steps, 62/62 pins exact, the same 169 MB checkpoint and the same val loss 9.737926. The training code reproduces exceptionally well: the loss trajectory is bit-identical across independent environments at seed 42, and the only variation anywhere comes from numeric precision. Every obstacle was in packaging. litgpt download raises AttributeError on huggingface_hub >= 1.0 while litgpt's own pin permits it; torchmetrics and litdata are imported unconditionally on the pretrain path but declared only as optional extras; the pinned litdata==0.2.59 drags an unbounded torchvision that hard-pins an exact torch, silently replacing a curated PyTorch; and wandb/mlflow are advertised logger choices that appear in no dependency group. The row carries no experiment link, and that too is a measured result: litgpt's wandb flag exists and was enabled, but Lightning's WandbLogger cannot be satisfied by the module-alias bridge, twice over. No litgpt source file was modified \u2014 the 298-line diff is a workflow, .gitignore rules, four .gitkeep files and one additive helper module.",
   "fullRun": {
     "estimateUsd": null,
-    "estimateBasis": "A 2,048-token calibration does not support a credible cost forecast for the 3×10^12-token default. The previous $92,120 figure linearly extrapolated one tiny, compile-dominated run for roughly twenty years while holding batch size, sequence length, hardware, repeated data and throughput constant. The arithmetic is reproducible, but the forecast is not defensible; a representative sustained-throughput measurement and intended full-scale hardware configuration are unavailable.",
+    "estimateBasis": "A 2,048-token calibration does not support a credible cost forecast for the 3\u00d710^12-token default. The previous $92,120 figure linearly extrapolated one tiny, compile-dominated run for roughly twenty years while holding batch size, sequence length, hardware, repeated data and throughput constant. The arithmetic is reproducible, but the forecast is not defensible; a representative sustained-throughput measurement and intended full-scale hardware configuration are unavailable.",
     "confidence": "low",
     "changes": [
       "set tokens back to 3000000000000 (ran 2048)"
     ],
-    "hw": "1× Tesla T4 (g4dn.xlarge)",
+    "hw": "1\u00d7 Tesla T4 (g4dn.xlarge)",
     "caveats": "A full-scale hardware plan and representative long-run throughput measurement are unavailable."
   },
   "parameters": [
@@ -169,43 +185,43 @@
     {
       "label": "1",
       "purpose": "capture-operator attempt",
-      "params": "1 | `db05cb58` | COMPLETED — 3 steps, tokenization inline | 10 m 05 s | $0.02",
+      "params": "1 | `db05cb58` | COMPLETED \u2014 3 steps, tokenization inline | 10 m 05 s | $0.02",
       "outcome": "ok"
     },
     {
       "label": "2",
       "purpose": "capture-operator attempt",
-      "params": "2 | `f7b318cf` | FAILED — new prepare step could not `import litgpt` | 6 m 11 s | $0.03",
+      "params": "2 | `f7b318cf` | FAILED \u2014 new prepare step could not `import litgpt` | 6 m 11 s | $0.03",
       "outcome": "failed"
     },
     {
       "label": "3",
       "purpose": "capture-operator attempt",
-      "params": "3 | `1c0bacd5` | COMPLETED — 4 steps, tokenization split out | 3 m 20 s | $0.03",
+      "params": "3 | `1c0bacd5` | COMPLETED \u2014 4 steps, tokenization split out | 3 m 20 s | $0.03",
       "outcome": "ok"
     },
     {
       "label": "4",
       "purpose": "capture-operator attempt",
-      "params": "4 | `d5ac7e31` | COMPLETED — recipe reduced to litgpt's own csv logger | 2 m 01 s | $0.02",
+      "params": "4 | `d5ac7e31` | COMPLETED \u2014 recipe reduced to litgpt's own csv logger | 2 m 01 s | $0.02",
       "outcome": "ok"
     },
     {
       "label": "5",
       "purpose": "capture-operator attempt",
-      "params": "5 | `302d133b` | COMPLETED — re-capture on updated provenance tooling | 7 m 14 s | $0.06",
+      "params": "5 | `302d133b` | COMPLETED \u2014 re-capture on updated provenance tooling | 7 m 14 s | $0.06",
       "outcome": "ok"
     },
     {
       "label": "6",
       "purpose": "capture-operator attempt",
-      "params": "6 | `1ae272fc` | COMPLETED — re-capture on updated provenance tooling | 9 m 04 s | $0.06",
+      "params": "6 | `1ae272fc` | COMPLETED \u2014 re-capture on updated provenance tooling | 9 m 04 s | $0.06",
       "outcome": "ok"
     },
     {
       "label": "7",
       "purpose": "capture-operator attempt",
-      "params": "7 | `a1fd4795` | COMPLETED — capture superseded by #8 | 8 m 51 s | $0.06",
+      "params": "7 | `a1fd4795` | COMPLETED \u2014 capture superseded by #8 | 8 m 51 s | $0.06",
       "outcome": "superseded"
     },
     {
