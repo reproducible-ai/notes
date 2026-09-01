@@ -1,38 +1,36 @@
 # RWKV-7 on MiniPile
 
-This rebuild is blocked before training. The current published RWKV-7 MiniPile entry point loads a CUDA channel-mix extension whose source does not compile for the NVIDIA L40S GPU's `sm_89` architecture, so there is no checkpoint, loss, published DAG, or experiment run to claim.
+RWKV-7's published MiniPile training path produced a clean, portable record on one NVIDIA RTX PRO 6000 Blackwell. The bounded capture ran the unmodified upstream model and custom CUDA sources for two optimizer steps, published a 382 MB checkpoint and training log, and passed the strict record gate: CLEAN 14/14, AI-BOM 100, every DAG URL public, and a portable freeze.
 
-## What was attempted
+This is a Tier-1 Reproducible record, not yet a Certified reproduction. A separate cold agent still has to execute the record and regenerate its outputs before the row can be called reproduced.
 
-The capture followed the current files under `RWKV-v7/train_temp` at upstream commit `658042ca30222715c1d3ab662a3c556824dc6618`. It retained the published L12-D768 model, 512-token context, MiniPile binidx data, bf16 precision, one GPU, DeepSpeed stage 2, and the repository's two-stage flow: generate `rwkv-init.pth`, then train from it.
+## Recipe and bounded run
 
-The only intended budget reduction was the repository's existing `--my_exit_tokens` option. It was set to 16,384 tokens, enough for two optimizer steps at micro-batch 16 and context length 512. The upstream WandB option was enabled for the training stage; no logging code was added.
+The capture used upstream commit `658042ca30222715c1d3ab662a3c556824dc6618` and the entry point under `RWKV-v7/train_temp`. It retained the published L12-D768 model, 512-token context, bf16 precision, MiniPile binidx data, one GPU, DeepSpeed stage 2, and the two-stage flow that generates `rwkv-init.pth` before training.
 
-The clean dependency environment used Python 3.12 with exact top-level pins for PyTorch, PyTorch Lightning 1.9.5, DeepSpeed, WandB, Trackio, Ninja, NumPy, Requests, and Setuptools. A fresh-clone check imported that set without host `dist-packages`, found no local-version distribution pins, and parsed the exact training entry point. The GPU-only CUDA compilation could not be exercised on the free control host.
+MiniPile opened successfully with 1,498,226,207 tokens. All custom extensions compiled from upstream source for `sm_120`. The run then completed exactly two optimizer steps and stopped through the trainer's `--max_steps=2` control. The console reported losses of 11.20 and 10.90 and confirmed that the two-step limit was reached.
 
-## Where it failed
+The training command used the upstream WandB path. The hosted project database contains the exact run and a stored step-2 metric row with loss, learning rate, weight decay, processed tokens, and throughput. This was checked from the remote data itself rather than inferred from the dashboard's HTTP status.
 
-The paid run completed environment setup and downloaded both published MiniPile files. The dataset reader opened the index and reported 1,498,226,207 tokens, matching the recipe. Initialization then imported `src/model.py`, which JIT-compiles the repository's CUDA extensions.
+## Outputs and lineage
 
-The first extension, `rwkv7_clampw`, compiled successfully for `compute_89` / `sm_89`. The next extension failed in `cuda/rwkv7_cmix_bf16_v5.cu`:
+The capture published:
 
-```text
-error: no instance of overloaded function "atomicAdd" matches the argument list
-argument types are: (float2 *, float2)
-```
+- `rwkv-0.pth`: 382,223,128 bytes; SHA-256 `a6235b3a8371d77e352bb4eccb5767d770d0f1502882117f092e96456cfb35c2`
+- `train_log.txt`: 2,883 bytes; SHA-256 `5ff95a2d15c7954efbfb9a2f2319418ff39bb7c087f6d9b49dd9d3cbdc8ed8ef`
 
-The failing helper at lines 20–22 casts a float pointer to `float2*` and calls vector `atomicAdd`. That overload is not available for the generated sm_89 target. Ninja stopped, PyTorch raised `RuntimeError: Error building extension 'rwkv7_cmix_bf16_v5'`, and the initialization command exited 1.
+The full record hash is `357518abae1151de0ba348a507715a48c44688e705a3039aa49e293c989c095d`. The graph contains four recorded jobs and all fourteen expected dependency edges. The checkpoint and training log are outputs of the recorded training job before their publication step.
 
-This is a P0 upstream-materials finding: following the published current path on this Ampere-or-newer campaign GPU produces no initial model and cannot reach training. A likely implementation direction is to use two scalar float atomics for sm_89 and retain the vector operation only where supported, but this campaign did not patch the model code or spend another run testing an invented fix.
+## Truncation and estimate
 
-## Attempts and cost
+The published recipe runs 72 epochs at 2,520 optimizer steps per epoch, or 181,440 steps. The capture changed only the duration control to two steps and reduced the checkpoint interval from ten epochs to one so that the bounded run emitted its checkpoint.
 
-Three earlier August jobs each ended before training, cost $0.00 according to their job records, and published no lineage. They are retained in the structured attempt table for accounting but do not support any claim about the current recipe.
+The second measured step ran at about 10.60 steps per second. Extending that one short measurement to 181,440 steps and adding the measured fixed work gives a rough full-run estimate of 4h52m and $16.38 on the same GPU. Confidence is low: a two-step capture is enough to prove the path and record its dependencies, but not enough to benchmark a multi-hour training job.
 
-For the current recipe, one launch never acquired a worker and was cancelled at $0.00. The executed capture ran for 4m57s from job start to terminal failure and reports an API cost of $0.13. It downloaded and validated MiniPile, then stopped at CUDA compilation. No training step, model publication, or lineage publication occurred.
+## Architecture finding
 
-## Logging and reproducibility status
+An earlier attempt on an NVIDIA L40S reached the same upstream CUDA source but failed while compiling `rwkv7_cmix_bf16_v5` for `sm_89`. Its `float2` `atomicAdd` is unavailable for that target. The Blackwell run is a useful boundary: the identical upstream kernel source compiles and trains for `sm_120`, while the L40S path remains unsupported without an architecture-compatible accumulation implementation.
 
-The run log positively showed the WandB-to-hosted-logging bridge active with its destination, but upstream calls `wandb.init()` only at the first training batch. Compilation failed earlier, so no metric-bearing hosted run exists and `experimentUrl` is intentionally null.
+## Cost and status
 
-There is also no DAG hash to pass to the Tier-1 row gate. Workflow preflight passed before launch, but the four Tier-1 record gates require a published DAG and are therefore not applicable. This row is neither a Reproducible record nor a Certified reproduction. Its result is the precise blocker: the published CUDA source is incompatible with sm_89 before training begins.
+The successful capture took 8m18s and cost $0.45. Two preceding Blackwell recipe attempts cost $0.39 and $0.50; both are retained in `runs[]`, bringing the three-attempt Blackwell capture total to $1.34. The row is ready for independent Tier-2 certification and makes no Tier-2 claim yet.
