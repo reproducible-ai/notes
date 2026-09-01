@@ -1,0 +1,133 @@
+{
+  "name": "RWKV-7",
+  "slug": "rwkv-7-minipile",
+  "org": "BlinkDL",
+  "type": "llm",
+  "dataset": "MiniPile (1,498,226,207 tokens)",
+  "dataWarnings": [],
+  "tags": ["pretrain", "sequence-modeling"],
+  "date": "2026-09-01",
+  "status": "reproduced",
+  "statusSub": "Tier 1 passed; independent cold reproduction passed",
+  "blocker": null,
+  "dagHash": "357518abae1151de0ba348a507715a48c44688e705a3039aa49e293c989c095d",
+  "dagUrl": "https://glaas.ai/dag/357518abae1151de0ba348a507715a48c44688e705a3039aa49e293c989c095d",
+  "bomUrl": "https://glaas.ai/dag/357518abae1151de0ba348a507715a48c44688e705a3039aa49e293c989c095d/audit",
+  "bomScore": 100,
+  "upstreamUrl": "https://github.com/BlinkDL/RWKV-LM",
+  "forkUrl": "https://github.com/reproducible-ai/RWKV-LM/tree/2fd4c778521b391f537c61d607a51f3eba35f183",
+  "artifactUrl": "https://huggingface.co/reproducible-ai/rwkv-7-minipile",
+  "patch": {"lines": 0, "url": null},
+  "notes": "https://github.com/reproducible-ai/notes/tree/main/018-llm-rwkv-7-minipile",
+  "license": "Apache-2.0",
+  "summary": "The published RWKV-7 MiniPile path ran for two optimizer steps on one RTX PRO 6000 Blackwell without changing upstream model or kernel source. MiniPile opened at 1,498,226,207 tokens, the sm_120 CUDA kernels compiled, training produced losses, and the run published a 382 MB checkpoint plus its training log. The strict record gate is CLEAN 14/14 with an AI-BOM score of 100 and a portable freeze. A separate cold agent rebuilt all three recorded run steps and regenerated both published outputs. A separate L40S attempt still records a hardware-specific upstream finding: the current channel-mix kernel does not compile for sm_89.",
+  "verified": true,
+  "difficulty": "7/10 — GPU-architecture-sensitive custom CUDA build",
+  "upstreamCommit": "658042ca30222715c1d3ab662a3c556824dc6618",
+  "truncated": true,
+  "truncationNote": "The capture used the upstream model, dataset and optimizer settings but stopped after two optimizer steps with --max_steps=2. Removing that limit restores the published 72 epochs (181,440 optimizer steps at 2,520 steps per epoch).",
+  "truncation": {
+    "ran": 2,
+    "full": 181440,
+    "unit": "optimizer steps",
+    "note": "The capture stopped after two optimizer steps. The published 72 epochs at 2,520 optimizer steps per epoch total 181,440 steps."
+  },
+  "rebuild": {
+    "time": "8m18s",
+    "hw": "1× NVIDIA RTX PRO 6000 Blackwell",
+    "costUsd": 0.45,
+    "fixedCostUsd": 0.43,
+    "scalingCostUsd": 0.02,
+    "truncated": true
+  },
+  "fullRun": {
+    "estimateUsd": 16.38,
+    "estimateTime": "4h52m",
+    "confidence": "low",
+    "estimateBasis": "181,440 published optimizer steps divided by the measured steady 10.60 steps/s, plus about eight minutes of setup, data access, compilation and publication. Only two optimizer steps were measured, so this is an order-of-magnitude estimate rather than a benchmark."
+  },
+  "parameters": [
+    {
+      "name": "--max_steps",
+      "published": "unbounded (72 epochs × 2520 steps)",
+      "used": "2",
+      "reason": "campaign budget",
+      "restoresFullRun": true,
+      "where": "RWKV-v7/train_temp/train.py"
+    },
+    {
+      "name": "--epoch_save",
+      "published": "10",
+      "used": "1",
+      "reason": "emit a checkpoint in the bounded run",
+      "restoresFullRun": false,
+      "where": "RWKV-v7/train_temp/train.py"
+    }
+  ],
+  "runs": [
+    {"label":"historical-setup-1","purpose":"prior capture attempt","params":"training not reached","durationSec":4,"costUsd":0.0,"outcome":"failed","note":"Job 39e3b221-5abb-4dc9-a042-796533dbf57e ended before training and published no lineage."},
+    {"label":"historical-setup-2","purpose":"prior capture attempt","params":"training not reached","durationSec":3,"costUsd":0.0,"outcome":"failed","note":"Job 4eae035c-04f5-4b86-b31c-9b6ee7b1d4d8 ended before training and published no lineage."},
+    {"label":"historical-setup-3","purpose":"prior capture attempt","params":"training not reached","durationSec":4,"costUsd":0.0,"outcome":"failed","note":"Job 0e64a36a-1ab1-45c4-aa11-9e73a584d896 ended before training and published no lineage."},
+    {"label":"capacity-attempt","purpose":"launch the L40S capture recipe","params":"L12-D768, ctx=512, bf16, two-step limit","costUsd":0.0,"outcome":"aborted","note":"Job b51bbd6d-24df-4f18-8e5e-dd1680cf5556 never acquired a worker, was cancelled without starting, and published no lineage."},
+    {"label":"l40s-capture","purpose":"record the bounded MiniPile training path","params":"L12-D768, ctx=512, bf16, DeepSpeed stage 2","durationSec":297,"costUsd":0.13,"outcome":"failed","note":"Job 8e57011b-c4e7-425b-97ae-84bca48a57c8 downloaded MiniPile, then failed while compiling the channel-mix extension for sm_89; training and publication were not reached."},
+    {"label":"blackwell-capture-1","purpose":"record the bounded MiniPile training path on sm_120","params":"L12-D768, ctx=512, bf16, two-step limit","durationSec":475,"costUsd":0.39,"outcome":"failed","note":"Job 31dc3c80-4701-4726-8608-2d833d4e7029 compiled all custom kernels for sm_120; training did not begin and no lineage was published."},
+    {"label":"blackwell-capture-2","purpose":"record the bounded MiniPile training path on sm_120","params":"L12-D768, ctx=512, bf16, token-limited","durationSec":578,"costUsd":0.50,"outcome":"failed","note":"Job 605a0b0c-9103-48e4-bd3b-899349177f79 stopped before the first optimizer step because its token limit was below the recipe's warmup span; no checkpoint or lineage was published."},
+    {"label":"blackwell-capture-3","purpose":"record the bounded MiniPile training path on sm_120","params":"L12-D768, ctx=512, bf16, DeepSpeed stage 2, max_steps=2","durationSec":498,"costUsd":0.45,"outcome":"ok","dagHash":"357518abae1151de0ba348a507715a48c44688e705a3039aa49e293c989c095d","dataset":"MiniPile"}
+  ],
+  "issues": [
+    {
+      "severity": "P0",
+      "title": "The current CUDA channel-mix kernel does not compile for sm_89",
+      "detail": "The published one-GPU MiniPile path imports rwkv7_cmix_bf16_v5 during initialization. On an NVIDIA L40S, nvcc targets sm_89 and rejects its float2 atomicAdd. The same unpatched source compiled and trained on sm_120.",
+      "evidence": "RWKV-v7/train_temp/cuda/rwkv7_cmix_bf16_v5.cu:20-22",
+      "fix": "provide an sm_89-compatible accumulation implementation, such as architecture-gated scalar float atomics",
+      "upstreamAction": "warranted"
+    }
+  ],
+  "experimentUrl": "https://huggingface.co/spaces/reproducible-ai/experiments?project=rwkv-7-minipile",
+  "experimentUrlNote": "Upstream WandB logging initialized through the hosted bridge. The remote project database contains the exact run id 08c22e97f6e74f97be05a0d063a9739e and its step-2 loss, learning rate, weight decay, token count and throughput metrics; this was verified from the stored data, not from an HTTP status.",
+  "artifacts": {
+    "rwkv-0.pth": {"size": 382223128, "sha256": "a6235b3a8371d77e352bb4eccb5767d770d0f1502882117f092e96456cfb35c2"},
+    "train_log.txt": {"size": 2883, "sha256": "5ff95a2d15c7954efbfb9a2f2319418ff39bb7c087f6d9b49dd9d3cbdc8ed8ef"}
+  },
+  "playbookVersion": "1.0",
+  "tracer": "preload",
+  "operator": {"agent":"CRA","agentVersion":"1.0","model":"unavailable/not supplied 2026-09-01","harness":"Codex","harnessVersion":"unavailable"},
+  "agentSteps": [
+    {"phase":"capture","attempt":"1/1","date":"2026-08-28","agent":"CRA","model":"gpt-5.6-sol","harness":"Codex","harnessVersion":"unavailable","evidence":"TReqs jobs b51bbd6d-24df-4f18-8e5e-dd1680cf5556 and 8e57011b-c4e7-425b-97ae-84bca48a57c8"},
+    {"phase":"capture","attempt":"1/3","date":"2026-09-01","agent":"CRA","model":"unavailable/not supplied 2026-09-01","harness":"Codex","harnessVersion":"unavailable","evidence":"TReqs job 31dc3c80-4701-4726-8608-2d833d4e7029"},
+    {"phase":"capture","attempt":"2/3","date":"2026-09-01","agent":"CRA","model":"unavailable/not supplied 2026-09-01","harness":"Codex","harnessVersion":"unavailable","evidence":"TReqs job 605a0b0c-9103-48e4-bd3b-899349177f79"},
+    {"phase":"capture","attempt":"3/3","date":"2026-09-01","agent":"CRA","model":"unavailable/not supplied 2026-09-01","harness":"Codex","harnessVersion":"unavailable","evidence":"TReqs job cb81432e-389f-4f1f-b1e2-e2e39b60e1f6 and DAG 357518abae1151de0ba348a507715a48c44688e705a3039aa49e293c989c095d"},
+    {"phase":"tier1-qa","attempt":"1/1","date":"2026-09-01","agent":"CRA","model":"unavailable/not supplied 2026-09-01","harness":"Codex","harnessVersion":"unavailable","evidence":"strict CLEAN 14/14, AI-BOM 100, all DAG URLs public, portable freeze"},
+    {"phase":"certification","attempt":"valid cold run","date":"2026-09-01","agent":"/root/certify_row_018_blackwell","model":"unavailable/not supplied 2026-09-01","harness":"Codex","harnessVersion":"0.147.0","evidence":"018-llm-rwkv-7-minipile/CERT-TIER2.md; literal exit 0; Steps run: 3/3"}
+  ],
+  "certification": {
+    "tier": 2,
+    "result": "PASS",
+    "date": "2026-09-01",
+    "dagHash": "357518abae1151de0ba348a507715a48c44688e705a3039aa49e293c989c095d",
+    "cmd": "roar reproduce 357518abae1151de0ba348a507715a48c44688e705a3039aa49e293c989c095d --lineage --run --no-puts -y --step-timeout 21600",
+    "exitCode": 0,
+    "stepsRun": "3/3",
+    "stepsNote": "Three run steps rebuilt; the final roar put step was skipped by --no-puts as required.",
+    "roarVersion": "0.4.5",
+    "roarWheelSha256": "8dcc24d1ee03cb33922af815844ab3e750b3d5429267ed03e59ea1996f90c63a",
+    "roarWheelSource": "PyPI x86_64 wheel; all six installed tracer binaries matched the sha256-verified wheel byte for byte",
+    "manifestDiff": "49/49 recorded union pins exact; 88 distributions installed, with 0 missing and 0 mismatched. uv pip freeze and importlib.metadata independently agreed at 88 distributions.",
+    "venvResolution": "The steps used the row-local .venv at Python 3.12.10. Before reproduction the host had no python executable on PATH, only python3, and the workload interpreter could not import roar. The rebuilt venv supplied python and torch 2.13.0+cu130 with CUDA 13.0 and sm_120 support.",
+    "outputs": [
+      {"path":"RWKV-v7/train_temp/out/L12-D768-x070/rwkv-0.pth","bytes":382223128,"recordedBytes":382223128,"sha256":"ba42c5010b0c4f78a8282d96d808a2fe1cfc896c12e862f8c30cf1dfc8091be2"},
+      {"path":"RWKV-v7/train_temp/out/L12-D768-x070/train_log.txt","bytes":2883,"recordedBytes":2883,"sha256":"e860af2b7921308f296b1e7b770e2e9eecdbbd4df12f8bf083ae0bf115e3c739"},
+      {"path":"RWKV-v7/train_temp/out/L12-D768-x070/rwkv-init.pth","bytes":382290251,"sha256":"c267266dbf4526efcb2dba73885724542023cd9fded565c1416bad01b76440bb","note":"intermediate checkpoint regenerated by the initialization step"}
+    ],
+    "instanceType": "g7e.2xlarge",
+    "instanceId": "i-0de5a07e35c0423b6",
+    "hw": "1x NVIDIA RTX PRO 6000 Blackwell Server Edition, us-east-2, AMI ami-0bd8f1bf63eb27e06",
+    "runWallClock": "8m29s",
+    "costUsdEstimate": 1.52,
+    "costNote": "Approximate combined host cost including a discarded preliminary substrate invocation and the valid cold run; no row conclusion was drawn from the preliminary invocation.",
+    "evidence": "018-llm-rwkv-7-minipile/CERT-TIER2.md",
+    "certifiedBy": "independent cold agent; did not capture the row and used only the DAG hash, row name, published DAG, public fork and public notes",
+    "certifier": {"agent":"/root/certify_row_018_blackwell","model":"unavailable/not supplied 2026-09-01","harness":"Codex","harnessVersion":"0.147.0"}
+  }
+}
