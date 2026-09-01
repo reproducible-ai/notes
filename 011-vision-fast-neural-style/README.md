@@ -1,14 +1,19 @@
 # 011 — fast_neural_style (`pytorch/examples`)
 
-**Status: BLOCKED at capture. The pipeline runs; the record does not carry it.**
-Nine job launches across two operators trained this model correctly six times and
-published its outputs, and none of them produced a lineage record that both carries the
-run's steps and satisfies this project's publish-precondition check. The causes are in
-the recording layer rather than in `pytorch/examples`, and under this project's boundary
-rules the diagnosis lives in the operator's private notes. `issues.md` and `commands.md`
-are complete and are the substance of the row — the upstream findings stand on their own
-and do not depend on the capture landing. What follows describes the model and the
-recipe as they actually ran.
+**Status: Certified reproduction (Tier 2 PASS).** A current-stack retry completed
+the whole pipeline and published an attributed, backlinked four-job record with both
+outputs. The strict Clean-DAG check is 14/14, the AI-BOM is 100/100, every DAG URL is
+public, and the freeze is portable. A separate cold agent then rebuilt the three-step
+pipeline from this record with exit code 0 and regenerated the checkpoint, final model,
+and stylized image; see `CERT-TIER2.md`.
+
+The successful graph uses direct shell tools for dataset preparation. An otherwise
+identical first attempt reached the workload and artifact uploads but received no
+candidate lineage hash; a retry of the immutable workflow produced the record below.
+
+The earlier August history remains below because it explains why this apparently small
+example was retried. The upstream findings in `issues.md` and the exact recipe in
+`commands.md` remain applicable.
 
 Fast neural style transfer — Johnson et al., *Perceptual Losses for Real-Time Style
 Transfer and Super-Resolution*, with instance normalisation. A small convolutional
@@ -24,10 +29,39 @@ distance on `relu2_2`) and a style loss (Gram-matrix distance across four layers
 | Recipe | `TransformerNet` in the *mosaic* style, Imagenette-320 (9,469 images), 1 of upstream's default 2 epochs, batch 4, 256 px |
 | Hardware | 1× Tesla T4 (g4dn.xlarge), us-east-2 |
 | Upstream lines changed | **0** |
-| Record | none publishable — see *Why this row is held* |
+| Record | [`0bc12b45…4d01`](https://glaas.ai/dag/0bc12b45d58b9d1657f3d39f770ae43659612cfdabc55be6e138af3358924d01) · Tier 1 PASS |
 | Experiment link | none — upstream ships no logging integration (see below) |
 
 ## What the pipeline does
+
+### Current-stack retry — 2026-09-01
+
+The immutable fork commit is
+[`4902d7199692c8707edb54759cfc1d627ce94225`](https://github.com/reproducible-ai/examples/commit/4902d7199692c8707edb54759cfc1d627ce94225),
+based on upstream `acc295dc7b90714f1bf47f06004fc19a7fe235c4`. All six workflow
+tasks exited zero. The attributed record contains four jobs in order:
+
+| step | duration | result |
+|---|---:|---|
+| fetch Imagenette-320 | 40.5 s | checksum matched; 13,396 outputs recorded |
+| train one epoch | 10m47s | checkpoint and timestamped final model written |
+| stylize amber image | 8.9 s | rendered JPEG written directly |
+| publish | 8m08s | checkpoint and image published together |
+
+The record is attributed to `christreqs`, carries its training-request backlink, and
+publishes both material outputs at
+[`reproducible-ai/fast-neural-style`](https://huggingface.co/reproducible-ai/fast-neural-style).
+The checkpoint producer is the training job and the image producer is the stylize job.
+The exact recorded training environment is `numpy==2.2.6`, `pillow==11.3.0`,
+`torch==2.7.0`, and `torchvision==0.22.0` plus their imported closure; no recorded
+distribution has a local-version suffix.
+
+The gate result is Clean-DAG 14/14, AI-BOM 100/100, public URLs green, and portable
+freeze green. This established the reproducible record. The capture operator did not
+certify its own work; the separate cold rebuild documented in `CERT-TIER2.md` later
+completed all 3/3 steps and regenerated the material outputs.
+
+### August attempts
 
 Three traced steps. The figures below are from the run at fork commit
 `3a7a01cc2d1b0d91f2c9795152fdbcbf5c944b83`, whose record
@@ -66,13 +100,13 @@ evaluation metric, and a 13 GB manual dataset download. None of it blocked the r
 Most of it is invisible if you run the example by hand once, and unavoidable the moment
 you try to script it.
 
-**Turning it into a record took nine launches across two operators, and never
-succeeded.** Six of them trained the model correctly. The causes were not in `pytorch/examples`, and under this
-project's boundary rules they are recorded in the operator's private notes rather than
-here. Read the row as evidence about a specific claim: *"the code is simple"* and
-*"the result is reproducible"* are close to independent properties. This is about as
-simple as a real training example gets — 260 lines, three dependencies — and the
-recording still dominated the effort by an order of magnitude.
+**Turning it into a complete record took thirteen launches across three operators.**
+The current retry finally produced the attributed,
+backlinked graph with every step and both published artifacts, passing the final strict
+gate at 14/14. An earlier current-stack candidate stopped at 13/14 and remains identified
+as superseded in `row.json`; it is not the certified record. Read the row as evidence
+about a specific claim: *"the code is simple"* and *"the result is reproducible"* are
+close to independent properties.
 
 ## The recipe, and the two ways it is truncated
 
@@ -103,8 +137,10 @@ at 8,800 of 9,469 images.
 
 ## Why this row is held
 
-Two halves of a publishable record exist, in two different sessions, and no run produced
-both at once.
+The current record resolves the August split: it carries every workload step, both
+publish edges, attribution, and the backlink in one graph, and passes all Tier-1 gates.
+The table below is retained as historical evidence for the earlier state, not the
+current verdict.
 
 | session | steps | publish edges (artifact → job, download URL, HF destination) | attribution | AI-BOM | verdict |
 |---|---|---|---|---|---|
@@ -187,9 +223,8 @@ problem were all found, before a single cent of GPU time was spent.
 
 ## Certification
 
-**Not certified.** No cold rebuild has been attempted on this row by anyone. This
-operator performed the capture only; certification is deliberately done by a different
-agent, so that what is measured is whether a *stranger* can rebuild from the published
-materials rather than whether the author can. `row.json` therefore carries
-`{"tier": 1, "result": null}`, and will keep carrying it until a cold rebuild produces
-an actual finding.
+An independent cold agent rebuilt record
+`0bc12b45d58b9d1657f3d39f770ae43659612cfdabc55be6e138af3358924d01`
+on a fresh Tesla T4 host. The required command exited 0 with literal `Steps run: 3/3`,
+the recorded dependency union was exact, and all three material outputs were regenerated.
+Full evidence, including output hashes and harness identity, is in `CERT-TIER2.md`.

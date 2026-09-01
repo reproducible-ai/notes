@@ -1,28 +1,32 @@
 {
   "name": "fast-neural-style",
   "slug": "fast-neural-style",
-  "dataset": null,
+  "dataset": "Imagenette-320 (9,469 training images)",
   "tags": [
     "style-transfer"
   ],
   "org": "pytorch",
   "type": "vision",
-  "date": "2026-08-11",
-  "status": "blocked",
-  "statusSub": "capture blocked — the pipeline runs, the attributed record does not carry it",
-  "blocker": "Eight job launches across two operators. The training pipeline succeeded on six of them and its outputs are published and public; no launch produced an attributed lineage record that carries the run's steps AND satisfies the publish-precondition check at the same time. One record does carry its three traced steps and scores 97.5/100 on the AI-BOM (63edfd1d69128bf4032d089ace64aa301c1a44e0b60d48abfe83b619d4e6e377) but was produced by a run whose upload stage did not execute, so it records no artifact destination and the precondition check blocks it. Every other record came back with its session present, correctly attributed and carrying zero steps. The causes are in the recording layer, not in pytorch/examples, and are documented in the operator's private notes per this project's boundary rules. The model, the recipe and the artifacts are all real and all published; the row is held because the record is not.",
-  "summary": "Fast neural style transfer (Johnson et al., perceptual losses + instance normalisation): a small convolutional TransformerNet trained to apply one fixed artistic style in a single forward pass, supervised by a frozen VGG-16 supplying a content loss on relu2_2 and a Gram-matrix style loss across four layers. Selected as the cleanest candidate available — three declared dependencies, torch.save only, no OS-package edge, no copy or link anywhere in the subdirectory — to test whether a simple workload yields a simple record. It does not. The model trained correctly six times across two operators, and the trained checkpoint and the stylised image it renders are published and public. No attributed DAG that both carries the run's steps and passes the publish gate was ever produced, so the row is held with no hash.",
+  "date": "2026-09-01",
+  "status": "reproduced",
+  "statusSub": "Certified reproduction: Tier 1 passed and independent cold Tier 2 rebuilt 3/3 steps",
+  "blocker": null,
+  "summary": "Fast neural style transfer (Johnson et al., perceptual losses + instance normalisation): a small convolutional TransformerNet trained to apply one fixed artistic style in a single forward pass, supervised by a frozen VGG-16 supplying a content loss on relu2_2 and a Gram-matrix style loss across four layers. A current-stack retry trained for one epoch on Imagenette-320, rendered a stylized image, and published both outputs in one attributed record. The graph passes the complete Tier-1 bar: strict Clean-DAG 14/14, AI-BOM 100/100, all URLs public, and a portable freeze. A separate cold agent then completed Tier 2 with exit code 0, rebuilt 3/3 steps, and regenerated the checkpoint, final model, and stylized image.",
   "upstreamUrl": "https://github.com/pytorch/examples",
   "forkUrl": "https://github.com/reproducible-ai/examples",
-  "upstreamCommit": "32ab2fe40f06201748c77789583b14e754155011",
+  "upstreamCommit": "acc295dc7b90714f1bf47f06004fc19a7fe235c4",
   "artifactUrl": "https://huggingface.co/reproducible-ai/fast-neural-style",
   "notes": "https://github.com/reproducible-ai/notes/tree/main/011-vision-fast-neural-style",
   "license": "BSD-3-Clause",
-  "dagHash": null,
-  "dagUrl": null,
-  "bomUrl": null,
-  "bomScore": null,
-  "verified": false,
+  "dagHash": "0bc12b45d58b9d1657f3d39f770ae43659612cfdabc55be6e138af3358924d01",
+  "dagUrl": "https://glaas.ai/dag/0bc12b45d58b9d1657f3d39f770ae43659612cfdabc55be6e138af3358924d01",
+  "bomUrl": "https://glaas.ai/dag/0bc12b45d58b9d1657f3d39f770ae43659612cfdabc55be6e138af3358924d01/audit",
+  "bomScore": 100,
+  "verified": true,
+  "reproduce": {
+    "hash": "0bc12b45d58b9d1657f3d39f770ae43659612cfdabc55be6e138af3358924d01",
+    "cmd": "roar reproduce 0bc12b45d58b9d1657f3d39f770ae43659612cfdabc55be6e138af3358924d01 --lineage --run --no-puts"
+  },
   "difficulty": "6/10 — trivial to run, hard to record",
   "patch": {
     "lines": 0,
@@ -37,33 +41,150 @@
     "note": "upstream's default is --epochs 2 (neural_style/neural_style.py:196), read from the parser default, not guessed. The dataset is truncated on a second, independent axis: upstream's README trains on COCO 2014 train (82,783 images / 13 GB, a manual browser download with no fetch script); this row substitutes Imagenette-320 (9,469 images / 342 MB, one public tarball, sha256 569b4497c98db6dd29f335d1f109cf315fe127053cedf69010d047f0188e158c). That substitution is a scale decision, not a semantic one — the objective is a VGG-16 perceptual loss plus a Gram-matrix style term and depends on no COCO annotation, category or photograph, only on a varied corpus of natural images."
   },
   "rebuild": {
-    "time": "19m12s",
+    "time": "23m15s",
     "hw": "1× Tesla T4 (g4dn.xlarge)",
-    "costUsd": 0.17,
-    "fixedCostUsd": 0.0964,
-    "scalingCostUsd": 0.0719
+    "costUsd": 0.21,
+    "fixedCostUsd": 0.115,
+    "scalingCostUsd": 0.095
   },
   "experimentUrl": null,
   "experimentUrlNote": "upstream examples/fast_neural_style ships no experiment-logging integration — grepped the whole subdirectory for wandb, mlflow, trackio, tensorboard, SummaryWriter, comet, neptune and report_to: zero hits. There is no flag to enable. The metrics bridge only intercepts a wandb import the workload actually performs, so against this workload it is a guaranteed no-op; it was removed from the workflow rather than left in, so the record does not imply a logging path that does not exist. Adding wandb.init() to neural_style.py would have produced a link and forfeited the zero-upstream-lines property that makes the row evidence. There is also nothing to log: the example computes no held-out metric, and its only evaluation renders an image.",
   "certification": {
-    "tier": 1,
-    "result": null,
-    "date": null,
-    "evidence": null,
-    "resultCaveat": "Not certified, and not certifiable as it stands: no attributed DAG both carries the run's steps and passes the publish-precondition check, so there is no hash a cold rebuild can start from. This operator performed the capture only — certification is done by a different agent so that what is measured is whether a stranger can rebuild from published materials, not whether the author can. result stays null until a cold rebuild produces an actual finding; it is never transcribed from an exit code.",
-    "candidateDagHash": "63edfd1d69128bf4032d089ace64aa301c1a44e0b60d48abfe83b619d4e6e377"
+    "tier": 2,
+    "result": "PASS",
+    "date": "2026-09-01",
+    "dagHash": "0bc12b45d58b9d1657f3d39f770ae43659612cfdabc55be6e138af3358924d01",
+    "cmd": "roar reproduce 0bc12b45d58b9d1657f3d39f770ae43659612cfdabc55be6e138af3358924d01 --lineage --run --no-puts -y --step-timeout 21600",
+    "exitCode": 0,
+    "stepsRun": "3/3",
+    "roarVersion": "0.4.5",
+    "roarWheelSha256": "8dcc24d1ee03cb33922af815844ab3e750b3d5429267ed03e59ea1996f90c63a",
+    "roarWheelSource": "PyPI x86_64 wheel; digest verified before installation and all six installed tracer binaries matched the wheel byte-for-byte",
+    "manifestDiff": "10/10 recorded union pins exact; 28 distributions installed. uv pip freeze enumerated all 28 and importlib.metadata independently confirmed 28 distributions.",
+    "venvResolution": "The steps used /tmp/cert-011-v045/reproduce/examples/.venv/bin/python at Python 3.12.10. Before reproduction the host had no python executable on PATH, only /usr/bin/python3 at Python 3.10.12. CUDA was available in the rebuilt venv.",
+    "outputs": [
+      {
+        "path": "fast_neural_style/out-ckpt/ckpt_epoch_0_batch_id_2368.pth",
+        "bytes": 6739701,
+        "sha256": "a41b6b1b5f86c87d83e7088da1c3b19d1523ac038339becbf464d3de71789108"
+      },
+      {
+        "path": "fast_neural_style/out-model/epoch_1_2026-09-01_17-46-02_100000.0_10000000000.0.model",
+        "bytes": 6741397,
+        "sha256": "3e159add916234937777e4ae3e1841ce95e11b0e9c4254b41475aac7e77e54af"
+      },
+      {
+        "path": "fast_neural_style/out-stylized/amber-mosaic.jpg",
+        "bytes": 373663,
+        "sha256": "8ca5d31b64a450549d53adb08a86e12cca1da75c485a10167c17fba2cfae3e62"
+      }
+    ],
+    "hw": "1x NVIDIA Tesla T4 (g4dn.xlarge), us-east-2, AMI ami-0f07f1a0b382b48f7",
+    "instanceId": "i-09f24827a2d3a1d20",
+    "instanceName": "cert-row011-fast-neural-style",
+    "wallClock": "approximately 11m for the valid reproduce; approximately 32m host lifetime including bootstrap, one invalidated apparatus attempt, retry, and evidence collection",
+    "costUsd": 0.28,
+    "logSha256": "4490b650ecfd5ace5b69a90c1f833c19faabd97396246c3e600908fe52cc41ae",
+    "evidence": "011-vision-fast-neural-style/CERT-TIER2.md",
+    "certifier": {
+      "agent": "/root/certify_row_011",
+      "model": "unavailable-2026-09-01 (not supplied at launch)",
+      "harness": "Codex",
+      "harnessVersion": "0.147.0"
+    },
+    "certifiedBy": "independent cold agent; did not capture this row and used only the DAG hash, row name, and public evidence"
   },
-  "roarVersion": "0.4.4rc6",
-  "roarWheelSha256": "c7115b748886259b6a089e547404376acf84c3b81b4cbc8dc5610490ebea7199",
+  "roarVersion": "0.4.5",
+  "roarWheelSha256": null,
   "playbookVersion": "1.0",
   "tracer": "preload",
-  "amiId": null,
+  "amiId": "ami-0543bb81ee9303074",
+  "operator": {
+    "agent": "CRA",
+    "model": "unavailable/not supplied 2026-09-01",
+    "harness": "Codex",
+    "harnessVersion": "0.147.0"
+  },
+  "agentSteps": [
+    {
+      "phase": "capture",
+      "attempt": "1/4",
+      "date": "2026-09-01",
+      "agent": "/root/capture_row_011_retry",
+      "model": "unavailable/not supplied 2026-09-01",
+      "harness": "Codex",
+      "harnessVersion": "0.147.0",
+      "evidence": "TReqs job 20c51e1a-b4ad-4faa-9175-6c4e08555d81"
+    },
+    {
+      "phase": "capture",
+      "attempt": "2/4",
+      "date": "2026-09-01",
+      "agent": "/root/capture_row_011_retry",
+      "model": "unavailable/not supplied 2026-09-01",
+      "harness": "Codex",
+      "harnessVersion": "0.147.0",
+      "evidence": "TReqs job bf9dfa93-dcb5-4621-bbfa-9dc5fa4aea93"
+    },
+    {
+      "phase": "tier1-qa",
+      "attempt": "1/2",
+      "date": "2026-09-01",
+      "agent": "/root/capture_row_011_retry",
+      "model": "unavailable/not supplied 2026-09-01",
+      "harness": "Codex",
+      "harnessVersion": "0.147.0",
+      "evidence": "gate_row and imports_vs_freeze_audit on the attributed DAG"
+    },
+    {
+      "phase": "capture",
+      "attempt": "3/4",
+      "date": "2026-09-01",
+      "agent": "/root/capture_row_011_retry",
+      "model": "unavailable/not supplied 2026-09-01",
+      "harness": "Codex",
+      "harnessVersion": "0.147.0",
+      "evidence": "TReqs job da102e3c-d4a4-475e-a40c-67a395d3c583"
+    },
+    {
+      "phase": "capture",
+      "attempt": "4/4",
+      "date": "2026-09-01",
+      "agent": "/root/capture_row_011_retry",
+      "model": "unavailable/not supplied 2026-09-01",
+      "harness": "Codex",
+      "harnessVersion": "0.147.0",
+      "evidence": "TReqs job 5b9d0aba-1648-416d-9e8b-0790497171ed"
+    },
+    {
+      "phase": "tier1-qa",
+      "attempt": "2/2",
+      "date": "2026-09-01",
+      "agent": "/root/capture_row_011_retry",
+      "model": "unavailable/not supplied 2026-09-01",
+      "harness": "Codex",
+      "harnessVersion": "0.147.0",
+      "evidence": "gate_row.py against 0bc12b45d58b9d1657f3d39f770ae43659612cfdabc55be6e138af3358924d01"
+    },
+    {
+      "phase": "certification",
+      "attempt": "1/1",
+      "date": "2026-09-01",
+      "agent": "/root/certify_row_011",
+      "model": "unavailable-2026-09-01 (not supplied at launch)",
+      "harness": "Codex",
+      "harnessVersion": "0.147.0",
+      "evidence": "011-vision-fast-neural-style/CERT-TIER2.md"
+    }
+  ],
   "fullRun": {
-    "estimateUsd": 0.24,
-    "estimateBasis": "g4dn.xlarge on-demand us-east-2 at $0.526/hr ($0.00014611/s). Fixed portion 660 s = $0.0964: instance boot 144 s, setup 202 s (provenance-CLI install, wheel sha256 verification, environment gates), dataset fetch 50 s, stylize 11 s, label 1 s, lineage export + publish 97 s, teardown 94 s, plus 60 s of startup and shutdown inside the train step — of which the VGG-16 ImageNet weight download is 4.10 s / 553,433,881 bytes, measured directly into a throwaway TORCH_HOME rather than assumed (4.10 / 3.75 / 3.85 s across three cold hosts). Variable portion 492 s/epoch = $0.0719, from a measured 19.26 images/s (8,669 images in 450 s between the first log line and the model save) over 9,469 images. Untruncated = 660 + 2×492 = 1,644 s = 27m24s = $0.240. The least stable component is the lineage publish: 48 s on the run these figures come from, and 104 s / 166 s / 295 s on three others of the same recipe; substituting the worst case moves the untruncated estimate to $0.28, so the number is good to about ±15%. Not costed out: upstream's own COCO-2014 recipe would be ~4,298 s/epoch at the same throughput (~2.4 h, ~$1.35 for 2 epochs) plus an untimed 13 GB manual download.",
-    "confidence": "moderate",
+    "estimateUsd": 1.77,
+    "estimateBasis": "g4dn.xlarge in us-east-2 at $0.526/hour. The completed current-stack attempt cost $0.21: $0.115 fixed and $0.095 for 652 seconds of one-epoch training on 9,469 images. Treating 4 seconds of the training phase as the measured fixed VGG-16 download leaves 648 seconds, or 0.0684 seconds/image. Restoring the README's COCO-2014-train corpus (82,783 images) and two epochs gives 11,330 scalable seconds; at $0.00014611/second that is $1.656, plus $0.115 fixed = $1.77. Confidence is low because the 13 GB manual COCO download is untimed and publication latency on this graph was unusually large.",
+    "confidence": "low",
     "changes": [
-      "set epochs back to 2 (ran 1)"
+      "set epochs back to 2 (ran 1)",
+      "restore COCO 2014 train (82,783 images) instead of Imagenette-320",
+      "restore checkpoint interval 2000 instead of 2368"
     ],
     "hw": "1× Tesla T4 (g4dn.xlarge)"
   },
@@ -151,9 +272,48 @@
       "upstreamAction": "warranted"
     }
   ],
+  "runs": [
+    {
+      "label": "current-stack setup assertion",
+      "purpose": "Validate the immutable fork checkout before capture",
+      "params": "T4 target; commit 0f0bf86745c5f0098133c6894e4aedd0fafe13c1",
+      "outcome": "failed",
+      "durationSec": 3,
+      "costUsd": 0.04
+    },
+    {
+      "label": "current-stack capture",
+      "purpose": "Train one epoch, render a sample, and publish both outputs in one attributed record",
+      "params": "Imagenette-320; 1 epoch; batch 4; T4; commit 2550eebf3da5c89e5863fac422391021366d0cac",
+      "outcome": "superseded",
+      "durationSec": 1395,
+      "costUsd": 0.25,
+      "dagHash": "98a3152afb42e2307d68bbaa616b4b2c7245acaf1ce1a783cd3af17a61eef3fa",
+      "note": "The workload and publication completed, but the record passed 13 of 14 strict Tier-1 checks."
+    },
+    {
+      "label": "shell-fetch remediation",
+      "purpose": "Record dataset preparation without a Python workload environment",
+      "params": "Direct curl, SHA-256 verification, and tar extraction; otherwise identical one-epoch T4 recipe; commit 4902d7199692c8707edb54759cfc1d627ce94225",
+      "outcome": "failed",
+      "durationSec": 1250,
+      "costUsd": 0.23,
+      "note": "The workload completed and both files uploaded, but no lineage hash was produced."
+    },
+    {
+      "label": "shell-fetch immutable retry",
+      "purpose": "Record the direct-shell dataset preparation, training, rendered sample, and joint artifact publication",
+      "params": "Workflow body identical to the preceding remediation; Imagenette-320; 1 epoch; batch 4; T4; commit 4902d7199692c8707edb54759cfc1d627ce94225",
+      "outcome": "ok",
+      "durationSec": 1386,
+      "costUsd": 0.26,
+      "dagHash": "0bc12b45d58b9d1657f3d39f770ae43659612cfdabc55be6e138af3358924d01",
+      "note": "Authoritative job completed with published lineage; the record passed every Tier-1 gate."
+    }
+  ],
   "dataWarnings": [
-    "Capture operator identities and model/harness versions for both operators are unrecoverable from surviving evidence; operator is intentionally omitted.",
-    "Nine capture launches are known in aggregate, but reliable per-attempt fields are unrecoverable; runs is intentionally omitted.",
-    "No independent certification has occurred, so certification.certifier is not applicable."
+    "Historical capture operator identities and model/harness versions are unrecoverable from surviving evidence; the current-stack operator is recorded.",
+    "Nine historical capture launches are known in aggregate, but reliable per-attempt fields are unrecoverable; runs includes only the four 2026-09-01 current-stack attempts.",
+    "The certifier's exact configured model identity was not supplied at launch; agent, date, harness, harness version, and certification evidence are recorded."
   ]
 }
