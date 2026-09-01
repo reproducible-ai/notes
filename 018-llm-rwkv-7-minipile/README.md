@@ -2,7 +2,7 @@
 
 RWKV-7's published MiniPile training path produced a clean, portable record on one NVIDIA RTX PRO 6000 Blackwell. The bounded capture ran the unmodified upstream model and custom CUDA sources for two optimizer steps, published a 382 MB checkpoint and training log, and passed the strict record gate: CLEAN 14/14, AI-BOM 100, every DAG URL public, and a portable freeze.
 
-This is a Tier-1 Reproducible record, not yet a Certified reproduction. A separate cold agent still has to execute the record and regenerate its outputs before the row can be called reproduced.
+This is a Certified reproduction. A separate cold agent rebuilt all three recorded run steps with literal exit code 0 and `Steps run: 3/3`, regenerating the checkpoint and training log. Full certification evidence is in [CERT-TIER2.md](CERT-TIER2.md).
 
 ## Recipe and bounded run
 
@@ -33,4 +33,4 @@ An earlier attempt on an NVIDIA L40S reached the same upstream CUDA source but f
 
 ## Cost and status
 
-The successful capture took 8m18s and cost $0.45. Two preceding Blackwell recipe attempts cost $0.39 and $0.50; both are retained in `runs[]`, bringing the three-attempt Blackwell capture total to $1.34. The row is ready for independent Tier-2 certification and makes no Tier-2 claim yet.
+The successful capture took 8m18s and cost $0.45. Two preceding Blackwell recipe attempts cost $0.39 and $0.50; both are retained in `runs[]`, bringing the three-attempt Blackwell capture total to $1.34. Independent Tier-2 certification then completed in 8m29s on a fresh Blackwell host. Approximate combined certification spend was $1.52, including a discarded preliminary substrate invocation and evidence collection.

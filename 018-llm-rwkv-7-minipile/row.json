@@ -7,8 +7,8 @@
   "dataWarnings": [],
   "tags": ["pretrain", "sequence-modeling"],
   "date": "2026-09-01",
-  "status": "progress",
-  "statusSub": "Reproducible record; awaiting independent certification",
+  "status": "reproduced",
+  "statusSub": "Tier 1 passed; independent cold reproduction passed",
   "blocker": null,
   "dagHash": "357518abae1151de0ba348a507715a48c44688e705a3039aa49e293c989c095d",
   "dagUrl": "https://glaas.ai/dag/357518abae1151de0ba348a507715a48c44688e705a3039aa49e293c989c095d",
@@ -20,8 +20,8 @@
   "patch": {"lines": 0, "url": null},
   "notes": "https://github.com/reproducible-ai/notes/tree/main/018-llm-rwkv-7-minipile",
   "license": "Apache-2.0",
-  "summary": "The published RWKV-7 MiniPile path ran for two optimizer steps on one RTX PRO 6000 Blackwell without changing upstream model or kernel source. MiniPile opened at 1,498,226,207 tokens, the sm_120 CUDA kernels compiled, training produced losses, and the run published a 382 MB checkpoint plus its training log. The strict record gate is CLEAN 14/14 with an AI-BOM score of 100 and a portable freeze. Independent cold certification remains pending. A separate L40S attempt still records a hardware-specific upstream finding: the current channel-mix kernel does not compile for sm_89.",
-  "verified": false,
+  "summary": "The published RWKV-7 MiniPile path ran for two optimizer steps on one RTX PRO 6000 Blackwell without changing upstream model or kernel source. MiniPile opened at 1,498,226,207 tokens, the sm_120 CUDA kernels compiled, training produced losses, and the run published a 382 MB checkpoint plus its training log. The strict record gate is CLEAN 14/14 with an AI-BOM score of 100 and a portable freeze. A separate cold agent rebuilt all three recorded run steps and regenerated both published outputs. A separate L40S attempt still records a hardware-specific upstream finding: the current channel-mix kernel does not compile for sm_89.",
+  "verified": true,
   "difficulty": "7/10 — GPU-architecture-sensitive custom CUDA build",
   "upstreamCommit": "658042ca30222715c1d3ab662a3c556824dc6618",
   "truncated": true,
@@ -98,11 +98,36 @@
     {"phase":"capture","attempt":"1/3","date":"2026-09-01","agent":"CRA","model":"gpt-5.6-sol","harness":"Codex","harnessVersion":"unavailable","evidence":"TReqs job 31dc3c80-4701-4726-8608-2d833d4e7029"},
     {"phase":"capture","attempt":"2/3","date":"2026-09-01","agent":"CRA","model":"gpt-5.6-sol","harness":"Codex","harnessVersion":"unavailable","evidence":"TReqs job 605a0b0c-9103-48e4-bd3b-899349177f79"},
     {"phase":"capture","attempt":"3/3","date":"2026-09-01","agent":"CRA","model":"gpt-5.6-sol","harness":"Codex","harnessVersion":"unavailable","evidence":"TReqs job cb81432e-389f-4f1f-b1e2-e2e39b60e1f6 and DAG 357518abae1151de0ba348a507715a48c44688e705a3039aa49e293c989c095d"},
-    {"phase":"qa","attempt":"1/1","date":"2026-09-01","agent":"CRA","model":"gpt-5.6-sol","harness":"Codex","harnessVersion":"unavailable","evidence":"strict CLEAN 14/14, AI-BOM 100, all DAG URLs public, portable freeze"}
+    {"phase":"qa","attempt":"1/1","date":"2026-09-01","agent":"CRA","model":"gpt-5.6-sol","harness":"Codex","harnessVersion":"unavailable","evidence":"strict CLEAN 14/14, AI-BOM 100, all DAG URLs public, portable freeze"},
+    {"phase":"certification","attempt":"valid cold run","date":"2026-09-01","agent":"/root/certify_row_018_blackwell","model":"unavailable/not supplied 2026-09-01","harness":"Codex","harnessVersion":"0.147.0","evidence":"018-llm-rwkv-7-minipile/CERT-TIER2.md; literal exit 0; Steps run: 3/3"}
   ],
   "certification": {
-    "tier": 1,
-    "result": null,
-    "resultCaveat": "The record passes all Tier-1 gates. No separate cold agent has executed the Tier-2 reproduction yet, so this row is not a Certified reproduction."
+    "tier": 2,
+    "result": "PASS",
+    "date": "2026-09-01",
+    "dagHash": "357518abae1151de0ba348a507715a48c44688e705a3039aa49e293c989c095d",
+    "cmd": "roar reproduce 357518abae1151de0ba348a507715a48c44688e705a3039aa49e293c989c095d --lineage --run --no-puts -y --step-timeout 21600",
+    "exitCode": 0,
+    "stepsRun": "3/3",
+    "stepsNote": "Three run steps rebuilt; the final roar put step was skipped by --no-puts as required.",
+    "roarVersion": "0.4.5",
+    "roarWheelSha256": "8dcc24d1ee03cb33922af815844ab3e750b3d5429267ed03e59ea1996f90c63a",
+    "roarWheelSource": "PyPI x86_64 wheel; all six installed tracer binaries matched the sha256-verified wheel byte for byte",
+    "manifestDiff": "49/49 recorded union pins exact; 88 distributions installed, with 0 missing and 0 mismatched. uv pip freeze and importlib.metadata independently agreed at 88 distributions.",
+    "venvResolution": "The steps used the row-local .venv at Python 3.12.10. Before reproduction the host had no python executable on PATH, only python3, and the workload interpreter could not import roar. The rebuilt venv supplied python and torch 2.13.0+cu130 with CUDA 13.0 and sm_120 support.",
+    "outputs": [
+      {"path":"RWKV-v7/train_temp/out/L12-D768-x070/rwkv-0.pth","bytes":382223128,"recordedBytes":382223128,"sha256":"ba42c5010b0c4f78a8282d96d808a2fe1cfc896c12e862f8c30cf1dfc8091be2"},
+      {"path":"RWKV-v7/train_temp/out/L12-D768-x070/train_log.txt","bytes":2883,"recordedBytes":2883,"sha256":"e860af2b7921308f296b1e7b770e2e9eecdbbd4df12f8bf083ae0bf115e3c739"},
+      {"path":"RWKV-v7/train_temp/out/L12-D768-x070/rwkv-init.pth","bytes":382290251,"sha256":"c267266dbf4526efcb2dba73885724542023cd9fded565c1416bad01b76440bb","note":"intermediate checkpoint regenerated by the initialization step"}
+    ],
+    "instanceType": "g7e.2xlarge",
+    "instanceId": "i-0de5a07e35c0423b6",
+    "hw": "1x NVIDIA RTX PRO 6000 Blackwell Server Edition, us-east-2, AMI ami-0bd8f1bf63eb27e06",
+    "runWallClock": "8m29s",
+    "costUsdEstimate": 1.52,
+    "costNote": "Approximate combined host cost including a discarded preliminary substrate invocation and the valid cold run; no row conclusion was drawn from the preliminary invocation.",
+    "evidence": "018-llm-rwkv-7-minipile/CERT-TIER2.md",
+    "certifiedBy": "independent cold agent; did not capture the row and used only the DAG hash, row name, published DAG, public fork and public notes",
+    "certifier": {"agent":"/root/certify_row_018_blackwell","model":"unavailable/not supplied 2026-09-01","harness":"Codex","harnessVersion":"0.147.0"}
   }
 }
