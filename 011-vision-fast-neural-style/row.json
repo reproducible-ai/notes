@@ -8,10 +8,10 @@
   "org": "pytorch",
   "type": "vision",
   "date": "2026-09-01",
-  "status": "progress",
-  "statusSub": "Tier 1 passed; awaiting independent cold reproduction",
+  "status": "reproduced",
+  "statusSub": "Certified reproduction: Tier 1 passed and independent cold Tier 2 rebuilt 3/3 steps",
   "blocker": null,
-  "summary": "Fast neural style transfer (Johnson et al., perceptual losses + instance normalisation): a small convolutional TransformerNet trained to apply one fixed artistic style in a single forward pass, supervised by a frozen VGG-16 supplying a content loss on relu2_2 and a Gram-matrix style loss across four layers. A current-stack retry trained for one epoch on Imagenette-320, rendered a stylized image, and published both outputs in one attributed record. The graph passes the complete Tier-1 bar: strict Clean-DAG 14/14, AI-BOM 100/100, all URLs public, and a portable freeze. Independent Tier-2 reproduction remains pending.",
+  "summary": "Fast neural style transfer (Johnson et al., perceptual losses + instance normalisation): a small convolutional TransformerNet trained to apply one fixed artistic style in a single forward pass, supervised by a frozen VGG-16 supplying a content loss on relu2_2 and a Gram-matrix style loss across four layers. A current-stack retry trained for one epoch on Imagenette-320, rendered a stylized image, and published both outputs in one attributed record. The graph passes the complete Tier-1 bar: strict Clean-DAG 14/14, AI-BOM 100/100, all URLs public, and a portable freeze. A separate cold agent then completed Tier 2 with exit code 0, rebuilt 3/3 steps, and regenerated the checkpoint, final model, and stylized image.",
   "upstreamUrl": "https://github.com/pytorch/examples",
   "forkUrl": "https://github.com/reproducible-ai/examples",
   "upstreamCommit": "acc295dc7b90714f1bf47f06004fc19a7fe235c4",
@@ -108,7 +108,7 @@
   "agentSteps": [
     {
       "phase": "capture",
-      "attempt": "1/2",
+      "attempt": "1/4",
       "date": "2026-09-01",
       "agent": "/root/capture_row_011_retry",
       "model": "unavailable/not supplied 2026-09-01",
@@ -118,7 +118,7 @@
     },
     {
       "phase": "capture",
-      "attempt": "2/2",
+      "attempt": "2/4",
       "date": "2026-09-01",
       "agent": "/root/capture_row_011_retry",
       "model": "unavailable/not supplied 2026-09-01",
@@ -128,7 +128,7 @@
     },
     {
       "phase": "tier1-qa",
-      "attempt": "1/1",
+      "attempt": "1/2",
       "date": "2026-09-01",
       "agent": "/root/capture_row_011_retry",
       "model": "unavailable/not supplied 2026-09-01",
@@ -138,7 +138,7 @@
     },
     {
       "phase": "capture",
-      "attempt": "3/3",
+      "attempt": "3/4",
       "date": "2026-09-01",
       "agent": "/root/capture_row_011_retry",
       "model": "unavailable/not supplied 2026-09-01",
@@ -314,6 +314,6 @@
   "dataWarnings": [
     "Historical capture operator identities and model/harness versions are unrecoverable from surviving evidence; the current-stack operator is recorded.",
     "Nine historical capture launches are known in aggregate, but reliable per-attempt fields are unrecoverable; runs includes only the four 2026-09-01 current-stack attempts.",
-    "No independent certification has occurred, so certification.certifier is not applicable."
+    "The certifier's exact configured model identity was not supplied at launch; agent, date, harness, harness version, and certification evidence are recorded."
   ]
 }

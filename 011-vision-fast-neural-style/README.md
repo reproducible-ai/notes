@@ -57,8 +57,9 @@ The exact recorded training environment is `numpy==2.2.6`, `pillow==11.3.0`,
 distribution has a local-version suffix.
 
 The gate result is Clean-DAG 14/14, AI-BOM 100/100, public URLs green, and portable
-freeze green. This establishes a reproducible record, not a rebuild; no cold Tier-2 run
-was launched by the capture operator.
+freeze green. This established the reproducible record. The capture operator did not
+certify its own work; the separate cold rebuild documented in `CERT-TIER2.md` later
+completed all 3/3 steps and regenerated the material outputs.
 
 ### August attempts
 
@@ -101,10 +102,11 @@ you try to script it.
 
 **Turning it into a complete record took thirteen launches across three operators.**
 The current retry finally produced the attributed,
-backlinked graph with every step and both published artifacts. The remaining 13/14
-result is stated rather than rounded up. Read the row as evidence about a specific
-claim: *"the code is simple"* and *"the result is reproducible"* are close to
-independent properties.
+backlinked graph with every step and both published artifacts, passing the final strict
+gate at 14/14. An earlier current-stack candidate stopped at 13/14 and remains identified
+as superseded in `row.json`; it is not the certified record. Read the row as evidence
+about a specific claim: *"the code is simple"* and *"the result is reproducible"* are
+close to independent properties.
 
 ## The recipe, and the two ways it is truncated
 
