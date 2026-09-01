@@ -25,9 +25,25 @@
   "verified": true,
   "reproduce": {
     "hash": "0bc12b45d58b9d1657f3d39f770ae43659612cfdabc55be6e138af3358924d01",
-    "cmd": "roar reproduce 0bc12b45d58b9d1657f3d39f770ae43659612cfdabc55be6e138af3358924d01 --lineage --run --no-puts"
+    "cmd": "roar reproduce 0bc12b45d58b9d1657f3d39f770ae43659612cfdabc55be6e138af3358924d01 --lineage --run --no-puts",
+    "script": {
+      "roarVersion": "0.4.5",
+      "generated": "2026-09-01",
+      "variants": [
+        {
+          "file": "reproduce-no-puts.sh",
+          "command": "roar reproduce 0bc12b45d58b9d1657f3d39f770ae43659612cfdabc55be6e138af3358924d01 --lineage --script --no-puts",
+          "puts": false
+        },
+        {
+          "file": "reproduce.sh",
+          "command": "roar reproduce 0bc12b45d58b9d1657f3d39f770ae43659612cfdabc55be6e138af3358924d01 --lineage --script",
+          "puts": true
+        }
+      ]
+    }
   },
-  "difficulty": "6/10 — trivial to run, hard to record",
+  "difficulty": "6/10 \u2014 trivial to run, hard to record",
   "patch": {
     "lines": 0,
     "url": null
@@ -38,17 +54,17 @@
     "ran": 1,
     "full": 2,
     "unit": "epochs",
-    "note": "upstream's default is --epochs 2 (neural_style/neural_style.py:196), read from the parser default, not guessed. The dataset is truncated on a second, independent axis: upstream's README trains on COCO 2014 train (82,783 images / 13 GB, a manual browser download with no fetch script); this row substitutes Imagenette-320 (9,469 images / 342 MB, one public tarball, sha256 569b4497c98db6dd29f335d1f109cf315fe127053cedf69010d047f0188e158c). That substitution is a scale decision, not a semantic one — the objective is a VGG-16 perceptual loss plus a Gram-matrix style term and depends on no COCO annotation, category or photograph, only on a varied corpus of natural images."
+    "note": "upstream's default is --epochs 2 (neural_style/neural_style.py:196), read from the parser default, not guessed. The dataset is truncated on a second, independent axis: upstream's README trains on COCO 2014 train (82,783 images / 13 GB, a manual browser download with no fetch script); this row substitutes Imagenette-320 (9,469 images / 342 MB, one public tarball, sha256 569b4497c98db6dd29f335d1f109cf315fe127053cedf69010d047f0188e158c). That substitution is a scale decision, not a semantic one \u2014 the objective is a VGG-16 perceptual loss plus a Gram-matrix style term and depends on no COCO annotation, category or photograph, only on a varied corpus of natural images."
   },
   "rebuild": {
     "time": "23m15s",
-    "hw": "1× Tesla T4 (g4dn.xlarge)",
+    "hw": "1\u00d7 Tesla T4 (g4dn.xlarge)",
     "costUsd": 0.21,
     "fixedCostUsd": 0.115,
     "scalingCostUsd": 0.095
   },
   "experimentUrl": null,
-  "experimentUrlNote": "upstream examples/fast_neural_style ships no experiment-logging integration — grepped the whole subdirectory for wandb, mlflow, trackio, tensorboard, SummaryWriter, comet, neptune and report_to: zero hits. There is no flag to enable. The metrics bridge only intercepts a wandb import the workload actually performs, so against this workload it is a guaranteed no-op; it was removed from the workflow rather than left in, so the record does not imply a logging path that does not exist. Adding wandb.init() to neural_style.py would have produced a link and forfeited the zero-upstream-lines property that makes the row evidence. There is also nothing to log: the example computes no held-out metric, and its only evaluation renders an image.",
+  "experimentUrlNote": "upstream examples/fast_neural_style ships no experiment-logging integration \u2014 grepped the whole subdirectory for wandb, mlflow, trackio, tensorboard, SummaryWriter, comet, neptune and report_to: zero hits. There is no flag to enable. The metrics bridge only intercepts a wandb import the workload actually performs, so against this workload it is a guaranteed no-op; it was removed from the workflow rather than left in, so the record does not imply a logging path that does not exist. Adding wandb.init() to neural_style.py would have produced a link and forfeited the zero-upstream-lines property that makes the row evidence. There is also nothing to log: the example computes no held-out metric, and its only evaluation renders an image.",
   "certification": {
     "tier": 2,
     "result": "PASS",
@@ -186,7 +202,7 @@
       "restore COCO 2014 train (82,783 images) instead of Imagenette-320",
       "restore checkpoint interval 2000 instead of 2368"
     ],
-    "hw": "1× Tesla T4 (g4dn.xlarge)"
+    "hw": "1\u00d7 Tesla T4 (g4dn.xlarge)"
   },
   "parameters": [
     {
