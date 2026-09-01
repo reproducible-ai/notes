@@ -19,7 +19,7 @@ The capture published:
 - `rwkv-0.pth`: 382,223,128 bytes; SHA-256 `a6235b3a8371d77e352bb4eccb5767d770d0f1502882117f092e96456cfb35c2`
 - `train_log.txt`: 2,883 bytes; SHA-256 `5ff95a2d15c7954efbfb9a2f2319418ff39bb7c087f6d9b49dd9d3cbdc8ed8ef`
 
-The full record hash is `357518abae1151de0ba348a507715a48c44688e705a3039aa49e293c989c095d`. The graph contains four recorded jobs and all fourteen expected dependency edges. The checkpoint and training log are outputs of the recorded training job before their publication step.
+The full record hash is `357518abae1151de0ba348a507715a48c44688e705a3039aa49e293c989c095d`. The graph contains four recorded jobs and passes all fourteen strict Clean-DAG checks. The checkpoint and training log are outputs of the recorded training job before their publication step.
 
 ## Truncation and estimate
 

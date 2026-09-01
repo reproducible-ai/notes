@@ -92,13 +92,13 @@
   },
   "playbookVersion": "1.0",
   "tracer": "preload",
-  "operator": {"agent":"CRA","agentVersion":"1.0","model":"gpt-5.6-sol","harness":"Codex","harnessVersion":"unavailable"},
+  "operator": {"agent":"CRA","agentVersion":"1.0","model":"unavailable/not supplied 2026-09-01","harness":"Codex","harnessVersion":"unavailable"},
   "agentSteps": [
     {"phase":"capture","attempt":"1/1","date":"2026-08-28","agent":"CRA","model":"gpt-5.6-sol","harness":"Codex","harnessVersion":"unavailable","evidence":"TReqs jobs b51bbd6d-24df-4f18-8e5e-dd1680cf5556 and 8e57011b-c4e7-425b-97ae-84bca48a57c8"},
-    {"phase":"capture","attempt":"1/3","date":"2026-09-01","agent":"CRA","model":"gpt-5.6-sol","harness":"Codex","harnessVersion":"unavailable","evidence":"TReqs job 31dc3c80-4701-4726-8608-2d833d4e7029"},
-    {"phase":"capture","attempt":"2/3","date":"2026-09-01","agent":"CRA","model":"gpt-5.6-sol","harness":"Codex","harnessVersion":"unavailable","evidence":"TReqs job 605a0b0c-9103-48e4-bd3b-899349177f79"},
-    {"phase":"capture","attempt":"3/3","date":"2026-09-01","agent":"CRA","model":"gpt-5.6-sol","harness":"Codex","harnessVersion":"unavailable","evidence":"TReqs job cb81432e-389f-4f1f-b1e2-e2e39b60e1f6 and DAG 357518abae1151de0ba348a507715a48c44688e705a3039aa49e293c989c095d"},
-    {"phase":"qa","attempt":"1/1","date":"2026-09-01","agent":"CRA","model":"gpt-5.6-sol","harness":"Codex","harnessVersion":"unavailable","evidence":"strict CLEAN 14/14, AI-BOM 100, all DAG URLs public, portable freeze"},
+    {"phase":"capture","attempt":"1/3","date":"2026-09-01","agent":"CRA","model":"unavailable/not supplied 2026-09-01","harness":"Codex","harnessVersion":"unavailable","evidence":"TReqs job 31dc3c80-4701-4726-8608-2d833d4e7029"},
+    {"phase":"capture","attempt":"2/3","date":"2026-09-01","agent":"CRA","model":"unavailable/not supplied 2026-09-01","harness":"Codex","harnessVersion":"unavailable","evidence":"TReqs job 605a0b0c-9103-48e4-bd3b-899349177f79"},
+    {"phase":"capture","attempt":"3/3","date":"2026-09-01","agent":"CRA","model":"unavailable/not supplied 2026-09-01","harness":"Codex","harnessVersion":"unavailable","evidence":"TReqs job cb81432e-389f-4f1f-b1e2-e2e39b60e1f6 and DAG 357518abae1151de0ba348a507715a48c44688e705a3039aa49e293c989c095d"},
+    {"phase":"tier1-qa","attempt":"1/1","date":"2026-09-01","agent":"CRA","model":"unavailable/not supplied 2026-09-01","harness":"Codex","harnessVersion":"unavailable","evidence":"strict CLEAN 14/14, AI-BOM 100, all DAG URLs public, portable freeze"},
     {"phase":"certification","attempt":"valid cold run","date":"2026-09-01","agent":"/root/certify_row_018_blackwell","model":"unavailable/not supplied 2026-09-01","harness":"Codex","harnessVersion":"0.147.0","evidence":"018-llm-rwkv-7-minipile/CERT-TIER2.md; literal exit 0; Steps run: 3/3"}
   ],
   "certification": {
