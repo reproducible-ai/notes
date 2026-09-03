@@ -6,8 +6,8 @@
   "dataset": "allenai/dolma3_mix-6T (pinned 32,768-token public subset)",
   "tags": ["pretrain", "from-scratch", "sequence-modeling"],
   "date": "2026-09-03",
-  "status": "reproduced",
-  "statusSub": "bounded one-step scaling-ladder capture",
+  "status": "progress",
+  "statusSub": "Reproducible record (Tier 1); not a Certified reproduction",
   "blocker": null,
   "upstreamUrl": "https://github.com/allenai/OLMo-core",
   "forkUrl": "https://github.com/reproducible-ai/OLMo-core/tree/records/027-olmo-core",
@@ -15,7 +15,7 @@
   "license": "Apache-2.0",
   "artifactUrl": "https://huggingface.co/reproducible-ai/olmo3-3b-ladder-row027",
   "notes": "https://github.com/reproducible-ai/notes/tree/main/027-llm-olmo3-3b",
-  "summary": "The published OLMo-core 3B scaling-ladder architecture trained from scratch for one bounded optimizer step on a pinned public Dolma 3 subset. The 3B rung is the largest upstream rung that fits one 96 GB accelerator; architecture and context length were unchanged, while topology was adapted at E0 and batch, duration, evaluation, and public-data preparation at E2. The run publishes a deterministic complete checkpoint archive and metrics with Clean-DAG 14/14 and AI-BOM 100/100. It makes no convergence claim and has not received independent cold certification.",
+  "summary": "The published OLMo-core 3B scaling-ladder architecture trained from scratch for one bounded optimizer step on a pinned public Dolma 3 subset. The 3B rung is the largest upstream rung that fits one NVIDIA RTX PRO 6000 Blackwell Server Edition; architecture and context length were unchanged, while topology was adapted at E0 and batch, duration, evaluation, and public-data preparation at E2. The run publishes a deterministic complete checkpoint archive and metrics with Clean-DAG 14/14 and AI-BOM 100/100. It makes no convergence claim and has not received independent cold certification.",
   "difficulty": "8/10 — the 3B rung fits narrowly and its published ladder data root required a public-data adaptation",
   "dagHash": "d88d877377a9d97f3213bd3604c0d1a2e6685374d98d374d81bd1325d0bf9a9b",
   "dagUrl": "https://glaas.ai/dag/d88d877377a9d97f3213bd3604c0d1a2e6685374d98d374d81bd1325d0bf9a9b",
@@ -31,7 +31,7 @@
   },
   "rebuild": {
     "time": "29m12s",
-    "hw": "1× NVIDIA B200",
+    "hw": "1× NVIDIA RTX PRO 6000 Blackwell Server Edition",
     "costUsd": 1.85,
     "fixedCostUsd": 1.83,
     "scalingCostUsd": 0.02
@@ -48,7 +48,7 @@
       "enable the published evaluation callbacks",
       "provide a complete public tokenized form of the intended ladder training mix"
     ],
-    "caveats": "The recorded 3B rung nearly fills one 96 GB device, and this capture does not imply that the full recipe is practical on one device."
+    "caveats": "The recorded 3B rung nearly fills one NVIDIA RTX PRO 6000 Blackwell Server Edition, and this capture does not imply that the full recipe is practical on one device."
   },
   "parameters": [
     {
@@ -139,7 +139,7 @@
     },
     {
       "label": "attempt-4",
-      "purpose": "recorded rebuild with deterministic checkpoint packaging",
+      "purpose": "Tier-1 capture with deterministic checkpoint packaging",
       "params": "one device, 3B rung, one 8192-token step; six recorded stages",
       "dataset": "allenai/dolma3_mix-6T (pinned 32,768-token public subset)",
       "durationSec": 1752,
@@ -164,8 +164,8 @@
   "roarVersion": "0.4.5",
   "playbookVersion": "2026-09-03",
   "patch": {
-    "lines": 296,
-    "url": "https://github.com/reproducible-ai/OLMo-core/compare/92870a33c3fee060d57c3faec52b0b369ece85a6...790e8d09bfe0ba2b64618a1321fc2a3320d3dfc2"
+    "lines": 281,
+    "url": "https://github.com/reproducible-ai/OLMo-core/compare/92870a33c3fee060d57c3faec52b0b369ece85a6...36539e33c0fdb5acce8680021647efd046fe4077"
   },
   "reproduce": {
     "hash": "d88d877377a9d97f3213bd3604c0d1a2e6685374d98d374d81bd1325d0bf9a9b",
