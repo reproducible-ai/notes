@@ -1,0 +1,203 @@
+{
+  "name": "OLMo 3 3B",
+  "slug": "olmo-3-3b-scaling-ladder",
+  "org": "Allen Institute for AI",
+  "type": "llm",
+  "dataset": "allenai/dolma3_mix-6T (pinned 32,768-token public subset)",
+  "tags": ["pretrain", "from-scratch", "sequence-modeling"],
+  "date": "2026-09-03",
+  "status": "reproduced",
+  "statusSub": "bounded one-step scaling-ladder capture",
+  "blocker": null,
+  "upstreamUrl": "https://github.com/allenai/OLMo-core",
+  "forkUrl": "https://github.com/reproducible-ai/OLMo-core/tree/records/027-olmo-core",
+  "upstreamCommit": "92870a33c3fee060d57c3faec52b0b369ece85a6",
+  "license": "Apache-2.0",
+  "artifactUrl": "https://huggingface.co/reproducible-ai/olmo3-3b-ladder-row027",
+  "notes": "https://github.com/reproducible-ai/notes/tree/main/027-llm-olmo3-3b",
+  "summary": "The published OLMo-core 3B scaling-ladder architecture trained from scratch for one bounded optimizer step on a pinned public Dolma 3 subset. The 3B rung is the largest upstream rung that fits one 96 GB accelerator; architecture and context length were unchanged, while topology was adapted at E0 and batch, duration, evaluation, and public-data preparation at E2. The run publishes a deterministic complete checkpoint archive and metrics with Clean-DAG 14/14 and AI-BOM 100/100. It makes no convergence claim and has not received independent cold certification.",
+  "difficulty": "8/10 — the 3B rung fits narrowly and its published ladder data root required a public-data adaptation",
+  "dagHash": "d88d877377a9d97f3213bd3604c0d1a2e6685374d98d374d81bd1325d0bf9a9b",
+  "dagUrl": "https://glaas.ai/dag/d88d877377a9d97f3213bd3604c0d1a2e6685374d98d374d81bd1325d0bf9a9b",
+  "bomUrl": "https://glaas.ai/dag/d88d877377a9d97f3213bd3604c0d1a2e6685374d98d374d81bd1325d0bf9a9b/audit",
+  "bomScore": 100,
+  "verified": false,
+  "truncated": true,
+  "truncation": {
+    "ran": 8192,
+    "full": 253562982400,
+    "unit": "tokens",
+    "note": "One 8,192-token optimizer step of the upstream 4×-Chinchilla duration. This verifies execution and artifact production only; it does not establish convergence or model quality."
+  },
+  "rebuild": {
+    "time": "29m12s",
+    "hw": "1× NVIDIA B200",
+    "costUsd": 1.85,
+    "fixedCostUsd": 1.83,
+    "scalingCostUsd": 0.02
+  },
+  "fullRun": {
+    "estimateUsd": null,
+    "estimateBasis": "No defensible dollar estimate can be derived from one first optimizer step. The observation includes compilation and fixed checkpoint/publication work, while upstream full training uses a different global batch and multi-device topology; multiplying either total wall time or first-step time would publish false precision.",
+    "confidence": "low",
+    "durationEstimate": null,
+    "command": null,
+    "changes": [
+      "restore the upstream target global-batch calculation and topology-compatible rounding",
+      "restore the 4×-Chinchilla duration of 253,562,982,400 tokens and its checkpoint schedule",
+      "enable the published evaluation callbacks",
+      "provide a complete public tokenized form of the intended ladder training mix"
+    ],
+    "caveats": "The recorded 3B rung nearly fills one 96 GB device, and this capture does not imply that the full recipe is practical on one device."
+  },
+  "parameters": [
+    {
+      "name": "world size / max_devices",
+      "published": "up to 64 GPUs selected by the ladder configurator",
+      "used": "1 GPU",
+      "reason": "single-device capture target (E0)",
+      "restoresFullRun": false,
+      "where": "reproduction/row027_olmo3_ladder.py OneGpuOlmo3Configurator and CaptureLadder"
+    },
+    {
+      "name": "rank_microbatch_size",
+      "published": "auto-selected for the configured topology",
+      "used": "8192 tokens (one sequence)",
+      "reason": "single-device memory fit (E0)",
+      "restoresFullRun": false,
+      "where": "reproduction/row027_olmo3_ladder.py OneGpuOlmo3Configurator"
+    },
+    {
+      "name": "global_batch_size",
+      "published": "3,117,679 tokens before topology-compatible rounding for this 3B rung",
+      "used": "8192 tokens",
+      "reason": "bounded single-device capture (E2)",
+      "restoresFullRun": true,
+      "where": "reproduction/row027_olmo3_ladder.py OneStepRunConfigurator"
+    },
+    {
+      "name": "max_duration",
+      "published": "253,562,982,400 tokens (4× Chinchilla)",
+      "used": "1 optimizer step / 8192 tokens",
+      "reason": "per-row budget cap (E2)",
+      "restoresFullRun": true,
+      "where": "reproduction/row027_olmo3_ladder.py OneStepRunConfigurator"
+    },
+    {
+      "name": "training data source",
+      "published": "DataMix.OLMo_mix_0925 tokenized below gs://ai2-llm/",
+      "used": "pinned prefix of allenai/dolma3_mix-6T with pinned allenai/dolma2-tokenizer",
+      "reason": "replace inaccessible storage-backed input with an official public source (E2)",
+      "restoresFullRun": true,
+      "where": "reproduction/row027_olmo3_ladder.py prepare_data"
+    },
+    {
+      "name": "evaluation callbacks",
+      "published": "enabled",
+      "used": "disabled",
+      "reason": "one-step bounded capture has no meaningful evaluation point (E2)",
+      "restoresFullRun": true,
+      "where": "reproduction/row027_olmo3_ladder.py CaptureLadder._configure_trainer"
+    }
+  ],
+  "runs": [
+    {
+      "label": "bare-clone",
+      "purpose": "pre-spend workflow and dependency check from a clean checkout",
+      "params": "exact commit, isolated environment, six-stage static preflight, deterministic packaging fixture",
+      "durationSec": 0,
+      "costUsd": 0,
+      "outcome": "ok",
+      "note": "The workflow compiled to exactly six stages; repeated fixture archives had identical SHA-256."
+    },
+    {
+      "label": "attempt-1",
+      "purpose": "capture attempt",
+      "params": "one device, 3B rung, one 8192-token step",
+      "durationSec": 129,
+      "costUsd": 0.23,
+      "outcome": "failed",
+      "note": "Ended during isolated environment integration before training; superseded."
+    },
+    {
+      "label": "attempt-2",
+      "purpose": "capture attempt after environment correction",
+      "params": "one device, 3B rung, one 8192-token step",
+      "durationSec": 104,
+      "costUsd": 0.23,
+      "outcome": "failed",
+      "note": "Prepared public data, then ended before the optimizer step; superseded."
+    },
+    {
+      "label": "attempt-3",
+      "purpose": "capture attempt with optional hosted logging disabled",
+      "params": "one device, 3B rung, one 8192-token step",
+      "durationSec": 1171,
+      "costUsd": 1.29,
+      "outcome": "superseded",
+      "note": "Training and checkpoint save completed, but this attempt did not produce the finite published checkpoint artifact used by the row."
+    },
+    {
+      "label": "attempt-4",
+      "purpose": "recorded rebuild with deterministic checkpoint packaging",
+      "params": "one device, 3B rung, one 8192-token step; six recorded stages",
+      "dataset": "allenai/dolma3_mix-6T (pinned 32,768-token public subset)",
+      "durationSec": 1752,
+      "costUsd": 1.85,
+      "outcome": "ok",
+      "note": "All six stages completed; checkpoint archive and metrics are public.",
+      "dagHash": "d88d877377a9d97f3213bd3604c0d1a2e6685374d98d374d81bd1325d0bf9a9b"
+    }
+  ],
+  "issues": [
+    {
+      "severity": "P0",
+      "title": "The published ladder defaults to a non-public tokenized data root",
+      "detail": "The public ladder entry point constructs DataMix.OLMo_mix_0925 below gs://ai2-llm/. Its local run command therefore lacks an anonymously readable input and a public preparation path for the intended tokenized mix.",
+      "evidence": "src/olmo_core/internal/ladder.py:340-350",
+      "fix": "publish an immutable manifest and preparation command for the intended ladder mix",
+      "upstreamAction": "warranted"
+    }
+  ],
+  "experimentUrl": null,
+  "experimentUrlNote": "Optional hosted experiment logging was disabled for this bounded run; no verified public experiment run was produced.",
+  "roarVersion": "0.4.5",
+  "playbookVersion": "2026-09-03",
+  "patch": {
+    "lines": 296,
+    "url": "https://github.com/reproducible-ai/OLMo-core/compare/92870a33c3fee060d57c3faec52b0b369ece85a6...790e8d09bfe0ba2b64618a1321fc2a3320d3dfc2"
+  },
+  "reproduce": {
+    "hash": "d88d877377a9d97f3213bd3604c0d1a2e6685374d98d374d81bd1325d0bf9a9b",
+    "cmd": "roar reproduce d88d877377a9d97f3213bd3604c0d1a2e6685374d98d374d81bd1325d0bf9a9b --lineage --run --no-puts",
+    "script": {
+      "roarVersion": "0.4.5",
+      "generated": "2026-09-03",
+      "variants": [
+        {
+          "file": "reproduce-no-puts.sh",
+          "command": "roar reproduce d88d877377a9d97f3213bd3604c0d1a2e6685374d98d374d81bd1325d0bf9a9b --lineage --script --no-puts",
+          "puts": false
+        },
+        {
+          "file": "reproduce.sh",
+          "command": "roar reproduce d88d877377a9d97f3213bd3604c0d1a2e6685374d98d374d81bd1325d0bf9a9b --lineage --script",
+          "puts": true
+        }
+      ]
+    }
+  },
+  "certification": {
+    "tier": 1,
+    "result": null,
+    "date": null,
+    "evidence": null,
+    "resultCaveat": "Mechanical Tier-1 record checks passed; independent cold certification has not been performed."
+  },
+  "agentSteps": [],
+  "dataWarnings": [
+    "The capture runtime did not expose a trustworthy exact versioned model identifier. Operator and capture agentSteps identity objects are intentionally omitted rather than inferred; the observed harness was Codex CLI 0.147.0.",
+    "No verified public hosted experiment run was produced.",
+    "The full-run dollar estimate is intentionally null because one first-step observation cannot support extrapolation across a different batch size and multi-device topology."
+  ]
+}
