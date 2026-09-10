@@ -1,6 +1,6 @@
 # Commands
 
-The immutable workflow is recorded at fork commit [`7ab29ea9a408be642f8cc5e2538e862e936c5415`](https://github.com/reproducible-ai/nanochat/commit/7ab29ea9a408be642f8cc5e2538e862e936c5415).
+The immutable workflow is recorded at fork commit [`537a2a6a66ab927f32559548a514bf1a2ace142d`](https://github.com/reproducible-ai/nanochat/commit/537a2a6a66ab927f32559548a514bf1a2ace142d).
 
 The principal upstream workload commands were:
 

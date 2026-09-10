@@ -5,7 +5,7 @@
   "type": "llm",
   "dataset": "ClimbMix-400B",
   "tags": ["pretrain", "fine-tune", "from-scratch", "sequence-modeling"],
-  "date": "2026-09-09",
+  "date": "2026-09-10",
   "status": "blocked",
   "statusSub": "capture complete; certification held",
   "blocker": "The published dependency freeze is not portable, so a cold rebuild has not been attempted.",
@@ -18,20 +18,20 @@
   "notes": "https://github.com/reproducible-ai/notes/tree/main/024-llm-nanochat",
   "experimentUrl": null,
   "experimentUrlNote": "No public experiment link is asserted because the uploaded metric series was not independently resolved from the public viewer.",
-  "dagHash": "a700f9108fcfaff6eafd962e729019fc8f71077d064e13261801e1b200acad52",
-  "dagUrl": "https://glaas.ai/dag/a700f9108fcfaff6eafd962e729019fc8f71077d064e13261801e1b200acad52",
+  "dagHash": "239b89853de65ed7275c2da83b1d32c5f236d8cd8fec12eef23d7f397df98f97",
+  "dagUrl": "https://glaas.ai/dag/239b89853de65ed7275c2da83b1d32c5f236d8cd8fec12eef23d7f397df98f97",
   "bomScore": 100,
   "verified": false,
   "difficulty": "8/10 — demanding",
-  "roarVersion": "0.4.5",
+  "roarVersion": "0.4.6",
   "playbookVersion": "v1.0-238-g6d6b625",
   "tracer": "preload",
-  "amiId": "ami-0bd8f1bf63eb27e06",
+  "amiId": "ami-0611be907e404d3c4",
   "truncated": false,
   "rebuild": {
-    "time": "5h46m05s",
+    "time": "5h49m06s",
     "hw": "1× RTX PRO 6000 Blackwell",
-    "costUsd": 19.72
+    "costUsd": 19.77
   },
   "parameters": [
     {
@@ -120,6 +120,33 @@
       "outcome": "ok",
       "dagHash": "a700f9108fcfaff6eafd962e729019fc8f71077d064e13261801e1b200acad52",
       "note": "Full pipeline completed; validation BPB 0.830420, base CORE 0.1623, standalone ChatCORE 0.1034, HumanEval 10.98%."
+    },
+    {
+      "label": "depth14-roar046-capacity",
+      "purpose": "start a fresh capture on the updated recorder build",
+      "params": "depth=14, roar=0.4.6",
+      "costUsd": 0.0,
+      "outcome": "aborted",
+      "note": "No accelerator launched because capacity was unavailable; the request was cancelled before workload execution."
+    },
+    {
+      "label": "depth14-roar046-preflight",
+      "purpose": "validate the updated recorder build and dependency-pin controls",
+      "params": "depth=14, roar=0.4.6, world_size=1",
+      "costUsd": 1.18,
+      "outcome": "aborted",
+      "note": "Stopped in setup after a fail-loud dependency assertion did not match the immutable workload pin."
+    },
+    {
+      "label": "depth14-roar046-recorded",
+      "purpose": "record the complete depth-14 pipeline and public artifact with roar 0.4.6",
+      "params": "depth=14, 2506 iterations, world_size=1, grad_accum=8, global_tokens=524288",
+      "dataset": "ClimbMix-400B",
+      "durationSec": 20946,
+      "costUsd": 19.77,
+      "outcome": "ok",
+      "dagHash": "239b89853de65ed7275c2da83b1d32c5f236d8cd8fec12eef23d7f397df98f97",
+      "note": "All 13 tasks completed; validation BPB 0.830460, base CORE 0.1645, standalone ChatCORE 0.1058, HumanEval 12.80%. The published record remains blocked at Tier 1."
     }
   ],
   "issues": [
@@ -134,7 +161,7 @@
   ],
   "patch": {
     "lines": 15,
-    "url": "https://github.com/reproducible-ai/nanochat/commit/34e157f9762c65c0092d554215ad9bfa83917f3a"
+    "url": "https://github.com/reproducible-ai/nanochat/commit/537a2a6a66ab927f32559548a514bf1a2ace142d"
   },
   "operator": {
     "agent": "CRA",
@@ -183,6 +210,36 @@
       "harness": "Codex",
       "harnessVersion": "0.147.0",
       "evidence": "TReqs job 0a79b848-d43c-4c8f-b85b-fa7ab73a8895 and DAG a700f9108fcfaff6eafd962e729019fc8f71077d064e13261801e1b200acad52"
+    },
+    {
+      "phase": "capture",
+      "attempt": "7/9",
+      "date": "2026-09-09",
+      "agent": "CRA",
+      "model": "gpt-5",
+      "harness": "Codex",
+      "harnessVersion": "0.147.0",
+      "evidence": "TReqs job 70c75ae5-8e9e-4eb8-8c03-e2b35dca5123"
+    },
+    {
+      "phase": "capture",
+      "attempt": "8/9",
+      "date": "2026-09-09",
+      "agent": "CRA",
+      "model": "gpt-5",
+      "harness": "Codex",
+      "harnessVersion": "0.147.0",
+      "evidence": "TReqs job aebf74a0-81df-4ce6-9202-33e4f70e1e05"
+    },
+    {
+      "phase": "capture",
+      "attempt": "9/9",
+      "date": "2026-09-10",
+      "agent": "CRA",
+      "model": "gpt-5",
+      "harness": "Codex",
+      "harnessVersion": "0.147.0",
+      "evidence": "TReqs job 0c647edc-c0f6-4037-a23a-1e3bb3ccf193 and DAG 239b89853de65ed7275c2da83b1d32c5f236d8cd8fec12eef23d7f397df98f97"
     }
   ],
   "certification": {
@@ -193,20 +250,20 @@
     "resultCaveat": "Capture completed, but strict record validation is 13/14 because the recorded dependency freeze is not portable. No independent cold reproduction has been attempted."
   },
   "reproduce": {
-    "hash": "a700f9108fcfaff6eafd962e729019fc8f71077d064e13261801e1b200acad52",
-    "cmd": "roar reproduce a700f9108fcfaff6eafd962e729019fc8f71077d064e13261801e1b200acad52 --lineage --run --no-puts",
+    "hash": "239b89853de65ed7275c2da83b1d32c5f236d8cd8fec12eef23d7f397df98f97",
+    "cmd": "roar reproduce 239b89853de65ed7275c2da83b1d32c5f236d8cd8fec12eef23d7f397df98f97 --lineage --run --no-puts",
     "script": {
-      "roarVersion": "0.4.5",
-      "generated": "2026-09-09",
+      "roarVersion": "0.4.6",
+      "generated": "2026-09-10",
       "variants": [
         {
           "file": "reproduce-no-puts.sh",
-          "command": "roar reproduce a700f9108fcfaff6eafd962e729019fc8f71077d064e13261801e1b200acad52 --lineage --script --no-puts",
+          "command": "roar reproduce 239b89853de65ed7275c2da83b1d32c5f236d8cd8fec12eef23d7f397df98f97 --lineage --script --no-puts",
           "puts": false
         },
         {
           "file": "reproduce.sh",
-          "command": "roar reproduce a700f9108fcfaff6eafd962e729019fc8f71077d064e13261801e1b200acad52 --lineage --script",
+          "command": "roar reproduce 239b89853de65ed7275c2da83b1d32c5f236d8cd8fec12eef23d7f397df98f97 --lineage --script",
           "puts": true
         }
       ]
