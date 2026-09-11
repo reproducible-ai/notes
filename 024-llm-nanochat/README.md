@@ -1,6 +1,6 @@
 # nanochat depth 14
 
-The full depth-14 pipeline completed on one 96 GB Blackwell GPU and produced a public 983 MB model artifact plus a public lineage record. The record passes **Tier 1**: the clean-DAG check is 14/14, the AI-BOM is 100/100, every public URL resolves, and the recorded dependency freeze is portable. It is not yet a certified reproduction because no independent cold reproduction has been attempted.
+The full depth-14 pipeline completed on one 96 GB Blackwell GPU and produced a public 983 MB model artifact plus a public lineage record. The record passes **Tier 1**: the clean-DAG check is 14/14, the AI-BOM is 100/100, every public URL resolves, and the recorded dependency freeze is portable. An independent cold Tier-2 attempt later rebuilt the full base-training checkpoint and began supervised fine-tuning, but was stopped when the remaining runtime was projected to exceed the certification spend ceiling. The row is not certified.
 
 ## What was run
 
@@ -57,4 +57,4 @@ The reader-facing command is:
 roar reproduce 3571175fc75d017ea5ec71a9dc316b2a88c48e6460f6a2553d42c36a006fadfd --lineage --run --no-puts
 ```
 
-Tier 1 is green, but no Tier-2 result is asserted until a separate cold agent executes that command successfully.
+Tier 1 remains green. The one allowed independent Tier-2 attempt returned exit code 143 after an evidence-preserving budget stop. It emitted no `Steps run: N/M` summary. The base checkpoint was regenerated, and supervised fine-tuning had started, but the complete rebuild did not finish. See [`CERT-TIER2.md`](CERT-TIER2.md) for the cold-attempt evidence.
