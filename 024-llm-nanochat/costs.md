@@ -11,6 +11,7 @@
 | roar 0.4.6 capacity attempt | no instance launched | $0.00 |
 | roar 0.4.6 setup assertion | stopped during setup | $1.18 |
 | roar 0.4.6 recorded | all 13 tasks and lineage completed | $19.77 |
-| **Total rebuild effort** |  | **$77.31** |
+| roar 0.4.7 recorded | all 13 tasks and lineage completed | $19.66 |
+| **Total rebuild effort** |  | **$96.97** |
 
-The final instance ran for 353 billed minutes. The stopped-instance meter, used above, was $19.77.
+The final instance stopped after 351 billed minutes. The stopped-instance meter, used above, was $19.66.

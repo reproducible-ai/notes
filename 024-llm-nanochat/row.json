@@ -5,7 +5,7 @@
   "type": "llm",
   "dataset": "ClimbMix-400B",
   "tags": ["pretrain", "fine-tune", "from-scratch", "sequence-modeling"],
-  "date": "2026-09-10",
+  "date": "2026-09-11",
   "status": "blocked",
   "statusSub": "capture complete; certification held",
   "blocker": "The published dependency freeze is not portable, so a cold rebuild has not been attempted.",
@@ -18,20 +18,20 @@
   "notes": "https://github.com/reproducible-ai/notes/tree/main/024-llm-nanochat",
   "experimentUrl": null,
   "experimentUrlNote": "No public experiment link is asserted because the uploaded metric series was not independently resolved from the public viewer.",
-  "dagHash": "239b89853de65ed7275c2da83b1d32c5f236d8cd8fec12eef23d7f397df98f97",
-  "dagUrl": "https://glaas.ai/dag/239b89853de65ed7275c2da83b1d32c5f236d8cd8fec12eef23d7f397df98f97",
+  "dagHash": "3571175fc75d017ea5ec71a9dc316b2a88c48e6460f6a2553d42c36a006fadfd",
+  "dagUrl": "https://glaas.ai/dag/3571175fc75d017ea5ec71a9dc316b2a88c48e6460f6a2553d42c36a006fadfd",
   "bomScore": 100,
   "verified": false,
   "difficulty": "8/10 — demanding",
-  "roarVersion": "0.4.6",
+  "roarVersion": "0.4.7",
   "playbookVersion": "v1.0-238-g6d6b625",
   "tracer": "preload",
-  "amiId": "ami-0611be907e404d3c4",
+  "amiId": "ami-001bb599b451b79f7",
   "truncated": false,
   "rebuild": {
-    "time": "5h49m06s",
+    "time": "5h46m34s",
     "hw": "1× RTX PRO 6000 Blackwell",
-    "costUsd": 19.77
+    "costUsd": 19.66
   },
   "parameters": [
     {
@@ -147,6 +147,17 @@
       "outcome": "ok",
       "dagHash": "239b89853de65ed7275c2da83b1d32c5f236d8cd8fec12eef23d7f397df98f97",
       "note": "All 13 tasks completed; validation BPB 0.830460, base CORE 0.1645, standalone ChatCORE 0.1058, HumanEval 12.80%. The published record remains blocked at Tier 1."
+    },
+    {
+      "label": "depth14-roar047-recorded",
+      "purpose": "record the complete depth-14 pipeline and public artifact with roar 0.4.7",
+      "params": "depth=14, 2506 iterations, world_size=1, grad_accum=8, global_tokens=524288",
+      "dataset": "ClimbMix-400B",
+      "durationSec": 20794,
+      "costUsd": 19.66,
+      "outcome": "ok",
+      "dagHash": "3571175fc75d017ea5ec71a9dc316b2a88c48e6460f6a2553d42c36a006fadfd",
+      "note": "All 13 tasks completed; validation BPB 0.830315, base CORE 0.1633, standalone ChatCORE 0.0998, HumanEval 8.54%. The published record remains blocked at Tier 1."
     }
   ],
   "issues": [
@@ -161,7 +172,7 @@
   ],
   "patch": {
     "lines": 15,
-    "url": "https://github.com/reproducible-ai/nanochat/commit/537a2a6a66ab927f32559548a514bf1a2ace142d"
+    "url": "https://github.com/reproducible-ai/nanochat/commit/9169038635427a29a3fb851fbc1af216213c6a4f"
   },
   "operator": {
     "agent": "CRA",
@@ -240,6 +251,16 @@
       "harness": "Codex",
       "harnessVersion": "0.147.0",
       "evidence": "TReqs job 0c647edc-c0f6-4037-a23a-1e3bb3ccf193 and DAG 239b89853de65ed7275c2da83b1d32c5f236d8cd8fec12eef23d7f397df98f97"
+    },
+    {
+      "phase": "capture",
+      "attempt": "10/10",
+      "date": "2026-09-11",
+      "agent": "CRA",
+      "model": "gpt-5",
+      "harness": "Codex",
+      "harnessVersion": "0.147.0",
+      "evidence": "TReqs job 91568e58-266c-439c-b09e-6f45dd989d4e and DAG 3571175fc75d017ea5ec71a9dc316b2a88c48e6460f6a2553d42c36a006fadfd"
     }
   ],
   "certification": {
@@ -247,23 +268,23 @@
     "result": null,
     "date": null,
     "evidence": null,
-    "resultCaveat": "Capture completed, but strict record validation is 13/14 because the recorded dependency freeze is not portable. No independent cold reproduction has been attempted."
+    "resultCaveat": "Capture completed and clean-DAG validation is 14/14, but the recorded dependency freeze is not portable. No independent cold reproduction has been attempted."
   },
   "reproduce": {
-    "hash": "239b89853de65ed7275c2da83b1d32c5f236d8cd8fec12eef23d7f397df98f97",
-    "cmd": "roar reproduce 239b89853de65ed7275c2da83b1d32c5f236d8cd8fec12eef23d7f397df98f97 --lineage --run --no-puts",
+    "hash": "3571175fc75d017ea5ec71a9dc316b2a88c48e6460f6a2553d42c36a006fadfd",
+    "cmd": "roar reproduce 3571175fc75d017ea5ec71a9dc316b2a88c48e6460f6a2553d42c36a006fadfd --lineage --run --no-puts",
     "script": {
-      "roarVersion": "0.4.6",
-      "generated": "2026-09-10",
+      "roarVersion": "0.4.7",
+      "generated": "2026-09-11",
       "variants": [
         {
           "file": "reproduce-no-puts.sh",
-          "command": "roar reproduce 239b89853de65ed7275c2da83b1d32c5f236d8cd8fec12eef23d7f397df98f97 --lineage --script --no-puts",
+          "command": "roar reproduce 3571175fc75d017ea5ec71a9dc316b2a88c48e6460f6a2553d42c36a006fadfd --lineage --script --no-puts",
           "puts": false
         },
         {
           "file": "reproduce.sh",
-          "command": "roar reproduce 239b89853de65ed7275c2da83b1d32c5f236d8cd8fec12eef23d7f397df98f97 --lineage --script",
+          "command": "roar reproduce 3571175fc75d017ea5ec71a9dc316b2a88c48e6460f6a2553d42c36a006fadfd --lineage --script",
           "puts": true
         }
       ]

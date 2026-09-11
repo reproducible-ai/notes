@@ -1,6 +1,6 @@
 # nanochat depth 14
 
-The full depth-14 pipeline completed on one 96 GB Blackwell GPU and produced a public 983 MB model artifact plus a public lineage record. It is **captured, not certified**: the AI-BOM is 100/100 and every public URL resolves, but the recorded dependency freeze is not installable as written, so strict Tier-1 validation stops at 13/14 and no cold reproduction has been attempted.
+The full depth-14 pipeline completed on one 96 GB Blackwell GPU and produced a public 983 MB model artifact plus a public lineage record. It is **captured, not certified**: the clean-DAG check is 14/14, the AI-BOM is 100/100, and every public URL resolves, but the recorded dependency freeze is not installable as written, so Tier-1 validation fails and no cold reproduction has been attempted.
 
 ## What was run
 
@@ -14,26 +14,26 @@ The accelerator identified itself as an NVIDIA RTX PRO 6000 Blackwell Server Edi
 
 Depth 16 was tested first. Its five-step steady-state median was 5.429 seconds, projecting 5.40 hours for its complete 3,584-iteration horizon—well beyond the 3.5-hour pretraining ceiling. That calibration stopped cleanly before full training.
 
-Depth 14 calibrated at a 4.198-second steady-state median and projected 10,520 seconds of pretraining, inside the 12,600-second ceiling. The observed pretraining task ultimately took 12,023 seconds. The calibration was close enough to select a viable configuration while its explicit ceiling still failed loudly for the larger one.
+Depth 14 calibrated at a 4.197-second steady-state median and projected 10,518 seconds of pretraining, inside the 12,600-second ceiling. The observed pretraining task ultimately took 12,018 seconds. The calibration was close enough to select a viable configuration while its explicit ceiling still failed loudly for the larger one.
 
 ## Results
 
 | Stage | Result |
 |---|---:|
-| Pretraining final validation BPB | 0.830460 |
-| Standalone base CORE | 0.1645 |
-| SFT final validation BPB | 0.3395 |
-| SFT final ChatCORE | 0.1179 |
-| Standalone chat ChatCORE | 0.1058 |
-| Standalone HumanEval | 12.80% |
+| Pretraining final validation BPB | 0.830315 |
+| Standalone base CORE | 0.1633 |
+| SFT final validation BPB | 0.3393 |
+| SFT final ChatCORE | 0.0981 |
+| Standalone chat ChatCORE | 0.0998 |
+| Standalone HumanEval | 8.54% |
 
 These values identify the produced result; they are not replication targets. The reproduction claim is about rebuilding the recorded outputs from the record, not matching a metric value.
 
-## Why nine attempts are recorded
+## Why ten attempts are recorded
 
-The attempt ledger is part of the result. Three short depth-16 runs established the hardware path, corrected its fail-loud control, and measured the configuration out of bounds for the run window. The first depth-14 full-horizon attempt finished pretraining and base evaluation but stopped during supervised fine-tuning before its spend cap. A second completed every workload and uploaded the artifact but produced no lineage record. A third published the first lineage record. Two short follow-ups established a fresh recorder target and corrected a fail-loud setup assertion. The ninth attempt completed all thirteen tasks and published the current authoritative lineage.
+The attempt ledger is part of the result. Three short depth-16 runs established the hardware path, corrected its fail-loud control, and measured the configuration out of bounds for the run window. The first depth-14 full-horizon attempt finished pretraining and base evaluation but stopped during supervised fine-tuning before its spend cap. A second completed every workload and uploaded the artifact but produced no lineage record. A third published the first lineage record. Two short follow-ups established a fresh recorder target and corrected a fail-loud setup assertion. The ninth and tenth attempts each completed all thirteen tasks; the tenth published the current authoritative lineage.
 
-The final attempt cost $19.77. Total metered compute across the nine attempts was $77.31. Keeping both figures avoids presenting the cost of the successful job as the cost of reaching the result.
+The final attempt cost $19.66. Total metered compute across the ten attempts was $96.97. Keeping both figures avoids presenting the cost of the successful job as the cost of reaching the result.
 
 ## The record is not yet portable
 
@@ -49,12 +49,12 @@ Both sides were exercised. A negative control using the original broad predicate
 
 ## Reproduction status
 
-Authoritative lineage: [`239b8985…98f97`](https://glaas.ai/dag/239b89853de65ed7275c2da83b1d32c5f236d8cd8fec12eef23d7f397df98f97).
+Authoritative lineage: [`3571175f…fadfd`](https://glaas.ai/dag/3571175fc75d017ea5ec71a9dc316b2a88c48e6460f6a2553d42c36a006fadfd).
 
 The reader-facing command is:
 
 ```sh
-roar reproduce 239b89853de65ed7275c2da83b1d32c5f236d8cd8fec12eef23d7f397df98f97 --lineage --run --no-puts
+roar reproduce 3571175fc75d017ea5ec71a9dc316b2a88c48e6460f6a2553d42c36a006fadfd --lineage --run --no-puts
 ```
 
 That command is documented, not recommended yet: strict Tier-1 validation remains blocked, and no Tier-2 result is asserted.
