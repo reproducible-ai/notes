@@ -1,0 +1,345 @@
+{
+  "name": "nanochat",
+  "slug": "nanochat-depth-14",
+  "org": "karpathy",
+  "type": "llm",
+  "dataset": "ClimbMix-400B",
+  "tags": ["pretrain", "fine-tune", "from-scratch", "sequence-modeling"],
+  "date": "2026-09-11",
+  "status": "blocked",
+  "statusSub": "Tier 1 passed; independent Tier 2 stopped at the certification spend ceiling",
+  "blocker": "The cold attempt completed base training and began supervised fine-tuning, but projected completion exceeded the $25 certification NTE. The sole allowed attempt was stopped and did not complete the rebuild.",
+  "summary": "A full upstream-horizon depth-14 nanochat run completed on one 96 GB Blackwell GPU, including pretraining, supervised fine-tuning, evaluation, packaging, and public artifact upload. The public lineage passes Tier 1: strict clean-DAG 14/14, AI-BOM 100/100, every public URL resolves, and the dependency freeze is portable. An independent cold Tier-2 attempt regenerated the full base-training checkpoint and began supervised fine-tuning, then stopped when projected completion exceeded the certification spend ceiling. The row remains reproducible but is not certified.",
+  "upstreamUrl": "https://github.com/karpathy/nanochat",
+  "forkUrl": "https://github.com/reproducible-ai/nanochat",
+  "upstreamCommit": "92d63d4e8bb4df75c3b71618f31ddde2378b2bcd",
+  "license": "MIT",
+  "artifactUrl": "https://huggingface.co/reproducible-ai/nanochat/resolve/main/depth-14/nanochat-depth14.tar.gz",
+  "notes": "https://github.com/reproducible-ai/notes/tree/main/024-llm-nanochat",
+  "experimentUrl": null,
+  "experimentUrlNote": "No public experiment link is asserted because the uploaded metric series was not independently resolved from the public viewer.",
+  "dagHash": "3571175fc75d017ea5ec71a9dc316b2a88c48e6460f6a2553d42c36a006fadfd",
+  "dagUrl": "https://glaas.ai/dag/3571175fc75d017ea5ec71a9dc316b2a88c48e6460f6a2553d42c36a006fadfd",
+  "bomScore": 100,
+  "verified": false,
+  "difficulty": "8/10 — demanding",
+  "roarVersion": "0.4.7",
+  "playbookVersion": "v1.0-238-g6d6b625",
+  "tracer": "preload",
+  "amiId": "ami-001bb599b451b79f7",
+  "truncated": false,
+  "rebuild": {
+    "time": "5h46m34s",
+    "hw": "1× RTX PRO 6000 Blackwell",
+    "costUsd": 19.66
+  },
+  "parameters": [
+    {
+      "name": "--depth",
+      "published": "26 for the GPT-2-grade speedrun",
+      "used": "14",
+      "reason": "largest upstream-defined depth projected to fit one 96 GB GPU and the run window",
+      "restoresFullRun": false,
+      "where": "scripts.base_train --depth"
+    },
+    {
+      "name": "world size",
+      "published": "8",
+      "used": "1",
+      "reason": "single available accelerator with gradient accumulation preserving the global batch",
+      "restoresFullRun": false,
+      "where": "launcher topology"
+    },
+    {
+      "name": "gradient accumulation",
+      "published": "1 at world size 8",
+      "used": "8 at world size 1",
+      "reason": "preserve the published 524288-token global batch",
+      "restoresFullRun": false,
+      "where": "derived training configuration"
+    },
+    {
+      "name": "attention kernel",
+      "published": "Flash Attention 3 when CUDA is available",
+      "used": "PyTorch SDPA on sm_120",
+      "reason": "select a kernel explicitly supported by the accelerator architecture",
+      "restoresFullRun": false,
+      "where": "nanochat/flash_attention.py"
+    }
+  ],
+  "runs": [
+    {
+      "label": "depth16-hardware",
+      "purpose": "assert the accelerator and exercise the initial depth-16 setup",
+      "params": "depth=16, world_size=1, global_tokens=524288",
+      "costUsd": 1.07,
+      "outcome": "aborted",
+      "note": "Stopped before training while establishing the hardware path."
+    },
+    {
+      "label": "depth16-hardware-control",
+      "purpose": "validate the fail-loud hardware and attention-kernel control",
+      "params": "depth=16, world_size=1, sm_120",
+      "costUsd": 1.01,
+      "outcome": "aborted",
+      "note": "Stopped before training after the hardware control required correction."
+    },
+    {
+      "label": "depth16-calibration",
+      "purpose": "measure whether the complete depth-16 horizon fit the run window",
+      "params": "depth=16, 3584 iterations, full upstream-derived horizon",
+      "costUsd": 1.01,
+      "outcome": "aborted",
+      "note": "A 5.429-second median step projected 5.40 hours of pretraining, above the 3.5-hour ceiling."
+    },
+    {
+      "label": "depth14-budget-stop",
+      "purpose": "run the complete depth-14 horizon under the initial spend cap",
+      "params": "depth=14, 2506 iterations, world_size=1, grad_accum=8",
+      "dataset": "ClimbMix-400B",
+      "costUsd": 13.72,
+      "outcome": "aborted",
+      "note": "Pretraining and base evaluation completed; the run stopped during supervised fine-tuning before the spend cap."
+    },
+    {
+      "label": "depth14-complete-no-lineage",
+      "purpose": "complete training, evaluation, packaging, and artifact upload",
+      "params": "depth=14, 2506 iterations, world_size=1, grad_accum=8",
+      "dataset": "ClimbMix-400B",
+      "costUsd": 19.83,
+      "outcome": "superseded",
+      "note": "All workload stages and artifact upload completed, but no lineage record was produced."
+    },
+    {
+      "label": "depth14-recorded",
+      "purpose": "record the complete depth-14 pipeline and public artifact",
+      "params": "depth=14, 2506 iterations, world_size=1, grad_accum=8, global_tokens=524288",
+      "dataset": "ClimbMix-400B",
+      "durationSec": 20765,
+      "costUsd": 19.72,
+      "outcome": "ok",
+      "dagHash": "a700f9108fcfaff6eafd962e729019fc8f71077d064e13261801e1b200acad52",
+      "note": "Full pipeline completed; validation BPB 0.830420, base CORE 0.1623, standalone ChatCORE 0.1034, HumanEval 10.98%."
+    },
+    {
+      "label": "depth14-roar046-capacity",
+      "purpose": "start a fresh capture on the updated recorder build",
+      "params": "depth=14, roar=0.4.6",
+      "costUsd": 0.0,
+      "outcome": "aborted",
+      "note": "No accelerator launched because capacity was unavailable; the request was cancelled before workload execution."
+    },
+    {
+      "label": "depth14-roar046-preflight",
+      "purpose": "validate the updated recorder build and dependency-pin controls",
+      "params": "depth=14, roar=0.4.6, world_size=1",
+      "costUsd": 1.18,
+      "outcome": "aborted",
+      "note": "Stopped in setup after a fail-loud dependency assertion did not match the immutable workload pin."
+    },
+    {
+      "label": "depth14-roar046-recorded",
+      "purpose": "record the complete depth-14 pipeline and public artifact with roar 0.4.6",
+      "params": "depth=14, 2506 iterations, world_size=1, grad_accum=8, global_tokens=524288",
+      "dataset": "ClimbMix-400B",
+      "durationSec": 20946,
+      "costUsd": 19.77,
+      "outcome": "ok",
+      "dagHash": "239b89853de65ed7275c2da83b1d32c5f236d8cd8fec12eef23d7f397df98f97",
+      "note": "All 13 tasks completed; validation BPB 0.830460, base CORE 0.1645, standalone ChatCORE 0.1058, HumanEval 12.80%. The published record remains blocked at Tier 1."
+    },
+    {
+      "label": "depth14-roar047-recorded",
+      "purpose": "record the complete depth-14 pipeline and public artifact with roar 0.4.7",
+      "params": "depth=14, 2506 iterations, world_size=1, grad_accum=8, global_tokens=524288",
+      "dataset": "ClimbMix-400B",
+      "durationSec": 20794,
+      "costUsd": 19.66,
+      "outcome": "ok",
+      "dagHash": "3571175fc75d017ea5ec71a9dc316b2a88c48e6460f6a2553d42c36a006fadfd",
+      "note": "All 13 tasks completed; validation BPB 0.830315, base CORE 0.1633, standalone ChatCORE 0.0998, HumanEval 8.54%. The published record remains blocked at Tier 1."
+    }
+  ],
+  "issues": [
+    {
+      "severity": "P0",
+      "title": "The default attention-kernel selection includes unsupported GPU architectures",
+      "detail": "The published loader selects a Flash Attention 3 kernel for every CUDA compute major other than Hopper, including Blackwell sm_120. On the recorded accelerator that path is unsupported; the run needs the existing SDPA fallback instead.",
+      "evidence": "nanochat/flash_attention.py:20-52 at upstream commit 92d63d4e8bb4df75c3b71618f31ddde2378b2bcd",
+      "fix": "select FA3 only for compute majors with an explicitly supported kernel and otherwise use SDPA",
+      "upstreamAction": "warranted"
+    }
+  ],
+  "patch": {
+    "lines": 15,
+    "url": "https://github.com/reproducible-ai/nanochat/commit/9169038635427a29a3fb851fbc1af216213c6a4f"
+  },
+  "operator": {
+    "agent": "CRA",
+    "agentVersion": "v1.0-238-g6d6b625",
+    "model": "gpt-5",
+    "harness": "Codex",
+    "harnessVersion": "0.147.0"
+  },
+  "agentSteps": [
+    {
+      "phase": "capture",
+      "attempt": "1-3/6",
+      "date": "2026-09-04",
+      "agent": "CRA",
+      "model": "gpt-5",
+      "harness": "Codex",
+      "harnessVersion": "0.147.0",
+      "evidence": "campaign queue issue 24 depth-16 terminal report"
+    },
+    {
+      "phase": "capture",
+      "attempt": "4/6",
+      "date": "2026-09-04",
+      "agent": "CRA",
+      "model": "gpt-5",
+      "harness": "Codex",
+      "harnessVersion": "0.147.0",
+      "evidence": "TReqs job 545a965d-a62d-4c86-bcb3-7bf3a773746f"
+    },
+    {
+      "phase": "capture",
+      "attempt": "5/6",
+      "date": "2026-09-04",
+      "agent": "CRA",
+      "model": "gpt-5",
+      "harness": "Codex",
+      "harnessVersion": "0.147.0",
+      "evidence": "TReqs job ff6c1cf0-cae5-48a1-aa4f-fc6ee9b27e2e"
+    },
+    {
+      "phase": "capture",
+      "attempt": "6/6",
+      "date": "2026-09-09",
+      "agent": "CRA",
+      "model": "gpt-5",
+      "harness": "Codex",
+      "harnessVersion": "0.147.0",
+      "evidence": "TReqs job 0a79b848-d43c-4c8f-b85b-fa7ab73a8895 and DAG a700f9108fcfaff6eafd962e729019fc8f71077d064e13261801e1b200acad52"
+    },
+    {
+      "phase": "capture",
+      "attempt": "7/9",
+      "date": "2026-09-09",
+      "agent": "CRA",
+      "model": "gpt-5",
+      "harness": "Codex",
+      "harnessVersion": "0.147.0",
+      "evidence": "TReqs job 70c75ae5-8e9e-4eb8-8c03-e2b35dca5123"
+    },
+    {
+      "phase": "capture",
+      "attempt": "8/9",
+      "date": "2026-09-09",
+      "agent": "CRA",
+      "model": "gpt-5",
+      "harness": "Codex",
+      "harnessVersion": "0.147.0",
+      "evidence": "TReqs job aebf74a0-81df-4ce6-9202-33e4f70e1e05"
+    },
+    {
+      "phase": "capture",
+      "attempt": "9/9",
+      "date": "2026-09-10",
+      "agent": "CRA",
+      "model": "gpt-5",
+      "harness": "Codex",
+      "harnessVersion": "0.147.0",
+      "evidence": "TReqs job 0c647edc-c0f6-4037-a23a-1e3bb3ccf193 and DAG 239b89853de65ed7275c2da83b1d32c5f236d8cd8fec12eef23d7f397df98f97"
+    },
+    {
+      "phase": "capture",
+      "attempt": "10/10",
+      "date": "2026-09-11",
+      "agent": "CRA",
+      "model": "gpt-5",
+      "harness": "Codex",
+      "harnessVersion": "0.147.0",
+      "evidence": "TReqs job 91568e58-266c-439c-b09e-6f45dd989d4e and DAG 3571175fc75d017ea5ec71a9dc316b2a88c48e6460f6a2553d42c36a006fadfd"
+    },
+    {
+      "phase": "certification",
+      "attempt": "1/1",
+      "date": "2026-09-11",
+      "agent": "/root/cert024",
+      "model": "gpt-5.6-sol",
+      "harness": "Codex",
+      "harnessVersion": "0.147.0",
+      "evidence": "CERT-TIER2.md"
+    }
+  ],
+  "certification": {
+    "tier": 2,
+    "result": "FAIL",
+    "date": "2026-09-11",
+    "dagHash": "3571175fc75d017ea5ec71a9dc316b2a88c48e6460f6a2553d42c36a006fadfd",
+    "cmd": "roar reproduce 3571175fc75d017ea5ec71a9dc316b2a88c48e6460f6a2553d42c36a006fadfd --lineage --run --no-puts -y --step-timeout 21600",
+    "exitCode": 143,
+    "stepsRun": "absent",
+    "stepsNote": "The reproduction emitted no Steps run: N/M summary before the evidence-preserving stop.",
+    "manifestDiff": "29/29 exact against the union of all recorded job manifests; 47 distributions installed. uv pip freeze and importlib.metadata independently agreed at 47. No recorded pin was missing or mismatched.",
+    "venvResolution": "The executed interpreter resolved to Python 3.12.10 from the rebuilt virtual environment. PATH and VIRTUAL_ENV selected that environment, and loaded CUDA libraries came from its site-packages.",
+    "outputs": [
+      {
+        "path": "outputs/nanochat/base_checkpoints/depth14/meta_002506.json",
+        "produced": true,
+        "bytes": 1365,
+        "sha256": "4ec0e71a7b82a2d20b33bcd7cab36019a46f23bc198bced7629f2cf854a0fad2"
+      },
+      {
+        "path": "outputs/nanochat/base_checkpoints/depth14/model_002506.pt",
+        "produced": true,
+        "bytes": 1126739160,
+        "sha256": "111c5690d22ea8d2e2521e731632bb921a0fc6066c21cdb5540b9fc6bfb2cfdc"
+      },
+      {
+        "path": "outputs/nanochat/base_checkpoints/depth14/optim_002506_rank0.pt",
+        "produced": true,
+        "bytes": 1714515717,
+        "sha256": "a657758674999c946f67368844642e7e7f19076dc1595dd7c5dcd265e7589f5e"
+      }
+    ],
+    "blocker": "Projected completion exceeded the $25 certification NTE after base training completed and supervised fine-tuning began; the sole allowed attempt was stopped before a complete rebuild.",
+    "hw": "1x RTX PRO 6000 Blackwell (g7e.2xlarge), us-east-2",
+    "wallClock": "3h56m21s host; 3h44m12s reproduction",
+    "costUsd": 13.25,
+    "evidence": "CERT-TIER2.md",
+    "certifier": {
+      "agent": "/root/cert024",
+      "model": "gpt-5.6-sol",
+      "harness": "Codex",
+      "harnessVersion": "0.147.0"
+    },
+    "certifiedBy": "independent cold certification agent; did not capture or modify the workload"
+  },
+  "reproduce": {
+    "hash": "3571175fc75d017ea5ec71a9dc316b2a88c48e6460f6a2553d42c36a006fadfd",
+    "cmd": "roar reproduce 3571175fc75d017ea5ec71a9dc316b2a88c48e6460f6a2553d42c36a006fadfd --lineage --run --no-puts",
+    "script": {
+      "roarVersion": "0.4.7",
+      "generated": "2026-09-11",
+      "variants": [
+        {
+          "file": "reproduce-no-puts.sh",
+          "command": "roar reproduce 3571175fc75d017ea5ec71a9dc316b2a88c48e6460f6a2553d42c36a006fadfd --lineage --script --no-puts",
+          "puts": false
+        },
+        {
+          "file": "reproduce.sh",
+          "command": "roar reproduce 3571175fc75d017ea5ec71a9dc316b2a88c48e6460f6a2553d42c36a006fadfd --lineage --script",
+          "puts": true
+        }
+      ]
+    }
+  },
+  "dataWarnings": [
+    "Tier 1 passed, but the sole independent cold Tier-2 attempt was stopped before completion when projected runtime exceeded the certification NTE.",
+    "The failed Tier-2 attempt emitted no Steps run: N/M summary.",
+    "The three depth-16 setup attempts were separately metered but their individual wall-clock durations were not retained."
+  ]
+}
