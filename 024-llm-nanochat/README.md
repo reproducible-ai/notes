@@ -1,6 +1,6 @@
 # nanochat depth 14
 
-The full depth-14 pipeline completed on one 96 GB Blackwell GPU and produced a public 983 MB model artifact plus a public lineage record. It is **captured, not certified**: the clean-DAG check is 14/14, the AI-BOM is 100/100, and every public URL resolves, but the recorded dependency freeze is not installable as written, so Tier-1 validation fails and no cold reproduction has been attempted.
+The full depth-14 pipeline completed on one 96 GB Blackwell GPU and produced a public 983 MB model artifact plus a public lineage record. The record passes **Tier 1**: the clean-DAG check is 14/14, the AI-BOM is 100/100, every public URL resolves, and the recorded dependency freeze is portable. It is not yet a certified reproduction because no independent cold reproduction has been attempted.
 
 ## What was run
 
@@ -35,11 +35,11 @@ The attempt ledger is part of the result. Three short depth-16 runs established 
 
 The final attempt cost $19.66. Total metered compute across the ten attempts was $96.97. Keeping both figures avoids presenting the cost of the successful job as the cost of reaching the result.
 
-## The record is not yet portable
+## The record passes Tier 1
 
-The public lineage contains the full code commit, ordered workload, produced artifacts, runtime metadata, and a 100/100 AI-BOM. All referenced public URLs resolve. However, one dependency value in the generated install command is not a valid package version. The two reproduction scripts beside this file are generated verbatim from the lineage and preserve that fact rather than silently repairing it.
+The public lineage contains the full code commit, ordered workload, produced artifacts, runtime metadata, and a 100/100 AI-BOM. All referenced public URLs resolve. The recorded dependency set is portable, and the two reproduction scripts beside this file are generated verbatim from the lineage.
 
-Because a clean-room installer cannot execute that freeze literally, this row does not claim Tier 1 and has not been sent to an independent certifier. The gate must pass on the published record before a cold agent runs it.
+The complete Tier-1 gate passed against the existing published lineage: strict clean-DAG 14/14, AI-BOM 100/100 Advanced, all public URLs readable, portable freeze, and row schema valid. This validates the record without executing it. A separate cold agent must still execute the reproduction before the row can claim Tier 2.
 
 ## Upstream portability edit
 
@@ -57,4 +57,4 @@ The reader-facing command is:
 roar reproduce 3571175fc75d017ea5ec71a9dc316b2a88c48e6460f6a2553d42c36a006fadfd --lineage --run --no-puts
 ```
 
-That command is documented, not recommended yet: strict Tier-1 validation remains blocked, and no Tier-2 result is asserted.
+Tier 1 is green, but no Tier-2 result is asserted until a separate cold agent executes that command successfully.

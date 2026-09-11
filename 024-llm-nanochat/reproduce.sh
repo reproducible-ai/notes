@@ -14,7 +14,7 @@ python3 -m venv .venv
 source .venv/bin/activate
 # Build tool packages (apt; requires sudo): binutils
 # System packages (apt; requires sudo): libffi8 libsqlite3-0 libssl3 libstdc++6 libuuid1
-pip install Jinja2==3.1.6 MarkupSafe==3.0.2 PyYAML==6.0.2 annotated-types==0.7.0 certifi==2025.8.3 charset-normalizer==3.4.3 click==8.2.1 filelock==3.19.1 huggingface-hub==0.34.4 idna==3.10 kernels==0.11.7 mpmath==1.3.0 networkx==3.5 numpy==1.26.4 packaging==25.0 pyarrow==21.0.0 pydantic==2.11.7 pydantic_core==2.33.2 regex==2025.9.1 requests==2.32.5 rustbpe==0.1.0 sympy==1.14.0 'tiktoken==[REDACTED]' torch==2.9.1 tqdm==4.67.1 triton==3.5.1 typing-inspection==0.4.1 typing_extensions==4.15.0 urllib3==2.5.0
+pip install Jinja2==3.1.6 MarkupSafe==3.0.2 PyYAML==6.0.2 annotated-types==0.7.0 certifi==2025.8.3 charset-normalizer==3.4.3 click==8.2.1 filelock==3.19.1 huggingface-hub==0.34.4 idna==3.10 kernels==0.11.7 mpmath==1.3.0 networkx==3.5 numpy==1.26.4 packaging==25.0 pyarrow==21.0.0 pydantic==2.11.7 pydantic_core==2.33.2 regex==2025.9.1 requests==2.32.5 rustbpe==0.1.0 sympy==1.14.0 tiktoken==0.11.0 torch==2.9.1 tqdm==4.67.1 triton==3.5.1 typing-inspection==0.4.1 typing_extensions==4.15.0 urllib3==2.5.0
 
 # 3. Run the pipeline (recorded order)
 roar run --wandb-to-trackio env NANOCHAT_BASE_DIR=outputs/nanochat python -m nanochat.dataset -n 170

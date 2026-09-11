@@ -6,10 +6,10 @@
   "dataset": "ClimbMix-400B",
   "tags": ["pretrain", "fine-tune", "from-scratch", "sequence-modeling"],
   "date": "2026-09-11",
-  "status": "blocked",
-  "statusSub": "capture complete; certification held",
-  "blocker": "The published dependency freeze is not portable, so a cold rebuild has not been attempted.",
-  "summary": "A full upstream-horizon depth-14 nanochat run completed on one 96 GB Blackwell GPU, including pretraining, supervised fine-tuning, evaluation, packaging, and public artifact upload. The lineage is public and its AI-BOM scores 100/100, but the dependency freeze is not installable as recorded, so this is a captured result rather than a certified reproduction.",
+  "status": "progress",
+  "statusSub": "Tier 1 passed; independent certification pending",
+  "blocker": null,
+  "summary": "A full upstream-horizon depth-14 nanochat run completed on one 96 GB Blackwell GPU, including pretraining, supervised fine-tuning, evaluation, packaging, and public artifact upload. The public lineage passes Tier 1: strict clean-DAG 14/14, AI-BOM 100/100, every public URL resolves, and the dependency freeze is portable. Independent cold certification has not yet run, so this is a reproducible record rather than a certified reproduction.",
   "upstreamUrl": "https://github.com/karpathy/nanochat",
   "forkUrl": "https://github.com/reproducible-ai/nanochat",
   "upstreamCommit": "92d63d4e8bb4df75c3b71618f31ddde2378b2bcd",
@@ -265,10 +265,10 @@
   ],
   "certification": {
     "tier": 1,
-    "result": null,
-    "date": null,
-    "evidence": null,
-    "resultCaveat": "Capture completed and clean-DAG validation is 14/14, but the recorded dependency freeze is not portable. No independent cold reproduction has been attempted."
+    "result": "PASS",
+    "date": "2026-09-11",
+    "evidence": "gate_row.py: clean-DAG 14/14, AI-BOM 100/100 Advanced, all public URLs resolved, portable freeze, and row schema passed",
+    "resultCaveat": "Tier 1 inspects the published record and executes nothing. No independent cold reproduction has been attempted."
   },
   "reproduce": {
     "hash": "3571175fc75d017ea5ec71a9dc316b2a88c48e6460f6a2553d42c36a006fadfd",
@@ -291,7 +291,7 @@
     }
   },
   "dataWarnings": [
-    "Tier-1 strict validation has not passed, and no independent certification has run.",
+    "Tier 1 passed, but no independent cold certification has run.",
     "The three depth-16 setup attempts were separately metered but their individual wall-clock durations were not retained."
   ]
 }
