@@ -1,0 +1,454 @@
+diff --git a/lda/dataloader/__init__.py b/lda/dataloader/__init__.py
+index 592d2fe1cc0c47772431d28ad393832542fc0681..87aa1b21a5abbbc7ba6c820e5aab6b48fd6a3a33 100644
+--- a/lda/dataloader/__init__.py
++++ b/lda/dataloader/__init__.py
+@@ -80,12 +80,20 @@ def build_multi_task_dataloader(cfg, dataset_py="lerobot_datasets_oxe", num_work
+         # Use a single dataloader with a task-aware batch sampler to:
+         # 1) guarantee task coverage inside each batch
+         # 2) reduce duplicated worker/prefetch memory overhead
+-        task_weights = cfg.datasets.vla_data.get("training_task_weights", [1.0] * len(TRAINING_TASKS))
++        training_tasks = cfg.datasets.vla_data.get("training_tasks", TRAINING_TASKS)
++        task_weights = cfg.datasets.vla_data.get(
++            "training_task_weights", [1.0] * len(training_tasks)
++        )
++        unsupported_tasks = sorted(set(training_tasks) - set(TRAINING_TASKS))
++        if unsupported_tasks:
++            raise ValueError(f"Unsupported training tasks: {unsupported_tasks}")
++        if len(task_weights) != len(training_tasks):
++            raise ValueError("training_task_weights must match training_tasks length")
+         sampler = DistributedTaskBatchSampler(
+             all_dataset,
+             batch_size=cfg.datasets.vla_data.per_device_batch_size,
+-            tasks=TRAINING_TASKS,
+-            task_weights=dict(zip(TRAINING_TASKS, task_weights)),
++            tasks=training_tasks,
++            task_weights=dict(zip(training_tasks, task_weights)),
+             seed=cfg.seed,
+             drop_last=True,
+         )
+diff --git a/lda/dataloader/lerobot_datasets.py b/lda/dataloader/lerobot_datasets.py
+index 0f8ad78e0a1d20277f0881f7b5febc14bb65485b..0bcb3441c6fa902456fb27159de949edad4b182a 100644
+--- a/lda/dataloader/lerobot_datasets.py
++++ b/lda/dataloader/lerobot_datasets.py
+@@ -101,6 +101,11 @@ def make_LeRobotSingleDataset(
+     
+     data_config = ROBOT_TYPE_CONFIG_MAP[robot_type] # in data_config.py
+     modality_config = data_config.modality_config()
++    if data_cfg and data_cfg.get("demo_canary_adapter", False):
++        if robot_type != "demo_data":
++            raise ValueError("The demo canary adapter requires demo_data")
++        from lda.utils.demo_canary_inputs import adapt_demo_canary_modalities
++        modality_config = adapt_demo_canary_modalities(modality_config)
+     transforms = data_config.transform()
+     dataset_path = data_root_dir / data_name
+     if robot_type not in ROBOT_TYPE_TO_EMBODIMENT_TAG:
+@@ -263,4 +268,4 @@ if __name__ == "__main__":
+         if count > 100:
+             break
+         count += 1
+-        pass
+\ No newline at end of file
++        pass
+diff --git a/lda/model/checkpoint_loading.py b/lda/model/checkpoint_loading.py
+new file mode 100644
+index 0000000000000000000000000000000000000000..878ceffab5edcaaa79418076507279592f9d7a3a
+--- /dev/null
++++ b/lda/model/checkpoint_loading.py
+@@ -0,0 +1,44 @@
++"""Safe checkpoint loading and packaged-resource path helpers."""
++from __future__ import annotations
++
++from pathlib import Path
++from typing import Any
++
++import torch
++
++
++def load_tensor_state_dict(checkpoint_path: str | Path) -> dict[str, torch.Tensor]:
++    """Load a tensor-only state dictionary without enabling pickle execution."""
++    path = Path(checkpoint_path)
++    try:
++        checkpoint: Any = torch.load(
++            path,
++            map_location="cpu",
++            weights_only=True,
++            mmap=True,
++        )
++    except (RuntimeError, TypeError):
++        checkpoint = torch.load(
++            path,
++            map_location="cpu",
++            weights_only=True,
++        )
++
++    if not isinstance(checkpoint, dict) or not all(
++        isinstance(name, str) and isinstance(value, torch.Tensor)
++        for name, value in checkpoint.items()
++    ):
++        raise TypeError("Checkpoint must be a string-keyed dictionary of tensors")
++    return checkpoint
++
++
++def resolve_checkpoint_resource_path(
++    resource_path: str | Path,
++    checkpoint_path: str | Path,
++) -> str:
++    """Resolve a packaged relative resource path from the release root."""
++    path = Path(resource_path)
++    if path.is_absolute():
++        return str(path)
++    release_root = Path(checkpoint_path).absolute().parents[1]
++    return str((release_root / path).resolve())
+diff --git a/lda/model/framework/QwenMMDiT.py b/lda/model/framework/QwenMMDiT.py
+index 1e345984e3fc3119a113b6e0e7a63ae889e67da5..2179cbabf5c36cda26ecb0ebba6c23a483d44c2f 100644
+--- a/lda/model/framework/QwenMMDiT.py
++++ b/lda/model/framework/QwenMMDiT.py
+@@ -80,6 +80,13 @@ class Qwen_MMDiT(baseframework):
+     ) -> Tuple:
+         """
+         """
++        if self.config.datasets.vla_data.get("demo_canary_adapter", False):
++            from lda.utils.demo_canary_inputs import adapt_demo_canary_examples
++            cfg = self.config.framework.action_model
++            examples = adapt_demo_canary_examples(
++                examples, state_dim=cfg.state_dim, action_dim=cfg.action_dim,
++                num_embodiments=cfg.get("max_num_embodiments", 1),
++            )
+         batch_images = [example["image"] for example in examples]  #  [B，[PLT]]
+         instructions = [example["lang"] for example in examples]  # [B, str]
+         actions = [example["action"] for example in examples]  # label [B， len, action_dim]
+diff --git a/lda/model/framework/base_framework.py b/lda/model/framework/base_framework.py
+index 0098e0a66fb92f0c5f8f2490cc56a9d0cfaa933a..72686c40a315f12ba06fa6855ddd6dd851a043fe 100644
+--- a/lda/model/framework/base_framework.py
++++ b/lda/model/framework/base_framework.py
+@@ -22,6 +22,10 @@ from typing import Dict, List
+ from transformers import AutoConfig, AutoModel, PretrainedConfig, PreTrainedModel
+ import numpy as np
+ from lda.model.tools import auto_get_trainable_modules
++from lda.model.checkpoint_loading import (
++    load_tensor_state_dict,
++    resolve_checkpoint_resource_path,
++)
+ 
+ from lda.model.framework.share_tools import read_mode_config
+ from lda.training.trainer_utils import initialize_overwatch
+@@ -80,18 +84,26 @@ class baseframework(PreTrainedModel):
+             RuntimeError: If state_dict key mismatch occurs under strict=True.
+             FileNotFoundError: If underlying files are missing (surfaced earlier).
+         """
+-        pretrained_checkpoint = Path(pretrained_checkpoint)
++        pretrained_checkpoint = Path(pretrained_checkpoint).absolute()
+         model_config, norm_stats = read_mode_config(pretrained_checkpoint)  # read config and norm_stats
+ 
+         config = dict_to_namespace(model_config)
+         model_config = config
++        vision_encoder_path = model_config.framework.action_model.get("vision_encoder_path")
++        if vision_encoder_path:
++            model_config.framework.action_model.vision_encoder_path = (
++                resolve_checkpoint_resource_path(
++                    vision_encoder_path,
++                    pretrained_checkpoint,
++                )
++            )
+         model_config.trainer.pretrained_checkpoint = None
+         # FrameworkModel = cls(config=model_config, **kwargs) # TODO find cls by config
+         FrameworkModel = build_framework(cfg=model_config)
+         # set for action un-norm
+         FrameworkModel.norm_stats = norm_stats
+         # Load from Checkpoint (Custom --> should load both *projector* and *llm* weights)
+-        model_state_dict = torch.load(pretrained_checkpoint, map_location="cpu")
++        model_state_dict = load_tensor_state_dict(pretrained_checkpoint)
+         # logger.info(f"Loading model weights from `{pretrained_checkpoint}`")
+         model_keys = set(FrameworkModel.state_dict().keys())
+         checkpoint_keys = set(model_state_dict.keys())
+diff --git a/lda/model/modules/action_model/MMDiT_ActionHeader.py b/lda/model/modules/action_model/MMDiT_ActionHeader.py
+index ce94b3e7f3a54c70347f51f70086583277cf91fd..7936a5a5decddc3d68f2efe334669511c89b3d46 100644
+--- a/lda/model/modules/action_model/MMDiT_ActionHeader.py
++++ b/lda/model/modules/action_model/MMDiT_ActionHeader.py
+@@ -27,7 +27,7 @@ from lda.model.modules.action_model.flow_matching_head.action_encoder import (
+ )
+ 
+ from lda.model.modules.action_model.flow_matching_head.mmdit.mmdit.mmdit_cross_attn import MMDiT as DiT
+-from lda.model.modules.dinov3_vit import DINOv3ViTModel
++from lda.model.modules.dinov3_vit import DINOv3ViTConfig, DINOv3ViTModel
+ from lda.model.modules.action_model.UWM.transforms import VAEDownsample, VideoTransform
+ 
+ TRAINING_TASKS = ["policy", "forward_dynamics", "inverse_dynamics", "video_gen"]
+@@ -419,7 +419,11 @@ class FlowmatchingActionHead(nn.Module):
+         if self.vision_encoder_type == "dinov3":
+             pretrained_model_name = os.path.join(config.vision_encoder_path, f'dinov3-vit{self.vision_encoder_size}16-pretrain-lvd1689m')
+             self.transform = AutoImageProcessor.from_pretrained(pretrained_model_name)
+-            self.vision_encoder = DINOv3ViTModel.from_pretrained(pretrained_model_name).eval()
++            if getattr(config, "vision_encoder_load_weights", True):
++                self.vision_encoder = DINOv3ViTModel.from_pretrained(pretrained_model_name).eval()
++            else:
++                dino_config = DINOv3ViTConfig.from_pretrained(pretrained_model_name)
++                self.vision_encoder = DINOv3ViTModel(dino_config).eval()
+             self.obs_horizon = config.obs_horizon
+             self.cls_token = 1
+             register_tokens = self.vision_encoder.config.num_register_tokens
+diff --git a/lda/model/modules/vlm/QWen3.py b/lda/model/modules/vlm/QWen3.py
+index 508eb7cf4da8828be8db01b4338304b5fcf98d18..ec344427573e615c109ac20cd7ff931f0f4f94cc 100644
+--- a/lda/model/modules/vlm/QWen3.py
++++ b/lda/model/modules/vlm/QWen3.py
+@@ -53,13 +53,16 @@ class _QWen3_VL_Interface(nn.Module):
+ 
+         qwenvl_config = config.framework.get("qwenvl", {})
+         model_id = qwenvl_config.get("base_vlm", "Qwen/Qwen3-VL-4B-Instruct")
++        revision = qwenvl_config.get("revision")
++        attn_implementation = qwenvl_config.get("attn_implementation", "flash_attention_2")
+ 
+         model = Qwen3VLForConditionalGeneration.from_pretrained(
+             model_id,
+-            attn_implementation="flash_attention_2",
++            revision=revision,
++            attn_implementation=attn_implementation,
+             dtype=torch.bfloat16,
+         )
+-        processor = AutoProcessor.from_pretrained(model_id)
++        processor = AutoProcessor.from_pretrained(model_id, revision=revision)
+         processor.tokenizer.padding_side = "left"
+ 
+         self.model = model
+diff --git a/lda/training/train_LDA.py b/lda/training/train_LDA.py
+index f54c6d7c25c96f25d9424b8184cf03b61e88997d..cc0a28e9e980028ba0411017e887adea55e770e2 100644
+--- a/lda/training/train_LDA.py
++++ b/lda/training/train_LDA.py
+@@ -168,12 +168,14 @@ class VLATrainer(TrainerUtils):
+         self.print_trainable_parameters(self.model)
+ 
+         # initialize distributed training components
++        logger.info("Starting distributed model/optimizer/dataloader preparation")
+         self.model, self.optimizer, self.train_dataloader = self.setup_distributed_training(
+             self.accelerator,  # must be the first param
+             self.model,
+             self.optimizer,
+             self.train_dataloader,
+         )
++        logger.info("Completed distributed model/optimizer/dataloader preparation")
+         self._init_wandb()
+ 
+ 
+@@ -219,6 +221,9 @@ class VLATrainer(TrainerUtils):
+         # 获取预训练检查点和是否恢复训练的标志
+         pretrained_checkpoint = getattr(self.config.trainer, "pretrained_checkpoint", None)
+         is_resume = getattr(self.config.trainer, "is_resume", False)
++        strict_pretrained_checkpoint = getattr(
++            self.config.trainer, "strict_pretrained_checkpoint", False
++        )
+         self.resume_from_checkpoint = pretrained_checkpoint
+         # TODO retinking resume and load from pretrained_checkpoint
+         if is_resume:
+@@ -227,7 +232,12 @@ class VLATrainer(TrainerUtils):
+             
+             if resume_from_checkpoint:
+                 self.resume_from_checkpoint = resume_from_checkpoint
+-                self.model = self.load_pretrained_backbones(self.model, self.resume_from_checkpoint, reload_modules=None)
++                self.model = self.load_pretrained_backbones(
++                    self.model,
++                    self.resume_from_checkpoint,
++                    reload_modules=None,
++                    strict=strict_pretrained_checkpoint,
++                )
+                 logger.info(f"Resuming training from checkpoint: {self.resume_from_checkpoint}, steps: {self.completed_steps}")
+                 return None
+             else:
+@@ -237,7 +247,12 @@ class VLATrainer(TrainerUtils):
+         # 加载预训练权重
+         if pretrained_checkpoint:
+             reload_modules = getattr(self.config.trainer, "reload_modules", None)
+-            self.model = self.load_pretrained_backbones(self.model, pretrained_checkpoint, reload_modules=reload_modules)
++            self.model = self.load_pretrained_backbones(
++                self.model,
++                pretrained_checkpoint,
++                reload_modules=reload_modules,
++                strict=strict_pretrained_checkpoint,
++            )
+             try:
+                 self.completed_steps = int(re.search(r"steps_(\d+)_pytorch_model\.pt", pretrained_checkpoint).group(1))
+             except AttributeError:
+@@ -266,8 +281,15 @@ class VLATrainer(TrainerUtils):
+             torch.save(state_dict, checkpoint_path + "_pytorch_model.pt")
+ 
+             # save training metadata
++            unwrapped_model = self.accelerator.unwrap_model(self.model)
++            trainable_parameters = sorted(
++                name for name, parameter in unwrapped_model.named_parameters()
++                if parameter.requires_grad
++            )
+             summary_data = {
+                 "steps": self.completed_steps,
++                "optimizer_steps_completed": self.completed_steps,
++                "trainable_parameters": trainable_parameters,
+             }
+             with open(os.path.join(self.config.output_dir, "summary.jsonl"), "a") as f:
+                 f.write(json.dumps(summary_data) + "\n")
+@@ -432,6 +454,7 @@ class VLATrainer(TrainerUtils):
+ 
+     def _train_step(self, batch_vla, batch_vlm=None):
+         """execute single training step"""
++        output_dict = None
+         try:
+             with self.accelerator.accumulate(self.model):
+                 self.optimizer.zero_grad()
+diff --git a/lda/training/trainer_utils/trainer_tools.py b/lda/training/trainer_utils/trainer_tools.py
+index 90c124207ba48279a1095477e761a4bb79a61e75..c5b502b361dffe88bb99ad06f8e19cd8220abf8c 100644
+--- a/lda/training/trainer_utils/trainer_tools.py
++++ b/lda/training/trainer_utils/trainer_tools.py
+@@ -13,6 +13,8 @@ import torch
+ 
+ from accelerate.logging import get_logger
+ 
++from lda.model.checkpoint_loading import load_tensor_state_dict
++
+ logger = get_logger(__name__)
+ 
+ 
+@@ -209,7 +211,7 @@ class TrainerUtils:
+         return num_params, num_trainable_params
+ 
+     @staticmethod
+-    def load_pretrained_backbones(model, checkpoint_path=None, reload_modules=None):
++    def load_pretrained_backbones(model, checkpoint_path=None, reload_modules=None, strict=False):
+         """
+         load checkpoint:
+         - if reload_modules is set, load by path part
+@@ -223,7 +225,7 @@ class TrainerUtils:
+         if dist.get_rank() == 0:
+             print(f"📦 loading checkpoint: {checkpoint_path}")
+         try:
+-            checkpoint = torch.load(checkpoint_path, map_location="cpu")
++            checkpoint = load_tensor_state_dict(checkpoint_path)
+         except Exception as e:
+             raise RuntimeError(f"❌ loading checkpoint failed: {e}")
+ 
+@@ -250,7 +252,7 @@ class TrainerUtils:
+                     print(f"❌ cannot find module path: {path}")
+         else:  # full load
+             try:
+-                model.load_state_dict(checkpoint, strict=False)
++                model.load_state_dict(checkpoint, strict=strict)
+                 if dist.get_rank() == 0:
+                     print("✅ loaded <full_model> model parameters")
+                 loaded_modules = ["<full_model>"]
+diff --git a/lda/utils/demo_canary_inputs.py b/lda/utils/demo_canary_inputs.py
+new file mode 100644
+index 0000000000000000000000000000000000000000..7f20be11259b27e43bf1243f346959032d823961
+--- /dev/null
++++ b/lda/utils/demo_canary_inputs.py
+@@ -0,0 +1,32 @@
++"""Explicit shape-only adapter for the private sim_pick_place training canary."""
++
++from copy import deepcopy
++
++
++def adapt_demo_canary_modalities(modalities):
++    """Sample real history for the pinned RoboCasa checkpoint; keep defaults intact."""
++    adapted = deepcopy(modalities)
++    for name in ("video", "state"):
++        adapted[name].delta_indices = [-5, 0]
++    adapted["future_video"].delta_indices = [16]
++    return adapted
++
++
++def adapt_demo_canary_examples(examples, *, state_dim, action_dim, num_embodiments):
++    # The committed demo identifies franka_robotiq; the upstream Franka slot is 4.
++    # This reuses a checkpoint slot and does not add or resize model parameters.
++    if state_dim != 58 or action_dim != 138 or num_embodiments != 32:
++        raise ValueError("Pinned demo canary requires state/action widths 58/138 and 32 embodiment slots")
++    adapted = []
++    for example in examples:
++        if example["embodiment_id"] != 32 or example["assigned_task"] != "policy":
++            raise ValueError("Demo canary expects NEW_EMBODIMENT policy samples")
++        state = example["state"]
++        if hasattr(state, "tolist"):
++            state = state.tolist()
++        if len(state) != 2 or any(len(row) != 12 for row in state):
++            raise ValueError("Demo canary expects two observations of 12-wide source state")
++        if any(len(row) != action_dim for row in example["action"]):
++            raise ValueError("Demo canary expects loader-padded 138-wide actions")
++        adapted.append(dict(example, state=[list(row) + [0.0] * 46 for row in state], embodiment_id=4))
++    return adapted
+diff --git a/pyproject.toml b/pyproject.toml
+index c5e5e5f1eecf1d45cbc7fc3b7d797437d6109ee4..0eefbe5ef8f2a377c579b7473256e891e65d6110 100644
+--- a/pyproject.toml
++++ b/pyproject.toml
+@@ -1,5 +1,5 @@
+ [build-system]
+-requires = ["setuptools"]
++requires = ["setuptools==80.9.0"]
+ build-backend = "setuptools.build_meta"
+ 
+ [project]
+@@ -21,7 +21,6 @@ classifiers = [
+     "Intended Audience :: Developers",
+     "Intended Audience :: Education",
+     "Intended Audience :: Science/Research",
+-    "License :: OSI Approved :: MIT License",
+     "Operating System :: OS Independent",
+ "Programming Language :: Python :: 3 :: Only",
+     "Topic :: Scientific/Engineering :: Artificial Intelligence",
+diff --git a/requirements.txt b/requirements.txt
+index a8790cde4b8a5d3f9464c2225fd2c19f0646f827..d69e42d8225a1b62d017ff3d1ab5cae143cbc929 100644
+--- a/requirements.txt
++++ b/requirements.txt
+@@ -1,3 +1,4 @@
++--extra-index-url https://download.pytorch.org/whl/cu128
+ absl-py==2.3.1
+ accelerate==1.5.2
+ aiohappyeyeballs==2.6.1
+@@ -117,21 +118,7 @@ notebook==7.5.2
+ notebook_shim==0.2.4
+ numpy==1.26.4
+ numpydantic==1.6.9
+-nvidia-cublas-cu12==12.4.5.8
+-nvidia-cuda-cupti-cu12==12.4.127
+-nvidia-cuda-nvrtc-cu12==12.4.127
+-nvidia-cuda-runtime-cu12==12.4.127
+-nvidia-cudnn-cu12==9.1.0.70
+-nvidia-cufft-cu12==11.2.1.3
+-nvidia-cufile-cu12==1.11.1.6
+-nvidia-curand-cu12==10.3.5.147
+-nvidia-cusolver-cu12==11.6.1.9
+-nvidia-cusparse-cu12==12.3.1.170
+-nvidia-cusparselt-cu12==0.6.2
+ nvidia-ml-py==13.580.82
+-nvidia-nccl-cu12==2.21.5
+-nvidia-nvjitlink-cu12==12.4.127
+-nvidia-nvtx-cu12==12.4.127
+ omegaconf==2.3.0
+ opencv-python-headless==4.11.0.86
+ overrides==7.7.0
+@@ -186,7 +173,6 @@ six==1.17.0
+ smmap==5.0.2
+ soupsieve==2.8.2
+ stack-data==0.6.3
+-sympy==1.13.1
+ tabulate==0.9.0
+ tensorboard==2.20.0
+ tensorboard-data-server==0.7.2
+@@ -199,15 +185,11 @@ timm==1.0.22
+ tinycss2==1.4.0
+ tokenizers==0.22.1
+ tomli==2.4.0
+-torch==2.6.0
+-torchcodec==0.4.0
+-torchvision==0.21.0
+ tornado==6.5.4
+ tqdm==4.67.1
+ traitlets==5.14.3
+ transformers==4.57.0
+ transformers-stream-generator==0.0.4
+-triton==3.2.0
+ typeguard==4.4.4
+ typing_extensions==4.15.0
+ tyro==0.9.17
+@@ -226,3 +208,8 @@ xxhash==3.6.0
+ yacs==0.1.8
+ yarl==1.22.0
+ zipp==3.23.0
++torch==2.9.0+cu128
++torchvision==0.24.0+cu128
++torchcodec==0.8.1
++sympy==1.14.0
++triton==3.5.0
