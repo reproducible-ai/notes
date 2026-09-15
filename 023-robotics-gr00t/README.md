@@ -84,3 +84,7 @@ See [commands](commands.md) and [issues](issues.md).
 - Private artifact destinations are redacted from narrative observations.
 - Text and commands containing private references are omitted; originals remain in private evidence.
 - Finalization required authorized recovery under harness revision d43724ce6db07481dd48f3b78488f948e97cc186; the original run did not complete unattended.
+
+## Public artifacts and lineage
+
+See the [fresh public canary](PUBLIC-RELEASE.md) for verified downloads and public GLaaS lineage.
