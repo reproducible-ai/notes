@@ -1,0 +1,406 @@
+{
+  "artifactUrl": "https://huggingface.co/reproducible-ai/lda-1b-robocasa/tree/9dfddadf3513472415a304285b58f843971f7658/artifacts/lda-robocasa-canary/release/checkpoints",
+  "artifacts": [
+    {
+      "bytes": 14422502892,
+      "note": "Public one-step checkpoint; every byte independently streamed and SHA-256 checked. Worker load and tensor checks are bound to this digest.",
+      "path": "LDA-robocasa-treqs-canary.pt",
+      "sha256": "ddb9a15624b5f8aae304b27ba0fc6c89adae44a9c140edba3e76942f5696f009"
+    }
+  ],
+  "blocker": "No cold rebuild or held-out policy evaluation; demo/RoboCasa semantic equivalence is untested.",
+  "bomScore": null,
+  "bomUrl": null,
+  "dagHash": "d5c8d707ae657d6eeb9382079c12aacbd7f75b15142f73adb9f6eef2c0825d80",
+  "dagUrl": "https://glaas.ai/dag/d5c8d707ae657d6eeb9382079c12aacbd7f75b15142f73adb9f6eef2c0825d80",
+  "dataWarnings": [
+    "Public links and rebuild fields describe the fresh public canary; the original private capture remains historical evidence.",
+    "The host verified every published byte and training-to-PUT lineage; checkpoint load and finite-tensor checks were performed by the worker and bound to the same digest.",
+    "No independent auditor verdict, cold replay, held-out policy evaluation or full-run cost estimate is claimed for the public run.",
+    "Roar reported untracked artifact directories. The demo adapter does not establish RoboCasa semantic equivalence."
+  ],
+  "dataset": "LDA sim_pick_place committed demo; four episodes at 06e6a274a9086cc26635a9fe663866335eb30fc5",
+  "date": "2026-09-15",
+  "forkUrl": "https://github.com/reproducible-ai/LDA-1B",
+  "fullRun": {
+    "changes": [
+      "Resolve the full-run dataset and component-license scope.",
+      "Use semantically correct RoboCasa data and embodiment/action mappings.",
+      "Restore and validate the intended published objective, trainable modules, batch size, learning rates, warmup and schedule.",
+      "Measure steady-state throughput and memory on the selected configuration.",
+      "Run held-out policy evaluation and an independent cold replay before making quality or reproduction claims."
+    ],
+    "confidence": "low",
+    "estimateBasis": "A one-step demo with frozen encoders, a shape adapter and setup-heavy billing cannot support extrapolation to the full RoboCasa recipe.",
+    "estimateUsd": null
+  },
+  "issues": [
+    {
+      "detail": "#32 was rejected before compute because the workflow did not declare the credential required by its private upload.",
+      "evidence": "https://github.com/reproducible-ai/campaign-queue/issues/32",
+      "fix": "Declare HF_TOKEN in workflow secrets and preflight input access.",
+      "severity": "P1",
+      "title": "Missing declared upload credential",
+      "upstreamAction": "Recipe integration fix; no upstream model defect asserted."
+    },
+    {
+      "detail": "#33 ended without acquiring an instance or running a task; finalized compute cost was $0.00.",
+      "evidence": "https://github.com/reproducible-ai/campaign-queue/issues/33",
+      "fix": "Continue on an existing compatible 96 GB Blackwell target.",
+      "severity": "P1",
+      "title": "No allocation on the initial compute route",
+      "upstreamAction": "Compute routing issue; no upstream model change."
+    },
+    {
+      "detail": "#34 first failed dependency resolution across PyPI and the CUDA wheel index.",
+      "evidence": "https://github.com/reproducible-ai/campaign-queue/issues/34",
+      "fix": "Use the aligned CUDA 12.8 dependency pins and explicit uv index strategy in the pinned setup recipe.",
+      "severity": "P1",
+      "title": "Cold dependency resolution and Blackwell compatibility",
+      "upstreamAction": "Potential upstream environment documentation improvement; no upstream PR recorded."
+    },
+    {
+      "detail": "#34 next failed duplicated Accelerate/DeepSpeed precision settings, then failed batch-size inference because the custom DataLoader exposed no batch_size.",
+      "evidence": "https://github.com/reproducible-ai/campaign-queue/issues/34",
+      "fix": "Keep BF16 in the DeepSpeed JSON and explicitly set micro/global batch size 4 with accumulation 1.",
+      "severity": "P1",
+      "title": "Precision ownership and custom-sampler batch inference",
+      "upstreamAction": "Recipe integration fixes; retained regression coverage."
+    },
+    {
+      "detail": "#35 hit confirmed host OOM during optimizer preparation. Moving optimizer state to GPU exposed the demo input mismatch. A further candidate was rejected before launch because it expected action width 29 and lacked two history observations.",
+      "evidence": "https://github.com/reproducible-ai/campaign-queue/issues/35",
+      "fix": "Disable CPU optimizer offload; use the pinned 58/138/2/32 contract and an explicit shape-only demo adapter. Initialize the exception-path output variable so the original failure is preserved.",
+      "severity": "P1",
+      "title": "Host OOM followed by demo/checkpoint mismatch",
+      "upstreamAction": "Exception handling is a potential upstream fix. Demo adaptation is canary-specific and has not established policy semantics."
+    },
+    {
+      "detail": "Earlier retries required a harness staging-ownership checkpoint correction and maintainer recovery. Idle failed-job instances were manually stopped. Those attempts are not unattended successes.",
+      "evidence": "https://github.com/reproducible-ai/campaign-queue/issues/34",
+      "fix": "Preserve the same owned private destination during retry and retain append-only intervention records; continue under the remaining original budget.",
+      "severity": "P1",
+      "title": "Retry ownership checkpoint and manual recovery",
+      "upstreamAction": "Harness fix 12105c06493f949873f84caf3dcd53713037340b; no upstream model change."
+    },
+    {
+      "detail": "#36 completed training and upload, but publication contained only 3 jobs / 57 artifacts / 120 links versus the captured 5 / 71 / 212. Traversal selected only the latest producer of byte-identical copied content.",
+      "evidence": "https://github.com/reproducible-ai/campaign-queue/issues/36",
+      "fix": "Install Roar main at 61e5e98ca823a25c19522870cb81d3ce730c391d, including the merged multiple-producer traversal fix; verify a fresh run.",
+      "severity": "P1",
+      "title": "Published lineage omitted train and evaluate",
+      "upstreamAction": "Roar PR #302 was merged. The incomplete historical publication was retained as blocked."
+    },
+    {
+      "detail": "#37 completed the workload and full lineage publication. Readback was delayed by a network outage, then failed because two evaluation paths were redacted in logs but remained absolute in the uploaded result. An uncaught verification error caused worker restarts.",
+      "evidence": "https://github.com/reproducible-ai/campaign-queue/issues/37",
+      "fix": "Use repository-relative evaluation paths (recipe 3308fc9) and retain invalid artifacts as BLOCKED (harness 7be12d4). Run #38 afresh after both fixes.",
+      "severity": "P1",
+      "title": "Portable receipts and bounded verification failure",
+      "upstreamAction": "Model recipe and harness fixes; prior result preserved. Maintainer intervention prevents an unattended-success claim for #37."
+    },
+    {
+      "detail": "#38 labels the training wrapper as other and packaging as training; the latest producer field identifies packaging. An additional directed producer edge identifies the actual training command.",
+      "evidence": "https://github.com/reproducible-ai/campaign-queue/issues/38",
+      "fix": "The independent auditor checked commands and directed edges, not the role heuristic alone. Role labeling remains a follow-up.",
+      "severity": "P2",
+      "title": "Lineage role labels remain imprecise",
+      "upstreamAction": "Platform follow-up; no role-label fix is claimed."
+    },
+    {
+      "detail": "Roar reported untracked artifact directories during the final publication path.",
+      "evidence": "https://github.com/reproducible-ai/campaign-queue/issues/38",
+      "fix": "Retain the warning and bound the result to the independently checked published inventory and lineage. No warning-free capture claim.",
+      "severity": "P2",
+      "title": "Untracked-directory warning remains",
+      "upstreamAction": "Capture/filtering follow-up; no fix is claimed."
+    }
+  ],
+  "license": "Component-specific: source/demo CC-BY-NC-4.0; LDA/Qwen metadata Apache-2.0; DINOv3 License",
+  "name": "LDA-1B",
+  "notes": "https://github.com/reproducible-ai/notes/tree/main/028-robotics-lda-1b",
+  "org": "jiangranlv / LDA authors",
+  "parameters": [
+    {
+      "name": "optimizer steps",
+      "published": "300000 in the pinned RoboCasa checkpoint config",
+      "reason": "Bounded training-path capture; no convergence claim.",
+      "restoresFullRun": true,
+      "used": "1",
+      "where": ".treqs/scripts/run_robocasa_canary.py"
+    },
+    {
+      "name": "training data",
+      "published": "fourier_gr1_unified_1000_two_history in the pinned config",
+      "reason": "Use a small source-pinned fixture.",
+      "restoresFullRun": true,
+      "used": "Four committed sim_pick_place episodes at source base 06e6a274",
+      "where": "playground/demo_data/sim_pick_place"
+    },
+    {
+      "name": "per-device batch / accumulation",
+      "published": "10 / 1 in the pinned config",
+      "reason": "Fit the canary and explicitly configure the custom sampler batch size.",
+      "restoresFullRun": true,
+      "used": "4 / 1; one GPU; effective batch 4",
+      "where": ".treqs/assets/deepspeed-zero2-cpu.json"
+    },
+    {
+      "name": "trainable modules",
+      "published": "Pinned config freezes action_model.vision_encoder",
+      "reason": "Bound memory and update the action model only.",
+      "restoresFullRun": true,
+      "used": "Freeze both action_model.vision_encoder and qwen_vl_interface",
+      "where": ".treqs/scripts/run_robocasa_canary.py"
+    },
+    {
+      "name": "learning rate / warmup",
+      "published": "base 4e-5; action_model 1e-4; warmup 15000",
+      "reason": "Permit a bounded single optimizer update.",
+      "restoresFullRun": true,
+      "used": "base and action_model 1e-6; warmup 0",
+      "where": ".treqs/scripts/run_robocasa_canary.py"
+    },
+    {
+      "name": "training objective / diffusion repeats",
+      "published": "Pinned config has mixed-task weights and repeated_diffusion_steps=4",
+      "reason": "Bound the executed objective; no video-generation result is claimed.",
+      "restoresFullRun": true,
+      "used": "Policy only; repeated_diffusion_steps=1",
+      "where": ".treqs/scripts/run_robocasa_canary.py"
+    },
+    {
+      "name": "checkpoint and demo dimensions",
+      "published": "Checkpoint state 58 / action 138 / observations 2 / embodiment slots 32; demo has 12-wide states and slot 32",
+      "reason": "Match checkpoint shapes without adding or resizing parameters. This is a shape-only adapter, not semantic equivalence.",
+      "restoresFullRun": true,
+      "used": "Pad each demo state by 46 zeros; preserve loader-padded/masked 138-wide actions; history [-5,0]; future index 16; reuse Franka slot 4",
+      "where": "lda/utils/demo_canary_inputs.py"
+    },
+    {
+      "name": "precision / optimizer placement",
+      "published": "Initial canary duplicated precision settings and used CPU optimizer offload",
+      "reason": "Resolve precision ownership and host-memory failure on the 64 GiB instance.",
+      "restoresFullRun": false,
+      "used": "BF16 owned by the DeepSpeed JSON; ZeRO-2; optimizer offload device none",
+      "where": ".treqs/assets/deepspeed-zero2-cpu.json"
+    },
+    {
+      "name": "attention / checkpoint initialization",
+      "published": "Upstream initialization assumes external model paths and default attention dependencies",
+      "reason": "Run the pinned architecture on the selected GPU while retaining every checkpoint key and shape.",
+      "restoresFullRun": false,
+      "used": "SDPA; strict LDA checkpoint loading; DINO architecture from pinned config and weights from that checkpoint",
+      "where": ".treqs/scripts/run_robocasa_canary.py"
+    },
+    {
+      "name": "PyTorch / CUDA",
+      "published": "torch 2.6.0; torchvision 0.21.0; torchcodec 0.4.0",
+      "reason": "Support Blackwell sm_120 and align the binary dependency set.",
+      "restoresFullRun": false,
+      "used": "torch 2.9.0+cu128; torchvision 0.24.0+cu128; torchcodec 0.8.1",
+      "where": "requirements.txt"
+    },
+    {
+      "name": "checkpoint / logging interval",
+      "published": "save_interval 5000; logging_frequency 100",
+      "reason": "Retain a checkpoint and progress for the single-step run.",
+      "restoresFullRun": true,
+      "used": "save_interval 1; logging_frequency 1",
+      "where": ".treqs/scripts/run_robocasa_canary.py"
+    },
+    {
+      "name": "experiment tracking",
+      "published": "wandb_project lda-robocasa; wandb_entity Personal",
+      "reason": "Keep the private diagnostic run independent of hosted experiment tracking.",
+      "restoresFullRun": false,
+      "used": "WANDB_MODE=disabled; project lda-robocasa-canary",
+      "where": ".treqs/scripts/run_robocasa_canary.py"
+    }
+  ],
+  "patch": {
+    "lines": 3662,
+    "url": "https://github.com/reproducible-ai/LDA-1B/compare/06e6a274a9086cc26635a9fe663866335eb30fc5...b55c26dad419064089f588837c5048843537577a"
+  },
+  "rebuild": {
+    "costUsd": 1.68,
+    "hw": "1\u00d7 RTX PRO 6000 Blackwell Server 96 GB",
+    "time": "1268.693s"
+  },
+  "reproduce": {
+    "cmd": "",
+    "hash": ""
+  },
+  "runs": [
+    {
+      "attemptId": "d77b97bc-91c4-49cb-861f-4bb908197dc8",
+      "costUsd": null,
+      "durationSec": null,
+      "label": "#32 preflight",
+      "note": "Blocked before job creation: missing declared upload secret. No compute job or charge receipt exists; null is not an estimated zero.",
+      "outcome": "failed",
+      "params": "candidate validation only; no workflow execution",
+      "purpose": "candidate validation"
+    },
+    {
+      "attemptId": "aa979fa0-c66d-4701-81e2-259d271ddf8b",
+      "costSource": "Finalized harness budget receipt; cancelled before instance allocation",
+      "costUsd": 0.0,
+      "dataset": "Four source-pinned sim_pick_place demo episodes",
+      "durationSec": null,
+      "label": "#33 job 1",
+      "note": "Cancelled before allocation; no workflow task ran. Job 046cf5fb-9f4d-4e69-babd-b976e091d143.",
+      "outcome": "aborted",
+      "params": "one optimizer step requested; 4 L40S GPUs; batch 1 per device; effective batch 4",
+      "purpose": "private training capture",
+      "schedulerStatus": "CANCELLED"
+    },
+    {
+      "attemptId": "c82c2578-58b1-4935-aa6f-9f6675b62115",
+      "costSource": "Finalized TReqs on-demand instance receipt",
+      "costUsd": 0.56,
+      "dataset": "Four source-pinned sim_pick_place demo episodes",
+      "durationSec": 73.064,
+      "label": "#34 job 1",
+      "note": "Dependency resolution failed before training. Job 60d9d509-5cec-4640-9823-3304c2cf8769.",
+      "outcome": "failed",
+      "params": "one optimizer step requested; 1 GPU; batch 4",
+      "purpose": "private training capture",
+      "schedulerStatus": "FAILED"
+    },
+    {
+      "attemptId": "c82c2578-58b1-4935-aa6f-9f6675b62115",
+      "costSource": "Finalized TReqs on-demand instance receipt",
+      "costUsd": 0.45,
+      "dataset": "Four source-pinned sim_pick_place demo episodes",
+      "durationSec": 303.142,
+      "label": "#34 job 2",
+      "note": "Accelerate/DeepSpeed precision configuration failed before an optimizer update. Job 9f8ea77a-413c-49d3-9733-2de2f07437fe.",
+      "outcome": "failed",
+      "params": "one optimizer step requested; 1 GPU; batch 4",
+      "purpose": "private training capture",
+      "schedulerStatus": "FAILED"
+    },
+    {
+      "attemptId": "c82c2578-58b1-4935-aa6f-9f6675b62115",
+      "costSource": "Finalized TReqs on-demand instance receipt",
+      "costUsd": 0.45,
+      "dataset": "Four source-pinned sim_pick_place demo episodes",
+      "durationSec": 315.469,
+      "label": "#34 job 3",
+      "note": "Custom-sampler batch inference failed before an optimizer update. Job 7609a41a-c4d3-425e-855a-66626a941ae9.",
+      "outcome": "failed",
+      "params": "one optimizer step requested; 1 GPU; batch 4",
+      "purpose": "private training capture",
+      "schedulerStatus": "FAILED"
+    },
+    {
+      "attemptId": "5c5fa8b8-de2d-4fd0-848d-7a8950516c1e",
+      "costSource": "Finalized TReqs on-demand instance receipt",
+      "costUsd": 0.62,
+      "dataset": "Four source-pinned sim_pick_place demo episodes",
+      "durationSec": 541.076,
+      "label": "#35 job 1",
+      "note": "Host OOM during optimizer preparation; no update. Job 9e20d416-65db-4ce4-bbcb-6cba05a3e561.",
+      "outcome": "failed",
+      "params": "one optimizer step requested; 1 GPU; batch 4",
+      "purpose": "private training capture",
+      "schedulerStatus": "FAILED"
+    },
+    {
+      "attemptId": "5c5fa8b8-de2d-4fd0-848d-7a8950516c1e",
+      "costSource": "Finalized TReqs on-demand instance receipt",
+      "costUsd": 0.45,
+      "dataset": "Four source-pinned sim_pick_place demo episodes",
+      "durationSec": 332.256,
+      "label": "#35 job 2",
+      "note": "Demo/checkpoint shape failure after moving optimizer state to GPU; no update. Job 5020d01f-3078-42e8-89f4-e18459560749.",
+      "outcome": "failed",
+      "params": "one optimizer step requested; 1 GPU; batch 4",
+      "purpose": "private training capture",
+      "schedulerStatus": "FAILED"
+    },
+    {
+      "attemptId": "ddd28b4d-6479-44af-aa3a-bbffc3563785",
+      "costSource": "Finalized TReqs on-demand instance receipt",
+      "costUsd": 1.18,
+      "dataset": "Four source-pinned sim_pick_place demo episodes",
+      "durationSec": 1033.332,
+      "label": "#36 job 1",
+      "note": "All seven tasks and one update completed, but independent lineage verification blocked the attempt (3/57/120 published versus 5/71/212 captured). Job 1055f170-bcbd-45c4-b15d-ceafbaf5c61e.",
+      "outcome": "failed",
+      "params": "one optimizer step requested; 1 GPU; batch 4",
+      "purpose": "private training capture",
+      "schedulerStatus": "COMPLETED"
+    },
+    {
+      "attemptId": "c7097037-aa89-4628-8838-f5b08b92998c",
+      "costSource": "Finalized TReqs on-demand instance receipt",
+      "costUsd": 1.29,
+      "dataset": "Four source-pinned sim_pick_place demo episodes",
+      "durationSec": 1055.853,
+      "label": "#37 job 1",
+      "note": "All seven tasks, one update and full lineage completed; independent result-sidecar equality failed. Maintainer intervention occurred; attempt BLOCKED. Job 4b0d301d-b5dd-428b-9465-62d3dd18ee73.",
+      "outcome": "failed",
+      "params": "one optimizer step requested; 1 GPU; batch 4",
+      "purpose": "private training capture",
+      "schedulerStatus": "COMPLETED"
+    },
+    {
+      "attemptId": "d2a44b75-d1e5-4e14-b9c4-7d8482e80d9e",
+      "costSource": "Finalized TReqs on-demand instance receipt",
+      "costUsd": 1.24,
+      "dataset": "Four source-pinned sim_pick_place demo episodes",
+      "durationSec": 1070.508,
+      "label": "#38 job 1",
+      "note": "All seven tasks completed; 19 private files independently checked; full lineage and auditor PASS. Observed unattended from worker start to terminal PASS; no cold rebuild certification. Job 9740975f-4f5d-4116-aaba-4e5a43616c42.",
+      "outcome": "ok",
+      "params": "one optimizer step requested; 1 GPU; batch 4",
+      "purpose": "private training capture",
+      "schedulerStatus": "COMPLETED"
+    },
+    {
+      "attemptId": "31910970-c97d-4fa6-994b-cf662153fc59",
+      "costSource": "Finalized TReqs on-demand instance receipt",
+      "costUsd": 2.41,
+      "label": "Public upload attempt 1",
+      "note": "Training and checkpoint evaluation passed; Xet upload failed with 'timed out reading request body'. No verified public checkpoint was produced by this attempt.",
+      "outcome": "failed",
+      "purpose": "public training capture",
+      "schedulerStatus": "FAILED"
+    },
+    {
+      "attemptId": "lda-public-20260915",
+      "costSource": "Finalized TReqs on-demand instance receipt",
+      "costUsd": 1.68,
+      "dataset": "Four source-pinned sim_pick_place demo episodes",
+      "label": "Public one-step canary",
+      "note": "Job dcc67bd2-b385-43d5-b0cf-b64b00fd59e0; public byte and lineage verification passed; compute stopped.",
+      "outcome": "ok",
+      "params": "one optimizer step; 1 GPU; batch 4",
+      "purpose": "public training capture",
+      "schedulerStatus": "COMPLETED"
+    }
+  ],
+  "slug": "lda-1b-robocasa",
+  "status": "progress",
+  "statusSub": "Public one-step capture passed",
+  "summary": "A fresh public one-step LDA RoboCasa demo canary completed training, checkpoint publication, anonymous byte verification and full training-to-PUT lineage checks. The prior private capture remains documented. Model quality and cold reproduction are untested.",
+  "tags": [
+    "fine-tune",
+    "imitation-learning"
+  ],
+  "trainingMode": "partial",
+  "truncated": true,
+  "truncation": {
+    "full": 300000,
+    "note": "One optimizer step on four demo episodes, versus 300000 steps in the pinned RoboCasa checkpoint config; batch 4, frozen Qwen/DINO and a shape-only input adapter. This does not reproduce the published training scale or policy quality.",
+    "ran": 1,
+    "unit": "optimizer steps"
+  },
+  "truncationNote": "One optimizer step on four demo episodes, versus 300000 steps in the pinned RoboCasa checkpoint config; batch 4, frozen Qwen/DINO and a shape-only input adapter. This does not reproduce the published training scale or policy quality.",
+  "type": "robotics",
+  "upstreamCommit": "06e6a274a9086cc26635a9fe663866335eb30fc5",
+  "upstreamUrl": "https://github.com/jiangranlv/LDA-1B",
+  "verified": false
+}
