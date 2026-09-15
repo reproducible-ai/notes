@@ -8,7 +8,7 @@
   "attempts": [
     {
       "attemptId": "c1d5947f-ef2a-4e27-b071-94f6cc95e7c9",
-      "eventsSha256": "9315807b5a7464dd7ccf5e8aa97c91db5f5cf5a10f660ced18f0d04808854ec3",
+      "eventsSha256": "862847406b7698a8a78bc872744a9b9f3e44daab4098880b88c7f86ef3d848a9",
       "finalizationRecovery": {
         "actionId": "af74a0e643f0f7a945ba4bcf70c15234dca8e0be5344122daf3fce4ac30eab2e",
         "harnessCommit": "d43724ce6db07481dd48f3b78488f948e97cc186",
