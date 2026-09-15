@@ -1,0 +1,78 @@
+{
+  "artifact": {
+    "format": "gr00t-n1.7-safetensors-checkpoint",
+    "loadVerified": true,
+    "sha256": "12117379d91d029c5979a585d07ba794001730c9516d6de5512e3dedfee30730",
+    "sizeBytes": 104913
+  },
+  "attempts": [
+    {
+      "attemptId": "c1d5947f-ef2a-4e27-b071-94f6cc95e7c9",
+      "eventsSha256": "862847406b7698a8a78bc872744a9b9f3e44daab4098880b88c7f86ef3d848a9",
+      "finalizationRecovery": {
+        "actionId": "af74a0e643f0f7a945ba4bcf70c15234dca8e0be5344122daf3fce4ac30eab2e",
+        "harnessCommit": "d43724ce6db07481dd48f3b78488f948e97cc186",
+        "previousState": "finalizing",
+        "schema": "reproai.finalization-recovery/v1"
+      },
+      "issueNumber": 39,
+      "outcome": "PASS",
+      "receiptSha256": {
+        "artifact.json": "e73629c5bb1b2cf44107d0bb36504cdba27ded3f9b03d9bf1ccdec60611b7d1b",
+        "audit.json": "41d92dfc55351dd534d885a9e93bd8aee014a1fdbfbe62103b931f946cd90479",
+        "budget.json": "b4506554e08da990e77a153ef4d776368ba7828d6cad12ab5c69ca392cb91b2d",
+        "cost-observations.jsonl": "1f4c80141375a4ae009cca36fd0bdd43623852189b21c74c1fa984b0d8a28727",
+        "observations.json": "fc4a1743087fa19f21471c36ecd52fadf2e1bafb35de781513f3af12625d3f64",
+        "reconciliation.json": "fd606122d566305de471699f7c2940d276b2039105a5cf48b7ce8c5908edc8a0",
+        "training.json": "0154f6b23608f169c18aebc56382a43daf155a8d706f85a335b83e04d5bcb2ef"
+      },
+      "schedulerStatus": "COMPLETED"
+    }
+  ],
+  "audit": {
+    "scope": "private-evidence",
+    "verdict": "PASS"
+  },
+  "capture": {
+    "harnessOutcome": "PASS",
+    "result": {
+      "finalLoss": 0.0893,
+      "loadVerified": true,
+      "optimizerSteps": 100
+    },
+    "schedulerStatus": "COMPLETED"
+  },
+  "cost": {
+    "complete": true,
+    "knownJobSubtotalUsd": 1.52,
+    "knownJobs": 1,
+    "selectedRunUsd": 1.52,
+    "totalJobs": 1
+  },
+  "limitations": [
+    "Capture only; no cold-rebuild certification.",
+    "Private destinations and raw receipts are omitted.",
+    "Unknown measurements are not inferred."
+  ],
+  "model": {
+    "name": "GR00T N1.7",
+    "slug": "gr00t-n1-7"
+  },
+  "schema": "reproai.model-report/v1",
+  "selectedAttemptId": "c1d5947f-ef2a-4e27-b071-94f6cc95e7c9",
+  "source": {
+    "baseCommit": "9124d64bc9b19f118285939e8ffd29ce5f094733",
+    "candidateCommit": "143ffa3da28a11f037c2a0628fb796ef1f93e5ce",
+    "upstreamCommit": "9124d64bc9b19f118285939e8ffd29ce5f094733"
+  },
+  "supportingFiles": {
+    "patches/c1d5947f-ef2a-4e27-b071-94f6cc95e7c9.patch": {
+      "reason": "Contains private-path, destination or credential-like text; exact bytes retained privately.",
+      "status": "private"
+    },
+    "reproductionScripts": {
+      "reason": "Roar is unavailable; configure REPROAI_ROAR_BIN and retry notes scripts.",
+      "status": "unavailable"
+    }
+  }
+}

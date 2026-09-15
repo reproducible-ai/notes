@@ -1,0 +1,134 @@
+{
+  "artifactUrl": null,
+  "blocker": null,
+  "bomScore": null,
+  "bomUrl": "",
+  "dagHash": "",
+  "dagUrl": "",
+  "dataWarnings": [
+    "Evidence and artifacts remain private; this report does not publish them.",
+    "Training capture does not establish cold certification or full reproduction.",
+    "Missing measurements remain unknown; no full-run cost extrapolation is asserted.",
+    "Private artifact destinations are redacted from narrative observations.",
+    "Text and commands containing private references are omitted; originals remain in private evidence.",
+    "Finalization required authorized recovery under harness revision d43724ce6db07481dd48f3b78488f948e97cc186; the original run did not complete unattended."
+  ],
+  "dataset": "DROID 1.0.1",
+  "date": "2026-09-15",
+  "forkUrl": null,
+  "fullRun": {
+    "changes": [],
+    "confidence": "low",
+    "estimateBasis": "The full schedule and fixed/scaling cost split have not been verified; no extrapolation was made.",
+    "estimateUsd": null
+  },
+  "issues": [
+    {
+      "detail": "Verification now loads each tensor on CPU and records load verification plus trainer-state hash. Packaging checks verified shard, index, and trainer-state hashes before emitting receipts and includes taskMetric.",
+      "evidence": "issues.md",
+      "fix": "Added verification evidence requirements and stale-file rejection.",
+      "severity": "P1",
+      "title": "Packaging previously trusted a passed status without binding verification to checkpoint bytes.",
+      "upstreamAction": "not assessed"
+    },
+    {
+      "detail": "Assertions now derive the repository from the workflow. Offline checks exercise a replacement repository and preserve complete checkpoint directory publication.",
+      "evidence": "issues.md",
+      "fix": "Made assertions binding-aware and added offline publication checks.",
+      "severity": "P1",
+      "title": "Existing tests hard-coded the placeholder publication repository.",
+      "upstreamAction": "not assessed"
+    }
+  ],
+  "license": "LicenseRef-NVIDIA-License",
+  "name": "GR00T N1.7",
+  "notes": null,
+  "operator": {
+    "agent": "training-operator:c264c8b2-05fa-4997-a6c5-e0f755db4607",
+    "harness": "reproducible-ai-harness",
+    "harnessVersion": "0.1.0",
+    "model": "gpt-6-astra"
+  },
+  "org": "Reproducible AI",
+  "parameters": [
+    {
+      "name": "optimizer steps / save interval",
+      "published": "examples/finetune.sh defaults: 10000 / 1000",
+      "reason": "Retained declared partial canary schedule.",
+      "restoresFullRun": false,
+      "used": "100 / 100",
+      "where": ".treqs/scripts/run_droid_canary.py"
+    },
+    {
+      "name": "global batch size",
+      "published": "32",
+      "reason": "Retained task-required bounded batch.",
+      "restoresFullRun": false,
+      "used": "1",
+      "where": ".treqs/scripts/run_droid_canary.py"
+    },
+    {
+      "name": "data loading",
+      "published": "workers=4; shard_size=1024; shards_per_epoch=100000; episode_sampling_rate=0.1",
+      "reason": "Retained existing three-episode canary settings.",
+      "restoresFullRun": false,
+      "used": "workers=0; shard_size=8; shards_per_epoch=8; episode_sampling_rate=1.0",
+      "where": ".treqs/scripts/run_droid_canary.py"
+    },
+    {
+      "name": "Flash Attention / model-only saving / external logging",
+      "published": "enabled / disabled / enabled",
+      "reason": "Retained existing canary runtime and artifact settings.",
+      "restoresFullRun": false,
+      "used": "disabled / enabled / disabled",
+      "where": ".treqs/scripts/run_droid_canary.py"
+    }
+  ],
+  "patch": {
+    "lines": null,
+    "url": null
+  },
+  "rebuild": {
+    "costUsd": 1.52,
+    "hw": null,
+    "time": "755.963s"
+  },
+  "reproduce": {
+    "cmd": "",
+    "hash": ""
+  },
+  "runs": [
+    {
+      "attemptId": "c1d5947f-ef2a-4e27-b071-94f6cc95e7c9",
+      "costSource": "reconciliation.jobActualCostUsd",
+      "costUsd": 1.52,
+      "dataset": "DROID 1.0.1",
+      "durationSec": 755.963,
+      "estimatedCostUsd": 0.67,
+      "label": "c1d5947f-ef2a-4e27-b071-94f6cc95e7c9/edd28f95-2805-4985-90ea-52af84f65dab",
+      "note": "Scheduler: COMPLETED; harness: PASS. Capture only; no cold certification.",
+      "outcome": "ok",
+      "params": "100 optimizer steps, batch size 1, BF16, one GPU",
+      "purpose": "training capture",
+      "schedulerStatus": "COMPLETED"
+    }
+  ],
+  "slug": "gr00t-n1-7",
+  "status": "progress",
+  "statusSub": "Training capture; certification has not been asserted",
+  "summary": "Recorded partial training capture on DROID 1.0.1. Harness outcome: PASS; scheduler: COMPLETED. Recorded optimizer steps: 100. Cold reproduction and model quality are not established by this capture.",
+  "tags": [],
+  "trainingMode": "partial",
+  "truncated": true,
+  "truncation": {
+    "full": null,
+    "note": "Recorded optimizer steps: 100. This bounded capture does not establish the full training schedule or a full-run cost.",
+    "ran": 100,
+    "unit": "steps"
+  },
+  "truncationNote": "Recorded optimizer steps: 100. This bounded capture does not establish the full training schedule or a full-run cost.",
+  "type": "robotics",
+  "upstreamCommit": "9124d64bc9b19f118285939e8ffd29ce5f094733",
+  "upstreamUrl": "https://github.com/reproducible-ai/Isaac-GR00T",
+  "verified": false
+}
