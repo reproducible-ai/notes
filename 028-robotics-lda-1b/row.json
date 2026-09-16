@@ -10,7 +10,7 @@
   ],
   "blocker": "No cold rebuild or held-out policy evaluation; demo/RoboCasa semantic equivalence is untested.",
   "bomScore": null,
-  "bomUrl": null,
+  "bomUrl": "https://glaas.ai/dag/d5c8d707ae657d6eeb9382079c12aacbd7f75b15142f73adb9f6eef2c0825d80/audit",
   "dagHash": "d5c8d707ae657d6eeb9382079c12aacbd7f75b15142f73adb9f6eef2c0825d80",
   "dagUrl": "https://glaas.ai/dag/d5c8d707ae657d6eeb9382079c12aacbd7f75b15142f73adb9f6eef2c0825d80",
   "dataWarnings": [

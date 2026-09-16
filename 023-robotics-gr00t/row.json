@@ -2,7 +2,7 @@
   "artifactUrl": "https://huggingface.co/reproducible-ai/gr00t-n1-7/tree/ef04eee6429a8ae492cae74d6af2a0dd5dc41a7c/artifacts/droid-canary/checkpoint-100",
   "blocker": "No independent cold replay, held-out policy evaluation or defensible full-run cost estimate.",
   "bomScore": null,
-  "bomUrl": "",
+  "bomUrl": "https://glaas.ai/dag/01c4225ca5c1df31c72153671041cd530fa338dac02259384855b56e0c540c15/audit",
   "dagHash": "01c4225ca5c1df31c72153671041cd530fa338dac02259384855b56e0c540c15",
   "dagUrl": "https://glaas.ai/dag/01c4225ca5c1df31c72153671041cd530fa338dac02259384855b56e0c540c15",
   "dataWarnings": [

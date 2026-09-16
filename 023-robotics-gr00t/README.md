@@ -6,6 +6,7 @@ GR00T N1.7 completed a public **100-step DROID 1.0.1 training capture** on 2026-
 
 - [Download the checkpoint at its immutable Hugging Face revision](https://huggingface.co/reproducible-ai/gr00t-n1-7/tree/ef04eee6429a8ae492cae74d6af2a0dd5dc41a7c/artifacts/droid-canary/checkpoint-100).
 - [Inspect the public GLaaS training lineage](https://glaas.ai/dag/01c4225ca5c1df31c72153671041cd530fa338dac02259384855b56e0c540c15).
+- [View the GLaaS AI-BOM audit](https://glaas.ai/dag/01c4225ca5c1df31c72153671041cd530fa338dac02259384855b56e0c540c15/audit).
 - [Read the verification receipt](https://github.com/reproducible-ai/notes/blob/main/023-robotics-gr00t/evidence/public-release.json) and [release record](https://github.com/reproducible-ai/notes/blob/main/023-robotics-gr00t/PUBLIC-RELEASE.md).
 
 ## Selected public run
@@ -50,7 +51,7 @@ The selected-run cost is not the cost of a cold replay or full training. The [co
 - No held-out policy evaluation, independent cold replay, author verification or full reproduction is established. `verified` remains false and certification is unset.
 - Roar's untracked-directory warning remains; checks cover the published inventory and graph described above.
 - The full training schedule and fixed/scaling cost split are unknown, so no full-run cost estimate is defensible.
-- A separate AI-BOM report/score is not recorded; the public lineage and packaged input records remain available.
+- The AI-BOM audit is linked above. A completeness score is not recorded in this notes snapshot; the audit link does not assert cold-replay certification.
 - The checkpoint includes the NVIDIA license and notices. Its recorded use scope is non-commercial research/evaluation; consult the packaged terms.
 
 ## Earlier private capture and evidence

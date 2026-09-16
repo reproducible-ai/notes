@@ -6,6 +6,7 @@ LDA-1B completed a public **one-step RoboCasa demo training capture** on 2026-09
 
 - [Download the checkpoint at its immutable Hugging Face revision](https://huggingface.co/reproducible-ai/lda-1b-robocasa/tree/9dfddadf3513472415a304285b58f843971f7658/artifacts/lda-robocasa-canary/release/checkpoints).
 - [Inspect the public GLaaS training lineage](https://glaas.ai/dag/d5c8d707ae657d6eeb9382079c12aacbd7f75b15142f73adb9f6eef2c0825d80).
+- [View the GLaaS AI-BOM audit](https://glaas.ai/dag/d5c8d707ae657d6eeb9382079c12aacbd7f75b15142f73adb9f6eef2c0825d80/audit).
 - [Read the verification receipt](https://github.com/reproducible-ai/notes/blob/main/028-robotics-lda-1b/evidence/public-release.json) and [release record](https://github.com/reproducible-ai/notes/blob/main/028-robotics-lda-1b/PUBLIC-RELEASE.md).
 
 ## Selected public run
@@ -68,7 +69,7 @@ The selected public job is `dcc67bd2-b385-43d5-b0cf-b64b00fd59e0`; the failed pu
 - No independent cold replay, held-out policy benchmark, full-scale training, author verification or certification is established. `verified` remains false and certification is unset.
 - The shape-only demo adapter does not validate RoboCasa policy semantics.
 - Roar's untracked-directory warning remains, and role labels are not sufficient evidence of the actual producer; verification used commands and directed edges.
-- A separate AI-BOM report/score is not recorded. No full-run cost is extrapolated.
+- The AI-BOM audit is linked above. A completeness score is not recorded in this notes snapshot; no full-run cost is extrapolated.
 - The checkpoint packages CC BY-NC 4.0, Apache 2.0 and DINOv3 component terms and notices. Built with DINOv3. The recorded release scope is non-commercial research/evaluation; consult those component terms.
 
 ## Earlier private capture and evidence
