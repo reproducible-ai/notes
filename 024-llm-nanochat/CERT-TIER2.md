@@ -47,10 +47,17 @@ processes were parented by `roar-tracer-preload`.
 The certifier was independent of the capture operator and did not modify, recapture,
 or publish the workload.
 
-## Earlier certification attempt
+## Earlier certification attempts
 
-The earlier independent attempt on 2026-09-11 remains part of the history. It
-returned exit code `143` after an evidence-preserving stop at its spend ceiling and
-did not emit a `Steps run: N/M` summary. It completed base training and began SFT,
-but did not produce the final package. Its partial output hashes and environment
-evidence remain available in the branch commit that recorded that attempt.
+All four cold attempts remain part of the certification history:
+
+| Attempt | Exit | Steps | Result | Estimated spend |
+|---:|---:|---:|---|---:|
+| 1 | 143 | absent | Operator-stopped after base training; incomplete | $13.25 |
+| 2 | 143 | absent | Budget stop during supervised fine-tuning; incomplete | $23.39 |
+| 3 | 1 | 4/5 | The base step exceeded its 21,600-second outer limit after two completed executions of the same workload command; the final package was regenerated, but the outer reproduction failed | $25.73 |
+| 4 | 0 | 5/5 | Complete certified reproduction | $17.94 |
+
+Attempt 1's partial output hashes and environment evidence remain available in the
+branch commit that originally recorded it. Attempts 1–3 do not certify the row;
+attempt 4 is the authoritative passing result above.

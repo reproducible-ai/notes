@@ -358,6 +358,7 @@
   },
   "certificationHistory": [
     {
+      "attempt": 1,
       "tier": 2,
       "result": "FAIL",
       "date": "2026-09-11",
@@ -366,6 +367,26 @@
       "outcome": "Base training completed and SFT began; the attempt stopped at its certification spend ceiling before producing the final package.",
       "costUsd": 13.25,
       "evidence": "CERT-TIER2.md and branch commit e671dda2ed3e2cc89eaf4b6b2c305867a5e0282c"
+    },
+    {
+      "attempt": 2,
+      "tier": 2,
+      "result": "FAIL",
+      "exitCode": 143,
+      "stepsRun": "absent",
+      "outcome": "Base training completed; the attempt stopped at its certification spend ceiling during supervised fine-tuning and did not complete the reproduction.",
+      "costUsd": 23.39,
+      "evidence": "CERT-TIER2.md"
+    },
+    {
+      "attempt": 3,
+      "tier": 2,
+      "result": "FAIL",
+      "exitCode": 1,
+      "stepsRun": "4/5",
+      "outcome": "The base step exceeded its 21600-second outer limit after two completed executions of the same workload command. The final package was regenerated, but the outer reproduction failed.",
+      "costUsd": 25.73,
+      "evidence": "CERT-TIER2.md"
     }
   ],
   "reproduce": {
@@ -389,7 +410,7 @@
     }
   },
   "dataWarnings": [
-    "An earlier independent Tier-2 attempt stopped at its spend ceiling before completion and emitted no Steps run: N/M summary; the later fourth attempt passed 5/5.",
+    "Three earlier independent Tier-2 attempts did not certify the row; the fourth attempt passed with exit 0 and Steps run: 5/5.",
     "The three depth-16 setup attempts were separately metered but their individual wall-clock durations were not retained."
   ]
 }
