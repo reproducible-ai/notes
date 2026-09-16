@@ -1,21 +1,20 @@
 {
-  "artifactUrl": null,
-  "blocker": null,
+  "artifactUrl": "https://huggingface.co/reproducible-ai/gr00t-n1-7/tree/ef04eee6429a8ae492cae74d6af2a0dd5dc41a7c/artifacts/droid-canary/checkpoint-100",
+  "blocker": "No independent cold replay, held-out policy evaluation or defensible full-run cost estimate.",
   "bomScore": null,
   "bomUrl": "",
-  "dagHash": "",
-  "dagUrl": "",
+  "dagHash": "01c4225ca5c1df31c72153671041cd530fa338dac02259384855b56e0c540c15",
+  "dagUrl": "https://glaas.ai/dag/01c4225ca5c1df31c72153671041cd530fa338dac02259384855b56e0c540c15",
   "dataWarnings": [
-    "Evidence and artifacts remain private; this report does not publish them.",
-    "Training capture does not establish cold certification or full reproduction.",
-    "Missing measurements remain unknown; no full-run cost extrapolation is asserted.",
-    "Private artifact destinations are redacted from narrative observations.",
-    "Text and commands containing private references are omitted; originals remain in private evidence.",
-    "Finalization required authorized recovery under harness revision d43724ce6db07481dd48f3b78488f948e97cc186; the original run did not complete unattended."
+    "Public links and headline fields describe the fresh public run; private capture evidence remains historical.",
+    "The result artifact size and hash identify the safetensors index, not the full weight set.",
+    "No author verification, independent public-run auditor verdict, cold replay or model-quality claim.",
+    "Accelerator model and full training schedule were not retained in the public verification receipt.",
+    "Roar reported untracked artifact directories; the checked inventory bounds the claim."
   ],
   "dataset": "DROID 1.0.1",
   "date": "2026-09-15",
-  "forkUrl": null,
+  "forkUrl": "https://github.com/reproducible-ai/Isaac-GR00T/tree/c084d6eab090a2b5822db474d790a00dfe7fae5d",
   "fullRun": {
     "changes": [],
     "confidence": "low",
@@ -24,31 +23,25 @@
   },
   "issues": [
     {
-      "detail": "Verification now loads each tensor on CPU and records load verification plus trainer-state hash. Packaging checks verified shard, index, and trainer-state hashes before emitting receipts and includes taskMetric.",
-      "evidence": "issues.md",
+      "detail": "Verification now loads each tensor on CPU and records load verification plus trainer-state hash. Packaging checks verified shard, index, and trainer-state hashes before emitting receipts and includes taskMetric. Upstream disposition: not assessed.",
+      "evidence": "https://github.com/reproducible-ai/notes/blob/main/023-robotics-gr00t/issues.md",
       "fix": "Added verification evidence requirements and stale-file rejection.",
       "severity": "P1",
       "title": "Packaging previously trusted a passed status without binding verification to checkpoint bytes.",
-      "upstreamAction": "not assessed"
+      "upstreamAction": "none"
     },
     {
-      "detail": "Assertions now derive the repository from the workflow. Offline checks exercise a replacement repository and preserve complete checkpoint directory publication.",
-      "evidence": "issues.md",
+      "detail": "Assertions now derive the repository from the workflow. Offline checks exercise a replacement repository and preserve complete checkpoint directory publication. Upstream disposition: not assessed.",
+      "evidence": "https://github.com/reproducible-ai/notes/blob/main/023-robotics-gr00t/issues.md",
       "fix": "Made assertions binding-aware and added offline publication checks.",
       "severity": "P1",
       "title": "Existing tests hard-coded the placeholder publication repository.",
-      "upstreamAction": "not assessed"
+      "upstreamAction": "none"
     }
   ],
   "license": "LicenseRef-NVIDIA-License",
   "name": "GR00T N1.7",
-  "notes": null,
-  "operator": {
-    "agent": "training-operator:c264c8b2-05fa-4997-a6c5-e0f755db4607",
-    "harness": "reproducible-ai-harness",
-    "harnessVersion": "0.1.0",
-    "model": "gpt-6-astra"
-  },
+  "notes": "https://github.com/reproducible-ai/notes/tree/main/023-robotics-gr00t",
   "org": "Reproducible AI",
   "parameters": [
     {
@@ -89,13 +82,13 @@
     "url": null
   },
   "rebuild": {
-    "costUsd": 1.52,
+    "costUsd": 1.57,
     "hw": null,
-    "time": "755.963s"
+    "time": "576.804s"
   },
   "reproduce": {
-    "cmd": "",
-    "hash": ""
+    "hash": "01c4225ca5c1df31c72153671041cd530fa338dac02259384855b56e0c540c15",
+    "cmd": "roar reproduce 01c4225ca5c1df31c72153671041cd530fa338dac02259384855b56e0c540c15 --lineage --run --no-puts"
   },
   "runs": [
     {
@@ -105,18 +98,33 @@
       "dataset": "DROID 1.0.1",
       "durationSec": 755.963,
       "estimatedCostUsd": 0.67,
-      "label": "c1d5947f-ef2a-4e27-b071-94f6cc95e7c9/edd28f95-2805-4985-90ea-52af84f65dab",
+      "label": "Earlier private 100-step capture",
       "note": "Scheduler: COMPLETED; harness: PASS. Capture only; no cold certification.",
       "outcome": "ok",
       "params": "100 optimizer steps, batch size 1, BF16, one GPU",
-      "purpose": "training capture",
-      "schedulerStatus": "COMPLETED"
+      "purpose": "private training capture",
+      "schedulerStatus": "COMPLETED",
+      "jobId": "edd28f95-2805-4985-90ea-52af84f65dab"
+    },
+    {
+      "label": "Public 100-step DROID canary",
+      "purpose": "public training capture",
+      "attemptId": "gr00t-public-20260915",
+      "jobId": "f282527c-4573-4a28-afae-29033e75c4c6",
+      "params": "100 optimizer steps; batch 1; BF16; one GPU requested",
+      "durationSec": 576.804,
+      "costUsd": 1.57,
+      "costSource": "Finalized TReqs instance observation; evidence/public-run-timing.json",
+      "outcome": "ok",
+      "schedulerStatus": "COMPLETED",
+      "dagHash": "01c4225ca5c1df31c72153671041cd530fa338dac02259384855b56e0c540c15",
+      "note": "Job f282527c-4573-4a28-afae-29033e75c4c6; anonymous checkpoint and training-to-PUT checks passed; compute stopped. No cold certification."
     }
   ],
   "slug": "gr00t-n1-7",
-  "status": "progress",
-  "statusSub": "Training capture; certification has not been asserted",
-  "summary": "Recorded partial training capture on DROID 1.0.1. Harness outcome: PASS; scheduler: COMPLETED. Recorded optimizer steps: 100. Cold reproduction and model quality are not established by this capture.",
+  "status": "partial",
+  "statusSub": "Public 100-step DROID capture passed; cold replay and model quality untested",
+  "summary": "GR00T N1.7 completed a public 100-step DROID 1.0.1 training capture. All checkpoint files passed anonymous checksum verification and public training-to-PUT lineage checks. Full reproduction and model quality remain untested.",
   "tags": [],
   "trainingMode": "partial",
   "truncated": true,

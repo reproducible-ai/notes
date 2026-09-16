@@ -1,5 +1,23 @@
 # Commands and recipe
 
+## Selected public run
+
+The selected job is `dcc67bd2-b385-43d5-b0cf-b64b00fd59e0` at source `fd78edbc1942903fe8dd073a208996bed014849e`. Inspect the [exact workflow](https://github.com/reproducible-ai/LDA-1B/blob/fd78edbc1942903fe8dd073a208996bed014849e/.treqs/workflows/robocasa-demo-canary.yaml) and [recipe documentation](https://github.com/reproducible-ai/LDA-1B/blob/fd78edbc1942903fe8dd073a208996bed014849e/.treqs/README.md). These are the executed source records; a new run requires its own credentials, compatible GPU, budget and publication destination.
+
+## Cold replay is unvalidated
+
+The website displays the following candidate replay command for the public lineage:
+
+```bash
+roar reproduce d5c8d707ae657d6eeb9382079c12aacbd7f75b15142f73adb9f6eef2c0825d80 --lineage --run --no-puts
+```
+
+This command has not been executed as an independent cold replay. The site's generic `pip install roar-cli` instruction does not establish the pinned source/native-tracer environment used here. Follow the pinned recipe's environment setup before attempting a new run. Public downloads and lineage checks are the verification performed; they do not establish replay success or model quality.
+
+## Earlier private capture command record
+
+Everything below describes the historical private capture and retains its original command outcomes. Private publication destinations remain redacted.
+
 ## Recorded execution context
 
 TReqs executed the [seven-stage workflow at candidate `b55c26dad419064089f588837c5048843537577a`](https://github.com/reproducible-ai/LDA-1B/blob/b55c26dad419064089f588837c5048843537577a/.treqs/workflows/robocasa-demo-canary.yaml). This is the recorded recipe, not a newly tested standalone replay. It assumes a fresh Linux GPU workspace, an existing compatible compute target, brokered GLaaS credentials, an HF credential with the required input/write access, and a supervisor-owned private destination and dollar cap. The model command itself is ordinary Python; TReqs wraps the training stage because its `trace` setting is `run`.
@@ -107,7 +125,7 @@ git diff 06e6a274a9086cc26635a9fe663866335eb30fc5 b55c26dad419064089f588837c5048
 git diff 06e6a274a9086cc26635a9fe663866335eb30fc5 b55c26dad419064089f588837c5048843537577a -- .treqs/ tests/treqs/ .gitignore
 ```
 
-The [complete pinned comparison](https://github.com/reproducible-ai/LDA-1B/compare/06e6a274a9086cc26635a9fe663866335eb30fc5...b55c26dad419064089f588837c5048843537577a) is the full patch reference. This report also includes the exact [runtime/dependency patch](patches/runtime-and-dependencies.patch), with its scope and digest in the [patch inventory](patches/README.md). Workflow, regression-test and operational-note changes remain separately inspectable at the pinned source.
+The [complete pinned comparison](https://github.com/reproducible-ai/LDA-1B/compare/06e6a274a9086cc26635a9fe663866335eb30fc5...b55c26dad419064089f588837c5048843537577a) is the full patch reference. This report also includes the exact [runtime/dependency patch](https://github.com/reproducible-ai/notes/blob/main/028-robotics-lda-1b/patches/runtime-and-dependencies.patch), with its scope and digest in the [patch inventory](https://github.com/reproducible-ai/notes/blob/main/028-robotics-lda-1b/patches/README.md). Workflow, regression-test and operational-note changes remain separately inspectable at the pinned source.
 
 ## Verification actually performed
 
@@ -115,4 +133,4 @@ Remote setup ran `.venv/bin/python -m pytest -q tests/treqs`: **38 passed**. The
 
 Before launch, the final operator's dependency-free recipe checks passed. Its `python3 -m pytest -q tests/treqs` command failed before collection because pytest was absent from that interpreter; no local full-suite pass is inferred from that command. The full recipe suite ran in remote setup as recorded above. These checks are supporting development evidence, not additional model-training runs.
 
-No `roar reproduce` cold replay was executed for this record. The public reproduction command remains empty because this report does not publish the private lineage address or claim replay certification.
+No `roar reproduce` cold replay was executed for this record. That private capture had no public reproduction command because its lineage address was not released; this restriction does not describe the later public run above.

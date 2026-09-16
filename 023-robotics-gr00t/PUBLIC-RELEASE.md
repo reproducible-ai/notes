@@ -11,4 +11,4 @@ A fresh public run completed 100 optimizer steps on the same pinned inputs as th
 
 Anonymous downloads matched every manifest size and SHA-256. All 1,030 tensors matched the three-shard index. Anonymous GLaaS reads confirmed each trained weight shard is consumed by PUT. The supervisor performed these checks and published this addendum automatically. This is a training-path canary, with no new model-quality or independent-auditor claim.
 
-Use is limited to non-commercial research/evaluation under the packaged NVIDIA license. See [verification evidence](evidence/public-release.json).
+Use is limited to non-commercial research/evaluation under the packaged NVIDIA license. See [verification evidence](https://github.com/reproducible-ai/notes/blob/main/023-robotics-gr00t/evidence/public-release.json).

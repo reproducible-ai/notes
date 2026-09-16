@@ -12,7 +12,7 @@ The worker strict-loaded the checkpoint, checked all 1,441 tensors for finite fl
 
 The supervisor published this report automatically. The prior private capture and its audit remain historical evidence. This is a non-commercial demo training-path canary; cold replay, policy quality and semantic equivalence to RoboCasa remain untested. Roar's untracked-directory warning remains.
 
-CC BY-NC 4.0, Apache 2.0 and DINOv3 component terms are included with the checkpoint. Built with DINOv3. See [public verification evidence](evidence/public-release.json).
+CC BY-NC 4.0, Apache 2.0 and DINOv3 component terms are included with the checkpoint. Built with DINOv3. See [public verification evidence](https://github.com/reproducible-ai/notes/blob/main/028-robotics-lda-1b/evidence/public-release.json).
 
 ## Public upload retry
 

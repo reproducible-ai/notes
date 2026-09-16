@@ -21,7 +21,7 @@
   ],
   "dataset": "LDA sim_pick_place committed demo; four episodes at 06e6a274a9086cc26635a9fe663866335eb30fc5",
   "date": "2026-09-15",
-  "forkUrl": "https://github.com/reproducible-ai/LDA-1B",
+  "forkUrl": "https://github.com/reproducible-ai/LDA-1B/tree/fd78edbc1942903fe8dd073a208996bed014849e",
   "fullRun": {
     "changes": [
       "Resolve the full-run dataset and component-license scope.",
@@ -36,84 +36,85 @@
   },
   "issues": [
     {
-      "detail": "#32 was rejected before compute because the workflow did not declare the credential required by its private upload.",
+      "detail": "#32 was rejected before compute because the workflow did not declare the credential required by its private upload. Upstream disposition: Recipe integration fix; no upstream model defect asserted.",
       "evidence": "https://github.com/reproducible-ai/campaign-queue/issues/32",
       "fix": "Declare HF_TOKEN in workflow secrets and preflight input access.",
       "severity": "P1",
       "title": "Missing declared upload credential",
-      "upstreamAction": "Recipe integration fix; no upstream model defect asserted."
+      "upstreamAction": "none"
     },
     {
-      "detail": "#33 ended without acquiring an instance or running a task; finalized compute cost was $0.00.",
+      "detail": "#33 ended without acquiring an instance or running a task; finalized compute cost was $0.00. Upstream disposition: Compute routing issue; no upstream model change.",
       "evidence": "https://github.com/reproducible-ai/campaign-queue/issues/33",
       "fix": "Continue on an existing compatible 96 GB Blackwell target.",
       "severity": "P1",
       "title": "No allocation on the initial compute route",
-      "upstreamAction": "Compute routing issue; no upstream model change."
+      "upstreamAction": "none"
     },
     {
-      "detail": "#34 first failed dependency resolution across PyPI and the CUDA wheel index.",
+      "detail": "#34 first failed dependency resolution across PyPI and the CUDA wheel index. Upstream disposition: Potential upstream environment documentation improvement; no upstream PR recorded.",
       "evidence": "https://github.com/reproducible-ai/campaign-queue/issues/34",
       "fix": "Use the aligned CUDA 12.8 dependency pins and explicit uv index strategy in the pinned setup recipe.",
       "severity": "P1",
       "title": "Cold dependency resolution and Blackwell compatibility",
-      "upstreamAction": "Potential upstream environment documentation improvement; no upstream PR recorded."
+      "upstreamAction": "none"
     },
     {
-      "detail": "#34 next failed duplicated Accelerate/DeepSpeed precision settings, then failed batch-size inference because the custom DataLoader exposed no batch_size.",
+      "detail": "#34 next failed duplicated Accelerate/DeepSpeed precision settings, then failed batch-size inference because the custom DataLoader exposed no batch_size. Upstream disposition: Recipe integration fixes; retained regression coverage.",
       "evidence": "https://github.com/reproducible-ai/campaign-queue/issues/34",
       "fix": "Keep BF16 in the DeepSpeed JSON and explicitly set micro/global batch size 4 with accumulation 1.",
       "severity": "P1",
       "title": "Precision ownership and custom-sampler batch inference",
-      "upstreamAction": "Recipe integration fixes; retained regression coverage."
+      "upstreamAction": "none"
     },
     {
-      "detail": "#35 hit confirmed host OOM during optimizer preparation. Moving optimizer state to GPU exposed the demo input mismatch. A further candidate was rejected before launch because it expected action width 29 and lacked two history observations.",
+      "detail": "#35 hit confirmed host OOM during optimizer preparation. Moving optimizer state to GPU exposed the demo input mismatch. A further candidate was rejected before launch because it expected action width 29 and lacked two history observations. Upstream disposition: Exception handling is a potential upstream fix. Demo adaptation is canary-specific and has not established policy semantics.",
       "evidence": "https://github.com/reproducible-ai/campaign-queue/issues/35",
       "fix": "Disable CPU optimizer offload; use the pinned 58/138/2/32 contract and an explicit shape-only demo adapter. Initialize the exception-path output variable so the original failure is preserved.",
       "severity": "P1",
       "title": "Host OOM followed by demo/checkpoint mismatch",
-      "upstreamAction": "Exception handling is a potential upstream fix. Demo adaptation is canary-specific and has not established policy semantics."
+      "upstreamAction": "none"
     },
     {
-      "detail": "Earlier retries required a harness staging-ownership checkpoint correction and maintainer recovery. Idle failed-job instances were manually stopped. Those attempts are not unattended successes.",
+      "detail": "Earlier retries required a harness staging-ownership checkpoint correction and maintainer recovery. Idle failed-job instances were manually stopped. Those attempts are not unattended successes. Upstream disposition: Harness fix 12105c06493f949873f84caf3dcd53713037340b; no upstream model change.",
       "evidence": "https://github.com/reproducible-ai/campaign-queue/issues/34",
       "fix": "Preserve the same owned private destination during retry and retain append-only intervention records; continue under the remaining original budget.",
       "severity": "P1",
       "title": "Retry ownership checkpoint and manual recovery",
-      "upstreamAction": "Harness fix 12105c06493f949873f84caf3dcd53713037340b; no upstream model change."
+      "upstreamAction": "none"
     },
     {
-      "detail": "#36 completed training and upload, but publication contained only 3 jobs / 57 artifacts / 120 links versus the captured 5 / 71 / 212. Traversal selected only the latest producer of byte-identical copied content.",
+      "detail": "#36 completed training and upload, but publication contained only 3 jobs / 57 artifacts / 120 links versus the captured 5 / 71 / 212. Traversal selected only the latest producer of byte-identical copied content. Upstream disposition: Roar PR #302 was merged. The incomplete historical publication was retained as blocked.",
       "evidence": "https://github.com/reproducible-ai/campaign-queue/issues/36",
       "fix": "Install Roar main at 61e5e98ca823a25c19522870cb81d3ce730c391d, including the merged multiple-producer traversal fix; verify a fresh run.",
       "severity": "P1",
       "title": "Published lineage omitted train and evaluate",
-      "upstreamAction": "Roar PR #302 was merged. The incomplete historical publication was retained as blocked."
+      "upstreamAction": "pr",
+      "upstreamUrl": "https://github.com/treqs/roar/pull/302"
     },
     {
-      "detail": "#37 completed the workload and full lineage publication. Readback was delayed by a network outage, then failed because two evaluation paths were redacted in logs but remained absolute in the uploaded result. An uncaught verification error caused worker restarts.",
+      "detail": "#37 completed the workload and full lineage publication. Readback was delayed by a network outage, then failed because two evaluation paths were redacted in logs but remained absolute in the uploaded result. An uncaught verification error caused worker restarts. Upstream disposition: Model recipe and harness fixes; prior result preserved. Maintainer intervention prevents an unattended-success claim for #37.",
       "evidence": "https://github.com/reproducible-ai/campaign-queue/issues/37",
       "fix": "Use repository-relative evaluation paths (recipe 3308fc9) and retain invalid artifacts as BLOCKED (harness 7be12d4). Run #38 afresh after both fixes.",
       "severity": "P1",
       "title": "Portable receipts and bounded verification failure",
-      "upstreamAction": "Model recipe and harness fixes; prior result preserved. Maintainer intervention prevents an unattended-success claim for #37."
+      "upstreamAction": "none"
     },
     {
-      "detail": "#38 labels the training wrapper as other and packaging as training; the latest producer field identifies packaging. An additional directed producer edge identifies the actual training command.",
+      "detail": "#38 labels the training wrapper as other and packaging as training; the latest producer field identifies packaging. An additional directed producer edge identifies the actual training command. Upstream disposition: Platform follow-up; no role-label fix is claimed.",
       "evidence": "https://github.com/reproducible-ai/campaign-queue/issues/38",
       "fix": "The independent auditor checked commands and directed edges, not the role heuristic alone. Role labeling remains a follow-up.",
       "severity": "P2",
       "title": "Lineage role labels remain imprecise",
-      "upstreamAction": "Platform follow-up; no role-label fix is claimed."
+      "upstreamAction": "none"
     },
     {
-      "detail": "Roar reported untracked artifact directories during the final publication path.",
+      "detail": "Roar reported untracked artifact directories during the final publication path. Upstream disposition: Capture/filtering follow-up; no fix is claimed.",
       "evidence": "https://github.com/reproducible-ai/campaign-queue/issues/38",
       "fix": "Retain the warning and bound the result to the independently checked published inventory and lineage. No warning-free capture claim.",
       "severity": "P2",
       "title": "Untracked-directory warning remains",
-      "upstreamAction": "Capture/filtering follow-up; no fix is claimed."
+      "upstreamAction": "none"
     }
   ],
   "license": "Component-specific: source/demo CC-BY-NC-4.0; LDA/Qwen metadata Apache-2.0; DINOv3 License",
@@ -219,17 +220,17 @@
     }
   ],
   "patch": {
-    "lines": 3662,
-    "url": "https://github.com/reproducible-ai/LDA-1B/compare/06e6a274a9086cc26635a9fe663866335eb30fc5...b55c26dad419064089f588837c5048843537577a"
+    "lines": 4419,
+    "url": "https://github.com/reproducible-ai/LDA-1B/compare/06e6a274a9086cc26635a9fe663866335eb30fc5...fd78edbc1942903fe8dd073a208996bed014849e"
   },
   "rebuild": {
     "costUsd": 1.68,
-    "hw": "1\u00d7 RTX PRO 6000 Blackwell Server 96 GB",
+    "hw": "1× RTX PRO 6000 Blackwell Server 96 GB",
     "time": "1268.693s"
   },
   "reproduce": {
-    "cmd": "",
-    "hash": ""
+    "hash": "d5c8d707ae657d6eeb9382079c12aacbd7f75b15142f73adb9f6eef2c0825d80",
+    "cmd": "roar reproduce d5c8d707ae657d6eeb9382079c12aacbd7f75b15142f73adb9f6eef2c0825d80 --lineage --run --no-puts"
   },
   "runs": [
     {
@@ -367,7 +368,9 @@
       "note": "Training and checkpoint evaluation passed; Xet upload failed with 'timed out reading request body'. No verified public checkpoint was produced by this attempt.",
       "outcome": "failed",
       "purpose": "public training capture",
-      "schedulerStatus": "FAILED"
+      "schedulerStatus": "FAILED",
+      "durationSec": 1847.603,
+      "params": "one optimizer step; batch 4; training passed, Xet upload failed"
     },
     {
       "attemptId": "lda-public-20260915",
@@ -379,12 +382,15 @@
       "outcome": "ok",
       "params": "one optimizer step; 1 GPU; batch 4",
       "purpose": "public training capture",
-      "schedulerStatus": "COMPLETED"
+      "schedulerStatus": "COMPLETED",
+      "durationSec": 1268.693,
+      "jobId": "dcc67bd2-b385-43d5-b0cf-b64b00fd59e0",
+      "dagHash": "d5c8d707ae657d6eeb9382079c12aacbd7f75b15142f73adb9f6eef2c0825d80"
     }
   ],
   "slug": "lda-1b-robocasa",
-  "status": "progress",
-  "statusSub": "Public one-step capture passed",
+  "status": "partial",
+  "statusSub": "Public one-step RoboCasa demo capture passed; cold replay and policy quality untested",
   "summary": "A fresh public one-step LDA RoboCasa demo canary completed training, checkpoint publication, anonymous byte verification and full training-to-PUT lineage checks. The prior private capture remains documented. Model quality and cold reproduction are untested.",
   "tags": [
     "fine-tune",
