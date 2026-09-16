@@ -1,0 +1,21 @@
+{
+  "schema": "notes.public-run-timing/v1",
+  "provenance": "Derived during notes maintenance on 2026-09-16 from the completed supervisor state and finalized TReqs instance observation; no new training or artifact verification was performed.",
+  "clockDefinitions": {
+    "durationSec": "Scheduler startedAt to completedAt; not optimizer time.",
+    "instanceLifetimeSec": "Instance launchedAt to terminatedAt; includes provisioning and idle shutdown."
+  },
+  "selectedRun": {
+    "jobId": "f282527c-4573-4a28-afae-29033e75c4c6",
+    "status": "COMPLETED",
+    "startedAt": "2026-09-15T19:50:39.785Z",
+    "completedAt": "2026-09-15T20:00:16.589Z",
+    "durationSec": 576.804,
+    "instanceStatus": "stopped",
+    "region": "us-east-2",
+    "launchedAt": "2026-09-15T19:48:03.546Z",
+    "terminatedAt": "2026-09-15T20:17:00.892Z",
+    "instanceLifetimeSec": 1737.346,
+    "costUsd": 1.57
+  }
+}

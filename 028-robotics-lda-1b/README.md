@@ -1,56 +1,79 @@
 # LDA-1B
 
-## Latest public run
+LDA-1B completed a public **one-step RoboCasa demo training capture** on 2026-09-15. All seven workflow tasks completed, followed by anonymous checkpoint checksum verification and public training-to-PUT lineage checks. This is a **partial training result**; policy quality, semantic equivalence to RoboCasa and independent cold replay remain untested.
 
-See the [fresh public canary](PUBLIC-RELEASE.md) for public artifacts, lineage and verification. The original private capture is documented below.
+## Public artifacts and lineage
 
-An unattended one-step LDA RoboCasa training capture completed all seven workflow tasks, private checkpoint upload, independent artifact checks and a lineage audit. This is a bounded demo training-path result; model quality and cold reproduction have not been established.
+- [Download the checkpoint at its immutable Hugging Face revision](https://huggingface.co/reproducible-ai/lda-1b-robocasa/tree/9dfddadf3513472415a304285b58f843971f7658/artifacts/lda-robocasa-canary/release/checkpoints).
+- [Inspect the public GLaaS training lineage](https://glaas.ai/dag/d5c8d707ae657d6eeb9382079c12aacbd7f75b15142f73adb9f6eef2c0825d80).
+- [View the GLaaS AI-BOM audit](https://glaas.ai/dag/d5c8d707ae657d6eeb9382079c12aacbd7f75b15142f73adb9f6eef2c0825d80/audit).
+- [Read the verification receipt](https://github.com/reproducible-ai/notes/blob/main/028-robotics-lda-1b/evidence/public-release.json) and [release record](https://github.com/reproducible-ai/notes/blob/main/028-robotics-lda-1b/PUBLIC-RELEASE.md).
 
-## What was run
+## Selected public run
 
-On 2026-09-14, campaign [#38](https://github.com/reproducible-ai/campaign-queue/issues/38) fine-tuned the pinned `Wayer2/LDA-robocasa` checkpoint for one optimizer step using the four committed `sim_pick_place` demonstration episodes. The task selected a 96 GB RTX PRO 6000 Blackwell target in us-east-2. The executed runtime guard checked that exactly one RTX PRO 6000 GPU was visible, with compute capability 12.0 and at least 90 GiB of memory. Final receipts identify the region and instance lifetime but do not record an instance-type or host-memory measurement. Per-device and effective batch size were four, accumulation was one, precision was BF16, and both Qwen and DINO were frozen. Only the policy objective was exercised.
-
-The pinned RoboCasa config specifies 300,000 training steps and a different training dataset. The demo adapter supplies two history observations, pads 12-wide states to 58, preserves loader-padded/masked 138-wide actions, and maps the demo's out-of-range embodiment slot 32 to the existing Franka slot 4. Checkpoint keys and shapes were preserved. This shape adaptation does not establish the semantic equivalence of the demo and RoboCasa action spaces.
-
-## Source and inputs
-
-| Component | Recorded revision |
+| Field | Recorded value |
 | --- | --- |
-| [Upstream source](https://github.com/jiangranlv/LDA-1B) and committed demo | `06e6a274a9086cc26635a9fe663866335eb30fc5` |
-| [Executed fork candidate](https://github.com/reproducible-ai/LDA-1B/blob/b55c26dad419064089f588837c5048843537577a/.treqs/README.md) | `b55c26dad419064089f588837c5048843537577a` |
-| Recipe before the final operator candidate | `3308fc909418fdf7645b0ad097c654a7d9375d63` |
-| LDA weights and RoboCasa config | `Wayer2/LDA-robocasa@811d14d8c22d3e98021c035948118143f53dd312` |
-| Qwen input | `Qwen/Qwen3-VL-4B-Instruct@ebb281ec70b05090aa6165b016eac8ec08e71b17` |
+| Job | `dcc67bd2-b385-43d5-b0cf-b64b00fd59e0` |
+| Executed source | [`fd78edbc1942903fe8dd073a208996bed014849e`](https://github.com/reproducible-ai/LDA-1B/tree/fd78edbc1942903fe8dd073a208996bed014849e) |
+| Inputs | Four committed `sim_pick_place` demo episodes; pinned LDA RoboCasa checkpoint |
+| Training settings | One optimizer step, batch 4, BF16, frozen Qwen/DINO; policy objective only |
+| Hardware | 1× RTX PRO 6000 Blackwell Server 96 GB |
+| Job duration | 1268.693 seconds (21m08.693s); scheduler clock |
+| Finalized allocation cost | **$1.68**, including idle shutdown; allocation stopped |
+| Publication transport | HTTP upload with `HF_HUB_DISABLE_XET=1` |
+
+## Verification performed
+
+The worker strict-loaded the checkpoint, checked **1,441 tensors** for finite floating values and proved `action_model.action_decoder.layer1.W` changed after one optimizer update. The published checkpoint is **14,422,502,892 bytes** with SHA-256:
+
+```text
+ddb9a15624b5f8aae304b27ba0fc6c89adae44a9c140edba3e76942f5696f009
+```
+
+The host anonymously streamed every published byte and checked manifest sizes and SHA-256 digests. The release has **17 manifest entries plus the manifest and result sidecar**. Readback matched the logged result. The host did not perform a second full model load.
+
+Public lineage contains **5 jobs, 71 artifacts and 212 links**. Directed edges establish that the actual training output feeds PUT despite byte-identical packaging copies. The supervisor performed these checks and published the release automatically. The earlier private run's independent auditor PASS is historical; no independent public-run auditor verdict is claimed.
+
+## Source, inputs and recipe differences
+
+| Component | Pinned revision |
+| --- | --- |
+| Upstream source and demo | `06e6a274a9086cc26635a9fe663866335eb30fc5` |
+| Public fork | `fd78edbc1942903fe8dd073a208996bed014849e` |
+| LDA RoboCasa checkpoint/config | `Wayer2/LDA-robocasa@811d14d8c22d3e98021c035948118143f53dd312` |
+| Qwen | `Qwen/Qwen3-VL-4B-Instruct@ebb281ec70b05090aa6165b016eac8ec08e71b17` |
 | DINO architecture/license reference | `facebook/dinov3-vits16-pretrain-lvd1689m@114c1379950215c8b35dfcd4e90a5c251dde0d32` |
-| Roar source build | `treqs/roar@61e5e98ca823a25c19522870cb81d3ce730c391d`; package 0.4.7 |
-| Harness | `reproducible-ai-harness@7be12d448e75ca8a5b9b778b060bc1d3c742521b`; version 0.1.0 |
+| Roar source build | `61e5e98ca823a25c19522870cb81d3ce730c391d`; package 0.4.7 |
+| Shared public supervisor | `c084d6eab090a2b5822db474d790a00dfe7fae5d` |
 
-DINO weights came from the strict-loaded LDA checkpoint. The pinned RoboCasa config SHA-256 is `82ce61c4f70c71ecf7ff9dd0139c9de127f091f43803c785a7c786e35af5933d`. Setup used Python 3.11, PyTorch 2.9.0+cu128, torchvision 0.24.0+cu128, torchcodec 0.8.1, Accelerate 1.5.2 and DeepSpeed 0.17.6. Roar ran in a separate environment with huggingface-hub 0.36.0 and the preload tracer; its source import and eight native binary hashes were checked. The source pin distinguishes this build from an identically versioned PyPI package.
+DINO weights come from the strict-loaded LDA checkpoint. The demo adapter supplies two history observations, pads states to 58, preserves padded/masked 138-wide actions and maps embodiment slot 32 to Franka slot 4. This preserves checkpoint shapes but does not establish action-space semantics.
 
-The operator receipt records Codex CLI 0.154.0 and the clean harness commit above. Its configured model is unknown because the runtime default was not recorded. The structured `operator` field is therefore omitted rather than populated with a placeholder identity; known launch facts are preserved in [the evidence summary](evidence/capture-summary.json).
+The pinned RoboCasa config specifies **300,000 steps**, versus this run's one step and four demo episodes. A full run also needs the intended data, objectives, trainable modules, batch size, learning rates and schedule; increasing the step count alone is insufficient. Setup-heavy one-step billing cannot support a full-run cost estimate.
 
-## What the record contains
-
-All seven workflow tasks completed: setup, fetch, train, evaluate, package, label and private publish. Training recorded one completed optimizer step. Checkpoint checks verified the input inventory, unchanged state-dict key set, finite floating tensors and an actual change to `action_model.action_decoder.layer1.W` among the trainable parameters. The checkpoint contains 1,441 tensors and is 14,422,502,892 bytes. Its SHA-256 is `561e66836412784e9011d0a9d19b731a22c77b8e7632d4badc18696ca209be7e`.
-
-The harness independently read back and checked the 19-file private release, including exact agreement between the logged result and uploaded result sidecar. Published lineage contained 5 jobs, 71 artifacts and 212 links, matching the captured topology. The independent auditor passed the directed training-to-model-to-upload chain, including evaluation. Role labels remain imprecise, so the audit followed command content and directed edges.
-
-The retained timeline shows no maintainer intervention between worker start and terminal PASS at 16:55:48 UTC. Earlier attempts required intervention and remain documented in [issues.md](issues.md) and [costs.md](costs.md). This observed unattended execution is distinct from the auditor's narrower lineage verdict.
-
-Artifact locations, lineage addresses and raw evidence remain private. No public reproduction command, hosted experiment result or AI-BOM score is asserted. The workflow's evaluation stage checks checkpoint integrity and a real update; it does not measure held-out policy success.
-
-## Changes from upstream
-
-The [pinned upstream-to-candidate diff](https://github.com/reproducible-ai/LDA-1B/compare/06e6a274a9086cc26635a9fe663866335eb30fc5...b55c26dad419064089f588837c5048843537577a) contains 3,626 added and 36 deleted lines across 47 files (3,662 changed lines). Of those, the ten `lda/` runtime files account for 155 additions and 15 deletions; dependency files add 7 and delete 21 lines. The remainder is workflow/scripts, records, regression tests and ignore rules. This distinction avoids presenting the whole integration bundle as model-code changes.
-
-Runtime changes cover strict checkpoint loading, checkpoint-compatible initialization, explicit demo adaptation, compatible attention/loading paths, and training evidence/error handling. The recipe also supplies the Blackwell dependency set, GPU optimizer placement, pinned Roar source install and portable receipt paths. [commands.md](commands.md) gives the recorded recipe and exact diff commands. The [patch inventory](patches/README.md) includes the exact runtime/dependency diff and identifies the broader integration changes in the pinned comparison.
+See the [executed workflow](https://github.com/reproducible-ai/LDA-1B/blob/fd78edbc1942903fe8dd073a208996bed014849e/.treqs/workflows/robocasa-demo-canary.yaml), [commands and replay limitations](https://github.com/reproducible-ai/notes/blob/main/028-robotics-lda-1b/commands.md), and [patch inventory](https://github.com/reproducible-ai/notes/blob/main/028-robotics-lda-1b/patches/README.md). The website's displayed replay command has not been validated on a fresh host; its generic installation hint does not reproduce the pinned Roar source/native build by itself.
 
 ## Attempts and cost
 
-Seven linked harness attempts (#32–#38) include one preflight rejection, one unallocated job and eight paid jobs. Finalized compute spend is **$6.24**, including **$5.00** before the final run and **$1.24** for the successful capture. The final job lasted **17m50.508s**; its instance lifetime was **22m25.707s**, including provisioning and shutdown. [costs.md](costs.md) lists each job, duration and failure. The structured `rebuild` fields describe this final capture, not a separately measured cold replay.
+| Recorded effort | Result | Final compute cost |
+| --- | --- | ---: |
+| Earlier private campaign, issues #32–#38 | Successful private capture after retries; selected private run cost $1.24 | $6.24 |
+| First public attempt | Training and evaluation passed; Xet upload timed out | $2.41 |
+| Selected public HTTP retry | All tasks and public verification passed | $1.68 |
+| Public attempts subtotal | Within the separate $5 public-run budget | **$4.09** |
+| Known private + public subtotal | Recorded compute only | **$10.33** |
 
-## Limits of the result
+The selected public job is `dcc67bd2-b385-43d5-b0cf-b64b00fd59e0`; the failed public job is `31910970-c97d-4fa6-994b-cf662153fc59`. Both allocations stopped. The retry kept the same training/model pins and disabled Xet for upload. [Costs and timing](https://github.com/reproducible-ai/notes/blob/main/028-robotics-lda-1b/costs.md) distinguish job duration, instance lifetime and excluded costs.
 
-This record remains `progress` with `verified: false`. No cold rebuild, policy-quality benchmark, full dataset training, public artifact/lineage publication or defensible full-run cost estimate has been completed. The retained untracked-directory warning and role-label limitation are disclosed. Known parameter changes and what must be revisited for a full run are listed in `row.json`.
+## Limitations and licensing
 
-Component terms are recorded separately: source/demo CC-BY-NC-4.0, LDA/Qwen weight metadata Apache-2.0, and the DINOv3 License. The private run preserved those notices; it does not establish permission for a broader distribution or training scope. The original certification campaign's licensing gate was not reopened by this canary.
+- No independent cold replay, held-out policy benchmark, full-scale training, author verification or certification is established. `verified` remains false and certification is unset.
+- The shape-only demo adapter does not validate RoboCasa policy semantics.
+- Roar's untracked-directory warning remains, and role labels are not sufficient evidence of the actual producer; verification used commands and directed edges.
+- The AI-BOM audit is linked above. A completeness score is not recorded in this notes snapshot; no full-run cost is extrapolated.
+- The checkpoint packages CC BY-NC 4.0, Apache 2.0 and DINOv3 component terms and notices. Built with DINOv3. The recorded release scope is non-commercial research/evaluation; consult those component terms.
+
+## Earlier private capture and evidence
+
+The [historical private report](https://github.com/reproducible-ai/notes/blob/main/028-robotics-lda-1b/PRIVATE-CAPTURE.md), [capture summary](https://github.com/reproducible-ai/notes/blob/main/028-robotics-lda-1b/evidence/capture-summary.json), [issue history](https://github.com/reproducible-ai/notes/blob/main/028-robotics-lda-1b/issues.md), [cost ledger](https://github.com/reproducible-ai/notes/blob/main/028-robotics-lda-1b/costs.md) and [patches](https://github.com/reproducible-ai/notes/blob/main/028-robotics-lda-1b/patches/README.md) preserve the earlier campaign. Its checkpoint digest, candidate revision and auditor verdict describe that private run, not the selected public run.
+
+The current public supervisor and adapter are pinned above. An operator model identity was not recorded for this automation; no identity is inferred from the earlier private campaign.

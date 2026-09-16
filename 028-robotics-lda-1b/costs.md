@@ -1,5 +1,22 @@
 # Attempts and cost
 
+The selected public run cost **$1.68**; the failed public upload attempt cost **$2.41**. Public attempts total **$4.09**. The earlier private campaign cost **$6.24**, making known compute across the recorded private and public history **$10.33**.
+
+`row.json.rebuild` describes the selected public job's scheduler duration and finalized allocation cost, including idle shutdown. These are different clocks; neither measures optimizer time. No cold replay or full-training cost was measured. Totals exclude unmeasured development, tokens, storage, transfer and other services.
+
+## Public runs
+
+| Run | Job | Job seconds | Instance lifetime seconds | Final USD | Result |
+| --- | --- | ---: | ---: | ---: | --- |
+| First public attempt | `31910970-c97d-4fa6-994b-cf662153fc59` | 1847.603 | 2586.682 | $2.41 | Training passed; Xet upload failed; allocation stopped |
+| Selected public HTTP retry | `dcc67bd2-b385-43d5-b0cf-b64b00fd59e0` | 1268.693 | 1806.462 | $1.68 | Completed; allocation stopped |
+
+See [timing and finalized cost observations](https://github.com/reproducible-ai/notes/blob/main/028-robotics-lda-1b/evidence/public-run-timing.json) and [public verification evidence](https://github.com/reproducible-ai/notes/blob/main/028-robotics-lda-1b/evidence/public-release.json).
+
+## Earlier private campaign ledger
+
+The ledger and budget discussion below apply to the earlier private campaign only. Its original evidence is preserved.
+
 Finalized LDA compute spend across issues #32–#38 is **$6.24**. The completed final capture cost **$1.24**; earlier paid jobs cost **$5.00**. Costs come from final on-demand instance receipts, not the scheduler estimate.
 
 ## Per-job ledger
@@ -39,12 +56,4 @@ These durations come from task start/completion events. They include wrapper ove
 
 ## Final capture versus full rebuild
 
-`row.json.rebuild` reports $1.24 and 17m50.508s for this successful capture. There is no separately measured cold replay or cost for reproducing the full published training recipe. One optimizer step on four demo episodes with frozen encoders cannot support a defensible full-run extrapolation, so `fullRun.estimateUsd` remains null.
-
-## Fresh public canary
-
-The new public run cost **$1.68**, including allocation shutdown. The earlier ledger above describes the private campaign. `row.json.rebuild` now describes this public run. See [PUBLIC-RELEASE.md](PUBLIC-RELEASE.md) for its evidence.
-
-## Public upload retry
-
-The first public job `31910970-c97d-4fa6-994b-cf662153fc59` passed training and evaluation, then failed during Xet upload: `timed out reading request body`. Its finalized cost was **$2.41**. This fresh retry uses HTTP upload with the same model and training pins. Total public-run compute cost: **$4.09** within the original $5 budget.
+The historical private capture cost $1.24 and lasted 17m50.508s; current `row.json.rebuild` selects the public run above. There is no separately measured cold replay or cost for reproducing the full published training recipe. One optimizer step on four demo episodes with frozen encoders cannot support a defensible full-run extrapolation, so `fullRun.estimateUsd` remains null.
