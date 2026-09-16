@@ -1,0 +1,172 @@
+{
+  "anonymousReadback": true,
+  "checkpointVerification": "Every byte anonymously streamed and SHA-256 verified; worker load/finite-tensor evaluation bound to the same digest.",
+  "computeStopped": true,
+  "costUsd": 1.68,
+  "files": [
+    {
+      "path": "loader/APACHE-2.0.txt",
+      "sha256": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30",
+      "sizeBytes": 11358
+    },
+    {
+      "path": "loader/CC-BY-NC-4.0.md",
+      "sha256": "6f79f90412086c4bef35afa6257d5c85c5e16fb43e71be068deec028869feaf6",
+      "sizeBytes": 259
+    },
+    {
+      "path": "loader/DINOv3-LICENSE.md",
+      "sha256": "25d122eb8f5b880fd23c736fb6ea8018ee45c12237e00b8a86d14c653904999e",
+      "sizeBytes": 7503
+    },
+    {
+      "path": "loader/LICENSE",
+      "sha256": "d9c27154ca8736ffc3ca01f903514f6c9d356a2ef9b8916d9f50fd100afdb4f7",
+      "sizeBytes": 480
+    },
+    {
+      "path": "loader/NOTICE",
+      "sha256": "df0dba2bb4a8531638a7211d4382b6364faf0f192344253a24e2f8c90272aaa6",
+      "sizeBytes": 304
+    },
+    {
+      "path": "loader/README.md",
+      "sha256": "15d1b595f22ee0d9b28650abd5282ffe602b09a71f43b00b0aee9315eea4b059",
+      "sizeBytes": 3619
+    },
+    {
+      "path": "loader/config.yaml",
+      "sha256": "347c039f612fd6d42bd52e1eb2dde1d3818061da5d6b30e9d52fec2e827dc795",
+      "sizeBytes": 2425
+    },
+    {
+      "path": "loader/dataset_statistics.json",
+      "sha256": "a75d0f51f5bf3f31a0900c4504c1234b2ec3a824daedeae4874dd451be30b6d6",
+      "sizeBytes": 4586
+    },
+    {
+      "path": "loader/evaluation.json",
+      "sha256": "47ab04127707ec271556e1c7a75d494dd65b269b305ac1c59e666175a0f9b763",
+      "sizeBytes": 889
+    },
+    {
+      "path": "loader/input-manifest.json",
+      "sha256": "9504ccf742185b6f7958e3e807e550489889e35a86279cdd149fc4e6c5496fce",
+      "sizeBytes": 8215
+    },
+    {
+      "path": "loader/pretrained/dinov3-vits16-pretrain-lvd1689m/LICENSE.md",
+      "sha256": "25d122eb8f5b880fd23c736fb6ea8018ee45c12237e00b8a86d14c653904999e",
+      "sizeBytes": 7503
+    },
+    {
+      "path": "loader/pretrained/dinov3-vits16-pretrain-lvd1689m/config.json",
+      "sha256": "a8345dd722646594238e57f09eb548bc38ed37841450b2724736acdd582d3408",
+      "sizeBytes": 702
+    },
+    {
+      "path": "loader/pretrained/dinov3-vits16-pretrain-lvd1689m/preprocessor_config.json",
+      "sha256": "7f4e6610164447ff3501191fcb98290b5a64a551b01aaaef981d3eac4eee6ac8",
+      "sizeBytes": 484
+    },
+    {
+      "path": "loader/publication.json",
+      "sha256": "d69f591bd32f94d9af979febb662ef577c2b39372dc2aa0706fa4f50cbd244b2",
+      "sizeBytes": 2126
+    },
+    {
+      "path": "loader/upstream/LDA-robocasa/README.md",
+      "sha256": "7359b8d8c7eaae99b0fccc4ba2699b5bb0213fc6c6f358b341d1d910307054d3",
+      "sizeBytes": 5454
+    },
+    {
+      "path": "loader/upstream/Qwen3-VL-4B-Instruct/README.md",
+      "sha256": "a884e5e78f7d6f7bfe237f909dbc41a126542e259dc79d8ab33cc8980580ff79",
+      "sizeBytes": 7133
+    },
+    {
+      "path": "LDA-robocasa-treqs-canary.pt",
+      "sha256": "ddb9a15624b5f8aae304b27ba0fc6c89adae44a9c140edba3e76942f5696f009",
+      "sizeBytes": 14422502892
+    }
+  ],
+  "glaasUrl": "https://glaas.ai/dag/d5c8d707ae657d6eeb9382079c12aacbd7f75b15142f73adb9f6eef2c0825d80",
+  "hfUrl": "https://huggingface.co/reproducible-ai/lda-1b-robocasa/tree/9dfddadf3513472415a304285b58f843971f7658/artifacts/lda-robocasa-canary/release/checkpoints",
+  "jobId": "dcc67bd2-b385-43d5-b0cf-b64b00fd59e0",
+  "lineage": {
+    "counts": {
+      "artifacts": 71,
+      "jobs": 5,
+      "links": 212
+    },
+    "dagHash": "d5c8d707ae657d6eeb9382079c12aacbd7f75b15142f73adb9f6eef2c0825d80",
+    "trainingToPutArtifactHashes": [
+      "ca33cd517ba2720e64e7168dfae9da2ca761d1ef17dc858ea853b9a706e00cf7"
+    ]
+  },
+  "path": "artifacts/lda-robocasa-canary/release/checkpoints",
+  "priorPublicAttempt": {
+    "costUsd": 2.41,
+    "failedPublicationRevision": "f7f6b0c12f134eae2c9599197ea0f15ce34277bb",
+    "failure": "Internal error: timed out reading request body",
+    "instanceId": "e794d1bd-1668-46b0-9b37-48ee948fd31c",
+    "jobId": "31910970-c97d-4fa6-994b-cf662153fc59",
+    "outcome": "FAILED",
+    "repositoryRevision": "127b1f564381e6392d21c4a9d162e1a2a99a1a62",
+    "requestId": "2e6ceeed-8f14-48e7-83cf-521bca638b6a",
+    "sourceCommit": "98e14cdfc7eefa9bfb1f4cc6e0ad8fc395a14f92",
+    "targetId": "c33842f4-f374-4ca5-845f-7e0c0dd502f7",
+    "trainingAndCheckpointEvaluationPassed": true
+  },
+  "repository": "reproducible-ai/lda-1b-robocasa",
+  "requestId": "9ebd3480-e417-4fae-ae96-1ead53a9feee",
+  "result": {
+    "artifactSha256": "ddb9a15624b5f8aae304b27ba0fc6c89adae44a9c140edba3e76942f5696f009",
+    "artifactSizeBytes": 14422502892,
+    "checkpoint": "artifacts/lda-robocasa-canary/release/checkpoints/LDA-robocasa-treqs-canary.pt",
+    "claim": "Public non-commercial training-path canary only; no model-quality claim.",
+    "evaluation": {
+      "base_checkpoint": {
+        "path": "artifacts/lda-robocasa-canary/inputs/LDA-robocasa/checkpoints/LDA-robocasa.pt",
+        "sha256": "cffe17b1c02b1717e9ddb653cf89677eeaab4b8bc18846f3e4c302a5567c06a2",
+        "size": 14422507044
+      },
+      "checkpoint": {
+        "changed_tensor": "action_model.action_decoder.layer1.W",
+        "first_tensor": {
+          "dtype": "torch.bfloat16",
+          "name": "action_model.action_decoder.layer1.W",
+          "shape": [
+            32,
+            2560,
+            2560
+          ]
+        },
+        "path": "artifacts/lda-robocasa-canary/training/robocasa-demo-canary/checkpoints/steps_1_pytorch_model.pt",
+        "sha256": "ddb9a15624b5f8aae304b27ba0fc6c89adae44a9c140edba3e76942f5696f009",
+        "size": 14422502892,
+        "tensor_count": 1441
+      },
+      "global_step": 1,
+      "inputs_verified": true,
+      "loadVerified": true,
+      "optimizer_steps_completed": 1,
+      "schema_version": 1,
+      "status": "passed"
+    },
+    "loadVerified": true,
+    "optimizerSteps": 1,
+    "schema": "reproai.result/v1",
+    "taskMetric": {
+      "metric": "optimizerSteps",
+      "minimum": 1
+    }
+  },
+  "revision": "9dfddadf3513472415a304285b58f843971f7658",
+  "runId": "lda-public-20260915",
+  "schema": "reproai.public-canary/v1",
+  "sourceCommit": "fd78edbc1942903fe8dd073a208996bed014849e",
+  "supervisorCommit": "c084d6eab090a2b5822db474d790a00dfe7fae5d",
+  "totalPublicComputeCostUsd": 4.09,
+  "verified": true
+}

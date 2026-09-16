@@ -1,0 +1,145 @@
+{
+  "description": "Selected factual fields from retained private receipts. Raw receipts, credentials, artifact destinations and lineage addresses are not included.",
+  "issue": "https://github.com/reproducible-ai/campaign-queue/issues/38",
+  "attemptId": "d2a44b75-d1e5-4e14-b9c4-7d8482e80d9e",
+  "jobId": "9740975f-4f5d-4116-aaba-4e5a43616c42",
+  "source": {
+    "upstreamCommit": "06e6a274a9086cc26635a9fe663866335eb30fc5",
+    "candidateCommit": "b55c26dad419064089f588837c5048843537577a",
+    "harnessCommit": "7be12d448e75ca8a5b9b778b060bc1d3c742521b",
+    "roarCommit": "61e5e98ca823a25c19522870cb81d3ce730c391d",
+    "pinnedRobocasaConfigSha256": "82ce61c4f70c71ecf7ff9dd0139c9de127f091f43803c785a7c786e35af5933d"
+  },
+  "capture": {
+    "schedulerStatus": "COMPLETED",
+    "harnessOutcome": "PASS",
+    "harnessCompletedAt": "2026-09-14T16:55:48.953675+00:00",
+    "optimizerSteps": 1,
+    "evaluationStatus": "passed",
+    "checkpointLoaded": true,
+    "changedTrainableTensor": "action_model.action_decoder.layer1.W",
+    "tensorCount": 1441,
+    "policySuccessRate": null
+  },
+  "artifact": {
+    "path": "LDA-robocasa-treqs-canary.pt",
+    "sha256": "561e66836412784e9011d0a9d19b731a22c77b8e7632d4badc18696ca209be7e",
+    "sizeBytes": 14422502892,
+    "visibility": "private",
+    "filesVerified": 19,
+    "exactInventoryVerified": true,
+    "immutableReadbackVerified": true,
+    "resultSidecarVerified": true,
+    "verifiedAt": "2026-09-14T16:55:02.346038Z"
+  },
+  "lineage": {
+    "visibility": "private",
+    "publicationStatus": "published",
+    "reportedCounts": {
+      "artifacts": 71,
+      "jobs": 5,
+      "links": 212
+    },
+    "topologyVerified": true,
+    "auditorVerdict": "PASS",
+    "scope": "Training-command capture and directed artifact producer chain; no public record gate or cold reconstruction."
+  },
+  "cost": {
+    "finalCaptureUsd": 1.24,
+    "finalCaptureCostFinalized": true,
+    "instanceStopped": true,
+    "instanceDurationSeconds": 1345.707,
+    "jobDurationSeconds": 1070.508,
+    "allEightPaidJobsUsd": 6.24,
+    "priorPaidJobsUsd": 5.0,
+    "scope": "Finalized recorded compute charges only; unmeasured storage, egress, token and labor costs excluded."
+  },
+  "operator": {
+    "agent": "training-operator:5c08d1a7-4b28-4348-84d0-31c3bae3a0a1",
+    "harness": "reproducible-ai-harness",
+    "harnessCommit": "7be12d448e75ca8a5b9b778b060bc1d3c742521b",
+    "harnessDirty": false,
+    "harnessVersion": "0.1.0",
+    "iteration": "0001",
+    "launchedAt": "2026-09-14T16:24:47.186772+00:00",
+    "model": null,
+    "modelSource": "runtime default; unavailable",
+    "role": "training-operator",
+    "runtime": "Codex",
+    "runtimeVersion": "codex-cli 0.154.0"
+  },
+  "tasks": [
+    {
+      "name": "setup",
+      "status": "COMPLETED",
+      "exitCode": 0,
+      "startedAt": "2026-09-14T16:29:46.448Z",
+      "completedAt": "2026-09-14T16:31:51.890Z"
+    },
+    {
+      "name": "fetch",
+      "status": "COMPLETED",
+      "exitCode": 0,
+      "startedAt": "2026-09-14T16:31:51.943Z",
+      "completedAt": "2026-09-14T16:34:37.372Z"
+    },
+    {
+      "name": "train",
+      "status": "COMPLETED",
+      "exitCode": 0,
+      "startedAt": "2026-09-14T16:34:37.427Z",
+      "completedAt": "2026-09-14T16:42:44.110Z"
+    },
+    {
+      "name": "evaluate",
+      "status": "COMPLETED",
+      "exitCode": 0,
+      "startedAt": "2026-09-14T16:42:44.185Z",
+      "completedAt": "2026-09-14T16:44:36.086Z"
+    },
+    {
+      "name": "package",
+      "status": "COMPLETED",
+      "exitCode": 0,
+      "startedAt": "2026-09-14T16:44:36.175Z",
+      "completedAt": "2026-09-14T16:45:41.112Z"
+    },
+    {
+      "name": "label",
+      "status": "COMPLETED",
+      "exitCode": 0,
+      "startedAt": "2026-09-14T16:45:41.181Z",
+      "completedAt": "2026-09-14T16:45:41.530Z"
+    },
+    {
+      "name": "publish",
+      "status": "COMPLETED",
+      "exitCode": 0,
+      "startedAt": "2026-09-14T16:45:41.580Z",
+      "completedAt": "2026-09-14T16:46:32.898Z"
+    }
+  ],
+  "receiptSha256": {
+    "training": "566d4d2a2f17fd36411e232843d6bb28aa506c1804f235d5e366cb327d3847a9",
+    "artifact": "62e44769caceecb9d46d8d389408ba042ee159e0edad97a18518aa4792aebd40",
+    "audit": "ccdce2a9f25cc46d2507fb61fde3a21b7059d972d0a6f9161e1ed2d9a387b2db",
+    "budget": "22a68287b3d77a0d5049bccac477d7ec56374b1682ac77adb25735fb30521243",
+    "reconciliation": "15764103fd27e77a842ce0ecdc26ed949831cd548e086ba60d862015d0c62975"
+  },
+  "patch": {
+    "file": "../patches/runtime-and-dependencies.patch",
+    "sha256": "0f6fe06ae067555b08d5534f4b470ef5127ddcf45c03b6204cd0b7a335578f02",
+    "baseCommit": "06e6a274a9086cc26635a9fe663866335eb30fc5",
+    "candidateCommit": "b55c26dad419064089f588837c5048843537577a",
+    "paths": [
+      "lda/",
+      "requirements.txt",
+      "pyproject.toml"
+    ]
+  },
+  "limitations": [
+    "Operator model is unknown because the runtime default was not retained.",
+    "No cold replay, public Tier-1 gates or held-out policy benchmark was performed.",
+    "The full RoboCasa schedule is a config reference; demo adaptation and frozen encoders prevent equating this run with that full training recipe."
+  ]
+}
