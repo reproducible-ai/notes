@@ -1,0 +1,220 @@
+{
+  "anonymousReadback": true,
+  "automationSource": "c084d6eab090a2b5822db474d790a00dfe7fae5d",
+  "computeStopped": true,
+  "costUsd": 1.57,
+  "files": [
+    {
+      "path": ".gitkeep",
+      "sha256": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b",
+      "sizeBytes": 1
+    },
+    {
+      "path": "LICENSE",
+      "sha256": "fdc54058d8b52bbb3b06c924326ff95a15687b08b15f92bc63adabc291638c89",
+      "sizeBytes": 4063
+    },
+    {
+      "path": "NOTICE",
+      "sha256": "0d3c6efcc744164a671a9d8d90d9bfb3c47515940b6c495d2b1347e73af75725",
+      "sizeBytes": 225
+    },
+    {
+      "path": "NVIDIA_OPEN_MODEL_LICENSE.md",
+      "sha256": "2d0a728e5f136a60702898f54b501dfb34ee5d0d3c186c7261eef827662f3827",
+      "sizeBytes": 10491
+    },
+    {
+      "path": "README.md",
+      "sha256": "88700252e37b4221b5d0e8c2e990f55ad61d7d1b31ade4d298a92989544d8ff5",
+      "sizeBytes": 2240
+    },
+    {
+      "path": "config.json",
+      "sha256": "5ddc576997cbdd6c3c64b8ff706fc9a6d19c64e51ed282704e02eb98eaf0d2dc",
+      "sizeBytes": 2147
+    },
+    {
+      "path": "embodiment_id.json",
+      "sha256": "c8af3d61fe9ca5508c4a5b9e8be6ad4d0d1eb2c68cec76620ea089b894a3ee22",
+      "sizeBytes": 2226
+    },
+    {
+      "path": "evaluation.json",
+      "sha256": "b8d34854dfb21d79e13b57be1ca0a998db6f6ade73ddc2e5543c8baa13cc57fe",
+      "sizeBytes": 2025
+    },
+    {
+      "path": "experiment_cfg/.gitkeep",
+      "sha256": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b",
+      "sizeBytes": 1
+    },
+    {
+      "path": "experiment_cfg/conf.yaml",
+      "sha256": "30460204d1550f95692cdc18c405f8d0b02382be88dbef0b7eaee4e16c147379",
+      "sizeBytes": 5772
+    },
+    {
+      "path": "experiment_cfg/config.yaml",
+      "sha256": "696398cf4bd55028c96b813469d84d5e4feedb047df8c466e9da02b63ec94875",
+      "sizeBytes": 5741
+    },
+    {
+      "path": "experiment_cfg/dataset_statistics.json",
+      "sha256": "fd976ea922154d535c43aa5e98e47e6fa809dea85b64253d7a2c41ecea68c1b6",
+      "sizeBytes": 143981
+    },
+    {
+      "path": "experiment_cfg/final_model_config.json",
+      "sha256": "49990f624a33cc521be23f39dc840a36bad43507a25592bfe98a205557edb214",
+      "sizeBytes": 1513
+    },
+    {
+      "path": "experiment_cfg/final_processor_config.json",
+      "sha256": "b1e61591a2acb1f9e95c4b2a334057316c1c8d90a6cb52fc51d2c7551f228dea",
+      "sizeBytes": 2545628
+    },
+    {
+      "path": "model-00001-of-00003.safetensors",
+      "sha256": "cbcaea5ee88f1e0f1465043920a2647c67e7de17d24adfd1c477742a6168edec",
+      "sizeBytes": 4986649584,
+      "tensorCount": 433
+    },
+    {
+      "path": "model-00002-of-00003.safetensors",
+      "sha256": "909377e00e0436e5d122e44894e1f8a4f481751ac7e8c91f5cf38484e9a50d99",
+      "sizeBytes": 4970792616,
+      "tensorCount": 466
+    },
+    {
+      "path": "model-00003-of-00003.safetensors",
+      "sha256": "a5a1040977eced380b81bfc17c7846465a9ee7c82ade7affd10d7b80e610b95e",
+      "sizeBytes": 2618758696,
+      "tensorCount": 131
+    },
+    {
+      "path": "model.safetensors.index.json",
+      "sha256": "12117379d91d029c5979a585d07ba794001730c9516d6de5512e3dedfee30730",
+      "sizeBytes": 104913
+    },
+    {
+      "path": "processor_config.json",
+      "sha256": "d76be1f6ddd0973fb0550d1fae42cc2adccb5cde2e7641b1035de8b50ac29d9a",
+      "sizeBytes": 24771
+    },
+    {
+      "path": "publication.json",
+      "sha256": "98ab6ff87639b4fd879fdd710ae158fcd8683965e1b3cf5f11cbbcfc0d33898c",
+      "sizeBytes": 556
+    },
+    {
+      "path": "statistics.json",
+      "sha256": "48954da7122e73d1f5666805f855a9cfb7065b616fe41315c2f0e1674766f548",
+      "sizeBytes": 4292980
+    },
+    {
+      "path": "trainer_state.json",
+      "sha256": "80cc4e3bfba951d92f5858e5d7b67aa393049c83739e46b85195386fdfcceb52",
+      "sizeBytes": 2142
+    },
+    {
+      "path": "training_args.bin",
+      "sha256": "63127f5959f26a805a264bdb352071dbba48879c4915fb8bb5d2efaceecc7554",
+      "sizeBytes": 5841
+    },
+    {
+      "path": "upstream/cosmos-reason2-2b/.gitkeep",
+      "sha256": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b",
+      "sizeBytes": 1
+    },
+    {
+      "path": "upstream/cosmos-reason2-2b/README.md",
+      "sha256": "1b0428109d3cf7d8d209c7ad3b31afe037689bfd9d25589f0f6335bb56223fab",
+      "sizeBytes": 35046
+    },
+    {
+      "path": "upstream/gr00t-n1.7/.gitkeep",
+      "sha256": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b",
+      "sizeBytes": 1
+    },
+    {
+      "path": "upstream/gr00t-n1.7/EXPLAINABILITY.md",
+      "sha256": "cf1b2ce282d29ffd8b3032eef62d726e34a52694e463aba69131e8fe09a6838c",
+      "sizeBytes": 2540
+    },
+    {
+      "path": "upstream/gr00t-n1.7/PRIVACY.md",
+      "sha256": "9a3823d0918e1aa138484801baecc692327a4b8463e0a05b67d322f966bf7b5b",
+      "sizeBytes": 551
+    },
+    {
+      "path": "upstream/gr00t-n1.7/README.md",
+      "sha256": "7d0a4423a5a5bc7ac35f9ab4c1f64eb3f74f7592418a8dc5c80702b48455c788",
+      "sizeBytes": 13111
+    },
+    {
+      "path": "upstream/gr00t-n1.7/SAFETY_and_SECURITY.md",
+      "sha256": "d6600e811941051e0cb9909d6ca2749eb803783190deb302929a4fb78e353005",
+      "sizeBytes": 1102
+    },
+    {
+      "path": "wandb_config.json",
+      "sha256": "e1823dfe73816356b5f5708eb38aa41cfc7690fcbb98b0cebf4a4f635104d61d",
+      "sizeBytes": 60
+    }
+  ],
+  "glaasUrl": "https://glaas.ai/dag/01c4225ca5c1df31c72153671041cd530fa338dac02259384855b56e0c540c15",
+  "hfUrl": "https://huggingface.co/reproducible-ai/gr00t-n1-7/tree/ef04eee6429a8ae492cae74d6af2a0dd5dc41a7c/artifacts/droid-canary/checkpoint-100",
+  "jobId": "f282527c-4573-4a28-afae-29033e75c4c6",
+  "lineage": {
+    "counts": {
+      "artifacts": 98,
+      "jobs": 5,
+      "links": 231
+    },
+    "dagHash": "01c4225ca5c1df31c72153671041cd530fa338dac02259384855b56e0c540c15",
+    "trainingToPut": [
+      {
+        "artifactHashes": [
+          "fffb25952af13f1115924288d8082ab310a34005f4c05fa81b9c0030d11f65ac"
+        ],
+        "path": "artifacts/droid-canary/checkpoint-100/model-00001-of-00003.safetensors"
+      },
+      {
+        "artifactHashes": [
+          "acec0d4384f3f4944a5574f8673ce0b9024569b75e9e013f0c3b0d1e6b123d3c"
+        ],
+        "path": "artifacts/droid-canary/checkpoint-100/model-00002-of-00003.safetensors"
+      },
+      {
+        "artifactHashes": [
+          "2115ce4f908fdf13e7fb1fd2ed5261dbd5237ebde4e8759b7a939c8bc09c492d"
+        ],
+        "path": "artifacts/droid-canary/checkpoint-100/model-00003-of-00003.safetensors"
+      }
+    ]
+  },
+  "path": "artifacts/droid-canary/checkpoint-100",
+  "repository": "reproducible-ai/gr00t-n1-7",
+  "requestId": "7126c49e-7d06-461b-88cc-b7d3d65ea130",
+  "result": {
+    "artifactSha256": "12117379d91d029c5979a585d07ba794001730c9516d6de5512e3dedfee30730",
+    "artifactSizeBytes": 104913,
+    "checkpoint": "artifacts/droid-canary/checkpoint-100/model.safetensors.index.json",
+    "finalLoss": 0.0912,
+    "finiteLoss": 1,
+    "loadVerified": true,
+    "optimizerSteps": 100,
+    "schema": "reproai.result/v1",
+    "taskMetric": {
+      "metric": "finiteLoss",
+      "minimum": 1
+    }
+  },
+  "revision": "ef04eee6429a8ae492cae74d6af2a0dd5dc41a7c",
+  "runId": "gr00t-public-20260915",
+  "schema": "reproai.public-canary/v1",
+  "sourceCommit": "c084d6eab090a2b5822db474d790a00dfe7fae5d",
+  "tensorCount": 1030,
+  "verified": true
+}
