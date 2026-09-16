@@ -1,38 +1,56 @@
-# Tier-2 cold certification attempt
+# Tier-2 cold certification
 
-Date: 2026-09-11  
+Date: 2026-09-15
 DAG: `3571175fc75d017ea5ec71a9dc316b2a88c48e6460f6a2553d42c36a006fadfd`  
-Result: **FAIL / BLOCKED** (certification spend ceiling)
+Result: **PASS**
 
-The independent cold rebuild ran exactly:
+An independent cold rebuild ran exactly:
 
 ```text
 roar reproduce 3571175fc75d017ea5ec71a9dc316b2a88c48e6460f6a2553d42c36a006fadfd --lineage --run --no-puts -y --step-timeout 21600
 ```
 
-The sole allowed attempt returned literal exit code `143` after an evidence-preserving stop. The output contained no `Steps run: N/M` summary.
+The command returned literal exit code `0` and reported `Steps run: 5/5`. All five
+pipeline steps succeeded: data preparation, tokenizer training, base training,
+supervised fine-tuning, and model packaging. The final tracer fallback-signature
+count was zero.
 
-Base training completed its full 2,506-step horizon. The rebuilt checkpoint reported validation BPB 0.830313, CORE 0.1719, 174.48 minutes of training, and 41,300.86 MiB peak device memory. Supervised fine-tuning then began from that checkpoint. At that point, projected completion exceeded the $25 certification not-to-exceed limit, so the independent certifier stopped the run. No retry was made.
+The host exposed only the preload tracer launcher as executable. Automatic tracer
+selection chose preload, its preflight produced a report, and the live training
+processes were parented by `roar-tracer-preload`.
 
-The following partial outputs were regenerated before the stop:
+## Regenerated outputs
 
 | Path | Bytes | SHA-256 |
 |---|---:|---|
-| `outputs/nanochat/base_checkpoints/depth14/meta_002506.json` | 1,365 | `4ec0e71a7b82a2d20b33bcd7cab36019a46f23bc198bced7629f2cf854a0fad2` |
-| `outputs/nanochat/base_checkpoints/depth14/model_002506.pt` | 1,126,739,160 | `111c5690d22ea8d2e2521e731632bb921a0fc6066c21cdb5540b9fc6bfb2cfdc` |
-| `outputs/nanochat/base_checkpoints/depth14/optim_002506_rank0.pt` | 1,714,515,717 | `a657758674999c946f67368844642e7e7f19076dc1595dd7c5dcd265e7589f5e` |
-
-The remaining SFT, evaluation, packaging, and final artifact outputs were not completed. This attempt therefore does not certify the row.
+| `outputs/nanochat-depth14.tar.gz` | 982,835,675 | `cee357fed40c4839825933a257217f9524bdd6221d4cb2140f16e61a47a8b5ce` |
+| `outputs/nanochat/base_checkpoints/depth14/meta_002506.json` | 1,364 | `6224204699b1cb475c0c6c5d4cac76e47fcc3f07ae58e48a39d2e77639ebf015` |
+| `outputs/nanochat/base_checkpoints/depth14/model_002506.pt` | 1,126,739,160 | `70ed104dff80779a39d6f67385aa581a3604bc8fb290f8188ad7ea37fc73cb8c` |
+| `outputs/nanochat/base_checkpoints/depth14/optim_002506_rank0.pt` | 1,714,515,717 | `15c567c5636ab701c26282fc0d644272acac34ec451aab80da27a979f290a37e` |
+| `outputs/nanochat/chatsft_checkpoints/depth14/meta_000934.json` | 859 | `891a01425ff9a1f588160c735d8607e89696ca684c79d981aad983016e7b1510` |
+| `outputs/nanochat/chatsft_checkpoints/depth14/model_000934.pt` | 1,126,739,160 | `4eef437e6af43dcadcb97b33b681236d6eb74e3886b07fbaf0ad738525850166` |
+| `outputs/nanochat/chatsft_checkpoints/depth14/optim_000934_rank0.pt` | 1,714,515,717 | `3e02b2b254a7b99ea0fd7beed9e09a3e050950797d3a067790b05fd6a6142ea8` |
 
 ## Environment evidence
 
-- Hardware: one RTX PRO 6000 Blackwell (`g7e.2xlarge`) in `us-east-2`
-- Host lifetime: 3h56m21s
-- Reproduction wall clock: 3h44m12s
-- Estimated host spend: $13.25 at $3.363/hour
-- Recorded dependency union: 29/29 exact, with no missing or mismatched pins
-- Installed closure: 47 distributions; `uv pip freeze` and `importlib.metadata` independently agreed
-- Executed interpreter: rebuilt virtual-environment Python 3.12.10
-- The cold host was confirmed terminated after evidence collection
+- Recorded dependency union: 29/29 exact, with no missing or mismatched pins.
+- Installed closure: 47 distributions. `uv pip freeze` and
+  `importlib.metadata` independently enumerated the same 47 distributions.
+- Executed interpreter: the rebuilt virtual environment's CPython 3.12.10.
+- Hardware: one RTX PRO 6000 Blackwell (`g7e.2xlarge`) in `us-east-2`.
+- Reproduction wall clock: 5h06m32s.
+- Host lifetime: 5h19m52s.
+- Estimated attempt spend: $17.94.
+- Cumulative estimated spend through this attempt: $177.28.
+- The host was confirmed terminated after evidence collection.
 
-The certifier was independent of the capture operator and did not fix, recapture, or publish the workload.
+The certifier was independent of the capture operator and did not modify, recapture,
+or publish the workload.
+
+## Earlier certification attempt
+
+The earlier independent attempt on 2026-09-11 remains part of the history. It
+returned exit code `143` after an evidence-preserving stop at its spend ceiling and
+did not emit a `Steps run: N/M` summary. It completed base training and began SFT,
+but did not produce the final package. Its partial output hashes and environment
+evidence remain available in the branch commit that recorded that attempt.

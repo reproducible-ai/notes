@@ -1,6 +1,6 @@
 # nanochat depth 14
 
-The full depth-14 pipeline completed on one 96 GB Blackwell GPU and produced a public 983 MB model artifact plus a public lineage record. The record passes **Tier 1**: the clean-DAG check is 14/14, the AI-BOM is 100/100, every public URL resolves, and the recorded dependency freeze is portable. An independent cold Tier-2 attempt later rebuilt the full base-training checkpoint and began supervised fine-tuning, but was stopped when the remaining runtime was projected to exceed the certification spend ceiling. The row is not certified.
+The full depth-14 pipeline completed on one 96 GB Blackwell GPU and produced a public 983 MB model artifact plus a public lineage record. The record passes **Tier 1**: the clean-DAG check is 14/14, the AI-BOM is 100/100, every public URL resolves, and the recorded dependency freeze is portable. A later independent cold rebuild returned exit code 0, completed all five reproduction steps, and regenerated the final package, so the row now passes **Tier 2** as a certified reproduction.
 
 ## What was run
 
@@ -39,7 +39,7 @@ The final attempt cost $19.66. Total metered compute across the ten attempts was
 
 The public lineage contains the full code commit, ordered workload, produced artifacts, runtime metadata, and a 100/100 AI-BOM. All referenced public URLs resolve. The recorded dependency set is portable, and the two reproduction scripts beside this file are generated verbatim from the lineage.
 
-The complete Tier-1 gate passed against the existing published lineage: strict clean-DAG 14/14, AI-BOM 100/100 Advanced, all public URLs readable, portable freeze, and row schema valid. This validates the record without executing it. A separate cold agent must still execute the reproduction before the row can claim Tier 2.
+The complete Tier-1 gate passed against the existing published lineage: strict clean-DAG 14/14, AI-BOM 100/100 Advanced, all public URLs readable, portable freeze, and row schema valid. A later independent Tier-2 attempt returned literal exit code 0 with `Steps run: 5/5`, regenerated the final model package, matched all 29 recorded dependency pins, and used the rebuilt CPython 3.12.10 environment.
 
 ## Upstream portability edit
 
@@ -57,4 +57,4 @@ The reader-facing command is:
 roar reproduce 3571175fc75d017ea5ec71a9dc316b2a88c48e6460f6a2553d42c36a006fadfd --lineage --run --no-puts
 ```
 
-Tier 1 remains green. The one allowed independent Tier-2 attempt returned exit code 143 after an evidence-preserving budget stop. It emitted no `Steps run: N/M` summary. The base checkpoint was regenerated, and supervised fine-tuning had started, but the complete rebuild did not finish. See [`CERT-TIER2.md`](CERT-TIER2.md) for the cold-attempt evidence.
+Tier 1 and Tier 2 both pass. See [`CERT-TIER2.md`](CERT-TIER2.md) for the successful cold-rebuild evidence and the retained history of the earlier stopped attempt.

@@ -14,7 +14,12 @@
 | roar 0.4.7 recorded | all 13 tasks and lineage completed | $19.66 |
 | **Total rebuild effort** |  | **$96.97** |
 | independent Tier-2 certification | stopped after base training when projected completion exceeded certification NTE | $13.25 |
+| fourth independent Tier-2 certification | exit 0; all 5 reproduction steps completed | $17.94 |
 
 The final instance stopped after 351 billed minutes. The stopped-instance meter, used above, was $19.66.
 
 The independent certification host ran for 3h56m21s at $3.363/hour, for an estimated $13.25. Certification spend is reported separately from capture and rebuild effort.
+
+The successful certification host ran for 5h19m52s, including setup and evidence
+collection, for an estimated $17.94. Cumulative estimated spend through that attempt
+was $177.28. The host was confirmed terminated after evidence collection.
