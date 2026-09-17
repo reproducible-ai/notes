@@ -45,3 +45,23 @@ Task durations and job duration are different clocks; neither is an optimizer-st
 | c1d5947f-ef2a-4e27-b071-94f6cc95e7c9 | package | COMPLETED | 0 | unknown |
 | c1d5947f-ef2a-4e27-b071-94f6cc95e7c9 | label | COMPLETED | 0 | unknown |
 | c1d5947f-ef2a-4e27-b071-94f6cc95e7c9 | publish | COMPLETED | 0 | unknown |
+
+
+## Calibration allocations
+
+Separate calibration does not support a full-run cost estimate: inconsistent-slopes.
+
+These charges are separate from the preserved public capture and its historical ledger.
+
+| Job | Outcome | Duration seconds | Finalized USD | Cost source |
+| --- | --- | ---: | ---: | --- |
+| 5e175ec6-6369-41ee-8de2-8ef9403e037d | failed | 650.989 | 1.4 | observations/budget.jsonl:122 |
+| cacd46e3-5884-4e4e-971c-dbeb4f608adb | failed | 505.888 | 1.57 | observations/budget.jsonl:136 |
+| e9b250f1-d3fb-4c7f-96e6-4ded702ec0cf | failed | 2830.975 | 3.42 | observations/budget.jsonl:371 |
+| a9a97def-9cd3-4f74-ac1d-3634b605557a | ok | 2522.672 | 2.92 | reconciliation.jobActualCostUsd |
+
+Known calibration charges: $9.31 across 4 of 4 allocations. Unknown charges remain unknown; each job is counted once.
+
+Setup, all calibration points and shutdown share the allocation charge. The full-run projection is a separate estimate and is not included in actual spend.
+
+[Timing, assumptions and projection breakdown](https://github.com/reproducible-ai/notes/blob/main/023-robotics-gr00t/evidence/calibration.json).
