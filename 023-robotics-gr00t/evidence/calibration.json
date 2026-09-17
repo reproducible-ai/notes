@@ -1,0 +1,282 @@
+{
+  "allocationProjection": {
+    "assumptions": {
+      "clockToleranceSeconds": 2,
+      "method": "single-allocation/v1",
+      "source": "Conservative forecast allowance of $0.15 per GiB of verified final release files for one AWS Ohio internet upload; not an observed invoice. Compute, up to 1 TiB gp3 and one IPv4 address are covered by the separate $4/allocation-hour allowance. https://aws.amazon.com/ec2/pricing/on-demand/",
+      "trainTaskName": "train",
+      "transferUsdPerGiB": 0.15
+    },
+    "derivedOverhead": {
+      "checkpointSeconds": 151.95589167466665,
+      "coldSetupSeconds": 509.7175714969635,
+      "evaluationSeconds": null,
+      "evidenceSha256": "2ca8cba3cb076f4127161364ec0d2e233fb1002f05bf73e0d50662e10f18f0f4",
+      "finalizationSeconds": 1195.049787790215,
+      "otherCostUsd": 3.5690360287204386
+    },
+    "inputSha256": {
+      "calibrationCandidate": "b75bfc6937e85f1ee98228456b3bc8d6ad017c58babd16b023075459f57cf55d",
+      "calibrationMeasurements": "8f667e6144b2a26f825edc941dc27cff25be8501b0d4abb4c27368e53e427204",
+      "calibrationOverhead": "87d50a609f5990af4e15afd5d2a0483fe01ae620ab5c6d11a22802b22ff1a06a",
+      "calibrationPlan": "78d566a9015d5670b229059303cafdfbf4fedcbfaadf659dbc9af0c8a1ed0979",
+      "calibrationRawlog": "161e56e232491d8a3c4672f93e99640203a709360a6310f282b0c83942a0b698",
+      "calibrationResolvedconfig": "de8a65ae01457aa01120be92e43df483213940a5f494f2cc07c632e0ae2623e7",
+      "calibrationResult": "3f73fc4c558da3c6c6e42ebcb44d548e3932d20b84998d0fb2c878130b3835c4",
+      "calibrationTrainerstate": "2a0c2eb73d834154a80c243b26cd25cbcb19845bf59855adfa6b03ae06e07254",
+      "hfStagingReceipt": "aaaa82e173c61e1630b4c4e4635930a7c5f512593fdf2b638d624de3a13085e7",
+      "reconciliationReceiptPath": "a10e76c0e04fecac52627f2a395dcda07193e10a541e43901fdddfed1593c31b"
+    },
+    "method": "single-allocation/v1",
+    "sha256": "4ee13a39f626bbfad72e48e79dca04849bedee4e623d2db87f0e1d669a5f1e99",
+    "verifiedArtifactBytes": 25548155036
+  },
+  "allocations": [
+    {
+      "attemptId": "dfbe410a-8dc7-4d0a-9b67-9caf24a3e35d",
+      "costSource": "observations/budget.jsonl:122",
+      "costUsd": 1.4,
+      "dataset": "DROID 1.0.1",
+      "durationSec": 650.989,
+      "estimatedCostUsd": 0.56,
+      "jobId": "5e175ec6-6369-41ee-8de2-8ef9403e037d",
+      "label": "Calibration allocation",
+      "note": "Private calibration capture; separate from the preserved public model run.",
+      "outcome": "failed",
+      "params": "400 optimizer steps",
+      "purpose": "bounded calibration; one allocation may contain multiple independent points",
+      "schedulerStatus": "FAILED"
+    },
+    {
+      "attemptId": "bd0cd2bb-1d22-4810-9305-23e790c9aaf3",
+      "costSource": "observations/budget.jsonl:136",
+      "costUsd": 1.57,
+      "dataset": "DROID 1.0.1",
+      "durationSec": 505.888,
+      "estimatedCostUsd": 0.45,
+      "jobId": "cacd46e3-5884-4e4e-971c-dbeb4f608adb",
+      "label": "Calibration allocation",
+      "note": "Private calibration capture; separate from the preserved public model run.",
+      "outcome": "failed",
+      "params": "400 optimizer steps",
+      "purpose": "bounded calibration; one allocation may contain multiple independent points",
+      "schedulerStatus": "FAILED"
+    },
+    {
+      "attemptId": "45cc1d09-21ef-430c-b7d2-21c622d714f8",
+      "costSource": "observations/budget.jsonl:371",
+      "costUsd": 3.42,
+      "dataset": "DROID 1.0.1",
+      "durationSec": 2830.975,
+      "estimatedCostUsd": 2.64,
+      "jobId": "e9b250f1-d3fb-4c7f-96e6-4ded702ec0cf",
+      "label": "Calibration allocation",
+      "note": "Private calibration capture; separate from the preserved public model run.",
+      "outcome": "failed",
+      "params": "400 optimizer steps",
+      "purpose": "bounded calibration; one allocation may contain multiple independent points",
+      "schedulerStatus": "FAILED"
+    },
+    {
+      "attemptId": "2c00df3c-d7bf-4dca-bc9a-20ad68e9020a",
+      "costSource": "reconciliation.jobActualCostUsd",
+      "costUsd": 2.92,
+      "dataset": "DROID 1.0.1",
+      "durationSec": 2522.672,
+      "estimatedCostUsd": 2.36,
+      "jobId": "a9a97def-9cd3-4f74-ac1d-3634b605557a",
+      "label": "Calibration allocation",
+      "note": "Private calibration capture; separate from the preserved public model run.",
+      "outcome": "ok",
+      "params": "400 optimizer steps",
+      "purpose": "bounded calibration; one allocation may contain multiple independent points",
+      "schedulerStatus": "COMPLETED"
+    }
+  ],
+  "attemptId": "2c00df3c-d7bf-4dca-bc9a-20ad68e9020a",
+  "attempts": [
+    {
+      "attemptId": "dfbe410a-8dc7-4d0a-9b67-9caf24a3e35d",
+      "jobIds": [
+        "5e175ec6-6369-41ee-8de2-8ef9403e037d"
+      ],
+      "outcome": "HUMAN_REQUIRED",
+      "state": "human-required"
+    },
+    {
+      "attemptId": "bd0cd2bb-1d22-4810-9305-23e790c9aaf3",
+      "jobIds": [
+        "cacd46e3-5884-4e4e-971c-dbeb4f608adb"
+      ],
+      "outcome": "HUMAN_REQUIRED",
+      "state": "human-required"
+    },
+    {
+      "attemptId": "e759e5f1-fba8-4525-a52c-2ae006e82f01",
+      "jobIds": [],
+      "outcome": "HUMAN_REQUIRED",
+      "state": "human-required"
+    },
+    {
+      "attemptId": "45cc1d09-21ef-430c-b7d2-21c622d714f8",
+      "jobIds": [
+        "e9b250f1-d3fb-4c7f-96e6-4ded702ec0cf"
+      ],
+      "outcome": "HUMAN_REQUIRED",
+      "state": "human-required"
+    },
+    {
+      "attemptId": "2c00df3c-d7bf-4dca-bc9a-20ad68e9020a",
+      "jobIds": [
+        "a9a97def-9cd3-4f74-ac1d-3634b605557a"
+      ],
+      "outcome": "PASS",
+      "state": "completed"
+    }
+  ],
+  "audit": {
+    "calibrationEvidenceConsistency": "PASS",
+    "scope": "private calibration"
+  },
+  "baseline": {
+    "commit": "92f79b03cab227b4b146d3c7bd92b59cba349df2",
+    "directoryTree": "25f91aacf57a3650ef25f8c7e38ddb77e8517a6d",
+    "scheduleBasis": "Projects the explicitly pinned 10000-update DROID fine-tuning scenario (first 32 episodes, batch 32, BF16, one 96 GB Blackwell GPU). It does not estimate original pretraining or the full DROID distribution."
+  },
+  "candidateCommit": "8635da9ffbdccb84674e370ff4274c844b6271c2",
+  "confidence": "low",
+  "costScope": "declared-all-in",
+  "coverage": {
+    "fixedWork": true,
+    "fullRecipe": true,
+    "representativeData": true
+  },
+  "exclusions": [],
+  "fit": {
+    "adjacentSlopes": [
+      1.2744060505300001,
+      0.9050876347649995
+    ],
+    "extrapolationFactor": 25.0,
+    "maxRelativeResidual": 0.06401117440351795,
+    "secondsPerUpdate": 1.0106071821264282,
+    "startupSeconds": 74.33674724050007
+  },
+  "fullSteps": 10000,
+  "headlineEstimateEligible": false,
+  "jobId": "a9a97def-9cd3-4f74-ac1d-3634b605557a",
+  "limitations": [
+    "Host checks bind consistent evidence; the independent auditor must assess coverage.",
+    "Rate and overhead assumptions are projections, not actual billing receipts.",
+    "This calibration does not establish quality, convergence or a completed full run."
+  ],
+  "model": "GR00T N1.7",
+  "planSha256": "7949801bc2ce9ef3f848deb83fda69fef8bc3281dbaaa84e1419e0a854035fbb",
+  "points": [
+    {
+      "completedSteps": 100,
+      "costUsd": null,
+      "exitCode": 0,
+      "id": "p1",
+      "outcome": "completed",
+      "requestedSteps": 100,
+      "steadySeconds": 80.56914754700006,
+      "steadyUpdates": 80,
+      "trainingSeconds": 164.84551071700002
+    },
+    {
+      "completedSteps": 200,
+      "costUsd": null,
+      "exitCode": 0,
+      "id": "p2",
+      "outcome": "completed",
+      "requestedSteps": 200,
+      "steadySeconds": 183.85065417199996,
+      "steadyUpdates": 180,
+      "trainingSeconds": 292.28611577000004
+    },
+    {
+      "completedSteps": 400,
+      "costUsd": null,
+      "exitCode": 0,
+      "id": "p3",
+      "outcome": "completed",
+      "requestedSteps": 400,
+      "steadySeconds": 391.14686883700006,
+      "steadyUpdates": 380,
+      "trainingSeconds": 473.30364272299994
+    }
+  ],
+  "projection": null,
+  "protocol": {
+    "cachePolicy": "Pre-read pinned inputs before each independent process; fresh per-point compiler caches; reset weights, optimizer, scheduler and RNG from the same base checkpoint.",
+    "finalPointId": "p3",
+    "maxPointSeconds": 2700,
+    "minimumSteadyUpdates": 50,
+    "points": [
+      {
+        "id": "p1",
+        "steps": 100
+      },
+      {
+        "id": "p2",
+        "steps": 200
+      },
+      {
+        "id": "p3",
+        "steps": 400
+      }
+    ],
+    "seed": 42,
+    "timingPolicy": "synchronized-training-only"
+  },
+  "reasons": [
+    "inconsistent-slopes"
+  ],
+  "recipe": {
+    "baseModel": {
+      "repository": "https://huggingface.co/nvidia/GR00T-N1.7-3B",
+      "revision": "2fc962b973bccdd5d8ce4f67cc63b264d6886495"
+    },
+    "checkpoint": {
+      "atEnd": true,
+      "everySteps": 1000,
+      "scope": "model, optimizer, scheduler and RNG state; retain one checkpoint"
+    },
+    "configSha256": "66965fc5df4acf25c27176c761df0e4b592c189f0bc4603d96811474d8cfb8da",
+    "dataset": {
+      "repository": "https://huggingface.co/datasets/lerobot/droid_1.0.1",
+      "revision": "0eabc778f959c54b8c5aa3626cc1128d2d2e54d4",
+      "selection": "First 32 DROID episodes, both model cameras, converted with the pinned source converter; the estimate concerns this DROID fine-tuning scenario."
+    },
+    "evaluation": {
+      "atEnd": false,
+      "everySteps": null,
+      "scope": "No periodic policy evaluation in this fine-tuning scenario"
+    },
+    "fullSteps": 10000,
+    "gradientAccumulationSteps": 1,
+    "hardware": {
+      "accelerator": "NVIDIA RTX PRO 6000 Blackwell Server Edition",
+      "gpuCount": 1,
+      "instanceType": "g7e.2xlarge"
+    },
+    "perDeviceBatchSize": 32,
+    "precision": "bf16",
+    "scheduler": {
+      "name": "cosine",
+      "warmupSteps": 500
+    },
+    "source": {
+      "repository": "https://github.com/reproducible-ai/Isaac-GR00T",
+      "revision": "c084d6eab090a2b5822db474d790a00dfe7fae5d"
+    },
+    "trainableModules": [
+      "projector",
+      "diffusion_model"
+    ]
+  },
+  "resultSha256": "d720dadb67a9c8467b6b81300c2ac948a9f2104b91d58e7336ede8cfb802d9f2",
+  "schema": "reproai.public-calibration/v1",
+  "status": "not-estimable"
+}

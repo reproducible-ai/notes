@@ -50,7 +50,7 @@ The selected-run cost is not the cost of a cold replay or full training. The [co
 
 - No held-out policy evaluation, independent cold replay, author verification or full reproduction is established. `verified` remains false and certification is unset.
 - Roar's untracked-directory warning remains; checks cover the published inventory and graph described above.
-- The full training schedule and fixed/scaling cost split are unknown, so no full-run cost estimate is defensible.
+- Separate calibration does not support a full-run cost estimate: inconsistent-slopes.
 - The AI-BOM audit is linked above. A completeness score is not recorded in this notes snapshot; the audit link does not assert cold-replay certification.
 - The checkpoint includes the NVIDIA license and notices. Its recorded use scope is non-commercial research/evaluation; consult the packaged terms.
 
@@ -59,3 +59,33 @@ The selected-run cost is not the cost of a cold replay or full training. The [co
 The [historical private report](https://github.com/reproducible-ai/notes/blob/main/023-robotics-gr00t/PRIVATE-CAPTURE.md), [capture summary](https://github.com/reproducible-ai/notes/blob/main/023-robotics-gr00t/evidence/capture-summary.json), [findings](https://github.com/reproducible-ai/notes/blob/main/023-robotics-gr00t/issues.md), and [command history](https://github.com/reproducible-ai/notes/blob/main/023-robotics-gr00t/commands.md) preserve the prior attempt. Its artifacts remain private. Its source revision, loss, cost and operator identity must not be attributed to the later public run.
 
 The public supervisor is pinned with the selected source above. The earlier report's training-operator identity belongs to the private capture; no new operator model identity is inferred for this public automation.
+
+
+## Calibration estimate
+
+Separate calibration does not support a full-run cost estimate: inconsistent-slopes.
+
+Projects the explicitly pinned 10000-update DROID fine-tuning scenario (first 32 episodes, batch 32, BF16, one 96 GB Blackwell GPU). It does not estimate original pretraining or the full DROID distribution.
+
+The public artifact, lineage, AI-BOM and selected-run costs above are preserved. The new calibration checkpoint and lineage remain private. Its independent audit checks calibration evidence; it does not retroactively audit the public capture.
+
+### Recipe and interpretation
+
+- Calibration uses batch 32 and 32 pinned DROID episodes; the preserved public capture used batch 1 and three episodes.
+- Independent early stops preserve the full cosine schedule and 500 warmup updates; no point resumes another point.
+- Frozen language/vision backbone, trainable projector and diffusion model; SDPA, full model/optimizer checkpoints every 1000 projected updates, no periodic policy evaluation.
+- The projection includes observed cold setup and finalization, measured checkpoint overhead, an allocation rate allowance and forecast transfer allowance. Actual allocation charges are recorded separately.
+
+### Measured points
+
+| Point | Completed updates | Training seconds | Steady updates | Steady seconds |
+| --- | ---: | ---: | ---: | ---: |
+| p1 | 100 | 164.84551071700002 | 80 | 80.56914754700006 |
+| p2 | 200 | 292.28611577000004 | 180 | 183.85065417199996 |
+| p3 | 400 | 473.30364272299994 | 380 | 391.14686883700006 |
+
+Point timings are independent measurements within one allocation, not additional charges.
+
+The estimate concerns the separately calibrated recipe. Public capture links, step counts and costs remain those of the earlier run. No cold replay, convergence, held-out policy quality or certification is established.
+
+[Calibration evidence and calculation](https://github.com/reproducible-ai/notes/blob/main/023-robotics-gr00t/evidence/calibration.json).
