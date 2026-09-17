@@ -49,7 +49,7 @@ Task durations and job duration are different clocks; neither is an optimizer-st
 
 ## Calibration allocations
 
-Separate calibration does not support a full-run cost estimate: inconsistent-slopes.
+The original process-time fit rejected the estimate for inconsistent slopes. Its result is preserved; the separate steady-throughput calculation below estimates the declared full recipe.
 
 These charges are separate from the preserved public capture and its historical ledger.
 
@@ -65,3 +65,9 @@ Known calibration charges: $9.31 across 4 of 4 allocations. Unknown charges rema
 Setup, all calibration points and shutdown share the allocation charge. The full-run projection is a separate estimate and is not included in actual spend.
 
 [Timing, assumptions and projection breakdown](https://github.com/reproducible-ai/notes/blob/main/023-robotics-gr00t/evidence/calibration.json).
+
+## Projected full recipe
+
+Approximately $19 for the declared 10,000-update DROID fine-tuning scenario: 32 pinned episodes, batch 32, BF16, one 96 GB RTX PRO 6000 Blackwell (g7e.2xlarge). The steady-throughput-plus-fixed/v1 method uses 655.566671 measured seconds / 640 steady updates = 1.024323 s/update. Add measured setup (509.72 s), mean process startup (71.24 s), 10 checkpoint saves (151.96 s each), and finalization/shutdown (1195.05 s), with no periodic policy evaluation. Total about 3.76 allocation-hours at the recorded $4/hour allowance plus $3.57 forecast transfer = $18.61, rounded up to $19. Low confidence; longest measured point was 400 updates. The earlier ols/v1 process-time fit remains rejected for inconsistent slopes; this separately documented method uses steady training timings.
+
+This forecast is separate from the $9.31 actual calibration compute ledger and the $3.09 earlier capture subtotal. It is not added to actual spend. See [inputs](evidence/full-run-cost/input.json) and [calculation](evidence/full-run-cost/estimate.json).

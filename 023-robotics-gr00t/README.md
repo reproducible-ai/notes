@@ -50,7 +50,7 @@ The selected-run cost is not the cost of a cold replay or full training. The [co
 
 - No held-out policy evaluation, independent cold replay, author verification or full reproduction is established. `verified` remains false and certification is unset.
 - Roar's untracked-directory warning remains; checks cover the published inventory and graph described above.
-- Separate calibration does not support a full-run cost estimate: inconsistent-slopes.
+- The full-run estimate below has low confidence and applies only to the declared 32-episode fine-tuning scenario.
 - The AI-BOM audit is linked above. A completeness score is not recorded in this notes snapshot; the audit link does not assert cold-replay certification.
 - The checkpoint includes the NVIDIA license and notices. Its recorded use scope is non-commercial research/evaluation; consult the packaged terms.
 
@@ -60,32 +60,33 @@ The [historical private report](https://github.com/reproducible-ai/notes/blob/ma
 
 The public supervisor is pinned with the selected source above. The earlier report's training-operator identity belongs to the private capture; no new operator model identity is inferred for this public automation.
 
+## Estimated full-run cost
 
-## Calibration estimate
+**About $19 and 3.76 hours, with low confidence**, for **10,000 DROID fine-tuning updates on 32 pinned episodes**, batch 32, BF16, one 96 GB NVIDIA RTX PRO 6000 Blackwell Server Edition (`g7e.2xlarge`). This estimates the declared fine-tuning recipe; original GR00T foundation pretraining and the full DROID distribution are outside its scope.
 
-Separate calibration does not support a full-run cost estimate: inconsistent-slopes.
+The completed calibration ran independent 100-, 200- and 400-update points. After excluding the first 20 updates of each process, their measured rates were 1.0071, 1.0214 and 1.0293 seconds/update. Weighted across all 640 steady updates, training takes 1.024323 seconds/update. The full cosine schedule and 500 warmup updates were retained; early stopping did not shorten that schedule.
 
-Projects the explicitly pinned 10000-update DROID fine-tuning scenario (first 32 episodes, batch 32, BF16, one 96 GB Blackwell GPU). It does not estimate original pretraining or the full DROID distribution.
+| Projected component | Seconds |
+| --- | ---: |
+| 10 full model/optimizer checkpoint saves | 1519.56 |
+| Periodic policy evaluation (none in this recipe) | 0.00 |
+| One-time finalization and allocation shutdown | 1195.05 |
+| One-time boot, setup and input preparation | 509.72 |
+| One-time training startup residual | 71.24 |
+| 10,000 training updates | 10243.23 |
 
-The public artifact, lineage, AI-BOM and selected-run costs above are preserved. The new calibration checkpoint and lineage remain private. Its independent audit checks calibration evidence; it does not retroactively audit the public capture.
+The sum is **3.76 allocation-hours**. At the recorded conservative **$4/allocation-hour** allowance, including bounded gp3 storage and IPv4, plus **$3.57 forecast transfer**, the calculation is **$18.61**, rounded up to **$19**. Finalization excludes the last measured checkpoint, which is already counted among the ten projected saves. These are forecast allowances, not actual invoice charges.
 
-### Recipe and interpretation
+The original `ols/v1` calculation fitted total process time and rejected the estimate because adjacent slopes differed by about 40.8%. That result remains in the [original calibration record](https://github.com/reproducible-ai/notes/blob/main/023-robotics-gr00t/evidence/calibration.json). This estimate uses an explicitly different method, `steady-throughput-plus-fixed/v1`, whose measured steady rates differ by 2.2%. It does not relabel the earlier audit as approving this new calculation.
 
-- Calibration uses batch 32 and 32 pinned DROID episodes; the preserved public capture used batch 1 and three episodes.
-- Independent early stops preserve the full cosine schedule and 500 warmup updates; no point resumes another point.
-- Frozen language/vision backbone, trainable projector and diffusion model; SDPA, full model/optimizer checkpoints every 1000 projected updates, no periodic policy evaluation.
-- The projection includes observed cold setup and finalization, measured checkpoint overhead, an allocation rate allowance and forecast transfer allowance. Actual allocation charges are recorded separately.
+The longest measured point is only 400 updates, so the projection extends it 25 times. The small observed rate spread is not a statistical confidence interval. Long-run performance, checkpoint behavior and prices may change. Frozen language/vision backbones, a trainable projector and diffusion model, SDPA, checkpoint cadence and data selection remain part of the estimated recipe.
 
-### Measured points
+The public capture's artifact, GLaaS lineage, AI-BOM and actual costs above remain unchanged. That capture used batch 1 and three episodes; the estimate comes from separate batch-32, 32-episode measurements. No additional training run was needed for this calculation, and no full run, convergence, policy quality or cold-replay certification is claimed.
 
-| Point | Completed updates | Training seconds | Steady updates | Steady seconds |
-| --- | ---: | ---: | ---: | ---: |
-| p1 | 100 | 164.84551071700002 | 80 | 80.56914754700006 |
-| p2 | 200 | 292.28611577000004 | 180 | 183.85065417199996 |
-| p3 | 400 | 473.30364272299994 | 380 | 391.14686883700006 |
+[Calculation inputs and limitations](https://github.com/reproducible-ai/notes/blob/main/023-robotics-gr00t/evidence/full-run-cost/input.json) · [calculated result](https://github.com/reproducible-ai/notes/blob/main/023-robotics-gr00t/evidence/full-run-cost/estimate.json) · [raw timing evidence](https://github.com/reproducible-ai/notes/blob/main/023-robotics-gr00t/evidence/full-run-cost/timings.json).
 
-Point timings are independent measurements within one allocation, not additional charges.
+Recalculate with the [versioned calculator](https://github.com/reproducible-ai/reproducible-ai-harness/blob/9053553/scripts/estimate_cost.py):
 
-The estimate concerns the separately calibrated recipe. Public capture links, step counts and costs remain those of the earlier run. No cold replay, convergence, held-out policy quality or certification is established.
-
-[Calibration evidence and calculation](https://github.com/reproducible-ai/notes/blob/main/023-robotics-gr00t/evidence/calibration.json).
+```bash
+python3 estimate_cost.py evidence/full-run-cost/input.json
+```

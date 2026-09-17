@@ -16,7 +16,7 @@
   "date": "2026-09-15",
   "forkUrl": "https://github.com/reproducible-ai/Isaac-GR00T/tree/c084d6eab090a2b5822db474d790a00dfe7fae5d",
   "fullRun": {
-    "caveats": "The estimate concerns the separately calibrated recipe. Public capture links, step counts and costs remain those of the earlier run. No cold replay, convergence, held-out policy quality or certification is established.",
+    "caveats": "This is a projection of the explicitly pinned 32-episode DROID fine-tuning recipe. The public 100-step capture used batch 1 and three episodes. It does not estimate original foundation pretraining or the full DROID distribution. Long-run throughput, checkpoint costs and future rates may differ; the 2.2% observed timing spread is not a confidence interval. No full run, convergence, policy quality, cold replay or certification is established. The previous calibration audit does not certify this new calculation.",
     "changes": [
       "Calibration uses batch 32 and 32 pinned DROID episodes; the preserved public capture used batch 1 and three episodes.",
       "Independent early stops preserve the full cosine schedule and 500 warmup updates; no point resumes another point.",
@@ -25,10 +25,10 @@
     ],
     "command": null,
     "confidence": "low",
-    "durationEstimate": null,
-    "estimateBasis": "Separate calibration does not support a full-run cost estimate: inconsistent-slopes. Projects the explicitly pinned 10000-update DROID fine-tuning scenario (first 32 episodes, batch 32, BF16, one 96 GB Blackwell GPU). It does not estimate original pretraining or the full DROID distribution.",
-    "estimateUsd": null,
-    "hw": "1 x NVIDIA RTX PRO 6000 Blackwell Server Edition (g7e.2xlarge)"
+    "durationEstimate": "3.76 hours",
+    "estimateBasis": "Approximately $19 for the declared 10,000-update DROID fine-tuning scenario: 32 pinned episodes, batch 32, BF16, one 96 GB RTX PRO 6000 Blackwell (g7e.2xlarge). The steady-throughput-plus-fixed/v1 method uses 655.566671 measured seconds / 640 steady updates = 1.024323 s/update. Add measured setup (509.72 s), mean process startup (71.24 s), 10 checkpoint saves (151.96 s each), and finalization/shutdown (1195.05 s), with no periodic policy evaluation. Total about 3.76 allocation-hours at the recorded $4/hour allowance plus $3.57 forecast transfer = $18.61, rounded up to $19. Low confidence; longest measured point was 400 updates. The earlier ols/v1 process-time fit remains rejected for inconsistent slopes; this separately documented method uses steady training timings.",
+    "estimateUsd": 19,
+    "hw": "1 NVIDIA RTX PRO 6000 Blackwell Server Edition (96 GB), g7e.2xlarge"
   },
   "issues": [
     {
@@ -199,11 +199,11 @@
   "truncated": true,
   "truncation": {
     "full": 10000,
-    "note": "Recorded optimizer steps: 100. Separate calibration does not support a full-run cost estimate: inconsistent-slopes.",
+    "note": "Public capture: 100 optimizer steps. Separate 100/200/400-update calibration supports the disclosed 10,000-update fine-tuning estimate.",
     "ran": 100,
     "unit": "steps"
   },
-  "truncationNote": "Recorded optimizer steps: 100. Separate calibration does not support a full-run cost estimate: inconsistent-slopes.",
+  "truncationNote": "Public capture: 100 optimizer steps. Separate 100/200/400-update calibration supports the disclosed 10,000-update fine-tuning estimate.",
   "type": "robotics",
   "upstreamCommit": "9124d64bc9b19f118285939e8ffd29ce5f094733",
   "upstreamUrl": "https://github.com/reproducible-ai/Isaac-GR00T",
