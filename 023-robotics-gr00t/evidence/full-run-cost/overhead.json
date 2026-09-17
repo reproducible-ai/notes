@@ -1,0 +1,20 @@
+{
+  "candidateCommit": "8635da9ffbdccb84674e370ff4274c844b6271c2",
+  "components": {
+    "checkpointSeconds": 151.95589167466665,
+    "coldSetupSeconds": null,
+    "evaluationSeconds": null,
+    "finalizationSeconds": null,
+    "otherCostUsd": null
+  },
+  "inputPreparation": {
+    "finishedUnixSeconds": 1789624033.624549,
+    "startedUnixSeconds": 1789623805.1793792
+  },
+  "packageStartedUnixSeconds": 1789625522.3423944,
+  "planSha256": "7949801bc2ce9ef3f848deb83fda69fef8bc3281dbaaa84e1419e0a854035fbb",
+  "schema": "reproai.calibration-overhead/v1",
+  "setupClock": {
+    "startedUnixSeconds": 1789623681.810306
+  }
+}

@@ -1,0 +1,94 @@
+{
+  "checkpoint": {
+    "atEnd": true,
+    "everySteps": 1000,
+    "secondsPerOperation": 151.95589167466665
+  },
+  "evaluation": {
+    "atEnd": false,
+    "everySteps": null,
+    "secondsPerOperation": null
+  },
+  "evidence": {
+    "allocationProjection": "../calibration.json#allocationProjection",
+    "attemptId": "2c00df3c-d7bf-4dca-bc9a-20ad68e9020a",
+    "candidateCommit": "8635da9ffbdccb84674e370ff4274c844b6271c2",
+    "files": [
+      {
+        "path": "calibration-plan.json",
+        "sha256": "7949801bc2ce9ef3f848deb83fda69fef8bc3281dbaaa84e1419e0a854035fbb"
+      },
+      {
+        "path": "calibration.json",
+        "sha256": "f42b06b0d7a82dbec9f8f1fcd16c113cf988863f16f12a41ddaf3c5c1357fe7e"
+      },
+      {
+        "path": "timings.json",
+        "sha256": "29a6e05c82663c63ffe1625e19d620c2ba88294facc095157c01b1ff961d888b"
+      },
+      {
+        "path": "overhead.json",
+        "sha256": "5d51c47b051cee35ae721bb28ee143972830af37dc00db530aa509cee5f2e74c"
+      }
+    ],
+    "immutableHuggingFaceRevision": "5d759faf279e16f0077755cfbdda906cf2138b3b",
+    "jobId": "a9a97def-9cd3-4f74-ac1d-3634b605557a"
+  },
+  "finalizationSeconds": 1195.049787790215,
+  "fullSteps": 10000,
+  "hardware": "1 NVIDIA RTX PRO 6000 Blackwell Server Edition (96 GB), g7e.2xlarge",
+  "limitations": [
+    "A projection of this specific fine-tuning scenario, not original foundation pretraining, all DROID data, convergence or a completed full run.",
+    "Longest measured point is 400 updates; projection extends it 25 times. Rates exclude the first 20 updates, while the full 500-update scheduler warmup remains intact.",
+    "The previous ols/v1 process-time fit failed its slope-consistency gate. Its retained result remains not-estimable; this is a separately disclosed steady-throughput-plus-fixed/v1 calculation.",
+    "Low confidence: short measurements and long-run behavior, checkpoint/storage variation and future pricing can change cost. The observed timing spread is not a statistical confidence interval.",
+    "The $4/allocation-hour rate is a dated conservative allowance covering the GPU instance, bounded gp3 volume and IPv4; $3.569 is a forecast transfer allowance, not an invoice.",
+    "Includes observed boot/setup and finalization/shutdown, ten projected model/optimizer checkpoint saves, and no periodic policy evaluation. Finalization excludes the last measured checkpoint to avoid counting it twice.",
+    "Public capture used batch 1 and three episodes; this estimate uses the separately calibrated batch-32, 32-episode recipe."
+  ],
+  "model": "GR00T N1.7",
+  "otherCostUsd": 3.5690360287204386,
+  "points": [
+    {
+      "completedSteps": 100,
+      "exitCode": 0,
+      "id": "p1",
+      "outcome": "completed",
+      "requestedSteps": 100,
+      "steadySeconds": 80.56914754700006,
+      "steadyUpdates": 80,
+      "trainingProcessSeconds": 164.84551071700002
+    },
+    {
+      "completedSteps": 200,
+      "exitCode": 0,
+      "id": "p2",
+      "outcome": "completed",
+      "requestedSteps": 200,
+      "steadySeconds": 183.85065417199996,
+      "steadyUpdates": 180,
+      "trainingProcessSeconds": 292.28611577000004
+    },
+    {
+      "completedSteps": 400,
+      "exitCode": 0,
+      "id": "p3",
+      "outcome": "completed",
+      "requestedSteps": 400,
+      "steadySeconds": 391.14686883700006,
+      "steadyUpdates": 380,
+      "trainingProcessSeconds": 473.30364272299994
+    }
+  ],
+  "rate": {
+    "billingIncrementSeconds": 1,
+    "minimumBilledSeconds": 60,
+    "observedAt": "2026-09-17T01:38:26.841812Z",
+    "source": "Conservative allocation allowance: AWS Ohio Linux OnDemand g7e.2xlarge is $3.36312/hour (AWS price list published 2026-09-10); remainder allows up to 1 TiB gp3 root storage and one public IPv4 address. Transfer costs require separate evidence. https://pricing.us-east-1.amazonaws.com/offers/v1.0/aws/AmazonEC2/current/us-east-2/index.json",
+    "unit": "allocation",
+    "usdPerHour": 4.0
+  },
+  "schema": "reproai.cost-input/v1",
+  "scope": "10,000-update DROID fine-tuning; first 32 pinned episodes, batch 32, BF16, frozen vision/language backbones, trainable projector/diffusion model, SDPA.",
+  "setupSeconds": 509.7175714969635
+}
