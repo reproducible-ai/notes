@@ -1,0 +1,4028 @@
+{
+  "candidateCommit": "8635da9ffbdccb84674e370ff4274c844b6271c2",
+  "initialStateBasis": {
+    "baseFiles": [
+      {
+        "input": "base",
+        "sha256": "80129ad513891d7f957f4069c9d847bea487dc90e6e9177b45bd3b62b2098f88",
+        "sizeBytes": 1578
+      },
+      {
+        "input": "base",
+        "sha256": "cf1b2ce282d29ffd8b3032eef62d726e34a52694e463aba69131e8fe09a6838c",
+        "sizeBytes": 2540
+      },
+      {
+        "input": "base",
+        "sha256": "fdc54058d8b52bbb3b06c924326ff95a15687b08b15f92bc63adabc291638c89",
+        "sizeBytes": 4063
+      },
+      {
+        "input": "base",
+        "sha256": "9a3823d0918e1aa138484801baecc692327a4b8463e0a05b67d322f966bf7b5b",
+        "sizeBytes": 551
+      },
+      {
+        "input": "base",
+        "sha256": "7d0a4423a5a5bc7ac35f9ab4c1f64eb3f74f7592418a8dc5c80702b48455c788",
+        "sizeBytes": 13111
+      },
+      {
+        "input": "base",
+        "sha256": "d6600e811941051e0cb9909d6ca2749eb803783190deb302929a4fb78e353005",
+        "sizeBytes": 1102
+      },
+      {
+        "input": "base",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "sizeBytes": 0
+      },
+      {
+        "input": "base",
+        "sha256": "54c0367060cd310d0b3343fe72a589860a8b6e8173810164a4ffd6253f52e689",
+        "sizeBytes": 2071
+      },
+      {
+        "input": "base",
+        "sha256": "abc4a749389837416a102d9455a8c089336f2e417afb18565703b9944974bc35",
+        "sizeBytes": 2145
+      },
+      {
+        "input": "base",
+        "sha256": "a14e067a352ea453060cc0128e146a36f49f1a40e736285897672fc60d7056b5",
+        "sizeBytes": 31159
+      },
+      {
+        "input": "base",
+        "sha256": "6b1f4cbe5df4dbf23e5bccba02d4986e52d7ff43a84ea370bf2d6e30001cb8cd",
+        "sizeBytes": 34988
+      },
+      {
+        "input": "base",
+        "sha256": "c3316e2e4adb98a7068047405541096983a5414215d71bdf27573f6afc88d150",
+        "sizeBytes": 4293095
+      },
+      {
+        "input": "base",
+        "sha256": "eff2c474e71e86810b8532202cfa3eed23876af652acb7df0a0d24a721ec0976",
+        "sizeBytes": 1523
+      },
+      {
+        "input": "base",
+        "sha256": "042302b825045f52175253121872ce46437a45b59a61bfae07ea21a568590a0a",
+        "sizeBytes": 43389
+      },
+      {
+        "input": "base",
+        "sha256": "c34d9e522cf105de4e5c8b2c3d6024cb1e40cdbfcf7c64c7ff9b0fc738c6f932",
+        "sizeBytes": 1564431
+      },
+      {
+        "input": "base",
+        "sha256": "562a98c5eed8e9aabc5b9951e813d04963ed058976672845f2e555ba9bc5c238",
+        "sizeBytes": 17
+      },
+      {
+        "input": "base",
+        "sha256": "8a1a1d8a33c99103c7c80c136073c5bb8bfe9ca8f7a970c93c033ea89742906d",
+        "sizeBytes": 4990519232
+      },
+      {
+        "input": "base",
+        "sha256": "c3f61940deb2007ba1ad7743013b57f0f8462356151db9655175d7aca2d40661",
+        "sizeBytes": 1919980184
+      },
+      {
+        "input": "base",
+        "sha256": "bbf161c66daac88799b5bc7b5c110429f48d7f96ae315113e2b2e6d1f11c9e54",
+        "sizeBytes": 3184280
+      },
+      {
+        "input": "base",
+        "sha256": "407804ea5a62f4f8823f48811ae0edbb82fac101e9cf4d7273e6e2f692bb4d59",
+        "sizeBytes": 104985
+      },
+      {
+        "input": "base",
+        "sha256": "85c1b4690ae090559e79a45193e598b65d6146eedf14750884da65e6d31032be",
+        "sizeBytes": 21137
+      },
+      {
+        "input": "base",
+        "sha256": "5ae78127cbbf7977166b80c05e2b2a0f95f6a251fd8b8fbac5f86c0cfe018ffe",
+        "sizeBytes": 1263
+      },
+      {
+        "input": "base",
+        "sha256": "c97b1b07a82a8a8858771d56d278732d97dd8eae506032c146c77eb53828afc9",
+        "sizeBytes": 4293096
+      },
+      {
+        "input": "base",
+        "sha256": "81effe8b866d8ce0971a75f201ae3f56421ab6fc9fb79097d0e5549eb96c684e",
+        "sizeBytes": 3228995
+      },
+      {
+        "input": "base",
+        "sha256": "3c45bcc6f4918ba6ffc8c1dd3aca5d223778a483fcede2c19948cc43f206fc0d",
+        "sizeBytes": 8259
+      },
+      {
+        "input": "base",
+        "sha256": "477dbe1fef39a622c1724f3d7b271f90e3891799e9e0949f934da1f1a4165f59",
+        "sizeBytes": 200
+      },
+      {
+        "input": "base",
+        "sha256": "e8a2553b434ac043ec63b022db1e768277acf8d4e70f10a2842db6d238977135",
+        "sizeBytes": 33270
+      },
+      {
+        "input": "backbone",
+        "sha256": "001d030f39398808b2301009acae1e35c4b2f5e23319c6dd1fbb9df4a5b3d966",
+        "sizeBytes": 1707
+      },
+      {
+        "input": "backbone",
+        "sha256": "be7f48cedb8d1e0c60569b145418b54e6809f5f1c53208256a66a422bd56b815",
+        "sizeBytes": 37375
+      },
+      {
+        "input": "backbone",
+        "sha256": "f9ac0320a57d6ee76a4f582388564dcb379ab170f2d99550e891fcd26a0b31c9",
+        "sizeBytes": 473585
+      },
+      {
+        "input": "backbone",
+        "sha256": "1b0428109d3cf7d8d209c7ad3b31afe037689bfd9d25589f0f6335bb56223fab",
+        "sizeBytes": 35046
+      },
+      {
+        "input": "backbone",
+        "sha256": "6f8a6a55027e3da5160105556cda5dd69f6423f1c32645f6730d32de7773d0c4",
+        "sizeBytes": 5502
+      },
+      {
+        "input": "backbone",
+        "sha256": "bec4b3d446efa05807365c9e1cec03ac590836879d02f3a6da879971154bdd3b",
+        "sizeBytes": 1505
+      },
+      {
+        "input": "backbone",
+        "sha256": "4b79d34191efa63420e64f4ded2a113b43cd3a2dadbb65e226e9d99a3442d795",
+        "sizeBytes": 138441
+      },
+      {
+        "input": "backbone",
+        "sha256": "1e241830b48b397cb0900101421df5450baddc7adf01e5fc86b5615865f3bae4",
+        "sizeBytes": 269
+      },
+      {
+        "input": "backbone",
+        "sha256": "599bab54075088774b1733fde865d5bd747cbcc7a547c5bc12610e874e26f5e3",
+        "sizeBytes": 1671839
+      },
+      {
+        "input": "backbone",
+        "sha256": "fa5a6e6ef4fce40216b185cc48a3b24d31637ac3e2ba69c107ed1f389c1e6ede",
+        "sizeBytes": 4877470304
+      },
+      {
+        "input": "backbone",
+        "sha256": "27225450ac9c6529872ee1924fcb0962ff5634834f817040f444118116f4e516",
+        "sizeBytes": 390
+      },
+      {
+        "input": "backbone",
+        "sha256": "a5d85b6dcc535e6b93115a9ef287e6132fdbf30270da6218194ba742261173c7",
+        "sizeBytes": 7032403
+      },
+      {
+        "input": "backbone",
+        "sha256": "c2da771801886ad9ae98181793ffd3dfb7f1af30f6f7c6a4e15d7dbba52e2399",
+        "sizeBytes": 10868
+      },
+      {
+        "input": "backbone",
+        "sha256": "7768af27c1fafa9cc9011c1dc20067e03f8915e03b63504550e11d5066986d13",
+        "sizeBytes": 385
+      },
+      {
+        "input": "backbone",
+        "sha256": "ca10d7e9fb3ed18575dd1e277a2579c16d108e32f27439684afa0e10b1440910",
+        "sizeBytes": 2776833
+      }
+    ],
+    "configurationSha256": "66965fc5df4acf25c27176c761df0e4b592c189f0bc4603d96811474d8cfb8da",
+    "optimizer": "fresh AdamW; no checkpoint resume",
+    "seed": 42
+  },
+  "planSha256": "7949801bc2ce9ef3f848deb83fda69fef8bc3281dbaaa84e1419e0a854035fbb",
+  "points": [
+    {
+      "cachePolicy": "Pre-read pinned inputs before each independent process; fresh per-point compiler caches; reset weights, optimizer, scheduler and RNG from the same base checkpoint.",
+      "checkpointSha256": null,
+      "completedSteps": 100,
+      "exitCode": 0,
+      "finishedMonotonicSeconds": 658.986184305,
+      "hardware": {
+        "accelerator": "NVIDIA RTX PRO 6000 Blackwell Server Edition",
+        "gpuCount": 1,
+        "instanceType": "g7e.2xlarge"
+      },
+      "id": "p1",
+      "initialStateSha256": "ed55b0336270bb0b87c78222649a32d1db5d3cd28731d78c060c1fd2a72b5b26",
+      "outcome": "completed",
+      "recipeSha256": "1ce25b3f8d178050a2988fb948458b771f572f038896f122fb747f6a9e6dc736",
+      "requestedSteps": 100,
+      "seed": 42,
+      "startedMonotonicSeconds": 494.140673588,
+      "steadySeconds": 80.56914754700006,
+      "steadyUpdates": 80
+    },
+    {
+      "cachePolicy": "Pre-read pinned inputs before each independent process; fresh per-point compiler caches; reset weights, optimizer, scheduler and RNG from the same base checkpoint.",
+      "checkpointSha256": null,
+      "completedSteps": 200,
+      "exitCode": 0,
+      "finishedMonotonicSeconds": 1127.00917553,
+      "hardware": {
+        "accelerator": "NVIDIA RTX PRO 6000 Blackwell Server Edition",
+        "gpuCount": 1,
+        "instanceType": "g7e.2xlarge"
+      },
+      "id": "p2",
+      "initialStateSha256": "ed55b0336270bb0b87c78222649a32d1db5d3cd28731d78c060c1fd2a72b5b26",
+      "outcome": "completed",
+      "recipeSha256": "1ce25b3f8d178050a2988fb948458b771f572f038896f122fb747f6a9e6dc736",
+      "requestedSteps": 200,
+      "seed": 42,
+      "startedMonotonicSeconds": 834.72305976,
+      "steadySeconds": 183.85065417199996,
+      "steadyUpdates": 180
+    },
+    {
+      "cachePolicy": "Pre-read pinned inputs before each independent process; fresh per-point compiler caches; reset weights, optimizer, scheduler and RNG from the same base checkpoint.",
+      "checkpointSha256": "12117379d91d029c5979a585d07ba794001730c9516d6de5512e3dedfee30730",
+      "completedSteps": 400,
+      "exitCode": 0,
+      "finishedMonotonicSeconds": 1763.165310675,
+      "hardware": {
+        "accelerator": "NVIDIA RTX PRO 6000 Blackwell Server Edition",
+        "gpuCount": 1,
+        "instanceType": "g7e.2xlarge"
+      },
+      "id": "p3",
+      "initialStateSha256": "ed55b0336270bb0b87c78222649a32d1db5d3cd28731d78c060c1fd2a72b5b26",
+      "outcome": "completed",
+      "recipeSha256": "1ce25b3f8d178050a2988fb948458b771f572f038896f122fb747f6a9e6dc736",
+      "requestedSteps": 400,
+      "seed": 42,
+      "startedMonotonicSeconds": 1289.861667952,
+      "steadySeconds": 391.14686883700006,
+      "steadyUpdates": 380
+    }
+  ],
+  "processEvents": [
+    {
+      "command": [
+        "/var/lib/treqs-agent/work/2ca262f6-d595-4773-939c-2db43ca1840f/_work/a9a97def-9cd3-4f74-ac1d-3634b605557a/repository/.venv/bin/python",
+        "-m",
+        "scripts.calibration_droid",
+        "point",
+        "--plan",
+        ".treqs/calibration/plan.json",
+        "--config",
+        ".treqs/calibration/resolved-config.json",
+        "--output",
+        "artifacts/droid-calibration/points",
+        "--point",
+        "p1"
+      ],
+      "event": "point-start",
+      "pointId": "p1",
+      "requestedSteps": 100,
+      "startedUnixSeconds": 1789624044.9115715
+    },
+    {
+      "command": [
+        "/var/lib/treqs-agent/work/2ca262f6-d595-4773-939c-2db43ca1840f/_work/a9a97def-9cd3-4f74-ac1d-3634b605557a/repository/.venv/bin/python",
+        "-m",
+        "scripts.calibration_droid",
+        "point",
+        "--plan",
+        ".treqs/calibration/plan.json",
+        "--config",
+        ".treqs/calibration/resolved-config.json",
+        "--output",
+        "artifacts/droid-calibration/points",
+        "--point",
+        "p1"
+      ],
+      "event": "point-complete",
+      "finishedUnixSeconds": 1789624376.2999513,
+      "pointId": "p1",
+      "processExitedMonotonicSeconds": 825.525725021,
+      "requestedSteps": 100,
+      "startedMonotonicSeconds": 494.140673588,
+      "startedUnixSeconds": 1789624044.9115715,
+      "timing": {
+        "checkpointSeconds": 152.774963286,
+        "completedSteps": 100,
+        "fullSteps": 10000,
+        "schema": "gr00t.calibration-point/v1",
+        "steadySeconds": 80.56914754700006,
+        "steadyUpdates": 80,
+        "trainingFinishedMonotonicSeconds": 658.986184305,
+        "trainingStartedMonotonicSeconds": 509.400514074,
+        "warmupUpdates": 20
+      }
+    },
+    {
+      "command": [
+        "/var/lib/treqs-agent/work/2ca262f6-d595-4773-939c-2db43ca1840f/_work/a9a97def-9cd3-4f74-ac1d-3634b605557a/repository/.venv/bin/python",
+        "-m",
+        "scripts.calibration_droid",
+        "point",
+        "--plan",
+        ".treqs/calibration/plan.json",
+        "--config",
+        ".treqs/calibration/resolved-config.json",
+        "--output",
+        "artifacts/droid-calibration/points",
+        "--point",
+        "p2"
+      ],
+      "event": "point-start",
+      "pointId": "p2",
+      "requestedSteps": 200,
+      "startedUnixSeconds": 1789624385.4921875
+    },
+    {
+      "command": [
+        "/var/lib/treqs-agent/work/2ca262f6-d595-4773-939c-2db43ca1840f/_work/a9a97def-9cd3-4f74-ac1d-3634b605557a/repository/.venv/bin/python",
+        "-m",
+        "scripts.calibration_droid",
+        "point",
+        "--plan",
+        ".treqs/calibration/plan.json",
+        "--config",
+        ".treqs/calibration/resolved-config.json",
+        "--output",
+        "artifacts/droid-calibration/points",
+        "--point",
+        "p2"
+      ],
+      "event": "point-complete",
+      "finishedUnixSeconds": 1789624831.3363397,
+      "pointId": "p2",
+      "processExitedMonotonicSeconds": 1280.562117633,
+      "requestedSteps": 200,
+      "startedMonotonicSeconds": 834.72305976,
+      "startedUnixSeconds": 1789624385.4921875,
+      "timing": {
+        "checkpointSeconds": 151.24737008600005,
+        "completedSteps": 200,
+        "fullSteps": 10000,
+        "schema": "gr00t.calibration-point/v1",
+        "steadySeconds": 183.85065417199996,
+        "steadyUpdates": 180,
+        "trainingFinishedMonotonicSeconds": 1127.00917553,
+        "trainingStartedMonotonicSeconds": 868.224252767,
+        "warmupUpdates": 20
+      }
+    },
+    {
+      "command": [
+        "/var/lib/treqs-agent/work/2ca262f6-d595-4773-939c-2db43ca1840f/_work/a9a97def-9cd3-4f74-ac1d-3634b605557a/repository/.venv/bin/python",
+        "-m",
+        "scripts.calibration_droid",
+        "point",
+        "--plan",
+        ".treqs/calibration/plan.json",
+        "--config",
+        ".treqs/calibration/resolved-config.json",
+        "--output",
+        "artifacts/droid-calibration/points",
+        "--point",
+        "p3"
+      ],
+      "event": "point-start",
+      "pointId": "p3",
+      "requestedSteps": 400,
+      "startedUnixSeconds": 1789624840.6342278
+    },
+    {
+      "command": [
+        "/var/lib/treqs-agent/work/2ca262f6-d595-4773-939c-2db43ca1840f/_work/a9a97def-9cd3-4f74-ac1d-3634b605557a/repository/.venv/bin/python",
+        "-m",
+        "scripts.calibration_droid",
+        "point",
+        "--plan",
+        ".treqs/calibration/plan.json",
+        "--config",
+        ".treqs/calibration/resolved-config.json",
+        "--output",
+        "artifacts/droid-calibration/points",
+        "--point",
+        "p3"
+      ],
+      "event": "point-complete",
+      "finishedUnixSeconds": 1789625468.1126904,
+      "pointId": "p3",
+      "processExitedMonotonicSeconds": 1917.338491519,
+      "requestedSteps": 400,
+      "startedMonotonicSeconds": 1289.861667952,
+      "startedUnixSeconds": 1789624840.6342278,
+      "timing": {
+        "checkpointSeconds": 151.8453416519999,
+        "completedSteps": 400,
+        "fullSteps": 10000,
+        "schema": "gr00t.calibration-point/v1",
+        "steadySeconds": 391.14686883700006,
+        "steadyUpdates": 380,
+        "trainingFinishedMonotonicSeconds": 1763.165310675,
+        "trainingStartedMonotonicSeconds": 1303.914502371,
+        "warmupUpdates": 20
+      }
+    }
+  ],
+  "schema": "reproai.calibration-timings/v1",
+  "trainerEvents": {
+    "p1": [
+      {
+        "event": "training-start",
+        "fullSteps": 10000,
+        "monotonicSeconds": 509.400514074,
+        "schedulerWarmupSteps": 500
+      },
+      {
+        "completedSteps": 1,
+        "event": "optimizer-update",
+        "monotonicSeconds": 557.308203305
+      },
+      {
+        "completedSteps": 2,
+        "event": "optimizer-update",
+        "monotonicSeconds": 558.433571845
+      },
+      {
+        "completedSteps": 3,
+        "event": "optimizer-update",
+        "monotonicSeconds": 559.550811179
+      },
+      {
+        "completedSteps": 4,
+        "event": "optimizer-update",
+        "monotonicSeconds": 560.670847621
+      },
+      {
+        "completedSteps": 5,
+        "event": "optimizer-update",
+        "monotonicSeconds": 561.779984712
+      },
+      {
+        "completedSteps": 6,
+        "event": "optimizer-update",
+        "monotonicSeconds": 562.904625086
+      },
+      {
+        "completedSteps": 7,
+        "event": "optimizer-update",
+        "monotonicSeconds": 564.007812204
+      },
+      {
+        "completedSteps": 8,
+        "event": "optimizer-update",
+        "monotonicSeconds": 565.119135255
+      },
+      {
+        "completedSteps": 9,
+        "event": "optimizer-update",
+        "monotonicSeconds": 566.222601607
+      },
+      {
+        "completedSteps": 10,
+        "event": "optimizer-update",
+        "monotonicSeconds": 567.339248718
+      },
+      {
+        "completedSteps": 11,
+        "event": "optimizer-update",
+        "monotonicSeconds": 568.42753741
+      },
+      {
+        "completedSteps": 12,
+        "event": "optimizer-update",
+        "monotonicSeconds": 569.539365274
+      },
+      {
+        "completedSteps": 13,
+        "event": "optimizer-update",
+        "monotonicSeconds": 570.660111611
+      },
+      {
+        "completedSteps": 14,
+        "event": "optimizer-update",
+        "monotonicSeconds": 571.759962876
+      },
+      {
+        "completedSteps": 15,
+        "event": "optimizer-update",
+        "monotonicSeconds": 572.875026295
+      },
+      {
+        "completedSteps": 16,
+        "event": "optimizer-update",
+        "monotonicSeconds": 574.009758017
+      },
+      {
+        "completedSteps": 17,
+        "event": "optimizer-update",
+        "monotonicSeconds": 575.097175798
+      },
+      {
+        "completedSteps": 18,
+        "event": "optimizer-update",
+        "monotonicSeconds": 576.232865983
+      },
+      {
+        "completedSteps": 19,
+        "event": "optimizer-update",
+        "monotonicSeconds": 577.335173512
+      },
+      {
+        "completedSteps": 20,
+        "event": "optimizer-update",
+        "monotonicSeconds": 578.417036758
+      },
+      {
+        "completedSteps": 21,
+        "event": "optimizer-update",
+        "monotonicSeconds": 579.529728996
+      },
+      {
+        "completedSteps": 22,
+        "event": "optimizer-update",
+        "monotonicSeconds": 580.654531557
+      },
+      {
+        "completedSteps": 23,
+        "event": "optimizer-update",
+        "monotonicSeconds": 581.765916476
+      },
+      {
+        "completedSteps": 24,
+        "event": "optimizer-update",
+        "monotonicSeconds": 582.865498754
+      },
+      {
+        "completedSteps": 25,
+        "event": "optimizer-update",
+        "monotonicSeconds": 583.969096574
+      },
+      {
+        "completedSteps": 26,
+        "event": "optimizer-update",
+        "monotonicSeconds": 585.079543427
+      },
+      {
+        "completedSteps": 27,
+        "event": "optimizer-update",
+        "monotonicSeconds": 586.210209128
+      },
+      {
+        "completedSteps": 28,
+        "event": "optimizer-update",
+        "monotonicSeconds": 587.315855555
+      },
+      {
+        "completedSteps": 29,
+        "event": "optimizer-update",
+        "monotonicSeconds": 588.380608513
+      },
+      {
+        "completedSteps": 30,
+        "event": "optimizer-update",
+        "monotonicSeconds": 589.481984799
+      },
+      {
+        "completedSteps": 31,
+        "event": "optimizer-update",
+        "monotonicSeconds": 590.595094597
+      },
+      {
+        "completedSteps": 32,
+        "event": "optimizer-update",
+        "monotonicSeconds": 591.709944358
+      },
+      {
+        "completedSteps": 33,
+        "event": "optimizer-update",
+        "monotonicSeconds": 592.825970663
+      },
+      {
+        "completedSteps": 34,
+        "event": "optimizer-update",
+        "monotonicSeconds": 593.935140628
+      },
+      {
+        "completedSteps": 35,
+        "event": "optimizer-update",
+        "monotonicSeconds": 595.06702979
+      },
+      {
+        "completedSteps": 36,
+        "event": "optimizer-update",
+        "monotonicSeconds": 596.172668445
+      },
+      {
+        "completedSteps": 37,
+        "event": "optimizer-update",
+        "monotonicSeconds": 597.284834412
+      },
+      {
+        "completedSteps": 38,
+        "event": "optimizer-update",
+        "monotonicSeconds": 598.375590565
+      },
+      {
+        "completedSteps": 39,
+        "event": "optimizer-update",
+        "monotonicSeconds": 599.475822276
+      },
+      {
+        "completedSteps": 40,
+        "event": "optimizer-update",
+        "monotonicSeconds": 600.457916433
+      },
+      {
+        "completedSteps": 41,
+        "event": "optimizer-update",
+        "monotonicSeconds": 601.437620983
+      },
+      {
+        "completedSteps": 42,
+        "event": "optimizer-update",
+        "monotonicSeconds": 602.413663227
+      },
+      {
+        "completedSteps": 43,
+        "event": "optimizer-update",
+        "monotonicSeconds": 603.39026028
+      },
+      {
+        "completedSteps": 44,
+        "event": "optimizer-update",
+        "monotonicSeconds": 604.365039178
+      },
+      {
+        "completedSteps": 45,
+        "event": "optimizer-update",
+        "monotonicSeconds": 605.339011048
+      },
+      {
+        "completedSteps": 46,
+        "event": "optimizer-update",
+        "monotonicSeconds": 606.311859998
+      },
+      {
+        "completedSteps": 47,
+        "event": "optimizer-update",
+        "monotonicSeconds": 607.286795034
+      },
+      {
+        "completedSteps": 48,
+        "event": "optimizer-update",
+        "monotonicSeconds": 608.262617635
+      },
+      {
+        "completedSteps": 49,
+        "event": "optimizer-update",
+        "monotonicSeconds": 609.238592801
+      },
+      {
+        "completedSteps": 50,
+        "event": "optimizer-update",
+        "monotonicSeconds": 610.213638121
+      },
+      {
+        "completedSteps": 51,
+        "event": "optimizer-update",
+        "monotonicSeconds": 611.190069206
+      },
+      {
+        "completedSteps": 52,
+        "event": "optimizer-update",
+        "monotonicSeconds": 612.164104806
+      },
+      {
+        "completedSteps": 53,
+        "event": "optimizer-update",
+        "monotonicSeconds": 613.137014878
+      },
+      {
+        "completedSteps": 54,
+        "event": "optimizer-update",
+        "monotonicSeconds": 614.109924921
+      },
+      {
+        "completedSteps": 55,
+        "event": "optimizer-update",
+        "monotonicSeconds": 615.084565011
+      },
+      {
+        "completedSteps": 56,
+        "event": "optimizer-update",
+        "monotonicSeconds": 616.058403263
+      },
+      {
+        "completedSteps": 57,
+        "event": "optimizer-update",
+        "monotonicSeconds": 617.034657428
+      },
+      {
+        "completedSteps": 58,
+        "event": "optimizer-update",
+        "monotonicSeconds": 618.010524882
+      },
+      {
+        "completedSteps": 59,
+        "event": "optimizer-update",
+        "monotonicSeconds": 618.985623803
+      },
+      {
+        "completedSteps": 60,
+        "event": "optimizer-update",
+        "monotonicSeconds": 619.960158202
+      },
+      {
+        "completedSteps": 61,
+        "event": "optimizer-update",
+        "monotonicSeconds": 620.941869014
+      },
+      {
+        "completedSteps": 62,
+        "event": "optimizer-update",
+        "monotonicSeconds": 621.926712704
+      },
+      {
+        "completedSteps": 63,
+        "event": "optimizer-update",
+        "monotonicSeconds": 622.906440064
+      },
+      {
+        "completedSteps": 64,
+        "event": "optimizer-update",
+        "monotonicSeconds": 623.886597158
+      },
+      {
+        "completedSteps": 65,
+        "event": "optimizer-update",
+        "monotonicSeconds": 624.866652293
+      },
+      {
+        "completedSteps": 66,
+        "event": "optimizer-update",
+        "monotonicSeconds": 625.846228306
+      },
+      {
+        "completedSteps": 67,
+        "event": "optimizer-update",
+        "monotonicSeconds": 626.819601871
+      },
+      {
+        "completedSteps": 68,
+        "event": "optimizer-update",
+        "monotonicSeconds": 627.791617071
+      },
+      {
+        "completedSteps": 69,
+        "event": "optimizer-update",
+        "monotonicSeconds": 628.765011584
+      },
+      {
+        "completedSteps": 70,
+        "event": "optimizer-update",
+        "monotonicSeconds": 629.74202399
+      },
+      {
+        "completedSteps": 71,
+        "event": "optimizer-update",
+        "monotonicSeconds": 630.718278661
+      },
+      {
+        "completedSteps": 72,
+        "event": "optimizer-update",
+        "monotonicSeconds": 631.692479073
+      },
+      {
+        "completedSteps": 73,
+        "event": "optimizer-update",
+        "monotonicSeconds": 632.66547073
+      },
+      {
+        "completedSteps": 74,
+        "event": "optimizer-update",
+        "monotonicSeconds": 633.637992471
+      },
+      {
+        "completedSteps": 75,
+        "event": "optimizer-update",
+        "monotonicSeconds": 634.611583362
+      },
+      {
+        "completedSteps": 76,
+        "event": "optimizer-update",
+        "monotonicSeconds": 635.585265283
+      },
+      {
+        "completedSteps": 77,
+        "event": "optimizer-update",
+        "monotonicSeconds": 636.568066252
+      },
+      {
+        "completedSteps": 78,
+        "event": "optimizer-update",
+        "monotonicSeconds": 637.549028322
+      },
+      {
+        "completedSteps": 79,
+        "event": "optimizer-update",
+        "monotonicSeconds": 638.526459575
+      },
+      {
+        "completedSteps": 80,
+        "event": "optimizer-update",
+        "monotonicSeconds": 639.502536201
+      },
+      {
+        "completedSteps": 81,
+        "event": "optimizer-update",
+        "monotonicSeconds": 640.474492818
+      },
+      {
+        "completedSteps": 82,
+        "event": "optimizer-update",
+        "monotonicSeconds": 641.447557411
+      },
+      {
+        "completedSteps": 83,
+        "event": "optimizer-update",
+        "monotonicSeconds": 642.423563463
+      },
+      {
+        "completedSteps": 84,
+        "event": "optimizer-update",
+        "monotonicSeconds": 643.401016377
+      },
+      {
+        "completedSteps": 85,
+        "event": "optimizer-update",
+        "monotonicSeconds": 644.374682583
+      },
+      {
+        "completedSteps": 86,
+        "event": "optimizer-update",
+        "monotonicSeconds": 645.349719917
+      },
+      {
+        "completedSteps": 87,
+        "event": "optimizer-update",
+        "monotonicSeconds": 646.325309228
+      },
+      {
+        "completedSteps": 88,
+        "event": "optimizer-update",
+        "monotonicSeconds": 647.303672957
+      },
+      {
+        "completedSteps": 89,
+        "event": "optimizer-update",
+        "monotonicSeconds": 648.283814346
+      },
+      {
+        "completedSteps": 90,
+        "event": "optimizer-update",
+        "monotonicSeconds": 649.258970707
+      },
+      {
+        "completedSteps": 91,
+        "event": "optimizer-update",
+        "monotonicSeconds": 650.233350782
+      },
+      {
+        "completedSteps": 92,
+        "event": "optimizer-update",
+        "monotonicSeconds": 651.209697697
+      },
+      {
+        "completedSteps": 93,
+        "event": "optimizer-update",
+        "monotonicSeconds": 652.181127066
+      },
+      {
+        "completedSteps": 94,
+        "event": "optimizer-update",
+        "monotonicSeconds": 653.154487664
+      },
+      {
+        "completedSteps": 95,
+        "event": "optimizer-update",
+        "monotonicSeconds": 654.125916071
+      },
+      {
+        "completedSteps": 96,
+        "event": "optimizer-update",
+        "monotonicSeconds": 655.099306635
+      },
+      {
+        "completedSteps": 97,
+        "event": "optimizer-update",
+        "monotonicSeconds": 656.069386015
+      },
+      {
+        "completedSteps": 98,
+        "event": "optimizer-update",
+        "monotonicSeconds": 657.040724025
+      },
+      {
+        "completedSteps": 99,
+        "event": "optimizer-update",
+        "monotonicSeconds": 658.012576753
+      },
+      {
+        "completedSteps": 100,
+        "event": "optimizer-update",
+        "monotonicSeconds": 658.986184305
+      },
+      {
+        "completedSteps": 100,
+        "event": "checkpoint-saved",
+        "seconds": 152.774963286
+      },
+      {
+        "checkpointSeconds": 152.774963286,
+        "completedSteps": 100,
+        "event": "training-complete",
+        "fullSteps": 10000,
+        "schema": "gr00t.calibration-point/v1",
+        "steadySeconds": 80.56914754700006,
+        "steadyUpdates": 80,
+        "trainingFinishedMonotonicSeconds": 658.986184305,
+        "trainingStartedMonotonicSeconds": 509.400514074,
+        "warmupUpdates": 20
+      }
+    ],
+    "p2": [
+      {
+        "event": "training-start",
+        "fullSteps": 10000,
+        "monotonicSeconds": 868.224252767,
+        "schedulerWarmupSteps": 500
+      },
+      {
+        "completedSteps": 1,
+        "event": "optimizer-update",
+        "monotonicSeconds": 922.101549759
+      },
+      {
+        "completedSteps": 2,
+        "event": "optimizer-update",
+        "monotonicSeconds": 923.233883948
+      },
+      {
+        "completedSteps": 3,
+        "event": "optimizer-update",
+        "monotonicSeconds": 924.359879986
+      },
+      {
+        "completedSteps": 4,
+        "event": "optimizer-update",
+        "monotonicSeconds": 925.471743957
+      },
+      {
+        "completedSteps": 5,
+        "event": "optimizer-update",
+        "monotonicSeconds": 926.584037775
+      },
+      {
+        "completedSteps": 6,
+        "event": "optimizer-update",
+        "monotonicSeconds": 927.671862706
+      },
+      {
+        "completedSteps": 7,
+        "event": "optimizer-update",
+        "monotonicSeconds": 928.787468598
+      },
+      {
+        "completedSteps": 8,
+        "event": "optimizer-update",
+        "monotonicSeconds": 929.867729995
+      },
+      {
+        "completedSteps": 9,
+        "event": "optimizer-update",
+        "monotonicSeconds": 930.960475273
+      },
+      {
+        "completedSteps": 10,
+        "event": "optimizer-update",
+        "monotonicSeconds": 932.048206575
+      },
+      {
+        "completedSteps": 11,
+        "event": "optimizer-update",
+        "monotonicSeconds": 933.142782725
+      },
+      {
+        "completedSteps": 12,
+        "event": "optimizer-update",
+        "monotonicSeconds": 934.253593238
+      },
+      {
+        "completedSteps": 13,
+        "event": "optimizer-update",
+        "monotonicSeconds": 935.360358778
+      },
+      {
+        "completedSteps": 14,
+        "event": "optimizer-update",
+        "monotonicSeconds": 936.475042735
+      },
+      {
+        "completedSteps": 15,
+        "event": "optimizer-update",
+        "monotonicSeconds": 937.577510153
+      },
+      {
+        "completedSteps": 16,
+        "event": "optimizer-update",
+        "monotonicSeconds": 938.661159549
+      },
+      {
+        "completedSteps": 17,
+        "event": "optimizer-update",
+        "monotonicSeconds": 939.806917071
+      },
+      {
+        "completedSteps": 18,
+        "event": "optimizer-update",
+        "monotonicSeconds": 940.927387236
+      },
+      {
+        "completedSteps": 19,
+        "event": "optimizer-update",
+        "monotonicSeconds": 942.067336829
+      },
+      {
+        "completedSteps": 20,
+        "event": "optimizer-update",
+        "monotonicSeconds": 943.158521358
+      },
+      {
+        "completedSteps": 21,
+        "event": "optimizer-update",
+        "monotonicSeconds": 944.276918532
+      },
+      {
+        "completedSteps": 22,
+        "event": "optimizer-update",
+        "monotonicSeconds": 945.398066608
+      },
+      {
+        "completedSteps": 23,
+        "event": "optimizer-update",
+        "monotonicSeconds": 946.485955117
+      },
+      {
+        "completedSteps": 24,
+        "event": "optimizer-update",
+        "monotonicSeconds": 947.613551093
+      },
+      {
+        "completedSteps": 25,
+        "event": "optimizer-update",
+        "monotonicSeconds": 948.703782474
+      },
+      {
+        "completedSteps": 26,
+        "event": "optimizer-update",
+        "monotonicSeconds": 949.824870647
+      },
+      {
+        "completedSteps": 27,
+        "event": "optimizer-update",
+        "monotonicSeconds": 950.906450225
+      },
+      {
+        "completedSteps": 28,
+        "event": "optimizer-update",
+        "monotonicSeconds": 951.996587005
+      },
+      {
+        "completedSteps": 29,
+        "event": "optimizer-update",
+        "monotonicSeconds": 953.117807506
+      },
+      {
+        "completedSteps": 30,
+        "event": "optimizer-update",
+        "monotonicSeconds": 954.254948605
+      },
+      {
+        "completedSteps": 31,
+        "event": "optimizer-update",
+        "monotonicSeconds": 955.366376284
+      },
+      {
+        "completedSteps": 32,
+        "event": "optimizer-update",
+        "monotonicSeconds": 956.473748053
+      },
+      {
+        "completedSteps": 33,
+        "event": "optimizer-update",
+        "monotonicSeconds": 957.579255916
+      },
+      {
+        "completedSteps": 34,
+        "event": "optimizer-update",
+        "monotonicSeconds": 958.671241448
+      },
+      {
+        "completedSteps": 35,
+        "event": "optimizer-update",
+        "monotonicSeconds": 959.779713163
+      },
+      {
+        "completedSteps": 36,
+        "event": "optimizer-update",
+        "monotonicSeconds": 960.89465889
+      },
+      {
+        "completedSteps": 37,
+        "event": "optimizer-update",
+        "monotonicSeconds": 962.001356166
+      },
+      {
+        "completedSteps": 38,
+        "event": "optimizer-update",
+        "monotonicSeconds": 963.115491056
+      },
+      {
+        "completedSteps": 39,
+        "event": "optimizer-update",
+        "monotonicSeconds": 964.246617092
+      },
+      {
+        "completedSteps": 40,
+        "event": "optimizer-update",
+        "monotonicSeconds": 965.30591696
+      },
+      {
+        "completedSteps": 41,
+        "event": "optimizer-update",
+        "monotonicSeconds": 966.286654622
+      },
+      {
+        "completedSteps": 42,
+        "event": "optimizer-update",
+        "monotonicSeconds": 967.263630091
+      },
+      {
+        "completedSteps": 43,
+        "event": "optimizer-update",
+        "monotonicSeconds": 968.23907575
+      },
+      {
+        "completedSteps": 44,
+        "event": "optimizer-update",
+        "monotonicSeconds": 969.220987123
+      },
+      {
+        "completedSteps": 45,
+        "event": "optimizer-update",
+        "monotonicSeconds": 970.195135522
+      },
+      {
+        "completedSteps": 46,
+        "event": "optimizer-update",
+        "monotonicSeconds": 971.16891114
+      },
+      {
+        "completedSteps": 47,
+        "event": "optimizer-update",
+        "monotonicSeconds": 972.143897037
+      },
+      {
+        "completedSteps": 48,
+        "event": "optimizer-update",
+        "monotonicSeconds": 973.116806456
+      },
+      {
+        "completedSteps": 49,
+        "event": "optimizer-update",
+        "monotonicSeconds": 974.090032823
+      },
+      {
+        "completedSteps": 50,
+        "event": "optimizer-update",
+        "monotonicSeconds": 975.062935913
+      },
+      {
+        "completedSteps": 51,
+        "event": "optimizer-update",
+        "monotonicSeconds": 976.036852795
+      },
+      {
+        "completedSteps": 52,
+        "event": "optimizer-update",
+        "monotonicSeconds": 977.009670263
+      },
+      {
+        "completedSteps": 53,
+        "event": "optimizer-update",
+        "monotonicSeconds": 977.982018645
+      },
+      {
+        "completedSteps": 54,
+        "event": "optimizer-update",
+        "monotonicSeconds": 978.953450323
+      },
+      {
+        "completedSteps": 55,
+        "event": "optimizer-update",
+        "monotonicSeconds": 979.925421338
+      },
+      {
+        "completedSteps": 56,
+        "event": "optimizer-update",
+        "monotonicSeconds": 980.900636132
+      },
+      {
+        "completedSteps": 57,
+        "event": "optimizer-update",
+        "monotonicSeconds": 981.876526937
+      },
+      {
+        "completedSteps": 58,
+        "event": "optimizer-update",
+        "monotonicSeconds": 982.85451802
+      },
+      {
+        "completedSteps": 59,
+        "event": "optimizer-update",
+        "monotonicSeconds": 983.832056147
+      },
+      {
+        "completedSteps": 60,
+        "event": "optimizer-update",
+        "monotonicSeconds": 984.808747396
+      },
+      {
+        "completedSteps": 61,
+        "event": "optimizer-update",
+        "monotonicSeconds": 985.785143203
+      },
+      {
+        "completedSteps": 62,
+        "event": "optimizer-update",
+        "monotonicSeconds": 986.764182806
+      },
+      {
+        "completedSteps": 63,
+        "event": "optimizer-update",
+        "monotonicSeconds": 987.737924416
+      },
+      {
+        "completedSteps": 64,
+        "event": "optimizer-update",
+        "monotonicSeconds": 988.712396342
+      },
+      {
+        "completedSteps": 65,
+        "event": "optimizer-update",
+        "monotonicSeconds": 989.685245204
+      },
+      {
+        "completedSteps": 66,
+        "event": "optimizer-update",
+        "monotonicSeconds": 990.660078536
+      },
+      {
+        "completedSteps": 67,
+        "event": "optimizer-update",
+        "monotonicSeconds": 991.636918853
+      },
+      {
+        "completedSteps": 68,
+        "event": "optimizer-update",
+        "monotonicSeconds": 992.622259084
+      },
+      {
+        "completedSteps": 69,
+        "event": "optimizer-update",
+        "monotonicSeconds": 993.59351624
+      },
+      {
+        "completedSteps": 70,
+        "event": "optimizer-update",
+        "monotonicSeconds": 994.571231762
+      },
+      {
+        "completedSteps": 71,
+        "event": "optimizer-update",
+        "monotonicSeconds": 995.543383259
+      },
+      {
+        "completedSteps": 72,
+        "event": "optimizer-update",
+        "monotonicSeconds": 996.528060303
+      },
+      {
+        "completedSteps": 73,
+        "event": "optimizer-update",
+        "monotonicSeconds": 997.501424376
+      },
+      {
+        "completedSteps": 74,
+        "event": "optimizer-update",
+        "monotonicSeconds": 998.475107643
+      },
+      {
+        "completedSteps": 75,
+        "event": "optimizer-update",
+        "monotonicSeconds": 999.453938617
+      },
+      {
+        "completedSteps": 76,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1000.429327703
+      },
+      {
+        "completedSteps": 77,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1001.412441959
+      },
+      {
+        "completedSteps": 78,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1002.397142164
+      },
+      {
+        "completedSteps": 79,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1003.371365538
+      },
+      {
+        "completedSteps": 80,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1004.343212942
+      },
+      {
+        "completedSteps": 81,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1005.315337397
+      },
+      {
+        "completedSteps": 82,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1006.298903791
+      },
+      {
+        "completedSteps": 83,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1007.272894092
+      },
+      {
+        "completedSteps": 84,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1008.245891588
+      },
+      {
+        "completedSteps": 85,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1009.219110052
+      },
+      {
+        "completedSteps": 86,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1010.195562895
+      },
+      {
+        "completedSteps": 87,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1011.169090109
+      },
+      {
+        "completedSteps": 88,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1012.144720836
+      },
+      {
+        "completedSteps": 89,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1013.120184249
+      },
+      {
+        "completedSteps": 90,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1014.097498088
+      },
+      {
+        "completedSteps": 91,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1015.079597424
+      },
+      {
+        "completedSteps": 92,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1016.061221394
+      },
+      {
+        "completedSteps": 93,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1017.03909325
+      },
+      {
+        "completedSteps": 94,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1018.014367164
+      },
+      {
+        "completedSteps": 95,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1018.987231413
+      },
+      {
+        "completedSteps": 96,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1019.963184747
+      },
+      {
+        "completedSteps": 97,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1020.934986002
+      },
+      {
+        "completedSteps": 98,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1021.910453677
+      },
+      {
+        "completedSteps": 99,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1022.889475057
+      },
+      {
+        "completedSteps": 100,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1023.866179772
+      },
+      {
+        "completedSteps": 101,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1024.83929678
+      },
+      {
+        "completedSteps": 102,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1025.816773729
+      },
+      {
+        "completedSteps": 103,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1026.794717558
+      },
+      {
+        "completedSteps": 104,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1027.768422129
+      },
+      {
+        "completedSteps": 105,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1028.779625412
+      },
+      {
+        "completedSteps": 106,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1029.845495482
+      },
+      {
+        "completedSteps": 107,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1030.91348414
+      },
+      {
+        "completedSteps": 108,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1031.997022699
+      },
+      {
+        "completedSteps": 109,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1033.096012099
+      },
+      {
+        "completedSteps": 110,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1034.208872479
+      },
+      {
+        "completedSteps": 111,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1035.299457094
+      },
+      {
+        "completedSteps": 112,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1036.405576296
+      },
+      {
+        "completedSteps": 113,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1037.502384086
+      },
+      {
+        "completedSteps": 114,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1038.615927616
+      },
+      {
+        "completedSteps": 115,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1039.726860856
+      },
+      {
+        "completedSteps": 116,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1040.818145265
+      },
+      {
+        "completedSteps": 117,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1041.913027961
+      },
+      {
+        "completedSteps": 118,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1042.99077603
+      },
+      {
+        "completedSteps": 119,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1044.161953865
+      },
+      {
+        "completedSteps": 120,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1045.258026626
+      },
+      {
+        "completedSteps": 121,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1046.362690302
+      },
+      {
+        "completedSteps": 122,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1047.471899938
+      },
+      {
+        "completedSteps": 123,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1048.555783859
+      },
+      {
+        "completedSteps": 124,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1049.70959998
+      },
+      {
+        "completedSteps": 125,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1050.811162654
+      },
+      {
+        "completedSteps": 126,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1051.903873735
+      },
+      {
+        "completedSteps": 127,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1053.059355587
+      },
+      {
+        "completedSteps": 128,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1054.165757175
+      },
+      {
+        "completedSteps": 129,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1055.248402125
+      },
+      {
+        "completedSteps": 130,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1056.348881066
+      },
+      {
+        "completedSteps": 131,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1057.446858039
+      },
+      {
+        "completedSteps": 132,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1058.547402775
+      },
+      {
+        "completedSteps": 133,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1059.666702654
+      },
+      {
+        "completedSteps": 134,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1060.768667923
+      },
+      {
+        "completedSteps": 135,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1061.876090173
+      },
+      {
+        "completedSteps": 136,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1062.980615592
+      },
+      {
+        "completedSteps": 137,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1064.067475842
+      },
+      {
+        "completedSteps": 138,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1065.194901531
+      },
+      {
+        "completedSteps": 139,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1066.293789071
+      },
+      {
+        "completedSteps": 140,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1067.373366667
+      },
+      {
+        "completedSteps": 141,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1068.474472292
+      },
+      {
+        "completedSteps": 142,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1069.579760384
+      },
+      {
+        "completedSteps": 143,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1070.699503386
+      },
+      {
+        "completedSteps": 144,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1071.809920122
+      },
+      {
+        "completedSteps": 145,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1072.907184816
+      },
+      {
+        "completedSteps": 146,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1074.005618693
+      },
+      {
+        "completedSteps": 147,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1075.092135313
+      },
+      {
+        "completedSteps": 148,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1076.199872951
+      },
+      {
+        "completedSteps": 149,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1077.277484298
+      },
+      {
+        "completedSteps": 150,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1078.270409261
+      },
+      {
+        "completedSteps": 151,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1079.245203818
+      },
+      {
+        "completedSteps": 152,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1080.220431842
+      },
+      {
+        "completedSteps": 153,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1081.197516725
+      },
+      {
+        "completedSteps": 154,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1082.170555661
+      },
+      {
+        "completedSteps": 155,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1083.144088465
+      },
+      {
+        "completedSteps": 156,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1084.116267356
+      },
+      {
+        "completedSteps": 157,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1085.090125123
+      },
+      {
+        "completedSteps": 158,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1086.061985351
+      },
+      {
+        "completedSteps": 159,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1087.035203388
+      },
+      {
+        "completedSteps": 160,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1088.007859334
+      },
+      {
+        "completedSteps": 161,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1088.983179343
+      },
+      {
+        "completedSteps": 162,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1089.957652303
+      },
+      {
+        "completedSteps": 163,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1090.931213401
+      },
+      {
+        "completedSteps": 164,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1091.905842769
+      },
+      {
+        "completedSteps": 165,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1092.880366465
+      },
+      {
+        "completedSteps": 166,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1093.855201487
+      },
+      {
+        "completedSteps": 167,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1094.831326254
+      },
+      {
+        "completedSteps": 168,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1095.806693592
+      },
+      {
+        "completedSteps": 169,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1096.779722321
+      },
+      {
+        "completedSteps": 170,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1097.752063322
+      },
+      {
+        "completedSteps": 171,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1098.726476138
+      },
+      {
+        "completedSteps": 172,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1099.69896641
+      },
+      {
+        "completedSteps": 173,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1100.67364777
+      },
+      {
+        "completedSteps": 174,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1101.648206198
+      },
+      {
+        "completedSteps": 175,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1102.629326369
+      },
+      {
+        "completedSteps": 176,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1103.601826509
+      },
+      {
+        "completedSteps": 177,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1104.574691213
+      },
+      {
+        "completedSteps": 178,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1105.547323361
+      },
+      {
+        "completedSteps": 179,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1106.521777856
+      },
+      {
+        "completedSteps": 180,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1107.496610532
+      },
+      {
+        "completedSteps": 181,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1108.469619907
+      },
+      {
+        "completedSteps": 182,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1109.442522529
+      },
+      {
+        "completedSteps": 183,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1110.415531321
+      },
+      {
+        "completedSteps": 184,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1111.388850962
+      },
+      {
+        "completedSteps": 185,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1112.363378152
+      },
+      {
+        "completedSteps": 186,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1113.337484876
+      },
+      {
+        "completedSteps": 187,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1114.311278667
+      },
+      {
+        "completedSteps": 188,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1115.285686151
+      },
+      {
+        "completedSteps": 189,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1116.266591413
+      },
+      {
+        "completedSteps": 190,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1117.246109127
+      },
+      {
+        "completedSteps": 191,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1118.223626311
+      },
+      {
+        "completedSteps": 192,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1119.200022158
+      },
+      {
+        "completedSteps": 193,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1120.174848433
+      },
+      {
+        "completedSteps": 194,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1121.152924755
+      },
+      {
+        "completedSteps": 195,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1122.129892871
+      },
+      {
+        "completedSteps": 196,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1123.104174099
+      },
+      {
+        "completedSteps": 197,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1124.081352621
+      },
+      {
+        "completedSteps": 198,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1125.057828493
+      },
+      {
+        "completedSteps": 199,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1126.033061612
+      },
+      {
+        "completedSteps": 200,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1127.00917553
+      },
+      {
+        "completedSteps": 200,
+        "event": "checkpoint-saved",
+        "seconds": 151.24737008600005
+      },
+      {
+        "checkpointSeconds": 151.24737008600005,
+        "completedSteps": 200,
+        "event": "training-complete",
+        "fullSteps": 10000,
+        "schema": "gr00t.calibration-point/v1",
+        "steadySeconds": 183.85065417199996,
+        "steadyUpdates": 180,
+        "trainingFinishedMonotonicSeconds": 1127.00917553,
+        "trainingStartedMonotonicSeconds": 868.224252767,
+        "warmupUpdates": 20
+      }
+    ],
+    "p3": [
+      {
+        "event": "training-start",
+        "fullSteps": 10000,
+        "monotonicSeconds": 1303.914502371,
+        "schedulerWarmupSteps": 500
+      },
+      {
+        "completedSteps": 1,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1350.850652013
+      },
+      {
+        "completedSteps": 2,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1351.972118776
+      },
+      {
+        "completedSteps": 3,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1353.088914814
+      },
+      {
+        "completedSteps": 4,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1354.196886574
+      },
+      {
+        "completedSteps": 5,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1355.302086907
+      },
+      {
+        "completedSteps": 6,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1356.394848961
+      },
+      {
+        "completedSteps": 7,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1357.509914072
+      },
+      {
+        "completedSteps": 8,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1358.622244638
+      },
+      {
+        "completedSteps": 9,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1359.763344513
+      },
+      {
+        "completedSteps": 10,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1360.874738749
+      },
+      {
+        "completedSteps": 11,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1361.986143037
+      },
+      {
+        "completedSteps": 12,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1363.090803975
+      },
+      {
+        "completedSteps": 13,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1364.205059449
+      },
+      {
+        "completedSteps": 14,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1365.343032479
+      },
+      {
+        "completedSteps": 15,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1366.465542062
+      },
+      {
+        "completedSteps": 16,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1367.592132582
+      },
+      {
+        "completedSteps": 17,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1368.696625724
+      },
+      {
+        "completedSteps": 18,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1369.786484623
+      },
+      {
+        "completedSteps": 19,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1370.908181148
+      },
+      {
+        "completedSteps": 20,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1372.018441838
+      },
+      {
+        "completedSteps": 21,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1373.11652256
+      },
+      {
+        "completedSteps": 22,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1374.201059021
+      },
+      {
+        "completedSteps": 23,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1375.299816955
+      },
+      {
+        "completedSteps": 24,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1376.400327585
+      },
+      {
+        "completedSteps": 25,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1377.478148574
+      },
+      {
+        "completedSteps": 26,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1378.596822467
+      },
+      {
+        "completedSteps": 27,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1379.722349023
+      },
+      {
+        "completedSteps": 28,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1380.834509174
+      },
+      {
+        "completedSteps": 29,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1381.920799543
+      },
+      {
+        "completedSteps": 30,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1383.025487474
+      },
+      {
+        "completedSteps": 31,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1384.125103916
+      },
+      {
+        "completedSteps": 32,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1385.236439074
+      },
+      {
+        "completedSteps": 33,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1386.324547395
+      },
+      {
+        "completedSteps": 34,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1387.460241349
+      },
+      {
+        "completedSteps": 35,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1388.589947788
+      },
+      {
+        "completedSteps": 36,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1389.672651674
+      },
+      {
+        "completedSteps": 37,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1390.783879503
+      },
+      {
+        "completedSteps": 38,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1391.89522049
+      },
+      {
+        "completedSteps": 39,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1393.010543048
+      },
+      {
+        "completedSteps": 40,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1394.13170714
+      },
+      {
+        "completedSteps": 41,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1395.106968338
+      },
+      {
+        "completedSteps": 42,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1396.089099033
+      },
+      {
+        "completedSteps": 43,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1397.070767702
+      },
+      {
+        "completedSteps": 44,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1398.050081446
+      },
+      {
+        "completedSteps": 45,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1399.031782578
+      },
+      {
+        "completedSteps": 46,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1400.011818861
+      },
+      {
+        "completedSteps": 47,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1400.985983113
+      },
+      {
+        "completedSteps": 48,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1401.960244971
+      },
+      {
+        "completedSteps": 49,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1402.935468032
+      },
+      {
+        "completedSteps": 50,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1403.916241792
+      },
+      {
+        "completedSteps": 51,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1404.893344632
+      },
+      {
+        "completedSteps": 52,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1405.868267538
+      },
+      {
+        "completedSteps": 53,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1406.84246763
+      },
+      {
+        "completedSteps": 54,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1407.81936563
+      },
+      {
+        "completedSteps": 55,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1408.791836533
+      },
+      {
+        "completedSteps": 56,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1409.769710077
+      },
+      {
+        "completedSteps": 57,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1410.74386412
+      },
+      {
+        "completedSteps": 58,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1411.722021653
+      },
+      {
+        "completedSteps": 59,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1412.703219115
+      },
+      {
+        "completedSteps": 60,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1413.68278477
+      },
+      {
+        "completedSteps": 61,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1414.657314725
+      },
+      {
+        "completedSteps": 62,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1415.631975047
+      },
+      {
+        "completedSteps": 63,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1416.608763489
+      },
+      {
+        "completedSteps": 64,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1417.581983073
+      },
+      {
+        "completedSteps": 65,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1418.556010508
+      },
+      {
+        "completedSteps": 66,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1419.528156261
+      },
+      {
+        "completedSteps": 67,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1420.501146605
+      },
+      {
+        "completedSteps": 68,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1421.474427147
+      },
+      {
+        "completedSteps": 69,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1422.447508886
+      },
+      {
+        "completedSteps": 70,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1423.42063579
+      },
+      {
+        "completedSteps": 71,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1424.392651186
+      },
+      {
+        "completedSteps": 72,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1425.367486678
+      },
+      {
+        "completedSteps": 73,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1426.339478117
+      },
+      {
+        "completedSteps": 74,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1427.312526374
+      },
+      {
+        "completedSteps": 75,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1428.286182474
+      },
+      {
+        "completedSteps": 76,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1429.268293391
+      },
+      {
+        "completedSteps": 77,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1430.24461431
+      },
+      {
+        "completedSteps": 78,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1431.222109305
+      },
+      {
+        "completedSteps": 79,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1432.193899381
+      },
+      {
+        "completedSteps": 80,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1433.166242738
+      },
+      {
+        "completedSteps": 81,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1434.137742585
+      },
+      {
+        "completedSteps": 82,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1435.117883499
+      },
+      {
+        "completedSteps": 83,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1436.090824452
+      },
+      {
+        "completedSteps": 84,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1437.063900157
+      },
+      {
+        "completedSteps": 85,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1438.036794489
+      },
+      {
+        "completedSteps": 86,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1439.018078595
+      },
+      {
+        "completedSteps": 87,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1439.997222664
+      },
+      {
+        "completedSteps": 88,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1440.97857065
+      },
+      {
+        "completedSteps": 89,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1441.951398232
+      },
+      {
+        "completedSteps": 90,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1442.922517831
+      },
+      {
+        "completedSteps": 91,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1443.895773695
+      },
+      {
+        "completedSteps": 92,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1444.868672731
+      },
+      {
+        "completedSteps": 93,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1445.839215461
+      },
+      {
+        "completedSteps": 94,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1446.820437583
+      },
+      {
+        "completedSteps": 95,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1447.800332831
+      },
+      {
+        "completedSteps": 96,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1448.78652813
+      },
+      {
+        "completedSteps": 97,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1449.765761027
+      },
+      {
+        "completedSteps": 98,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1450.746101047
+      },
+      {
+        "completedSteps": 99,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1451.725833066
+      },
+      {
+        "completedSteps": 100,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1452.707978241
+      },
+      {
+        "completedSteps": 101,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1453.688478187
+      },
+      {
+        "completedSteps": 102,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1454.660807924
+      },
+      {
+        "completedSteps": 103,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1455.635830745
+      },
+      {
+        "completedSteps": 104,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1456.607527182
+      },
+      {
+        "completedSteps": 105,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1457.621443399
+      },
+      {
+        "completedSteps": 106,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1458.64691819
+      },
+      {
+        "completedSteps": 107,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1459.724291179
+      },
+      {
+        "completedSteps": 108,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1460.873766139
+      },
+      {
+        "completedSteps": 109,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1461.959098018
+      },
+      {
+        "completedSteps": 110,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1463.042298439
+      },
+      {
+        "completedSteps": 111,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1464.134722436
+      },
+      {
+        "completedSteps": 112,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1465.231214686
+      },
+      {
+        "completedSteps": 113,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1466.335248119
+      },
+      {
+        "completedSteps": 114,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1467.449482062
+      },
+      {
+        "completedSteps": 115,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1468.557044446
+      },
+      {
+        "completedSteps": 116,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1469.646020389
+      },
+      {
+        "completedSteps": 117,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1470.7391952
+      },
+      {
+        "completedSteps": 118,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1471.855868193
+      },
+      {
+        "completedSteps": 119,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1472.958707024
+      },
+      {
+        "completedSteps": 120,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1474.062352571
+      },
+      {
+        "completedSteps": 121,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1475.183849973
+      },
+      {
+        "completedSteps": 122,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1476.298449756
+      },
+      {
+        "completedSteps": 123,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1477.404302816
+      },
+      {
+        "completedSteps": 124,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1478.502117964
+      },
+      {
+        "completedSteps": 125,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1479.656696645
+      },
+      {
+        "completedSteps": 126,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1480.801855658
+      },
+      {
+        "completedSteps": 127,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1481.929617899
+      },
+      {
+        "completedSteps": 128,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1483.014487487
+      },
+      {
+        "completedSteps": 129,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1484.100444042
+      },
+      {
+        "completedSteps": 130,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1485.203408607
+      },
+      {
+        "completedSteps": 131,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1486.327816103
+      },
+      {
+        "completedSteps": 132,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1487.427630993
+      },
+      {
+        "completedSteps": 133,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1488.532920202
+      },
+      {
+        "completedSteps": 134,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1489.66685263
+      },
+      {
+        "completedSteps": 135,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1490.782685272
+      },
+      {
+        "completedSteps": 136,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1491.902042883
+      },
+      {
+        "completedSteps": 137,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1493.004423543
+      },
+      {
+        "completedSteps": 138,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1494.089078097
+      },
+      {
+        "completedSteps": 139,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1495.198043147
+      },
+      {
+        "completedSteps": 140,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1496.285639489
+      },
+      {
+        "completedSteps": 141,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1497.436053565
+      },
+      {
+        "completedSteps": 142,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1498.585428495
+      },
+      {
+        "completedSteps": 143,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1499.684268292
+      },
+      {
+        "completedSteps": 144,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1500.77898797
+      },
+      {
+        "completedSteps": 145,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1501.871836097
+      },
+      {
+        "completedSteps": 146,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1502.978286758
+      },
+      {
+        "completedSteps": 147,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1504.065021107
+      },
+      {
+        "completedSteps": 148,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1505.126373065
+      },
+      {
+        "completedSteps": 149,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1506.161351652
+      },
+      {
+        "completedSteps": 150,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1507.162724201
+      },
+      {
+        "completedSteps": 151,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1508.151798689
+      },
+      {
+        "completedSteps": 152,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1509.133725172
+      },
+      {
+        "completedSteps": 153,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1510.113895921
+      },
+      {
+        "completedSteps": 154,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1511.089053465
+      },
+      {
+        "completedSteps": 155,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1512.065337815
+      },
+      {
+        "completedSteps": 156,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1513.043154477
+      },
+      {
+        "completedSteps": 157,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1514.020095196
+      },
+      {
+        "completedSteps": 158,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1515.009669616
+      },
+      {
+        "completedSteps": 159,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1515.989493972
+      },
+      {
+        "completedSteps": 160,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1516.964438878
+      },
+      {
+        "completedSteps": 161,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1517.941668016
+      },
+      {
+        "completedSteps": 162,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1518.918361535
+      },
+      {
+        "completedSteps": 163,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1519.895132553
+      },
+      {
+        "completedSteps": 164,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1520.872092371
+      },
+      {
+        "completedSteps": 165,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1521.848499469
+      },
+      {
+        "completedSteps": 166,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1522.824225303
+      },
+      {
+        "completedSteps": 167,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1523.799575636
+      },
+      {
+        "completedSteps": 168,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1524.776491309
+      },
+      {
+        "completedSteps": 169,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1525.75002513
+      },
+      {
+        "completedSteps": 170,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1526.726563595
+      },
+      {
+        "completedSteps": 171,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1527.702096284
+      },
+      {
+        "completedSteps": 172,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1528.677508784
+      },
+      {
+        "completedSteps": 173,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1529.653271547
+      },
+      {
+        "completedSteps": 174,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1530.629523011
+      },
+      {
+        "completedSteps": 175,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1531.604983853
+      },
+      {
+        "completedSteps": 176,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1532.582634945
+      },
+      {
+        "completedSteps": 177,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1533.557732639
+      },
+      {
+        "completedSteps": 178,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1534.532461491
+      },
+      {
+        "completedSteps": 179,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1535.509291498
+      },
+      {
+        "completedSteps": 180,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1536.485619566
+      },
+      {
+        "completedSteps": 181,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1537.46019582
+      },
+      {
+        "completedSteps": 182,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1538.43566543
+      },
+      {
+        "completedSteps": 183,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1539.414282162
+      },
+      {
+        "completedSteps": 184,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1540.388375404
+      },
+      {
+        "completedSteps": 185,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1541.367929182
+      },
+      {
+        "completedSteps": 186,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1542.34377197
+      },
+      {
+        "completedSteps": 187,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1543.323047825
+      },
+      {
+        "completedSteps": 188,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1544.299748896
+      },
+      {
+        "completedSteps": 189,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1545.276282607
+      },
+      {
+        "completedSteps": 190,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1546.251188212
+      },
+      {
+        "completedSteps": 191,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1547.226139347
+      },
+      {
+        "completedSteps": 192,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1548.205907985
+      },
+      {
+        "completedSteps": 193,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1549.179313075
+      },
+      {
+        "completedSteps": 194,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1550.153059172
+      },
+      {
+        "completedSteps": 195,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1551.135690974
+      },
+      {
+        "completedSteps": 196,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1552.111410828
+      },
+      {
+        "completedSteps": 197,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1553.088067337
+      },
+      {
+        "completedSteps": 198,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1554.068784386
+      },
+      {
+        "completedSteps": 199,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1555.045771299
+      },
+      {
+        "completedSteps": 200,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1556.02478613
+      },
+      {
+        "completedSteps": 201,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1557.005177682
+      },
+      {
+        "completedSteps": 202,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1557.985225657
+      },
+      {
+        "completedSteps": 203,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1558.967326841
+      },
+      {
+        "completedSteps": 204,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1559.945811586
+      },
+      {
+        "completedSteps": 205,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1560.922355542
+      },
+      {
+        "completedSteps": 206,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1561.909424168
+      },
+      {
+        "completedSteps": 207,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1562.88549463
+      },
+      {
+        "completedSteps": 208,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1563.858504393
+      },
+      {
+        "completedSteps": 209,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1564.836537556
+      },
+      {
+        "completedSteps": 210,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1565.815823278
+      },
+      {
+        "completedSteps": 211,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1566.790970206
+      },
+      {
+        "completedSteps": 212,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1567.765446502
+      },
+      {
+        "completedSteps": 213,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1568.752130626
+      },
+      {
+        "completedSteps": 214,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1569.735667459
+      },
+      {
+        "completedSteps": 215,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1570.712442195
+      },
+      {
+        "completedSteps": 216,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1571.687578773
+      },
+      {
+        "completedSteps": 217,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1572.66904247
+      },
+      {
+        "completedSteps": 218,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1573.645168748
+      },
+      {
+        "completedSteps": 219,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1574.702893632
+      },
+      {
+        "completedSteps": 220,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1575.700694089
+      },
+      {
+        "completedSteps": 221,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1576.7273208
+      },
+      {
+        "completedSteps": 222,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1577.831841949
+      },
+      {
+        "completedSteps": 223,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1578.886365028
+      },
+      {
+        "completedSteps": 224,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1579.985958402
+      },
+      {
+        "completedSteps": 225,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1581.101863555
+      },
+      {
+        "completedSteps": 226,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1582.210738915
+      },
+      {
+        "completedSteps": 227,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1583.342728118
+      },
+      {
+        "completedSteps": 228,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1584.456787826
+      },
+      {
+        "completedSteps": 229,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1585.578623485
+      },
+      {
+        "completedSteps": 230,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1586.717428117
+      },
+      {
+        "completedSteps": 231,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1587.800119936
+      },
+      {
+        "completedSteps": 232,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1588.907938804
+      },
+      {
+        "completedSteps": 233,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1590.016480955
+      },
+      {
+        "completedSteps": 234,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1591.113395798
+      },
+      {
+        "completedSteps": 235,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1592.229257167
+      },
+      {
+        "completedSteps": 236,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1593.363607395
+      },
+      {
+        "completedSteps": 237,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1594.455269201
+      },
+      {
+        "completedSteps": 238,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1595.569923994
+      },
+      {
+        "completedSteps": 239,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1596.657958349
+      },
+      {
+        "completedSteps": 240,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1597.763604403
+      },
+      {
+        "completedSteps": 241,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1598.867851559
+      },
+      {
+        "completedSteps": 242,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1599.972867771
+      },
+      {
+        "completedSteps": 243,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1601.051618748
+      },
+      {
+        "completedSteps": 244,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1602.164095918
+      },
+      {
+        "completedSteps": 245,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1603.283424448
+      },
+      {
+        "completedSteps": 246,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1604.390798052
+      },
+      {
+        "completedSteps": 247,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1605.530961371
+      },
+      {
+        "completedSteps": 248,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1606.660028848
+      },
+      {
+        "completedSteps": 249,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1607.769756343
+      },
+      {
+        "completedSteps": 250,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1608.880214309
+      },
+      {
+        "completedSteps": 251,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1609.943142034
+      },
+      {
+        "completedSteps": 252,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1611.061555843
+      },
+      {
+        "completedSteps": 253,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1612.147236008
+      },
+      {
+        "completedSteps": 254,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1613.224678023
+      },
+      {
+        "completedSteps": 255,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1614.322734491
+      },
+      {
+        "completedSteps": 256,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1615.422220493
+      },
+      {
+        "completedSteps": 257,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1616.533975921
+      },
+      {
+        "completedSteps": 258,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1617.652163233
+      },
+      {
+        "completedSteps": 259,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1618.758364299
+      },
+      {
+        "completedSteps": 260,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1619.853266691
+      },
+      {
+        "completedSteps": 261,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1620.97115645
+      },
+      {
+        "completedSteps": 262,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1622.069067009
+      },
+      {
+        "completedSteps": 263,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1623.156861046
+      },
+      {
+        "completedSteps": 264,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1624.231935536
+      },
+      {
+        "completedSteps": 265,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1625.248276988
+      },
+      {
+        "completedSteps": 266,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1626.281269883
+      },
+      {
+        "completedSteps": 267,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1627.268262854
+      },
+      {
+        "completedSteps": 268,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1628.254018091
+      },
+      {
+        "completedSteps": 269,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1629.23139199
+      },
+      {
+        "completedSteps": 270,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1630.208053875
+      },
+      {
+        "completedSteps": 271,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1631.188436472
+      },
+      {
+        "completedSteps": 272,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1632.162204678
+      },
+      {
+        "completedSteps": 273,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1633.138621572
+      },
+      {
+        "completedSteps": 274,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1634.117829854
+      },
+      {
+        "completedSteps": 275,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1635.105674155
+      },
+      {
+        "completedSteps": 276,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1636.089562849
+      },
+      {
+        "completedSteps": 277,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1637.070765549
+      },
+      {
+        "completedSteps": 278,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1638.047971973
+      },
+      {
+        "completedSteps": 279,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1639.032866073
+      },
+      {
+        "completedSteps": 280,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1640.024081612
+      },
+      {
+        "completedSteps": 281,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1641.011157677
+      },
+      {
+        "completedSteps": 282,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1641.998938303
+      },
+      {
+        "completedSteps": 283,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1642.981911147
+      },
+      {
+        "completedSteps": 284,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1643.967080479
+      },
+      {
+        "completedSteps": 285,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1644.952737022
+      },
+      {
+        "completedSteps": 286,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1645.937376003
+      },
+      {
+        "completedSteps": 287,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1646.921544446
+      },
+      {
+        "completedSteps": 288,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1647.903347004
+      },
+      {
+        "completedSteps": 289,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1648.881024776
+      },
+      {
+        "completedSteps": 290,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1649.865170971
+      },
+      {
+        "completedSteps": 291,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1650.847563854
+      },
+      {
+        "completedSteps": 292,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1651.832336252
+      },
+      {
+        "completedSteps": 293,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1652.815592666
+      },
+      {
+        "completedSteps": 294,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1653.795549996
+      },
+      {
+        "completedSteps": 295,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1654.770178565
+      },
+      {
+        "completedSteps": 296,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1655.748516648
+      },
+      {
+        "completedSteps": 297,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1656.7290796
+      },
+      {
+        "completedSteps": 298,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1657.705439782
+      },
+      {
+        "completedSteps": 299,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1658.685714983
+      },
+      {
+        "completedSteps": 300,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1659.668959601
+      },
+      {
+        "completedSteps": 301,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1660.650446019
+      },
+      {
+        "completedSteps": 302,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1661.628025
+      },
+      {
+        "completedSteps": 303,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1662.604983881
+      },
+      {
+        "completedSteps": 304,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1663.582045271
+      },
+      {
+        "completedSteps": 305,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1664.563036113
+      },
+      {
+        "completedSteps": 306,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1665.541251528
+      },
+      {
+        "completedSteps": 307,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1666.52139197
+      },
+      {
+        "completedSteps": 308,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1667.497494319
+      },
+      {
+        "completedSteps": 309,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1668.475938201
+      },
+      {
+        "completedSteps": 310,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1669.453624073
+      },
+      {
+        "completedSteps": 311,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1670.431954887
+      },
+      {
+        "completedSteps": 312,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1671.409602964
+      },
+      {
+        "completedSteps": 313,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1672.387133717
+      },
+      {
+        "completedSteps": 314,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1673.365094685
+      },
+      {
+        "completedSteps": 315,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1674.342143898
+      },
+      {
+        "completedSteps": 316,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1675.321130084
+      },
+      {
+        "completedSteps": 317,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1676.296398823
+      },
+      {
+        "completedSteps": 318,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1677.274755572
+      },
+      {
+        "completedSteps": 319,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1678.251821817
+      },
+      {
+        "completedSteps": 320,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1679.227307111
+      },
+      {
+        "completedSteps": 321,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1680.204884899
+      },
+      {
+        "completedSteps": 322,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1681.17987928
+      },
+      {
+        "completedSteps": 323,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1682.158708154
+      },
+      {
+        "completedSteps": 324,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1683.136149692
+      },
+      {
+        "completedSteps": 325,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1684.114134609
+      },
+      {
+        "completedSteps": 326,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1685.10196038
+      },
+      {
+        "completedSteps": 327,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1686.087221651
+      },
+      {
+        "completedSteps": 328,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1687.066762345
+      },
+      {
+        "completedSteps": 329,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1688.043314106
+      },
+      {
+        "completedSteps": 330,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1689.020733585
+      },
+      {
+        "completedSteps": 331,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1690.003844248
+      },
+      {
+        "completedSteps": 332,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1690.988288469
+      },
+      {
+        "completedSteps": 333,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1692.009088362
+      },
+      {
+        "completedSteps": 334,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1693.033762366
+      },
+      {
+        "completedSteps": 335,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1694.16326578
+      },
+      {
+        "completedSteps": 336,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1695.244145229
+      },
+      {
+        "completedSteps": 337,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1696.366918572
+      },
+      {
+        "completedSteps": 338,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1697.461445291
+      },
+      {
+        "completedSteps": 339,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1698.537950262
+      },
+      {
+        "completedSteps": 340,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1699.649559354
+      },
+      {
+        "completedSteps": 341,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1700.773234931
+      },
+      {
+        "completedSteps": 342,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1701.880853565
+      },
+      {
+        "completedSteps": 343,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1702.962598625
+      },
+      {
+        "completedSteps": 344,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1704.101166987
+      },
+      {
+        "completedSteps": 345,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1705.215853841
+      },
+      {
+        "completedSteps": 346,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1706.320690962
+      },
+      {
+        "completedSteps": 347,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1707.423980936
+      },
+      {
+        "completedSteps": 348,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1708.549180026
+      },
+      {
+        "completedSteps": 349,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1709.642931176
+      },
+      {
+        "completedSteps": 350,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1710.740270612
+      },
+      {
+        "completedSteps": 351,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1711.84218101
+      },
+      {
+        "completedSteps": 352,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1712.933872854
+      },
+      {
+        "completedSteps": 353,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1714.046591265
+      },
+      {
+        "completedSteps": 354,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1715.126144641
+      },
+      {
+        "completedSteps": 355,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1716.239213401
+      },
+      {
+        "completedSteps": 356,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1717.340502845
+      },
+      {
+        "completedSteps": 357,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1718.457460937
+      },
+      {
+        "completedSteps": 358,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1719.557996961
+      },
+      {
+        "completedSteps": 359,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1720.681571159
+      },
+      {
+        "completedSteps": 360,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1721.806756385
+      },
+      {
+        "completedSteps": 361,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1722.939160223
+      },
+      {
+        "completedSteps": 362,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1724.015868941
+      },
+      {
+        "completedSteps": 363,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1725.118509798
+      },
+      {
+        "completedSteps": 364,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1726.216039046
+      },
+      {
+        "completedSteps": 365,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1727.36334092
+      },
+      {
+        "completedSteps": 366,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1728.464704499
+      },
+      {
+        "completedSteps": 367,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1729.588532313
+      },
+      {
+        "completedSteps": 368,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1730.693333364
+      },
+      {
+        "completedSteps": 369,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1731.778710053
+      },
+      {
+        "completedSteps": 370,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1732.883837856
+      },
+      {
+        "completedSteps": 371,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1733.967817361
+      },
+      {
+        "completedSteps": 372,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1735.075073003
+      },
+      {
+        "completedSteps": 373,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1736.161791628
+      },
+      {
+        "completedSteps": 374,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1737.29354949
+      },
+      {
+        "completedSteps": 375,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1738.390061368
+      },
+      {
+        "completedSteps": 376,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1739.454385219
+      },
+      {
+        "completedSteps": 377,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1740.500895999
+      },
+      {
+        "completedSteps": 378,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1741.498579035
+      },
+      {
+        "completedSteps": 379,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1742.523392219
+      },
+      {
+        "completedSteps": 380,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1743.525611038
+      },
+      {
+        "completedSteps": 381,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1744.504926821
+      },
+      {
+        "completedSteps": 382,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1745.48497418
+      },
+      {
+        "completedSteps": 383,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1746.468513068
+      },
+      {
+        "completedSteps": 384,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1747.449138366
+      },
+      {
+        "completedSteps": 385,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1748.429141386
+      },
+      {
+        "completedSteps": 386,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1749.405445148
+      },
+      {
+        "completedSteps": 387,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1750.391895967
+      },
+      {
+        "completedSteps": 388,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1751.371723172
+      },
+      {
+        "completedSteps": 389,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1752.349650067
+      },
+      {
+        "completedSteps": 390,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1753.335225047
+      },
+      {
+        "completedSteps": 391,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1754.311570321
+      },
+      {
+        "completedSteps": 392,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1755.302284862
+      },
+      {
+        "completedSteps": 393,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1756.287769899
+      },
+      {
+        "completedSteps": 394,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1757.276179446
+      },
+      {
+        "completedSteps": 395,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1758.258301897
+      },
+      {
+        "completedSteps": 396,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1759.244564028
+      },
+      {
+        "completedSteps": 397,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1760.226934843
+      },
+      {
+        "completedSteps": 398,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1761.205884896
+      },
+      {
+        "completedSteps": 399,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1762.186153228
+      },
+      {
+        "completedSteps": 400,
+        "event": "optimizer-update",
+        "monotonicSeconds": 1763.165310675
+      },
+      {
+        "completedSteps": 400,
+        "event": "checkpoint-saved",
+        "seconds": 151.8453416519999
+      },
+      {
+        "checkpointSeconds": 151.8453416519999,
+        "completedSteps": 400,
+        "event": "training-complete",
+        "fullSteps": 10000,
+        "schema": "gr00t.calibration-point/v1",
+        "steadySeconds": 391.14686883700006,
+        "steadyUpdates": 380,
+        "trainingFinishedMonotonicSeconds": 1763.165310675,
+        "trainingStartedMonotonicSeconds": 1303.914502371,
+        "warmupUpdates": 20
+      }
+    ]
+  }
+}

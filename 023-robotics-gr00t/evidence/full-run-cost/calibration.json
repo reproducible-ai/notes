@@ -1,0 +1,89 @@
+{
+  "coverage": {
+    "fixedWork": false,
+    "fullRecipe": true,
+    "representativeData": true
+  },
+  "finalCheckpoint": {
+    "loadVerified": true,
+    "optimizerSteps": 400,
+    "pointId": "p3",
+    "sha256": "12117379d91d029c5979a585d07ba794001730c9516d6de5512e3dedfee30730"
+  },
+  "overhead": {
+    "checkpointSeconds": 151.95589167466665,
+    "coldSetupSeconds": null,
+    "evaluationSeconds": null,
+    "evidenceSha256": "5d51c47b051cee35ae721bb28ee143972830af37dc00db530aa509cee5f2e74c",
+    "finalizationSeconds": null,
+    "otherCostUsd": null
+  },
+  "planSha256": "7949801bc2ce9ef3f848deb83fda69fef8bc3281dbaaa84e1419e0a854035fbb",
+  "points": [
+    {
+      "cachePolicy": "Pre-read pinned inputs before each independent process; fresh per-point compiler caches; reset weights, optimizer, scheduler and RNG from the same base checkpoint.",
+      "checkpointSha256": null,
+      "completedSteps": 100,
+      "exitCode": 0,
+      "finishedMonotonicSeconds": 658.986184305,
+      "hardware": {
+        "accelerator": "NVIDIA RTX PRO 6000 Blackwell Server Edition",
+        "gpuCount": 1,
+        "instanceType": "g7e.2xlarge"
+      },
+      "id": "p1",
+      "initialStateSha256": "ed55b0336270bb0b87c78222649a32d1db5d3cd28731d78c060c1fd2a72b5b26",
+      "outcome": "completed",
+      "recipeSha256": "1ce25b3f8d178050a2988fb948458b771f572f038896f122fb747f6a9e6dc736",
+      "requestedSteps": 100,
+      "seed": 42,
+      "startedMonotonicSeconds": 494.140673588,
+      "steadySeconds": 80.56914754700006,
+      "steadyUpdates": 80
+    },
+    {
+      "cachePolicy": "Pre-read pinned inputs before each independent process; fresh per-point compiler caches; reset weights, optimizer, scheduler and RNG from the same base checkpoint.",
+      "checkpointSha256": null,
+      "completedSteps": 200,
+      "exitCode": 0,
+      "finishedMonotonicSeconds": 1127.00917553,
+      "hardware": {
+        "accelerator": "NVIDIA RTX PRO 6000 Blackwell Server Edition",
+        "gpuCount": 1,
+        "instanceType": "g7e.2xlarge"
+      },
+      "id": "p2",
+      "initialStateSha256": "ed55b0336270bb0b87c78222649a32d1db5d3cd28731d78c060c1fd2a72b5b26",
+      "outcome": "completed",
+      "recipeSha256": "1ce25b3f8d178050a2988fb948458b771f572f038896f122fb747f6a9e6dc736",
+      "requestedSteps": 200,
+      "seed": 42,
+      "startedMonotonicSeconds": 834.72305976,
+      "steadySeconds": 183.85065417199996,
+      "steadyUpdates": 180
+    },
+    {
+      "cachePolicy": "Pre-read pinned inputs before each independent process; fresh per-point compiler caches; reset weights, optimizer, scheduler and RNG from the same base checkpoint.",
+      "checkpointSha256": "12117379d91d029c5979a585d07ba794001730c9516d6de5512e3dedfee30730",
+      "completedSteps": 400,
+      "exitCode": 0,
+      "finishedMonotonicSeconds": 1763.165310675,
+      "hardware": {
+        "accelerator": "NVIDIA RTX PRO 6000 Blackwell Server Edition",
+        "gpuCount": 1,
+        "instanceType": "g7e.2xlarge"
+      },
+      "id": "p3",
+      "initialStateSha256": "ed55b0336270bb0b87c78222649a32d1db5d3cd28731d78c060c1fd2a72b5b26",
+      "outcome": "completed",
+      "recipeSha256": "1ce25b3f8d178050a2988fb948458b771f572f038896f122fb747f6a9e6dc736",
+      "requestedSteps": 400,
+      "seed": 42,
+      "startedMonotonicSeconds": 1289.861667952,
+      "steadySeconds": 391.14686883700006,
+      "steadyUpdates": 380
+    }
+  ],
+  "rawLogSha256": "29a6e05c82663c63ffe1625e19d620c2ba88294facc095157c01b1ff961d888b",
+  "schema": "reproai.calibration-measurements/v1"
+}

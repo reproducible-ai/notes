@@ -1,6 +1,6 @@
 {
   "artifactUrl": "https://huggingface.co/reproducible-ai/gr00t-n1-7/tree/ef04eee6429a8ae492cae74d6af2a0dd5dc41a7c/artifacts/droid-canary/checkpoint-100",
-  "blocker": "No independent cold replay, held-out policy evaluation or defensible full-run cost estimate.",
+  "blocker": "No independent cold replay or held-out policy evaluation. Separate calibration does not support a full-run cost estimate: inconsistent-slopes.",
   "bomScore": null,
   "bomUrl": "https://glaas.ai/dag/01c4225ca5c1df31c72153671041cd530fa338dac02259384855b56e0c540c15/audit",
   "dagHash": "01c4225ca5c1df31c72153671041cd530fa338dac02259384855b56e0c540c15",
@@ -16,10 +16,19 @@
   "date": "2026-09-15",
   "forkUrl": "https://github.com/reproducible-ai/Isaac-GR00T/tree/c084d6eab090a2b5822db474d790a00dfe7fae5d",
   "fullRun": {
-    "changes": [],
+    "caveats": "This is a projection of the explicitly pinned 32-episode DROID fine-tuning recipe. The public 100-step capture used batch 1 and three episodes. It does not estimate original foundation pretraining or the full DROID distribution. Long-run throughput, checkpoint costs and future rates may differ; the 2.2% observed timing spread is not a confidence interval. No full run, convergence, policy quality, cold replay or certification is established. The previous calibration audit does not certify this new calculation.",
+    "changes": [
+      "Calibration uses batch 32 and 32 pinned DROID episodes; the preserved public capture used batch 1 and three episodes.",
+      "Independent early stops preserve the full cosine schedule and 500 warmup updates; no point resumes another point.",
+      "Frozen language/vision backbone, trainable projector and diffusion model; SDPA, full model/optimizer checkpoints every 1000 projected updates, no periodic policy evaluation.",
+      "The projection includes observed cold setup and finalization, measured checkpoint overhead, an allocation rate allowance and forecast transfer allowance. Actual allocation charges are recorded separately."
+    ],
+    "command": null,
     "confidence": "low",
-    "estimateBasis": "The full schedule and fixed/scaling cost split have not been verified; no extrapolation was made.",
-    "estimateUsd": null
+    "durationEstimate": "3.76 hours",
+    "estimateBasis": "Approximately $19 for the declared 10,000-update DROID fine-tuning scenario: 32 pinned episodes, batch 32, BF16, one 96 GB RTX PRO 6000 Blackwell (g7e.2xlarge). The steady-throughput-plus-fixed/v1 method uses 655.566671 measured seconds / 640 steady updates = 1.024323 s/update. Add measured setup (509.72 s), mean process startup (71.24 s), 10 checkpoint saves (151.96 s each), and finalization/shutdown (1195.05 s), with no periodic policy evaluation. Total about 3.76 allocation-hours at the recorded $4/hour allowance plus $3.57 forecast transfer = $18.61, rounded up to $19. Low confidence; longest measured point was 400 updates. The earlier ols/v1 process-time fit remains rejected for inconsistent slopes; this separately documented method uses steady training timings.",
+    "estimateUsd": 19,
+    "hw": "1 NVIDIA RTX PRO 6000 Blackwell Server Edition (96 GB), g7e.2xlarge"
   },
   "issues": [
     {
@@ -87,8 +96,8 @@
     "time": "576.804s"
   },
   "reproduce": {
-    "hash": "01c4225ca5c1df31c72153671041cd530fa338dac02259384855b56e0c540c15",
-    "cmd": "roar reproduce 01c4225ca5c1df31c72153671041cd530fa338dac02259384855b56e0c540c15 --lineage --run --no-puts"
+    "cmd": "roar reproduce 01c4225ca5c1df31c72153671041cd530fa338dac02259384855b56e0c540c15 --lineage --run --no-puts",
+    "hash": "01c4225ca5c1df31c72153671041cd530fa338dac02259384855b56e0c540c15"
   },
   "runs": [
     {
@@ -98,27 +107,87 @@
       "dataset": "DROID 1.0.1",
       "durationSec": 755.963,
       "estimatedCostUsd": 0.67,
+      "jobId": "edd28f95-2805-4985-90ea-52af84f65dab",
       "label": "Earlier private 100-step capture",
       "note": "Scheduler: COMPLETED; harness: PASS. Capture only; no cold certification.",
       "outcome": "ok",
       "params": "100 optimizer steps, batch size 1, BF16, one GPU",
       "purpose": "private training capture",
-      "schedulerStatus": "COMPLETED",
-      "jobId": "edd28f95-2805-4985-90ea-52af84f65dab"
+      "schedulerStatus": "COMPLETED"
     },
     {
-      "label": "Public 100-step DROID canary",
-      "purpose": "public training capture",
       "attemptId": "gr00t-public-20260915",
-      "jobId": "f282527c-4573-4a28-afae-29033e75c4c6",
-      "params": "100 optimizer steps; batch 1; BF16; one GPU requested",
-      "durationSec": 576.804,
-      "costUsd": 1.57,
       "costSource": "Finalized TReqs instance observation; evidence/public-run-timing.json",
-      "outcome": "ok",
-      "schedulerStatus": "COMPLETED",
+      "costUsd": 1.57,
       "dagHash": "01c4225ca5c1df31c72153671041cd530fa338dac02259384855b56e0c540c15",
-      "note": "Job f282527c-4573-4a28-afae-29033e75c4c6; anonymous checkpoint and training-to-PUT checks passed; compute stopped. No cold certification."
+      "durationSec": 576.804,
+      "jobId": "f282527c-4573-4a28-afae-29033e75c4c6",
+      "label": "Public 100-step DROID canary",
+      "note": "Job f282527c-4573-4a28-afae-29033e75c4c6; anonymous checkpoint and training-to-PUT checks passed; compute stopped. No cold certification.",
+      "outcome": "ok",
+      "params": "100 optimizer steps; batch 1; BF16; one GPU requested",
+      "purpose": "public training capture",
+      "schedulerStatus": "COMPLETED"
+    },
+    {
+      "attemptId": "dfbe410a-8dc7-4d0a-9b67-9caf24a3e35d",
+      "costSource": "observations/budget.jsonl:122",
+      "costUsd": 1.4,
+      "dataset": "DROID 1.0.1",
+      "durationSec": 650.989,
+      "estimatedCostUsd": 0.56,
+      "jobId": "5e175ec6-6369-41ee-8de2-8ef9403e037d",
+      "label": "Calibration allocation",
+      "note": "Private calibration capture; separate from the preserved public model run.",
+      "outcome": "failed",
+      "params": "400 optimizer steps",
+      "purpose": "bounded calibration; one allocation may contain multiple independent points",
+      "schedulerStatus": "FAILED"
+    },
+    {
+      "attemptId": "bd0cd2bb-1d22-4810-9305-23e790c9aaf3",
+      "costSource": "observations/budget.jsonl:136",
+      "costUsd": 1.57,
+      "dataset": "DROID 1.0.1",
+      "durationSec": 505.888,
+      "estimatedCostUsd": 0.45,
+      "jobId": "cacd46e3-5884-4e4e-971c-dbeb4f608adb",
+      "label": "Calibration allocation",
+      "note": "Private calibration capture; separate from the preserved public model run.",
+      "outcome": "failed",
+      "params": "400 optimizer steps",
+      "purpose": "bounded calibration; one allocation may contain multiple independent points",
+      "schedulerStatus": "FAILED"
+    },
+    {
+      "attemptId": "45cc1d09-21ef-430c-b7d2-21c622d714f8",
+      "costSource": "observations/budget.jsonl:371",
+      "costUsd": 3.42,
+      "dataset": "DROID 1.0.1",
+      "durationSec": 2830.975,
+      "estimatedCostUsd": 2.64,
+      "jobId": "e9b250f1-d3fb-4c7f-96e6-4ded702ec0cf",
+      "label": "Calibration allocation",
+      "note": "Private calibration capture; separate from the preserved public model run.",
+      "outcome": "failed",
+      "params": "400 optimizer steps",
+      "purpose": "bounded calibration; one allocation may contain multiple independent points",
+      "schedulerStatus": "FAILED"
+    },
+    {
+      "attemptId": "2c00df3c-d7bf-4dca-bc9a-20ad68e9020a",
+      "costSource": "reconciliation.jobActualCostUsd",
+      "costUsd": 2.92,
+      "dataset": "DROID 1.0.1",
+      "durationSec": 2522.672,
+      "estimatedCostUsd": 2.36,
+      "jobId": "a9a97def-9cd3-4f74-ac1d-3634b605557a",
+      "label": "Calibration allocation",
+      "note": "Private calibration capture; separate from the preserved public model run.",
+      "outcome": "ok",
+      "params": "400 optimizer steps",
+      "purpose": "bounded calibration; one allocation may contain multiple independent points",
+      "schedulerStatus": "COMPLETED"
     }
   ],
   "slug": "gr00t-n1-7",
@@ -129,12 +198,12 @@
   "trainingMode": "partial",
   "truncated": true,
   "truncation": {
-    "full": null,
-    "note": "Recorded optimizer steps: 100. This bounded capture does not establish the full training schedule or a full-run cost.",
+    "full": 10000,
+    "note": "Public capture: 100 optimizer steps. Separate 100/200/400-update calibration supports the disclosed 10,000-update fine-tuning estimate.",
     "ran": 100,
     "unit": "steps"
   },
-  "truncationNote": "Recorded optimizer steps: 100. This bounded capture does not establish the full training schedule or a full-run cost.",
+  "truncationNote": "Public capture: 100 optimizer steps. Separate 100/200/400-update calibration supports the disclosed 10,000-update fine-tuning estimate.",
   "type": "robotics",
   "upstreamCommit": "9124d64bc9b19f118285939e8ffd29ce5f094733",
   "upstreamUrl": "https://github.com/reproducible-ai/Isaac-GR00T",
