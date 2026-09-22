@@ -50,7 +50,7 @@ The selected-run cost is not the cost of a cold replay or full training. The [co
 
 - No held-out policy evaluation, independent cold replay, author verification or full reproduction is established. `verified` remains false and certification is unset.
 - Roar's untracked-directory warning remains; checks cover the published inventory and graph described above.
-- The full-run estimate below has low confidence and applies only to the declared 32-episode fine-tuning scenario.
+- No full-run cost is published. The calibration below measures a 32-episode slice, which is not upstream's data configuration; see "What this cost measurement covers".
 - The AI-BOM audit is linked above. A completeness score is not recorded in this notes snapshot; the audit link does not assert cold-replay certification.
 - The checkpoint includes the NVIDIA license and notices. Its recorded use scope is non-commercial research/evaluation; consult the packaged terms.
 
@@ -60,9 +60,17 @@ The [historical private report](https://github.com/reproducible-ai/notes/blob/ma
 
 The public supervisor is pinned with the selected source above. The earlier report's training-operator identity belongs to the private capture; no new operator model identity is inferred for this public automation.
 
-## Estimated full-run cost
+## What this cost measurement covers
 
-**About $19 and 3.76 hours, with low confidence**, for **10,000 DROID fine-tuning updates on 32 pinned episodes**, batch 32, BF16, one 96 GB NVIDIA RTX PRO 6000 Blackwell Server Edition (`g7e.2xlarge`). This estimates the declared fine-tuning recipe; original GR00T foundation pretraining and the full DROID distribution are outside its scope.
+**This is not a full-run cost, and the configuration it prices is not one to run as given.**
+
+The calibration measured **$19 and 3.76 hours for 10,000 fine-tuning updates against the first 32 DROID episodes**, batch 32, BF16, on one 96 GB NVIDIA RTX PRO 6000 Blackwell Server Edition (`g7e.2xlarge`). The step count is upstream's `finetune.sh` default. The data is not: upstream's README calls the small sample *"for quick validation"* and says production training replaces `--dataset-path` with the full DROID dataset — ~358 GB and 95,658 episodes, against the 32 episodes (~0.12 GB) used here.
+
+**Why the number does not extrapolate.** 32 episodes fit entirely in the host's 64 GB page cache, so every sample is served from memory and the video-decode cost amortises to nothing. At `episode_sampling_rate=0.1` those 32 episodes yield 320 distinct splits, and a 10,000-step run at batch 32 draws 320,000 samples from them — roughly a thousand repetitions each. At full data scale the arithmetic inverts: 320,000 draws against 27.6 M frames means each sample is seen fewer than once, nothing amortises, and every step pays AV1 seek-and-decode against a working set 5.5x larger than RAM. That decode term is absent from this measurement by construction, so $19 is a compute-bound floor for the untruncated run, not an estimate of it.
+
+**Following this recipe produces an overfit model, not a reproduction.** A thousand passes over 320 splits is not what upstream's 10,000 steps are for.
+
+**The hardware was inherited, not chosen.** The calibration ran on a Blackwell target that happened to be dormant, provisioned for unrelated work. roar recorded a peak of **39,042 MB against the card's 97,887 MB — about 40% used**. A 48 GB card fits that peak with headroom; whether it would be cheaper overall depends on throughput that was not measured. Read `g7e.2xlarge` below as what was used, not as what this workload needs.
 
 The completed calibration ran independent 100-, 200- and 400-update points. After excluding the first 20 updates of each process, their measured rates were 1.0071, 1.0214 and 1.0293 seconds/update. Weighted across all 640 steady updates, training takes 1.024323 seconds/update. The full cosine schedule and 500 warmup updates were retained; early stopping did not shorten that schedule.
 
