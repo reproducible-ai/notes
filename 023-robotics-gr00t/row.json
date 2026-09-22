@@ -16,19 +16,20 @@
   "date": "2026-09-15",
   "forkUrl": "https://github.com/reproducible-ai/Isaac-GR00T/tree/c084d6eab090a2b5822db474d790a00dfe7fae5d",
   "fullRun": {
-    "caveats": "This is a projection of the explicitly pinned 32-episode DROID fine-tuning recipe. The public 100-step capture used batch 1 and three episodes. It does not estimate original foundation pretraining or the full DROID distribution. Long-run throughput, checkpoint costs and future rates may differ; the 2.2% observed timing spread is not a confidence interval. No full run, convergence, policy quality, cold replay or certification is established. The previous calibration audit does not certify this new calculation.",
+    "caveats": "The recipe this figure prices is not one to run as given. Pairing upstream's 10,000-step default with 32 episodes draws 320,000 samples from 320 distinct splits - roughly a thousand repetitions - which overfits rather than reproducing the published model. Hardware was not selected for this workload: the calibration ran on an existing dormant Blackwell target, and roar recorded a peak of 39,042 MB against that card's 97,887 MB, so about 40% of it was used. A 48 GB card fits the measured peak with headroom; whether it is cheaper overall depends on throughput that was not measured. No full run, convergence, policy quality, cold replay or certification is established.",
     "changes": [
+      "Upstream's published data configuration is the full DROID dataset; this recipe pins the first 32 episodes. That is the difference the estimate cannot bridge.",
       "Calibration uses batch 32 and 32 pinned DROID episodes; the preserved public capture used batch 1 and three episodes.",
       "Independent early stops preserve the full cosine schedule and 500 warmup updates; no point resumes another point.",
       "Frozen language/vision backbone, trainable projector and diffusion model; SDPA, full model/optimizer checkpoints every 1000 projected updates, no periodic policy evaluation.",
-      "The projection includes observed cold setup and finalization, measured checkpoint overhead, an allocation rate allowance and forecast transfer allowance. Actual allocation charges are recorded separately."
+      "Hardware was inherited from an available target, not chosen for the workload. Measured peak VRAM was 39,042 MB of 97,887 MB."
     ],
     "command": null,
     "confidence": "low",
-    "durationEstimate": "3.76 hours",
-    "estimateBasis": "Approximately $19 for the declared 10,000-update DROID fine-tuning scenario: 32 pinned episodes, batch 32, BF16, one 96 GB RTX PRO 6000 Blackwell (g7e.2xlarge). The steady-throughput-plus-fixed/v1 method uses 655.566671 measured seconds / 640 steady updates = 1.024323 s/update. Add measured setup (509.72 s), mean process startup (71.24 s), 10 checkpoint saves (151.96 s each), and finalization/shutdown (1195.05 s), with no periodic policy evaluation. Total about 3.76 allocation-hours at the recorded $4/hour allowance plus $3.57 forecast transfer = $18.61, rounded up to $19. Low confidence; longest measured point was 400 updates. The earlier ols/v1 process-time fit remains rejected for inconsistent slopes; this separately documented method uses steady training timings.",
-    "estimateUsd": 19,
-    "hw": "1 NVIDIA RTX PRO 6000 Blackwell Server Edition (96 GB), g7e.2xlarge"
+    "durationEstimate": null,
+    "estimateBasis": "Not estimated. Upstream's finetune.sh default of 10,000 steps assumes the full DROID dataset - its README states the 3-episode sample is \"for quick validation\" and that production training replaces --dataset-path with the full dataset (~358 GB, 95,658 episodes). The calibration measured 10,000 steps against the first 32 episodes (~0.03% of DROID, ~0.12 GB), which fits entirely in the host's 64 GB page cache, so it measured a compute-bound floor with the video-decode cost amortised to nothing: 1.024323 s/update over 640 steady updates, giving about 3.76 allocation-hours and $18.61 at a $4/hour allowance plus $3.57 forecast transfer. At full data scale each sample is drawn fewer than once, so every step pays AV1 seek-and-decode against a working set 5.5x larger than RAM. That decode term was not measured and cannot be extrapolated from this calibration, so the cost of the untruncated run is unknown and is not published as a number. The 32-episode figure is retained in README.md as what it is: the cost of that scenario, not of reproducing the model.",
+    "estimateUsd": null,
+    "hw": null
   },
   "issues": [
     {
